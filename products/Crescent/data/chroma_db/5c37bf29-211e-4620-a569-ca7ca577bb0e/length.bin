@@ -1,1 +1,0 @@
-invalid type: string "问题: try/except 中，except 后程序一定不会崩溃吗？\n答案: 不一定。except 只捕获 try 块中匹配的异常类型。\n\n以下情况仍会崩溃：\n1. except 块自身代码出错\n2. 异常类型不匹配（except ValueError 但抛了 TypeError）\n3. except 外面的代码出错\n\n替代多层循环。\n标签: vectorization, performance", expected i
