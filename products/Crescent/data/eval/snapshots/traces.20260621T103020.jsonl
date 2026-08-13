@@ -1,2 +1,0 @@
-{"trace_id": "5fb097cdea18", "timestamp": "2026-06-21T10:30:20", "name": "/api/orphan_attached", "kind": "http_request", "status": "running", "metadata": {}, "span_count": 0}
-{"span_id": "e1eecbd5e8bc", "trace_id": "5fb097cdea18", "orphan": false, "timestamp": "2026-06-21T10:30:20", "kind": "LLM", "name": "deepseek_chat", "duration_ms": 100, "input_summary": "", "output_summary": "", "model": null, "token_usage": null, "status": "success", "error_type": null, "metadata": {}}

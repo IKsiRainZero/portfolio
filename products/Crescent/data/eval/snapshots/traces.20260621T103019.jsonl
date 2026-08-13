@@ -1,1 +1,0 @@
-{"trace_id": "1ab1e050e010", "timestamp": "2026-06-21T10:30:19", "name": "/api/eval/probes/nonexistent/ignore", "kind": "http_request", "status": "running", "metadata": {"method": "POST", "path": "/api/eval/probes/nonexistent/ignore"}, "span_count": 0}
