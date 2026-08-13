@@ -1,0 +1,213 @@
+/*
+   Ambient light orbs — slow-drift animated, large blurred radial gradients.
+   Creates the "lighting" layer that makes a flat background feel alive.
+   z-index: 0 — sits above body::before/::after but below all content.
+*/
+
+.layer {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+/* Warm amber — top right */
+.orb1 {
+  position: absolute;
+  width: 800px;
+  height: 600px;
+  top: -15%;
+  right: -20%;
+  background: radial-gradient(
+    ellipse at center,
+    rgba(212, 140, 64, 0.10) 0%,
+    rgba(212, 140, 64, 0.04) 40%,
+    transparent 70%
+  );
+  border-radius: 50%;
+  filter: blur(80px);
+  animation: driftA 28s ease-in-out infinite;
+}
+
+/* Terracotta — bottom left */
+.orb2 {
+  position: absolute;
+  width: 700px;
+  height: 650px;
+  bottom: -20%;
+  left: -15%;
+  background: radial-gradient(
+    ellipse at center,
+    rgba(193, 140, 93, 0.09) 0%,
+    rgba(193, 140, 93, 0.03) 40%,
+    transparent 70%
+  );
+  border-radius: 50%;
+  filter: blur(90px);
+  animation: driftB 32s ease-in-out infinite;
+}
+
+/* Subtle gold — center */
+.orb3 {
+  position: absolute;
+  width: 500px;
+  height: 400px;
+  top: 40%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: radial-gradient(
+    ellipse at center,
+    rgba(230, 195, 140, 0.06) 0%,
+    rgba(230, 195, 140, 0.02) 40%,
+    transparent 70%
+  );
+  border-radius: 50%;
+  filter: blur(70px);
+  animation: driftC 24s ease-in-out infinite;
+}
+
+/* Cool cyan — top left accent */
+.orb4 {
+  position: absolute;
+  width: 400px;
+  height: 350px;
+  top: 5%;
+  left: -10%;
+  background: radial-gradient(
+    ellipse at center,
+    rgba(100, 160, 180, 0.06) 0%,
+    rgba(100, 160, 180, 0.02) 40%,
+    transparent 70%
+  );
+  border-radius: 50%;
+  filter: blur(70px);
+  animation: driftD 30s ease-in-out infinite;
+}
+
+/* Warm rose — top center accent */
+.orb5 {
+  position: absolute;
+  width: 350px;
+  height: 300px;
+  top: -8%;
+  left: 40%;
+  background: radial-gradient(
+    ellipse at center,
+    rgba(200, 130, 110, 0.05) 0%,
+    rgba(200, 130, 110, 0.02) 40%,
+    transparent 70%
+  );
+  border-radius: 50%;
+  filter: blur(60px);
+  animation: driftE 26s ease-in-out infinite;
+}
+
+/* Deep gold — bottom right highlight */
+.orb6 {
+  position: absolute;
+  width: 450px;
+  height: 380px;
+  bottom: -10%;
+  right: -5%;
+  background: radial-gradient(
+    ellipse at center,
+    rgba(230, 180, 100, 0.06) 0%,
+    rgba(230, 180, 100, 0.02) 40%,
+    transparent 70%
+  );
+  border-radius: 50%;
+  filter: blur(75px);
+  animation: driftF 34s ease-in-out infinite;
+}
+
+/* Slow drifting motions — each orb moves differently */
+@keyframes driftA {
+  0%, 100% {
+    transform: translate(0, 0) scale(1);
+  }
+  20% {
+    transform: translate(-40px, 25px) scale(1.04);
+  }
+  40% {
+    transform: translate(-20px, -15px) scale(0.96);
+  }
+  60% {
+    transform: translate(30px, -30px) scale(1.02);
+  }
+  80% {
+    transform: translate(15px, 10px) scale(0.98);
+  }
+}
+
+@keyframes driftB {
+  0%, 100% {
+    transform: translate(0, 0) scale(1);
+  }
+  25% {
+    transform: translate(35px, -20px) scale(1.05);
+  }
+  50% {
+    transform: translate(-15px, -30px) scale(0.95);
+  }
+  75% {
+    transform: translate(-30px, 15px) scale(1.03);
+  }
+}
+
+@keyframes driftC {
+  0%, 100% {
+    transform: translate(-50%, -50%) scale(1);
+  }
+  33% {
+    transform: translate(-45%, -55%) scale(1.06);
+  }
+  66% {
+    transform: translate(-55%, -45%) scale(0.94);
+  }
+}
+
+@keyframes driftD {
+  0%, 100% {
+    transform: translate(0, 0) scale(1);
+  }
+  25% {
+    transform: translate(30px, -20px) scale(1.08);
+  }
+  50% {
+    transform: translate(-15px, 25px) scale(0.93);
+  }
+  75% {
+    transform: translate(-25px, -10px) scale(1.04);
+  }
+}
+
+@keyframes driftE {
+  0%, 100% {
+    transform: translate(0, 0) scale(1);
+  }
+  20% {
+    transform: translate(-20px, -15px) scale(1.05);
+  }
+  50% {
+    transform: translate(25px, 10px) scale(0.96);
+  }
+  70% {
+    transform: translate(10px, -20px) scale(1.03);
+  }
+}
+
+@keyframes driftF {
+  0%, 100% {
+    transform: translate(0, 0) scale(1);
+  }
+  30% {
+    transform: translate(-35px, -25px) scale(1.07);
+  }
+  60% {
+    transform: translate(20px, 15px) scale(0.92);
+  }
+  85% {
+    transform: translate(-10px, -5px) scale(1.05);
+  }
+}

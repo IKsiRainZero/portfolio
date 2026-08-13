@@ -1,0 +1,1094 @@
+{% extends "base.html" %}
+{% block title %}教室{% endblock %}
+{% block body_class %}page-classroom{% endblock %}
+{% block head %}
+<link rel="stylesheet" href="/static/css/mascot.css">
+<link rel="stylesheet" href="/static/css/course-card.css">
+<style>
+.classroom-wrap {
+  display: flex;
+  height: calc(100vh - 118px);
+  gap: 0;
+  padding-top: 38px;
+}
+.classroom-left {
+  flex: 55;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  border-right: 1px solid var(--border-light, #e7e5e0);
+  /* Warm desk surface — not pure white, visible against particles */
+  background:
+    linear-gradient(175deg, #faf7f1 0%, #f6f2ea 30%, #f4efe5 100%);
+}
+.classroom-right {
+  flex: 45;
+  display: flex;
+  flex-direction: column;
+  min-width: 300px;
+  max-width: 480px;
+  position: relative;
+  /* Blackboard surface */
+  background:
+    url("data:image/svg+xml,%3Csvg width='6' height='6' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='3' cy='3' r='0.5' fill='rgba(255,255,255,0.04)'/%3E%3C/svg%3E"),
+    linear-gradient(177deg, #3f4d3a 0%, #374530 35%, #33412e 65%, #3b4834 100%);
+  border-left: 3px solid #c4a478;
+  border-top: 3px solid #b89460;
+  border-right: 2px solid #b89460;
+  /* Wooden frame edge + sunlit highlight */
+  box-shadow:
+    inset 4px 0 8px rgba(0,0,0,0.2),
+    inset 0 2px 4px rgba(0,0,0,0.1);
+  overflow: hidden;
+}
+/* Chalk smear / erased marks on the blackboard */
+.classroom-right::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.06;
+  background:
+    /* Diagonal erase streaks */
+    repeating-linear-gradient(
+      -8deg,
+      transparent,
+      transparent 40px,
+      rgba(255,255,255,0.3) 40px,
+      rgba(255,255,255,0.3) 43px,
+      transparent 43px,
+      transparent 90px
+    ),
+    /* Faint horizontal wipe marks */
+    repeating-linear-gradient(
+      2deg,
+      transparent,
+      transparent 120px,
+      rgba(255,255,255,0.2) 120px,
+      rgba(255,255,255,0.2) 122px,
+      transparent 122px,
+      transparent 250px
+    ),
+    /* Old chalk residue smudge at bottom-right */
+    radial-gradient(ellipse 200px 100px at 85% 90%, rgba(255,255,255,0.25) 0%, transparent 70%);
+}
+/* Ensure text/content sits above the chalk smear */
+.classroom-right .textbook-header,
+.classroom-right .textbook-toolbar,
+.classroom-right .textbook-body {
+  position: relative;
+  z-index: 1;
+}
+
+/* ── Left: Teacher Chat ── */
+.teacher-header {
+  padding: 20px 24px 8px;
+  text-align: center;
+  flex-shrink: 0;
+}
+.teacher-header h2 {
+  font-size: 20px;
+  font-weight: 650;
+  margin-bottom: 4px;
+}
+.teacher-header .subtitle {
+  font-size: 12px;
+  color: var(--text2);
+}
+.teacher-suggest {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  justify-content: center;
+  padding: 6px 16px 10px;
+  flex-shrink: 0;
+}
+.teacher-suggest button {
+  font-size: 11px;
+  padding: 5px 14px;
+  border-radius: 16px;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  cursor: pointer;
+  color: var(--text2);
+  transition: all .15s;
+  white-space: nowrap;
+}
+.teacher-suggest button:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+  background: var(--accent-subtle);
+}
+.teacher-chat {
+  flex: 1;
+  overflow-y: auto;
+  padding: 8px 24px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.teacher-msg {
+  max-width: 88%;
+  padding: 10px 16px;
+  border-radius: 12px;
+  font-size: 13px;
+  line-height: 1.7;
+  word-break: break-word;
+}
+.teacher-msg.teacher {
+  align-self: flex-start;
+  color: #1e293b;
+  font-weight: 500;
+  background: #fff;
+  border-bottom-left-radius: 4px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+}
+.teacher-msg.teacher a {
+  color: var(--accent);
+  font-weight: 500;
+  text-decoration: underline;
+}
+.teacher-msg.user {
+  align-self: flex-end;
+  background: var(--accent);
+  color: #fff;
+  border-bottom-right-radius: 4px;
+}
+.teacher-msg .meta {
+  font-size: 10px;
+  opacity: .6;
+  margin-bottom: 2px;
+}
+.teacher-msg.thinking {
+  background: #f8f7f4;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 10px 14px;
+  font-size: 13px;
+  color: #1e293b;
+  line-height: 1.5;
+}
+.teacher-input-area {
+  padding: 10px 24px 12px;
+  border-top: 1px solid var(--border-light, #e7e5e0);
+  flex-shrink: 0;
+}
+.teacher-input-row {
+  display: flex;
+  gap: 8px;
+}
+.teacher-input-row textarea {
+  flex: 1;
+  padding: 10px 14px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  font-size: 13px;
+  font-family: inherit;
+  resize: none;
+  min-height: 42px;
+  max-height: 100px;
+  transition: border-color .15s;
+}
+.teacher-input-row textarea:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(79,110,246,.1);
+}
+.teacher-input-row button {
+  padding: 8px 18px;
+  border-radius: 12px;
+  border: none;
+  background: var(--accent);
+  color: #fff;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: background .15s;
+}
+.teacher-input-row button:hover { background: var(--accent-hover); }
+.teacher-input-row button:disabled { opacity: .5; cursor: default; }
+
+/* ── Teacher tool buttons (below input) ── */
+.teacher-tools {
+  display: flex;
+  gap: 6px;
+  padding: 0 24px 4px;
+  flex-shrink: 0;
+  flex-wrap: wrap;
+}
+.teacher-tools .tool-btn {
+  font-size: 11px;
+  padding: 4px 12px;
+  border-radius: 14px;
+  border: 1px dashed var(--border);
+  background: transparent;
+  cursor: pointer;
+  color: var(--text2);
+  transition: all .15s;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+.teacher-tools .tool-btn:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+  background: var(--accent-subtle);
+  border-style: solid;
+}
+
+/* ── Right: Textbook Blackboard Panel ── */
+.classroom-right .textbook-header {
+  padding: 20px 20px 8px;
+  flex-shrink: 0;
+}
+.classroom-right .textbook-header h3 {
+  font-size: 16px;
+  font-weight: 600;
+  color: rgba(255,255,240,0.9);
+}
+.classroom-right .textbook-toolbar {
+  padding: 4px 20px 8px;
+  flex-shrink: 0;
+  display: flex;
+  gap: 8px;
+  flex-direction: column;
+}
+.classroom-right .textbook-toolbar select,
+.classroom-right .textbook-toolbar input {
+  width: 100%;
+  padding: 6px 10px;
+  border: 1px solid rgba(255,255,240,0.2);
+  border-radius: 8px;
+  font-size: 12px;
+  font-family: inherit;
+  color: rgba(255,255,240,0.9);
+  background: rgba(0,0,0,0.15);
+}
+.classroom-right .textbook-toolbar select option {
+  background: #3a453a;
+  color: rgba(255,255,240,0.9);
+}
+.classroom-right .textbook-toolbar select:focus,
+.classroom-right .textbook-toolbar input:focus {
+  outline: none;
+  border-color: rgba(255,255,240,0.5);
+}
+.classroom-right .textbook-toolbar input::placeholder {
+  color: rgba(255,255,240,0.35);
+}
+.classroom-right .textbook-body {
+  flex: 1;
+  overflow-y: auto;
+  padding: 4px 20px 20px;
+}
+.classroom-right .textbook-body .kb-section {
+  margin-bottom: 16px;
+}
+.classroom-right .textbook-body .kb-section-title {
+  font-size: 12px;
+  font-weight: 600;
+  color: rgba(255,255,240,0.5);
+  text-transform: uppercase;
+  letter-spacing: .03em;
+  margin-bottom: 6px;
+  padding-bottom: 4px;
+  border-bottom: 1px solid rgba(255,255,240,0.15);
+}
+.classroom-right .textbook-body .kb-item {
+  margin: 4px 0;
+  padding: 8px 10px;
+  background: rgba(255,255,240,0.06);
+  border-radius: 6px;
+  border: 1px solid rgba(255,255,240,0.1);
+  font-size: 12px;
+  cursor: pointer;
+  transition: border-color .15s, background .15s;
+}
+.classroom-right .textbook-body .kb-item:hover {
+  border-color: rgba(255,255,200,0.4);
+  background: rgba(255,255,240,0.12);
+}
+.classroom-right .textbook-body .kb-item .kb-item-title {
+  font-weight: 500;
+  color: rgba(255,255,240,0.9);
+  margin-bottom: 2px;
+}
+.classroom-right .textbook-body .kb-item .kb-item-preview {
+  font-size: 11px;
+  color: rgba(255,255,240,0.5);
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.classroom-right .textbook-body .kb-item-detail {
+  margin: 4px 0;
+  padding: 10px 12px;
+  background: rgba(255,255,240,0.08);
+  border-radius: 8px;
+  border: 1px solid rgba(255,255,200,0.4);
+  font-size: 12px;
+  line-height: 1.6;
+  color: rgba(255,255,240,0.85);
+}
+.classroom-right .textbook-body .kb-item-detail .kb-detail-actions {
+  margin-top: 8px;
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+.classroom-right .textbook-body .empty-textbook {
+  text-align: center;
+  padding: 60px 20px;
+  color: rgba(255,255,240,0.35);
+  font-size: 13px;
+}
+
+/* ── Wall texture overlay (subtle, behind everything) ── */
+.classroom-wall-noise {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.065;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 256px 256px;
+}
+
+/* ── Afternoon sunbeam through window (top-left → center-right) ── */
+.classroom-light {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+  background:
+    /* Warm ambient glow — visible on light backgrounds */
+    radial-gradient(ellipse 70% 50% at 20% 28%, rgba(255,240,210,0.35) 0%, transparent 55%),
+    /* Main sunbeam — strong diagonal from top-left */
+    linear-gradient(112deg,
+      rgba(255,242,210,0.38) 0%,
+      rgba(255,238,200,0.24) 10%,
+      rgba(255,235,195,0.14) 22%,
+      transparent 38%
+    ),
+    /* Secondary softer beam crossing */
+    linear-gradient(118deg,
+      transparent 6%,
+      rgba(255,240,215,0.18) 16%,
+      rgba(255,235,205,0.08) 28%,
+      transparent 40%
+    ),
+    /* Warm pool on the desk (left side) */
+    radial-gradient(ellipse 50% 40% at 18% 65%, rgba(255,238,210,0.18) 0%, transparent 55%);
+}
+@media (prefers-reduced-motion: reduce) {
+  .classroom-light { display: none; }
+  #mainContent { animation: none !important; }
+  #transition-overlay { animation: none !important; display: none !important; }
+  .course-card { transition: none; }
+}
+
+/* ── Chalk dust particles canvas ── */
+#chalkDustCanvas {
+  position: fixed;
+  inset: 0;
+  width: 100%; height: 100%;
+  pointer-events: none;
+  z-index: 2;
+}
+
+/* ── Responsive ── */
+/* Bottom blend: override .content white background on classroom page */
+body.page-classroom .content {
+  background: linear-gradient(180deg, #f4efe5 0%, #f6f3ed 45%, #faf9f6 100%);
+}
+
+@media (max-width: 800px) {
+  .classroom-wrap { flex-direction: column; }
+  .classroom-left { border-right: none; border-bottom: 1px solid var(--border-light); height: 55vh; }
+  .classroom-right { max-width: none; height: 45vh; border-left: none; border-top: 3px solid #c4a478; }
+}
+	/* ── Web Search Toggle ── */
+	.ws-toggle {
+	  width: 32px; height: 32px;
+	  border-radius: 8px;
+	  border: 1px solid #ddd8cd;
+	  background: #fdfcf9;
+	  cursor: pointer;
+	  font-size: 14px;
+	  display: flex; align-items: center; justify-content: center;
+	  transition: all .2s;
+	  flex-shrink: 0;
+	  line-height: 1;
+	}
+	.ws-toggle.on {
+	  border-color: #1d4ed8;
+	  background: #1d4ed8;
+	  color: #fff;
+	  box-shadow: 0 0 0 2px rgba(29,78,216,0.25);
+	}
+	.ws-toggle.off { opacity: 0.45; }
+	.ws-toggle:hover { transform: scale(1.08); }
+@keyframes slideOutLeft {
+  from { transform: translateX(0); opacity: 1; }
+  to   { transform: translateX(-30px); opacity: 0; }
+}
+@keyframes slideInRight {
+  from { transform: translateX(30px); opacity: 0; }
+  to   { transform: translateX(0); opacity: 1; }
+}
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 0.4; }
+}
+
+/* ── Door: classroom → office entrance ── */
+.classroom-door {
+  position: fixed;
+  bottom: 0;
+  right: 60px;
+  z-index: 20;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  cursor: pointer;
+  pointer-events: auto;
+  transition: transform 0.3s var(--ease);
+}
+.classroom-door:hover {
+  transform: translateY(-3px);
+}
+.door-frame {
+  width: 50px;
+  height: 64px;
+  background: linear-gradient(180deg, #8b6d48 0%, #6b5030 100%);
+  border: 2px solid #5a3d28;
+  border-radius: 26px 26px 0 0;
+  position: relative;
+  box-shadow:
+    inset 2px 0 4px rgba(0,0,0,0.3),
+    inset -2px 0 4px rgba(0,0,0,0.15),
+    0 2px 6px rgba(0,0,0,0.2);
+}
+/* Door panels */
+.door-frame::before {
+  content: '';
+  position: absolute;
+  top: 20px;
+  left: 6px;
+  right: 6px;
+  bottom: 6px;
+  border: 1.5px solid rgba(0,0,0,0.15);
+  border-radius: 3px;
+  background: transparent;
+}
+/* Doorknob */
+.door-frame::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  right: 7px;
+  width: 6px;
+  height: 6px;
+  background: #d4a840;
+  border-radius: 50%;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.4);
+}
+/* Warm light under door */
+.door-light {
+  position: absolute;
+  bottom: -6px;
+  left: 10%;
+  right: 10%;
+  height: 8px;
+  background: radial-gradient(ellipse at center, rgba(240,200,120,0.3) 0%, transparent 70%);
+}
+.door-label {
+  font-size: 9px;
+  color: #8b6d48;
+  letter-spacing: 0.05em;
+  font-weight: 500;
+  margin-top: 4px;
+  transition: color 0.25s;
+}
+.classroom-door:hover .door-label {
+  color: #b89460;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .classroom-door { transition: none; }
+  .classroom-door:hover { transform: none; }
+}
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="classroom-wall-noise"></div>
+<div class="classroom-light"></div>
+<canvas id="chalkDustCanvas" aria-hidden="true"></canvas>
+<div class="page-classroom">
+<div class="classroom-wrap">
+  <!-- Left: Teacher Chat -->
+  <div class="classroom-left">
+    <div class="teacher-header">
+      <h2 style="margin:0">老师</h2>
+      <div class="subtitle">系统讲解 · 诊断薄弱点 · 制定学习计划</div>
+    </div>
+    <div id="teacherMascotMount" style="position:relative;z-index:9;"></div>
+    <div class="teacher-suggest" id="teacherSuggest">
+      <button onclick="Classroom.quickAsk('Transformer 的自注意力机制是什么？')">Transformer 怎么工作的？</button>
+      <button onclick="Classroom.quickAsk('帮我诊断一下我的学习薄弱点')">诊断薄弱点</button>
+      <button onclick="Classroom.quickAsk('给我制定一个机器学习的学习计划')">制定学习计划</button>
+    </div>
+    <div class="teacher-chat" id="teacherChat">
+      <div class="teacher-msg teacher">
+        <div class="meta">老师</div>
+        你好，我是你的学习教练。<br>
+        我可以系统讲解概念、诊断你的薄弱点、制定学习计划。<br>
+        右边的黑板是你当前选的知识库，点击条目可以让我展开讲解。
+      </div>
+    </div>
+    <div class="teacher-input-area">
+      <div class="teacher-input-row">
+        <textarea id="teacherInput" placeholder="向老师提问..."
+          rows="1"
+          onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();Classroom.send();}"></textarea>
+        <button class="ws-toggle on" id="wsToggleBtn" onclick="WebSearchToggle.toggle()" title="联网搜索: 开">&#128269;</button>
+        <button class="ws-toggle on" id="toolToggleBtn" onclick="ToolToggle.toggle()" title="工具调用: 开">&#128736;</button>
+        <button id="teacherSendBtn" onclick="Classroom.send()">提问</button>
+      </div>
+      <div class="teacher-tools">
+        <button class="tool-btn" onclick="Classroom.toolAction('upload')" title="上传文档让老师讲解">
+          <span>&#128206;</span> 上传文档
+        </button>
+        <button class="tool-btn" onclick="Classroom.toolAction('readfile')" title="读取本地文件">
+          <span>&#128196;</span> 读取文件
+        </button>
+        <button class="tool-btn" onclick="Classroom.toolAction('websearch')" title="联网搜索最新资料">
+          <span>&#127760;</span> 联网搜索
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Right: Textbook Blackboard -->
+  <div class="classroom-right">
+    <div class="textbook-header">
+      <h3>黑板</h3>
+    </div>
+    <div class="textbook-toolbar">
+      <select id="textbookDomain" onchange="Classroom.selectDomain(this.value)">
+        <option value="">-- 选择知识库 --</option>
+      </select>
+      <input type="text" id="textbookSearch" placeholder="在所选知识库中搜索..." oninput="Classroom.filterItems()">
+    </div>
+    <div class="textbook-body" id="textbookBody">
+      <div class="empty-textbook">选择左侧的知识库开始浏览</div>
+    </div>
+  </div>
+</div>
+
+<!-- Door: classroom → office entrance -->
+<div class="classroom-door" onclick="Classroom.goToOffice()" title="去老师办公室">
+  <div class="door-frame">
+    <div class="door-light"></div>
+  </div>
+  <div class="door-label">老师办公室</div>
+</div>
+
+</div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="/static/js/modules/mascot.js"></script>
+<script src="/static/js/modules/course-card.js"></script>
+<script>
+var Classroom = {
+  sending: false,
+  _eventSource: null,
+  _items: [],
+  _activeSetId: '',
+
+  // ── Teacher Chat ──
+
+  addMsg(role, html) {
+    var chat = document.getElementById('teacherChat');
+    var div = document.createElement('div');
+    div.className = 'teacher-msg ' + role;
+    if (role === 'teacher') {
+      div.innerHTML = '<div class="meta">老师</div>' + html;
+    } else {
+      div.textContent = html;
+    }
+    chat.appendChild(div);
+    chat.scrollTop = chat.scrollHeight;
+    return div;
+  },
+
+  addThinking(msg) {
+    var chat = document.getElementById('teacherChat');
+    var prev = chat.querySelector('.teacher-msg.thinking');
+    if (msg === null) {
+      if (prev) prev.remove();
+      return;
+    }
+    if (!prev) {
+      prev = document.createElement('div');
+      prev.className = 'teacher-msg thinking';
+      chat.appendChild(prev);
+    }
+    prev.innerHTML =
+      '<div class="thinking-status">' +
+        '<span class="thinking-dot"></span>' +
+        '<span class="thinking-label">' + App.escapeHtml(msg) + '</span>' +
+      '</div>';
+    chat.scrollTop = chat.scrollHeight;
+  },
+
+  quickAsk(q) {
+    document.getElementById('teacherInput').value = q;
+    this.send();
+  },
+
+  toolAction(action) {
+    if (action === 'upload' || action === 'readfile') {
+      this._pickAndSendFile(action);
+      return;
+    }
+    if (action === 'websearch') {
+      if (typeof WebSearchToggle !== 'undefined' && !WebSearchToggle.isEnabled()) {
+        WebSearchToggle.toggle();
+      }
+      if (typeof App !== 'undefined') App.trackImpression('feature_use', {feature: 'websearch'});
+      document.getElementById('teacherInput').value =
+        '请帮我联网搜索一下最新的相关资料，然后给我系统讲解';
+      document.getElementById('teacherInput').focus();
+    }
+  },
+
+  _pickAndSendFile(action) {
+    var self = this;
+    var fileInput = document.createElement('input');
+    fileInput.type = 'file';
+    fileInput.accept = '.txt,.md,.py,.js,.html,.css,.json,.csv,.xml,.yaml,.yml,.log,.pdf';
+    fileInput.onchange = function() {
+      var file = this.files[0];
+      if (!file) return;
+      var reader = new FileReader();
+      reader.onload = function(e) {
+        var content = e.target.result;
+        if (!content || !content.trim()) { alert('文件为空或无法读取'); return; }
+        if (typeof App !== 'undefined') App.trackImpression('feature_use', {feature: action === 'upload' ? 'upload_file' : 'read_file'});
+        var maxLen = 6000;
+        var truncated = content.length > maxLen;
+        if (truncated) content = content.slice(0, maxLen) + '\n\n... (文件过长，已截断)';
+        var label = action === 'upload' ? '上传了文档' : '读取了文件';
+        var msg = '我' + label + '：' + file.name + '\n\n文件内容：\n' + content
+          + '\n\n请帮我系统讲解这个' + (action === 'upload' ? '文档' : '文件') + '的内容。';
+        document.getElementById('teacherInput').value = msg;
+        self.send();
+      };
+      reader.onerror = function() { alert('文件读取失败，请重试'); };
+      reader.readAsText(file);
+    };
+    fileInput.click();
+  },
+
+  send() {
+    if (this.sending) return;
+    var input = document.getElementById('teacherInput');
+    var msg = input.value.trim();
+    if (!msg) return;
+
+    if (!App.serverOnline) {
+      this.addMsg('teacher', '服务器好像没连上。检查一下 <code>python server.py</code> 是否在运行？');
+      return;
+    }
+    if (!App.apiConfigured) {
+      this.addMsg('teacher', '还没配置AI接口。去<a href="/settings">设置</a>配一下API Key。');
+      return;
+    }
+
+    var suggest = document.getElementById('teacherSuggest');
+    if (suggest) suggest.style.display = 'none';
+
+    this.addMsg('user', msg);
+    if (typeof App !== 'undefined') App.trackImpression('agent_message', {persona: 'teacher'});
+    input.value = '';
+    input.style.height = 'auto';
+    this.sending = true;
+    var sendBtn = document.getElementById('teacherSendBtn');
+    sendBtn.disabled = false;
+    sendBtn.textContent = '停止';
+    sendBtn.onclick = function() { Classroom.stopStream(); };
+    sendBtn.classList.add('btn-stop');
+    if (typeof App !== 'undefined') App._streamingActive = true;
+    var self = this;
+    var replyDiv = null;
+    var finalReply = '';
+    var sessionId = 'teacher_' + (Date.now());
+    Classroom._lastSessionId = sessionId;
+
+    self.addThinking('老师在思考...');
+
+    var url = App.serverUrl + '/api/agent/chat/stream?message=' + encodeURIComponent(msg) +
+      '&session_id=' + encodeURIComponent(sessionId) + '&persona=teacher' +
+      (typeof ToolToggle !== 'undefined' && ToolToggle._enabled ? '&force_tools=1' : '');
+
+    this._eventSource = new EventSource(url);
+    App._activeEventSource = this._eventSource;
+
+    this._eventSource.onmessage = function(e) {
+      var data = JSON.parse(e.data);
+
+      if (data.type === 'thought') {
+        if (self._streamingEl) { self._streamingEl.remove(); self._streamingEl = null; }
+        self.addThinking('老师在思考：' + (data.content || '').slice(0, 80));
+        if (window._teacherMascot) window._teacherMascot.setState('thinking', '老师在备课...');
+      } else if (data.type === 'action') {
+        if (self._streamingEl) { self._streamingEl.remove(); self._streamingEl = null; }
+        self.addThinking('老师在' + (data.tool || '') + '...');
+        if (window._teacherMascot) window._teacherMascot.setState('thinking', '老师在备课...');
+      } else if (data.type === 'observation') {
+        self.addThinking('老师在看资料...');
+        if (window._teacherMascot) window._teacherMascot.setState('thinking', '老师在备课...');
+      } else if (data.type === 'token') {
+        var msgs = document.getElementById('teacherChat');
+        if (!msgs) return; // 页面已切换，DOM 已销毁
+        if (!self._streamingEl) {
+          self.addThinking(null);
+          self._streamingEl = document.createElement('div');
+          self._streamingEl.className = 'tutor-msg ai streaming';
+          msgs.appendChild(self._streamingEl);
+          self._streamingBuf = '';
+        }
+        self._streamingBuf += data.content;
+        self._streamingEl.innerHTML = App.renderMarkdown(self._streamingBuf);
+        msgs.scrollTop = msgs.scrollHeight;
+      } else if (data.type === 'final') {
+        if (self._streamingEl) { self._streamingEl.remove(); self._streamingEl = null; }
+        self.addThinking(null);
+        finalReply = data.reply || '';
+
+        if (data.course) {
+          // Render structured course card instead of plain markdown
+          var course = data.course;
+          CourseCard.registerCourse(course);
+          replyDiv = self.addMsg('teacher', '');
+          CourseCard.render(course, replyDiv, { mode: 'compact' });
+          // Notify office entrance
+          var dot = document.getElementById('officeNotifyDot');
+          if (dot) dot.style.display = 'block';
+        } else {
+          var html = App.renderMarkdown(finalReply);
+          if (!replyDiv) {
+            replyDiv = self.addMsg('teacher', html);
+          } else {
+            replyDiv.innerHTML = '<div class="meta">老师</div>' + html;
+          }
+        }
+
+        if (window._teacherMascot) {
+          window._teacherMascot.setState('done', '讲完啦');
+          window._teacherMascot.updateFromFinal(data);
+        }
+        // 拉取气泡
+        fetch('/api/agent/bubbles?limit=5&exclude_persona=teacher&session_id=' + encodeURIComponent(sessionId))
+          .then(function(r) { return r.json(); })
+          .then(function(d) {
+            if (window._teacherMascot) window._teacherMascot.updateFromPoll(d);
+          });
+
+        self.sending = false;
+        var sendBtn2 = document.getElementById('teacherSendBtn');
+        sendBtn2.textContent = '提问'; sendBtn2.onclick = function() { Classroom.send(); };
+        sendBtn2.classList.remove('btn-stop'); sendBtn2.disabled = false;
+        if (typeof App !== 'undefined') App._streamingActive = false;
+        self._eventSource.close();
+        self._eventSource = null;
+        App._activeEventSource = null;
+      } else if (data.type === 'error') {
+        if (self._streamingEl) { self._streamingEl.remove(); self._streamingEl = null; }
+        self.addThinking(null);
+        self.addMsg('teacher', '抱歉，出错了：' + App.escapeHtml(data.content || ''));
+        self.sending = false;
+        var sendBtn3 = document.getElementById('teacherSendBtn');
+        sendBtn3.textContent = '提问'; sendBtn3.onclick = function() { Classroom.send(); };
+        sendBtn3.classList.remove('btn-stop'); sendBtn3.disabled = false;
+        if (typeof App !== 'undefined') App._streamingActive = false;
+        if (self._eventSource) { self._eventSource.close(); self._eventSource = null; }
+        App._activeEventSource = null;
+      }
+    };
+
+    this._eventSource.onerror = function() {
+      if (!finalReply && self.sending) {
+        self.addThinking(null);
+        self.addMsg('teacher', '连接断开了，再试一次？');
+        self.sending = false;
+        var sendBtn4 = document.getElementById('teacherSendBtn');
+        sendBtn4.textContent = '提问'; sendBtn4.onclick = function() { Classroom.send(); };
+        sendBtn4.classList.remove('btn-stop'); sendBtn4.disabled = false;
+        if (typeof App !== 'undefined') App._streamingActive = false;
+      }
+      if (self._eventSource) { self._eventSource.close(); self._eventSource = null; }
+      App._activeEventSource = null;
+    };
+  },
+
+  stopStream() {
+    this.sending = false;
+    var sid = this._lastSessionId || App.getSessionId();
+    fetch(App.serverUrl + '/api/agent/chat/cancel', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ session_id: sid })
+    }).catch(function() {});
+    if (this._eventSource) { this._eventSource.close(); this._eventSource = null; }
+    if (App._activeEventSource) App._activeEventSource = null;
+    var sendBtn = document.getElementById('teacherSendBtn');
+    sendBtn.textContent = '提问'; sendBtn.onclick = function() { Classroom.send(); };
+    sendBtn.classList.remove('btn-stop'); sendBtn.disabled = false;
+    if (typeof App !== 'undefined') App._streamingActive = false;
+    if (this._streamingEl) { this._streamingEl.remove(); this._streamingEl = null; }
+    this.addThinking(null);
+    this.addMsg('teacher', '⚠️ 已中断');
+  },
+
+  // ── Textbook Panel ──
+
+  initTextbook: function() {
+    var self = this;
+    fetch('/api/knowledge/sets')
+      .then(function(r) { return r.json(); })
+      .then(function(data) {
+        var sel = document.getElementById('textbookDomain');
+        (data.sets || []).forEach(function(s) {
+          var opt = document.createElement('option');
+          opt.value = s.id;
+          opt.textContent = (s.display_name || s.id) + ' (' + (s.item_count || 0) + '项)';
+          sel.appendChild(opt);
+        });
+      })
+      .catch(function() {});
+  },
+
+  selectDomain: function(id) {
+    this._activeSetId = id;
+    if (!id) {
+      document.getElementById('textbookBody').innerHTML = '<div class="empty-textbook">选择左侧的知识库开始浏览</div>';
+      return;
+    }
+    var self = this;
+    document.getElementById('textbookBody').innerHTML = '<div class="empty-textbook">加载中...</div>';
+    fetch('/api/knowledge/' + id)
+      .then(function(r) { return r.json(); })
+      .then(function(data) {
+        self._items = data.items || [];
+        self._items.forEach(function(it, i) { if (!it.id) it.id = id + '-' + i; });
+        self.renderItems(self._items);
+      })
+      .catch(function(e) {
+        document.getElementById('textbookBody').innerHTML = '<div class="empty-textbook">加载失败: ' + e.message + '</div>';
+      });
+  },
+
+  filterItems: function() {
+    var q = (document.getElementById('textbookSearch').value || '').toLowerCase();
+    var filtered = q ? this._items.filter(function(item) {
+      return (item.title || '').toLowerCase().indexOf(q) !== -1 ||
+        (item.question || '').toLowerCase().indexOf(q) !== -1 ||
+        (item.answer || '').toLowerCase().indexOf(q) !== -1 ||
+        (item.content || '').toLowerCase().indexOf(q) !== -1;
+    }) : this._items;
+    this.renderItems(filtered);
+  },
+
+  renderItems: function(items) {
+    var body = document.getElementById('textbookBody');
+    if (!items.length) {
+      body.innerHTML = '<div class="empty-textbook">无匹配条目</div>';
+      return;
+    }
+    var sections = {};
+    items.forEach(function(item) {
+      var sec = item.section || '其他';
+      if (!sections[sec]) sections[sec] = [];
+      sections[sec].push(item);
+    });
+    var html = '';
+    Object.keys(sections).forEach(function(sec) {
+      html += '<div class="kb-section"><div class="kb-section-title">' + App.escapeHtml(sec) + '</div>';
+      sections[sec].forEach(function(item) {
+        var title = item.question || item.title || item.concept || '';
+        var preview = (item.answer || item.content || '').slice(0, 100);
+        html += '<div class="kb-item" data-item-id="' + App.escapeHtml(item.id) + '" onclick="Classroom.askAboutItem(\'' + App.escapeHtml(item.id) + '\')">' +
+          '<div class="kb-item-title">' + App.escapeHtml(title) + '</div>' +
+          '<div class="kb-item-preview">' + App.escapeHtml(preview) + '</div>' +
+          '</div>';
+      });
+      html += '</div>';
+    });
+    body.innerHTML = html;
+  },
+
+  askAboutItem: function(itemId) {
+    var item = this._items.find(function(it) { return it.id === itemId; });
+    if (!item) return;
+    var concept = item.question || item.title || '';
+    var context = (item.answer || item.content || '').slice(0, 300);
+    var msg = '请系统讲解这个概念：' + concept + '\n\n背景材料：' + context;
+    document.getElementById('teacherInput').value = msg;
+    document.getElementById('teacherChat').scrollIntoView({ behavior: 'smooth' });
+    this.send();
+  },
+
+  goToOffice: function() {
+    // Hide notification dot
+    var dot = document.getElementById('officeNotifyDot');
+    if (dot) dot.style.display = 'none';
+
+    // Pass current classroom session to office so sendToClassroom uses the right session_id
+    if (Classroom._lastSessionId) {
+      sessionStorage.setItem('office_classroom_session', Classroom._lastSessionId);
+    }
+
+    var reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    if (reducedMotion) {
+      Router.navigate('/classroom/office');
+      return;
+    }
+
+    // Transition: classroom slides out left, office slides in right
+    var content = document.getElementById('mainContent');
+    var overlay = document.getElementById('transition-overlay');  // from base.html
+
+    if (content) content.style.animation = 'slideOutLeft 0.25s ease-out forwards';
+    if (overlay) overlay.classList.add('active');
+
+    var self = this;
+    setTimeout(function() {
+      Router.navigate('/classroom/office');
+      // Reset animations after navigation
+      setTimeout(function() {
+        if (content) content.style.animation = '';
+        if (overlay) overlay.classList.remove('active');
+      }, 100);
+    }, 220);
+  }
+};
+
+// Init
+App.ready(function() {
+  Classroom.initTextbook();
+
+  var ta = document.getElementById('teacherInput');
+  if (ta) {
+    ta.addEventListener('input', function() {
+      this.style.height = 'auto';
+      this.style.height = Math.min(this.scrollHeight, 100) + 'px';
+    });
+  }
+
+  // Teacher mascot
+  var teacherMascot = new Mascot({
+    persona: 'teacher',
+    container: '#teacherMascotMount',
+    defaultPos: 'top-right',
+  });
+  window._teacherMascot = teacherMascot;
+  teacherMascot.tryShowGuide('点我查看工具和学习计划');
+  teacherMascot.startBubbles({interval: 30, duration: 6});
+
+  // 60s polling for bubbles
+  setInterval(function() {
+    fetch('/api/agent/bubbles?limit=5&exclude_persona=teacher&session_id=' + encodeURIComponent(Classroom._lastSessionId || ''))
+      .then(function(r) { return r.json(); })
+      .then(function(d) {
+        teacherMascot.updateFromPoll(d);
+        if (d.course) {
+          var dot = document.getElementById('officeNotifyDot');
+          if (dot) dot.style.display = 'block';
+          CourseCard.registerCourse(d.course);
+        }
+      })
+      .catch(function() {});
+  }, 60000);
+});
+
+// ── Chalk dust particle system ──
+(function() {
+  var canvas = document.getElementById('chalkDustCanvas');
+  if (!canvas) return;
+  var ctx = canvas.getContext('2d');
+  var particles = [];
+  var rafId = null;
+
+  function resize() {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+    createParticles();
+  }
+
+  function createParticles() {
+    particles = [];
+    var count = Math.floor((canvas.width * canvas.height) / 5500);
+    for (var i = 0; i < count; i++) {
+      particles.push({
+        x: Math.random() * canvas.width,
+        y: Math.random() * canvas.height,
+        vx: (Math.random() - 0.5) * 0.18,
+        vy: (Math.random() - 0.5) * 0.18 - 0.05,
+        size: Math.random() * 1.4 + 0.35,
+        opacity: Math.random() * 0.4 + 0.08
+      });
+    }
+  }
+
+  function animate() {
+    if (!document.contains(canvas)) { rafId = null; return; }
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    for (var i = 0; i < particles.length; i++) {
+      var p = particles[i];
+      p.x += p.vx; p.y += p.vy;
+      if (p.x < -10) p.x = canvas.width + 10;
+      if (p.x > canvas.width + 10) p.x = -10;
+      if (p.y < -10) p.y = canvas.height + 10;
+      if (p.y > canvas.height + 10) p.y = -10;
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+      ctx.fillStyle = 'rgba(235,222,198,' + p.opacity + ')';
+      ctx.fill();
+    }
+    rafId = requestAnimationFrame(animate);
+  }
+
+  resize();
+  window.addEventListener('resize', resize);
+  rafId = requestAnimationFrame(animate);
+
+  if (window._chalkDustRaf) cancelAnimationFrame(window._chalkDustRaf);
+  window._chalkDustRaf = rafId;
+})();
+
+</script>
+<script src="/static/js/modules/web-search-toggle.js"></script>
+<script>WebSearchToggle.init({btnId: 'wsToggleBtn'});</script>
+<script>
+var ToolToggle = {
+  _enabled: true,
+  toggle: function() {
+    this._enabled = !this._enabled;
+    var btn = document.getElementById('toolToggleBtn');
+    if (btn) {
+      btn.className = 'ws-toggle' + (this._enabled ? ' on' : ' off');
+      btn.title = '工具调用: ' + (this._enabled ? '开 — 强制Agent使用工具' : '关 — 允许Agent自行判断');
+    }
+  }
+};
+</script>
+{% endblock %}

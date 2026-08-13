@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% block title %}Agent 是如何构建的{% endblock %}
+{% block body_class %}page-agent-build{% endblock %}
+{% block page_title %}Agent 构成{% endblock %}
+{% block content %}
+<div class="page-agent-build">
+<div class="page-hero">
+  <h1>🧠 Agent 是如何构建的</h1>
+  <p class="hero-sub">从最小单元开始，一层层往上搭积木 —— 看我们如何从零构建一个能自主思考的 AI 助手</p>
+</div>
+
+<!-- 五层阶梯 -->
+<section class="build-ladder" id="buildLadder">
+  <h2 style="text-align:center;margin-bottom:24px;">📐 构成阶梯：从原子到智能体</h2>
+  <div class="ladder-container">
+    <div class="ladder-cards" id="ladderCards">
+      <!-- JS fills -->
+    </div>
+    <div class="ladder-detail card" id="ladderDetail">
+      <div class="ladder-detail-placeholder">👆 点击左侧任一层级查看本系统的具体实现</div>
+    </div>
+  </div>
+</section>
+
+<!-- 一句话的旅程 -->
+<section class="pipeline-section" id="pipelineSection">
+  <h2 style="text-align:center;margin:48px 0 24px;">🔬 "一句话的旅程"：你的问题如何变成答案</h2>
+  <p style="text-align:center;color:var(--text-secondary);margin-bottom:24px;">
+    以用户输入"CNN是什么"为例，展示从输入到输出的完整处理管道
+  </p>
+  <div class="pipeline-controls">
+    <button class="btn btn-primary" id="pipelinePlay">▶ 自动演示</button>
+    <button class="btn btn-outline" id="pipelineStep">⏭ 逐步演示</button>
+    <button class="btn btn-outline" id="pipelineReset">↺ 重置</button>
+  </div>
+  <div class="pipeline-track" id="pipelineTrack">
+    <!-- JS fills -->
+  </div>
+</section>
+
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="/static/js/modules/agent-build.js"></script>
+<script>
+AgentBuild.init();
+</script>
+{% endblock %}

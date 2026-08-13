@@ -1,0 +1,405 @@
+{% extends "base.html" %}
+{% block title %}调研{% endblock %}
+{% block body_class %}page-research{% endblock %}
+{% block head %}
+<style>
+.page-research { background: var(--bg); }
+.research-wrap {
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 24px 16px 40px;
+}
+
+/* -- Input area -- */
+.research-input-area {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 20px 24px;
+  margin-bottom: 24px;
+  box-shadow: var(--shadow-sm);
+}
+.research-input-area h2 {
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 4px;
+  color: var(--text);
+}
+.research-input-area p {
+  font-size: 13px;
+  color: var(--text2);
+  margin-bottom: 12px;
+}
+.research-form {
+  display: flex;
+  gap: 8px;
+}
+.research-form input {
+  flex: 1;
+  padding: 10px 14px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  font-size: 14px;
+  font-family: var(--font);
+  background: var(--bg);
+  color: var(--text);
+  outline: none;
+  transition: border-color .15s;
+}
+.research-form input:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-light);
+}
+.research-form button {
+  padding: 10px 24px;
+  background: var(--accent-gradient);
+  color: #fff;
+  border: none;
+  border-radius: var(--radius-sm);
+  font-size: 14px;
+  font-weight: 600;
+  font-family: var(--font);
+  cursor: pointer;
+  transition: opacity .15s;
+  white-space: nowrap;
+}
+.research-form button:hover { opacity: 0.9; }
+.research-form button:disabled { opacity: 0.5; cursor: not-allowed; }
+
+/* -- Progress bar -- */
+.pipeline-progress {
+  display: none;
+  margin-bottom: 24px;
+  padding: 16px 20px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+}
+.pipeline-progress.visible { display: block; }
+.progress-steps {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+.progress-step {
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 500;
+  background: var(--bg);
+  color: var(--text3);
+  border: 1px solid var(--border-light);
+  transition: all .2s;
+}
+.progress-step.active {
+  background: var(--accent-light);
+  color: var(--accent);
+  border-color: var(--accent);
+  animation: pulse 1.5s ease-in-out infinite;
+}
+.progress-step.done {
+  background: var(--green-bg);
+  color: var(--green);
+  border-color: var(--green-border);
+}
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.6; }
+}
+
+/* -- Results cards -- */
+.results-area { display: none; }
+.results-area.visible { display: block; }
+.result-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 18px 20px;
+  margin-bottom: 12px;
+  box-shadow: var(--shadow-sm);
+}
+.result-card h3 {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 8px;
+  color: var(--text);
+}
+.result-card .card-meta {
+  font-size: 11px;
+  color: var(--text2);
+  margin-bottom: 6px;
+}
+
+/* -- Credibility labels -- */
+.cred-label {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 10px;
+  font-size: 11px;
+  font-weight: 600;
+}
+.cred-label.high { background: var(--green-bg); color: var(--green); }
+.cred-label.doubt { background: var(--yellow-bg); color: var(--yellow-text); }
+.cred-label.verify { background: var(--red-bg); color: var(--red); }
+.cred-label.isolated { background: #f3f4f6; color: #6b7280; }
+
+/* -- Plan section -- */
+.plan-section { margin-top: 24px; }
+.plan-section h2 {
+  font-size: 17px;
+  font-weight: 600;
+  margin-bottom: 12px;
+}
+.source-ref {
+  font-size: 12px;
+  color: var(--text2);
+  margin-top: 4px;
+}
+.source-ref a {
+  color: var(--accent);
+  font-size: 12px;
+  word-break: break-all;
+}
+
+/* -- Error -- */
+.research-error {
+  display: none;
+  padding: 12px 16px;
+  background: var(--red-bg);
+  border: 1px solid var(--red-border);
+  border-radius: var(--radius-sm);
+  color: var(--red);
+  font-size: 13px;
+  margin-bottom: 16px;
+}
+</style>
+{% endblock %}
+{% block content %}
+<div class="research-wrap">
+  <div class="research-input-area">
+    <h2>调研助手</h2>
+    <p>输入你想调研的问题，管道自动搜索 → 验证 → 生成方案</p>
+    <div class="research-form">
+      <input type="text" id="queryInput" placeholder="例如：帮我调研多模态大模型的现状"
+             onkeydown="if(event.key==='Enter')startResearch()">
+      <button id="startBtn" onclick="startResearch()">开始调研</button>
+    </div>
+  </div>
+
+  <div id="researchError" class="research-error"></div>
+
+  <div id="progressBar" class="pipeline-progress">
+    <div style="font-size:13px;font-weight:600;margin-bottom:8px;color:var(--text2)">
+      管道进度
+    </div>
+    <div class="progress-steps" id="progressSteps">
+      <span class="progress-step" data-step="S1">S1 意图解析</span>
+      <span class="progress-step" data-step="S2">S2 资源盘点</span>
+      <span class="progress-step" data-step="S3_search">S3 信息搜索</span>
+      <span class="progress-step" data-step="S3_fetch">S3 内容抓取</span>
+      <span class="progress-step" data-step="S4">S4 可信度融合</span>
+      <span class="progress-step" data-step="S5">S5 方案生成</span>
+    </div>
+  </div>
+
+  <div id="resultsArea" class="results-area"></div>
+</div>
+{% endblock %}
+{% block scripts %}
+<script>
+let pollTimer = null;
+
+function startResearch() {
+  const query = document.getElementById('queryInput').value.trim();
+  if (!query) return;
+
+  const btn = document.getElementById('startBtn');
+  btn.disabled = true;
+  btn.textContent = '运行中...';
+
+  document.getElementById('researchError').style.display = 'none';
+  document.getElementById('resultsArea').classList.remove('visible');
+  document.getElementById('resultsArea').innerHTML = '';
+
+  const progress = document.getElementById('progressBar');
+  progress.classList.add('visible');
+  document.querySelectorAll('.progress-step').forEach(el => {
+    el.classList.remove('active', 'done');
+  });
+
+  fetch('/api/pipeline/research', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ query, max_results: 5 })
+  })
+    .then(r => r.json())
+    .then(data => {
+      if (data.status === 'error') {
+        showError(data.error || '启动失败');
+        resetButton();
+        return;
+      }
+      pollTask(data.task_id);
+    })
+    .catch(err => {
+      showError('网络错误: ' + err.message);
+      resetButton();
+    });
+}
+
+function pollTask(taskId) {
+  pollTimer = setInterval(() => {
+    fetch('/api/pipeline/research/' + taskId)
+      .then(r => r.json())
+      .then(data => {
+        if (data.status === 'error') {
+          clearInterval(pollTimer);
+          showError(data.error || '管道执行失败');
+          resetButton();
+          return;
+        }
+
+        if (data.trace) {
+          const doneSteps = new Set();
+          let currentStep = null;
+          data.trace.forEach(t => {
+            if (t.event_type === 'step_end') doneSteps.add(t.step_name);
+            if (t.event_type === 'step_start') currentStep = t.step_name;
+          });
+          if (data.outputs) {
+            Object.keys(data.outputs).forEach(k => {
+              if (data.outputs[k].status === 'ok') doneSteps.add(k);
+            });
+          }
+
+          document.querySelectorAll('.progress-step').forEach(el => {
+            const step = el.dataset.step;
+            if (doneSteps.has(step)) {
+              el.classList.add('done');
+              el.classList.remove('active');
+            } else if (step === currentStep) {
+              el.classList.add('active');
+            }
+          });
+        }
+
+        if (data.status === 'ok' || data.status === 'needs_human') {
+          clearInterval(pollTimer);
+          renderResults(data);
+          resetButton();
+          document.getElementById('progressBar').classList.remove('visible');
+        }
+      })
+      .catch(() => {});
+  }, 1000);
+}
+
+function renderResults(data) {
+  const area = document.getElementById('resultsArea');
+  area.classList.add('visible');
+  let html = '';
+
+  const outputs = data.outputs || {};
+
+  const s3s = outputs['S3_search'] || {};
+  const s3f = outputs['S3_fetch'] || {};
+  const s4 = outputs['S4'] || {};
+  const s5 = outputs['S5'] || {};
+
+  if (s3s.results && s3s.results.length > 0) {
+    html += '<div class="result-card"><h3>搜索结果 (' + s3s.count + ' 条)</h3>';
+    s3s.results.forEach(r => {
+      html += '<div style="margin-bottom:10px;padding-bottom:10px;border-bottom:1px solid var(--border-light)">';
+      html += '<a href="' + r.url + '" target="_blank" style="font-weight:600;font-size:14px">'
+        + (r.title || r.url) + '</a>';
+      html += '<div style="font-size:12px;color:var(--text2);margin-top:2px">'
+        + (r.snippet || '').substring(0, 200) + '</div>';
+      html += '</div>';
+    });
+    html += '</div>';
+  }
+
+  const s4docs = s4.documents || s3f.documents || [];
+  if (s4docs.length > 0) {
+    html += '<div class="result-card"><h3>可信度评估 (' + s4docs.length + ' 篇文档)</h3>';
+    s4docs.forEach(d => {
+      const structured = d.structured || {};
+      const label = structured.credibility_label || '未评估';
+      const labelClass = label.indexOf('高可信') !== -1 ? 'high'
+        : label.indexOf('存疑') !== -1 ? 'doubt'
+        : label.indexOf('核实') !== -1 ? 'verify'
+        : 'isolated';
+      html += '<div style="margin-bottom:8px">';
+      html += '<span class="cred-label ' + labelClass + '">' + label + '</span> ';
+      html += '<span style="font-size:13px">' + (d.source_url || d.id || '').substring(0, 60) + '</span>';
+      html += '</div>';
+    });
+    html += '</div>';
+  }
+
+  const plan = s5.plan || {};
+  if (plan.minimal_action || plan.development_plan) {
+    html += '<div class="result-card plan-section"><h2>调研方案</h2>';
+
+    if (plan.minimal_action) {
+      const ma = plan.minimal_action;
+      html += '<h3 style="font-size:16px;color:var(--accent)">最小可做行动</h3>';
+      html += '<p style="font-size:14px;margin:8px 0"><strong>做什么：</strong>' + (ma.what || '') + '</p>';
+      html += '<p style="font-size:13px;color:var(--text2)"><strong>为什么：</strong>' + (ma.why || '') + '</p>';
+      if (ma.steps && ma.steps.length > 0) {
+        html += '<ol style="font-size:13px;margin:8px 0;padding-left:20px">';
+        ma.steps.forEach(s => { html += '<li>' + s + '</li>'; });
+        html += '</ol>';
+      }
+      if (ma.refs && ma.refs.length > 0) {
+        html += '<div class="source-ref"><strong>参考：</strong>';
+        ma.refs.forEach(ref => {
+          html += '<span style="margin-right:8px">[' + ref + ']</span>';
+        });
+        html += '</div>';
+      }
+    }
+
+    if (plan.development_plan) {
+      const dp = plan.development_plan;
+      html += '<h3 style="font-size:16px;color:var(--accent);margin-top:16px">发展方案</h3>';
+      if (dp.phases && dp.phases.length > 0) {
+        dp.phases.forEach(p => {
+          html += '<div style="margin:8px 0;padding:10px;background:var(--bg);border-radius:var(--radius-sm)">';
+          html += '<strong>' + (p.phase || p.name || '') + '</strong>';
+          html += '<span style="font-size:12px;color:var(--text2);margin-left:8px">' + (p.timeline || '') + '</span>';
+          html += '</div>';
+        });
+      }
+    }
+
+    html += '</div>';
+  }
+
+  if (data.status === 'needs_human' && outputs.question) {
+    html += '<div class="result-card" style="background:var(--yellow-bg);border-color:var(--yellow-border)">';
+    html += '<h3 style="color:var(--yellow-text)">需要你的判断</h3>';
+    html += '<p style="font-size:14px">' + outputs.question + '</p>';
+    html += '</div>';
+  }
+
+  if (!html) {
+    html = '<div class="result-card"><p style="color:var(--text2)">未获取到结果。</p></div>';
+  }
+
+  area.innerHTML = html;
+}
+
+function showError(msg) {
+  const el = document.getElementById('researchError');
+  el.textContent = msg;
+  el.style.display = 'block';
+}
+
+function resetButton() {
+  const btn = document.getElementById('startBtn');
+  btn.disabled = false;
+  btn.textContent = '开始调研';
+}
+</script>
+{% endblock %}

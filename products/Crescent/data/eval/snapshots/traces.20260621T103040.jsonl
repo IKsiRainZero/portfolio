@@ -1,0 +1,2 @@
+{"trace_id": "4df127e8f97f", "timestamp": "2026-06-21T10:30:40", "name": "engine_A", "kind": "system_task", "status": "running", "metadata": {}, "span_count": 0}
+{"trace_id": "e71fab56e98b", "timestamp": "2026-06-21T10:30:40", "name": "engine_B", "kind": "system_task", "status": "running", "metadata": {}, "span_count": 0}

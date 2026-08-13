@@ -1,0 +1,9 @@
+.wrap { display: flex; justify-content: center; align-items: center; }
+.svg { width: 280px; height: 260px; display: block; }
+.gridRing { fill: none; stroke: var(--cr-border); stroke-width: 0.5; }
+.axis { stroke: var(--cr-border); stroke-width: 0.5; }
+.baselinePoly { fill: none; stroke: var(--cr-border-hv); stroke-width: 1.5; stroke-dasharray: 6 3; }
+.userPoly { fill: rgba(212,140,64,0.12); stroke: var(--cr-accent); stroke-width: 2; }
+.label { font-size: 11px; fill: var(--cr-text2); font-family: var(--cr-mono); }
+.centerScore { font-size: 26px; font-weight: 700; fill: var(--cr-text1); font-family: var(--cr-mono); }
+.centerLabel { font-size: 10px; fill: var(--cr-text2); font-family: var(--cr-mono); }

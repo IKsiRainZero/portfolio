@@ -1,0 +1,338 @@
+{
+  "meta": {
+    "domain": "agent-development",
+    "display_name": "Agent 开发全流程",
+    "description": "ReAct Agent 从零构建的完整技术流程：架构设计、LangGraph集成、9 Tools开发、RAG管道、提示词工程、Blueprint模块化、评估体系、工程原则、排错案例。体现\"自反馈闭环\"——用 Agent 开发的知识反哺 Agent 知识库。",
+    "version": 1,
+    "created": "2026-06-03"
+  },
+  "sections": [
+    {
+      "id": "react-architecture",
+      "title": "ReAct Agent 核心架构",
+      "items": [
+        {
+          "id": "react-loop",
+          "type": "concept",
+          "title": "ReAct 循环 (Reasoning + Acting)",
+          "content": "ReAct 是 Reasoning + Acting 的缩写，是当前 Agent 系统的主流范式。Agent 不是一次性输出答案，而是在\"思考→行动→观察→思考→…\"的循环中逐步逼近目标。\n\n核心循环 (max_iterations=5):\n1. Thought (思考): LLM 分析用户意图，决定是否需要调用工具\n2. Action (行动): 如果需要工具，LLM 输出 tool_call (工具名+参数)\n3. Observation (观察): 工具返回结果，LLM 读取结果\n4. 判断: 还需要更多工具？→ 回到步骤2。够了？→ 输出 Final Answer\n5. Final Answer: 综合所有观察，生成最终回复\n\n关键设计决策:\n- max_iterations=5: 防止无限循环耗尽 token\n- 每轮都是一次完整的 LLM 调用，所以 Agent 延迟 = 单次延迟 × 调用次数\n- 评测数据: Agent 平均 1.6 次 tool call/任务，延迟 13s (Direct LLM 的 2.8x)",
+          "tags": ["ReAct", "Agent架构", "核心概念", "推理循环"]
+        },
+        {
+          "id": "agent-vs-direct",
+          "type": "table",
+          "title": "Agent vs 直接 LLM 对比",
+          "headers": ["维度", "Agent (ReAct + 9 Tools)", "直接 LLM (无工具)"],
+          "rows": [
+            ["工具调用", "9 个专用工具 (知识搜索/出题/诊断/评估等)", "无，只能文本生成"],
+            ["知识检索", "ChromaDB 向量搜索 (3724 docs)", "仅靠训练数据记忆"],
+            ["学习进度", "实时读取 progress.json 统计数据", "无法访问用户数据"],
+            ["记忆持久化", "MemorySaver (100 sessions) + progress.json", "每次对话独立，无记忆"],
+            ["任务完成率", "100% (10/10 评测用例)", "0% (无工具，纯文本模拟)"],
+            ["平均延迟", "13,166ms (平均 1.6 tool calls)", "4,680ms (单次调用)"],
+            ["适用场景", "学习教练、知识管理、评估诊断", "闲聊、通用问答"]
+          ],
+          "tags": ["对比", "Agent", "LLM", "评测"]
+        },
+        {
+          "id": "agent-stack",
+          "type": "code",
+          "title": "Agent 技术栈",
+          "code": "Browser (HTML/CSS/JS)\n    ↓ POST /api/agent/chat\nFlask Server (Python 3.11)\n    ↓ create_react_agent()\nLangGraph StateGraph\n    ├── Model: DeepSeek V4 (via langchain-openai)\n    ├── Tools: 9 × @tool decorated functions\n    ├── Checkpointer: MemorySaver (per-session in-memory)\n    └── System Prompt: prompts/agent_system.txt\n    ↓ Tool 调用\nService Layer\n    ├── RAG Service (ChromaDB + bge-m3)\n    ├── Progress Tracker (JSON 统计)\n    ├── Exercise Store (临时题库)\n    └── Insight Store (方法论卡片)",
+          "language": "text",
+          "explanation": "Agent 系统的完整技术栈。LangGraph 是编排引擎，Service Layer 是工具的后端实现。",
+          "tags": ["技术栈", "架构总览"]
+        }
+      ]
+    },
+    {
+      "id": "langgraph-integration",
+      "title": "LangGraph 状态图与记忆管理",
+      "items": [
+        {
+          "id": "langgraph-core",
+          "type": "concept",
+          "title": "LangGraph create_react_agent 的工作原理",
+          "content": "LangGraph 是 LangChain 的图编排框架，create_react_agent 是预构建的 ReAct Agent 工厂函数。\n\n核心组件:\n1. StateGraph: 定义 Agent 的状态节点和边。每个节点是\"状态→新状态\"的函数。\n2. ToolNode: 特殊节点，将 LLM 的 tool_call 分派到对应的 Python 函数。\n3. Conditional Edge: 判断\"继续调用工具\"还是\"输出最终答案\"。\n4. MemorySaver (Checkpointer): 每步执行后自动保存状态，下次 invoke 时恢复。\n\n配置:\n- model: 任何 LangChain 兼容的 ChatModel (本项目用 ChatOpenAI 兼容 DeepSeek)\n- tools: Python 函数列表 (用 @tool 装饰器包装)\n- checkpointer: MemorySaver() 实例\n\n调用方式:\n  agent.invoke(\n      {\"messages\": [HumanMessage(content=full_input)]},\n      config={\"configurable\": {\"thread_id\": session_id}}\n  )\n\nthread_id 是 session 隔离的关键: 相同 thread_id 共享记忆，不同 thread_id 完全独立。",
+          "tags": ["LangGraph", "StateGraph", "ReAct", "框架"]
+        },
+        {
+          "id": "memory-saver",
+          "type": "concept",
+          "title": "MemorySaver 短期记忆机制",
+          "content": "MemorySaver 是 LangGraph 的内置内存检查点存储，实现对话上下文的跨轮次持久化。\n\n设计:\n- 每个 session_id 对应一个独立的 MemorySaver 实例\n- 存储在 _sessions dict 中 (键=session_id, 值=MemorySaver)\n- 最多保留 100 个并发 session (FIFO 淘汰)\n- agent.invoke() 时自动: ①从 checkpointer 恢复该 thread_id 的历史消息 ②执行新步骤 ③保存新状态\n\n与长期记忆的关系:\n- 短期记忆 (MemorySaver): 对话上下文，进程重启后丢失\n- 长期记忆 (progress.json): 学习数据、答题记录，持久化在磁盘\n- 两者互补: 短期记\"刚才在聊什么\"，长期记\"学过什么\"\n\n限制:\n- 窗口大小为 AGENT_MEMORY_WINDOW=10 轮 (由 system prompt 控制)\n- 无外部持久化 (重启即丢失)，生产环境应迁移到 SqliteSaver 或 PostgresSaver",
+          "tags": ["MemorySaver", "记忆", "Checkpointing", "LangGraph"]
+        },
+        {
+          "id": "session-design",
+          "type": "concept",
+          "title": "Session 设计模式",
+          "content": "前端 session_id 策略:\n- 每个页面独立 session: session_id = \"ui_{page_name}\" (如 ui_trainer, ui_knowledge)\n- AI 面板可跨页面复用 session_id\n- POST /api/agent/reset 清除指定 session 记忆\n\nAgent 端 session 管理:\n- session_id 作为 MemorySaver 的 thread_id\n- _get_or_create_memory(session_id): 懒创建 + 自动清理\n- 超过 100 session 时 FIFO 淘汰最旧的\n\n这种设计的好处:\n- 训练器页面和知识库页面有独立的对话上下文\n- 不会因为在不同页面问不同问题而混淆记忆\n- 用户感知: \"每个工具有自己的对话历史\"",
+          "tags": ["Session", "设计模式", "隔离"]
+        }
+      ]
+    },
+    {
+      "id": "tools-design",
+      "title": "9 Tools 设计与实现",
+      "items": [
+        {
+          "id": "tool-design-principles",
+          "type": "concept",
+          "title": "Tool 设计原则",
+          "content": "Agent 的 9 个 Tool 遵循统一设计原则:\n\n1. 单一职责: 每个 Tool 只做一件事 (搜索/出题/诊断/评估/…)\n2. 明确触发词: docstring 中写明\"当用户说XX时使用\"，LLM 据此判断是否调用\n3. 结构化输出: 返回格式化的文本 (含编号/分隔线)，便于 LLM 理解\n4. 优雅降级: 失败时返回错误信息而非抛异常，Agent 可以继续\n5. Tool 无状态: 不存内部状态，通过 Service 层读写外部数据\n6. 参数最小化: 只暴露必要参数，复杂逻辑封装在内部\n\nTool 分类:\n- 知识类 (2): search_knowledge, deep_question\n- 诊断类 (2): analyze_progress, diagnose_weakness\n- 生成类 (2): generate_question, create_study_plan\n- 评估类 (2): evaluate_answer, feynman_check\n- 持久化类 (1): save_question_to_trainer\n\n预期调用频率分布 (设计推测):\n  高频: search_knowledge (每次对话)\n  中频: generate_question, evaluate_answer, feynman_check\n  低频: analyze_progress, diagnose_weakness, create_study_plan, deep_question\n  偶发: save_question_to_trainer",
+          "tags": ["Tool", "设计原则", "分类", "Agent"]
+        },
+        {
+          "id": "tool-code-pattern",
+          "type": "code",
+          "title": "Tool 代码模板",
+          "code": "@tool\ndef tool_name(param1: str, param2: str = \"default\") -> str:\n    \"\"\"Tool 描述。当用户[触发场景]时使用。\n    参数 param1: 说明, param2: 说明。\"\"\"\n    try:\n        # 1. 加载配置/提示词\n        template = load_prompt(\"tool_xxx\")\n        # 2. 格式化输入\n        prompt = template.format(...)\n        # 3. 调用 LLM 或读取数据\n        reply, _ = chat(messages=[...], ...)\n        return reply\n    except Exception as e:\n        return f\"操作失败: {str(e)}\"",
+          "language": "python",
+          "explanation": "所有 Tool 遵循的统一代码模板。关键点: ①@tool 装饰器 ②明确的 docstring (LLM 读取它来决定是否调用) ③try/except 优雅降级 ④格式化字符串返回",
+          "tags": ["Tool", "代码模板", "Python"]
+        },
+        {
+          "id": "tool-search-knowledge",
+          "type": "concept",
+          "title": "Tool 1: search_knowledge — 知识库搜索",
+          "content": "功能: 搜索 ChromaDB 知识库 (bge-m3 embedding, 1024维)\n参数: query (str)\n实现: 调用 services.rag_service.search(query, k=5)，返回 Top-5 相关文档片段 + 相似度分数。\n触发场景: 用户问技术概念、论文、知识点\n实现细节:\n  - 向量检索: cosine similarity top-k (k=5)\n  - 动态阈值过滤: 中文阈值0.45, 英文阈值0.55, ratio=0.85\n  - 中文回退: 无结果时尝试逐字搜索\n  - 英文回退: 无结果时用英文关键词重试\n输出格式: [序号] 标题 (相似度: X.XX)\n          内容前300字...\n技术栈: ChromaDB (向量存储) + sentence-transformers/bge-m3 (embedding) + zh_core_web_sm (中文分词)",
+          "tags": ["Tool", "search_knowledge", "RAG", "ChromaDB"]
+        },
+        {
+          "id": "tool-generate-question",
+          "type": "concept",
+          "title": "Tool 2: generate_question — AI 出题",
+          "content": "功能: LLM 生成结构化练习题\n参数: topic (知识点), question_type (mcq/coding/flashcards), difficulty (简单/中等/困难)\nPrompt: prompts/knowledge_importer.txt (temperature=0.8, 高创造性)\n输出: 题目文本 + JSON 块 (type/topic/question/options/answer/explanation/difficulty)\n设计考量:\n  - temperature=0.8 (9个Tool中最高): 题目需要多样性和创造性\n  - JSON 块嵌入回复末尾: 前端可解析并渲染为交互组件\n  - 支持三种题型: MCQ (4选项+正确答案)、Coding (测试用例)、Flashcard (Q&A 200字)\n前端集成: 检测回复中的 JSON 块 → 显示\"保存到题库\"按钮 → 调用 save_question_to_trainer",
+          "tags": ["Tool", "generate_question", "出题", "LLM"]
+        },
+        {
+          "id": "tool-analyze-progress",
+          "type": "concept",
+          "title": "Tool 3 & 4: analyze_progress / diagnose_weakness — 进度诊断",
+          "content": "analyze_progress (进度查询):\n  功能: 读取 progress.json，按领域聚合统计\n  返回: 总答题数、正确率、各领域明细\n  实现: 遍历 progress.exercises，按 topic 聚合 total/correct\n  \ndiagnose_weakness (薄弱诊断):\n  功能: 识别正确率 <70% 且 ≥3次尝试的领域\n  实现: 调用 services.progress_tracker.get_weak_areas() (统一入口，消除重复)\n  返回: 薄弱领域列表 (按正确率升序) + 学习建议\n  规则: ①正确率<70% ②至少3次尝试(避免小样本误判) ③按正确率升序排列\n\n两者关系: analyze_progress 是\"全景视图\"，diagnose_weakness 是\"问题聚焦\"。\n设计演进: 原本 agent_service.py 和 progress_tracker.py 各有一套 _compute_weak_areas，P0 修复统一到 progress_tracker。",
+          "tags": ["Tool", "analyze_progress", "diagnose_weakness", "进度追踪"]
+        },
+        {
+          "id": "tool-evaluate-feynman",
+          "type": "concept",
+          "title": "Tool 6 & 8: evaluate_answer / feynman_check — 答案评估",
+          "content": "evaluate_answer (答案打分):\n  参数: question + user_answer + reference_answer (可选)\n  Prompt: prompts/tool_evaluate_answer.txt\n  评分维度 (4个): 准确性(30%) / 完整性(25%) / 清晰度(25%) / 深度(20%)\n  Temperature: 0.3 (低温度，需要一致稳定的评分)\n  输出: 各维度评分 + 总分 + 优点 + 改进建议\n\nfeynman_check (费曼检查):\n  参数: concept + explanation (用户用自己的话解释)\n  Prompt: prompts/tool_feynman_check.txt\n  评分维度 (4个): 简单性 / 完整性 / 清晰度 / 具体性\n  Temperature: 0.3 (评估任务需要稳定性)\n  核心理念: \"如果你不能简单地解释，你就没有真正理解\"\n  System Prompt: \"把复杂概念讲到12岁孩子也能听懂\"\n\n共性设计:\n  - 都是\"评估型\"Tool，用低温度 (0.3) 保证评分一致性\n  - 都是多维评估，给出具体改进方向而非仅打总分\n  - Prompt 全部外部化到 .txt 文件\n  - 返回结构化文本 (维度+分数+建议)",
+          "tags": ["Tool", "evaluate_answer", "feynman_check", "评估", "费曼"]
+        },
+        {
+          "id": "tool-deep-question",
+          "type": "concept",
+          "title": "Tool 7: deep_question — 深度场景迁移题",
+          "content": "功能: 生成概念迁移/场景应用题，测试深层理解（非记忆复述）\n参数: concept (知识点), user_level (初级/中级/高级)\nPrompt: prompts/tool_deep_question.txt\nTemperature: 0.8 (需要创造性构建场景)\n\n核心理念: 区分\"能背诵定义\"和\"能在新场景中应用\"。\n例如: 不是问\"什么是过拟合\"，而是\"你在电商公司建用户购买预测模型，用了包含10万条记录的10个特征训练，准确率99.9%但上线后效果很差，分析原因并给出解决方案。\"\n\n输出格式: 场景描述 + 问题 + 预期要点",
+          "tags": ["Tool", "deep_question", "场景迁移", "深度学习"]
+        },
+        {
+          "id": "tool-create-study-plan",
+          "type": "concept",
+          "title": "Tool 9: create_study_plan — 个性化学习计划",
+          "content": "功能: 根据薄弱点生成 3-5 步学习计划\n参数: weak_areas_json (可选，为空则自动调用 diagnose_weakness)\nPrompt: prompts/tool_create_study_plan.txt\nTemperature: 0.5 (介于创造和稳定之间)\n\n计划结构:\n  1. 优先攻克最薄弱领域 (每次1个)\n  2. 每天安排内容: 概念学习 → 基础练习 → 进阶题目 → 费曼检验\n  3. 给出时间预估和里程碑\n\n设计特点:\n  - 可接受外部 weak_areas_json (允许其他 Tool 的诊断结果作为输入)\n  - 自动回退: 无输入时自行调用 get_weak_areas()\n  - 输出包含可操作步骤而非泛泛建议",
+          "tags": ["Tool", "create_study_plan", "学习计划", "个性化"]
+        },
+        {
+          "id": "tool-save-question",
+          "type": "concept",
+          "title": "Tool 5: save_question_to_trainer — 题目持久化",
+          "content": "功能: 将 Agent 生成的题目写入训练器临时题库\n参数: question_json (JSON 字符串)\n实现: 调用 services.exercise_store.add() (统一存储层)\n\n验证逻辑:\n  1. JSON 解析 → 格式检查\n  2. 必填字段检查: type, question, answer\n  3. type 值检查: 只能是 mcq/coding/flashcards\n  4. 通过后写入 temp_exercises.json\n\n返回: 题目 ID + 当前临时题库总数\n\n设计演进: 原本 agent_service.py/api_agent.py/api_ai.py 三处各自实现 temp_exercises.json 的读写，P0 统一为 exercise_store.py 服务层。",
+          "tags": ["Tool", "save_question_to_trainer", "持久化", "exercise_store"]
+        }
+      ]
+    },
+    {
+      "id": "rag-pipeline",
+      "title": "RAG 检索增强生成管道",
+      "items": [
+        {
+          "id": "rag-overview",
+          "type": "concept",
+          "title": "RAG 管道总览",
+          "content": "RAG (Retrieval-Augmented Generation) 管道的核心思想: 先检索相关知识，再让 LLM 基于检索结果生成答案。这解决了 LLM 的\"知识截止\"和\"幻觉\"问题。\n\n数据流:\n  原始文档 (MD/PDF)\n    → RecursiveCharacterTextSplitter (chunk_size=500, overlap=50)\n    → bge-m3 Embedding (1024维向量)\n    → ChromaDB 向量存储 (collection: knowledge_base, 3724 docs)\n  \n查询流:\n  用户问题 → bge-m3 Embedding → ChromaDB 余弦相似度搜索 (k=5)\n    → 动态阈值过滤 (ratio=0.85)\n    → 中/英文回退策略\n    → 返回 Top-5 chunks → LLM 基于 chunks 生成答案\n\n当前数据规模:\n  - 3724 个文档块\n  - 来源: 25 个领域 MD + 12 篇 AI 论文 PDF\n  - 评测基线: Hit Rate@5=76.67%, MRR=0.7000, Avg Latency=2.86s",
+          "tags": ["RAG", "管道", "ChromaDB", "embedding"]
+        },
+        {
+          "id": "embedding-model",
+          "type": "concept",
+          "title": "bge-m3 Embedding 模型",
+          "content": "BAAI/bge-m3 是 BAAI 的多语言 embedding 模型，支持中英文混合检索。\n\n核心参数:\n  - 向量维度: 1024\n  - 最大输入长度: 8192 tokens\n  - 模型大小: ~391 个权重文件 (~2.2GB)\n  - 加载方式: sentence-transformers (本地路径)\n  - 编码模式: encode(sentences, normalize_embeddings=True)\n\n选择理由:\n  - 中英文混合检索能力 (覆盖中文知识和英文论文)\n  - 1024维在精度和存储间取得平衡\n  - 开源可本地部署，无 API 调用成本\n  - 支持 normalize_embeddings 使余弦相似度计算更稳定\n\n配置方式:\n  - 环境变量 MODELS_DIR 指定模型目录\n  - 环境变量 EMBEDDING_MODEL 覆盖默认路径\n  - 默认: {BASE_DIR}/models/BAAI/bge-m3",
+          "tags": ["bge-m3", "embedding", "模型", "BAAI"]
+        },
+        {
+          "id": "chromadb-design",
+          "type": "concept",
+          "title": "ChromaDB 向量数据库设计",
+          "content": "ChromaDB 是轻量级开源向量数据库，本项目使用其持久化模式。\n\n配置:\n  - 存储路径: data/chroma_db/\n  - Collection 名: knowledge_base (可配置)\n  - 距离度量: cosine (余弦相似度)\n  - 元数据字段: title, source, text, chunk_index\n\n写入流程 (build_chroma.py):\n  1. 加载文档 (MD from 知识库/导出/ + PDF via pymupdf)\n  2. RecursiveCharacterTextSplitter 分块 (chunk_size=500, overlap=50)\n  3. bge-m3 生成 embedding\n  4. Chroma.add_documents() 批量写入\n\n检索流程 (rag_service.py):\n  1. 对 query 生成 bge-m3 embedding\n  2. collection.query(query_embeddings, n_results=k)\n  3. 动态阈值过滤 (基于相似度分布)\n  4. 中/英文回退策略\n\n优势: 零配置、嵌入式、Python 原生 API\n限制: 单机部署，不支持分布式；大量文档 (>100K) 时性能下降",
+          "tags": ["ChromaDB", "向量数据库", "检索", "存储"]
+        },
+        {
+          "id": "dynamic-threshold",
+          "type": "concept",
+          "title": "动态阈值过滤策略",
+          "content": "固定阈值在不同查询上表现不一致，因此采用动态阈值策略。\n\n算法 (rag_service.py):\n  1. 获取 top-k 个相似度分数\n  2. 按相似度降序排列\n  3. 计算相邻分数比值: ratios[i] = scores[i+1] / scores[i]\n  4. 找到第一个 ratio < DYNAMIC_RATIO (默认0.85) 的位置\n  5. 该位置之后的结果被截断 (相似度骤降表明不相关)\n\n直觉: 如果第1名相似度0.9，第2名0.85，第3名0.82，第4名0.30...\n      第3→4 的比值是 0.30/0.82=0.37 < 0.85，说明前3个相关，之后不相关。\n\n中英文差异化:\n  - 中文 base_threshold=0.45 (中文向量区分度较低)\n  - 英文 base_threshold=0.55 (英文向量区分度较高)\n  - 识别方式: 检测 query 是否含中文字符\n\n回退策略:\n  1. 无中文结果 → 逐字搜索 (使用 zh_core_web_sm 分词)\n  2. 无英文结果 → 用英文关键词重试 (英文更可能在论文中出现)",
+          "tags": ["动态阈值", "过滤", "相似度", "检索策略"]
+        }
+      ]
+    },
+    {
+      "id": "prompt-engineering",
+      "title": "提示词工程系统",
+      "items": [
+        {
+          "id": "prompt-architecture",
+          "type": "concept",
+          "title": "提示词外部化架构",
+          "content": "所有 Prompt 独立存储在 prompts/*.txt，实现\"改提示词不改代码\"。\n\n设计原则:\n  1. 代码与文本分离: Python 只负责加载和格式化，Prompt 内容在 .txt\n  2. 模板变量: 用 Python .format(**vars) 注入动态参数\n  3. 角色分离: 每个 Prompt 只定义一个角色 (System/Tool/场景)\n  4. 中文优先: 所有 Prompt 用中文编写\n  5. 可编辑性: 用记事本就能改，不需要懂 Python\n\n温度参数策略:\n  - 评估类 (evaluate/feynman): 0.3 — 需要稳定一致的评分\n  - 生成类 (question/plan): 0.5-0.8 — 需要多样性和创造性\n  - 搜索类 (knowledge): 0.3 — 需要忠实于检索结果\n  - 综合类 (agent system): 0.3 — 需要理性决策\n\n文件清单:\n  prompts/agent_system.txt         — Agent 角色 + 工具使用规则\n  prompts/tutor.txt                — 通用答疑教练\n  prompts/mock_interview.txt       — 模拟面试官\n  prompts/resume_review.txt        — 简历顾问\n  prompts/knowledge_importer.txt   — 文本→知识点提取\n  prompts/knowledge_internalizer.txt — 论文→方法论卡片\n  prompts/rag.txt                  — RAG 问答模板\n  prompts/tool_evaluate_answer.txt\n  prompts/tool_deep_question.txt\n  prompts/tool_feynman_check.txt\n  prompts/tool_create_study_plan.txt",
+          "tags": ["Prompt", "外部化", "模板", "温度"]
+        }
+      ]
+    },
+    {
+      "id": "blueprint-architecture",
+      "title": "Flask Blueprint 模块化架构",
+      "items": [
+        {
+          "id": "blueprint-design",
+          "type": "concept",
+          "title": "11 Blueprint 拆分设计",
+          "content": "从单一的 api_ai.py (412行, 8个路由) 拆分为 11 个领域 Blueprint。\n\n拆分原则:\n  - 按业务领域拆分 (非按技术层)\n  - 每个 Blueprint 只处理一个领域\n  - 路由前缀: /api/<domain>\n  - 共用 service 层，不互相调用路由\n\n11 Blueprints:\n  1. pages_bp         — GET / 页面路由 (Jinja2 渲染)\n  2. config_bp        — /api/config 服务器状态 + API Key 设置\n  3. code_bp          — /api/code/run 安全 Python 执行\n  4. knowledge_bp     — /api/knowledge/* 知识库 CRUD\n  5. progress_bp      — /api/progress/* 进度追踪\n  6. ai_bp            — /api/ai/* 通用 AI 对话 (2 routes)\n  7. exercises_bp     — /api/exercises/* 练习题 + 临时题库\n  8. resume_bp        — /api/resume/* 简历数据 + AI 审阅\n  9. agent_bp         — /api/agent/* Agent 对话 + 重置\n  10. interview_bp    — /api/interview/* 模拟面试\n  11. import_bp       — /api/import/* 知识导入 + 内化\n\n拆分效果:\n  - api_ai.py: 412行 → 68行 (只保留 tutor + rag-query)\n  - 每个文件职责清晰，修改时不会误伤\n  - 新人看代码可以从 Blueprint 名快速定位功能",
+          "tags": ["Blueprint", "Flask", "模块化", "架构"]
+        },
+        {
+          "id": "service-layer",
+          "type": "concept",
+          "title": "Service 服务层模式",
+          "content": "路由处理器 (route handlers) 应该\"薄\"——只做参数提取和响应打包，业务逻辑在 Service 层。\n\nService 层清单:\n  services/deepseek_client.py   — LLM API 封装 (chat + load_prompt)\n  services/llm_service.py       — LangChain LLM 实例 (单例模式)\n  services/rag_service.py       — RAG 检索 + 增强问答\n  services/agent_service.py     — Agent 工厂 + Tool 定义 + 对话\n  services/progress_tracker.py  — 进度统计 + 薄弱点分析\n  services/exercise_store.py    — 临时题库统一存储 (6个操作)\n  services/insight_store.py     — 方法论卡片存储 (自动去重)\n  services/code_runner.py       — 安全 Python 沙箱执行\n  services/knowledge_loader.py  — 知识库 JSON 加载/搜索\n\n设计原则:\n  1. 路由只做两件事: 读 request → 调 service → 返回 jsonify\n  2. Service 不感知 HTTP (无 request/response 依赖)\n  3. Service 之间可以互相调用 (如 agent → rag_service)\n  4. 单例模式用于 LLM 和 Embedding 模型 (避免重复加载)\n\n典型路由 (2-4行):\n  @bp.route(\"/xxx\", methods=[\"POST\"])\n  def xxx():\n      data = request.get_json()\n      result = some_service.action(**data)\n      return jsonify(result)",
+          "tags": ["Service层", "设计模式", "分层架构"]
+        }
+      ]
+    },
+    {
+      "id": "evaluation",
+      "title": "量化评估体系",
+      "items": [
+        {
+          "id": "eval-rag-metrics",
+          "type": "concept",
+          "title": "RAG 检索评测指标",
+          "content": "评测 RAG 检索质量的三项核心指标:\n\n1. Hit Rate@k: top-k 结果中至少有一个相关文档的比例\n   当前: 76.67% (23/30) @k=5\n   含义: 76.67% 的查询在 top-5 结果中能命中至少一个相关文档\n\n2. MRR (Mean Reciprocal Rank): 第一个相关文档排名的倒数均值\n   MRR = (1/N) × Σ(1/rank_of_first_relevant)\n   当前: 0.7000\n   含义: 平均第一个相关文档排在第 1/0.7 ≈ 1.43 位\n\n3. Avg Relevant@k: top-k 结果中相关文档的平均数量\n   当前: 2.47 @k=5\n   含义: 每次查询平均能找回 2.47 个相关文档\n\n相关性判断 (is_relevant):\n  - 精确来源匹配: chunk.source 与 expected_sources 子串匹配\n  - 关键词匹配: chunk 内容与 expected_keywords 至少 2 个匹配\n\n已知局限:\n  - 中文领域检索弱于英文论文 (7/12 中文查询 miss)\n  - 原因: 英文论文占了 ChromaDB 的大部分向量空间\n  - 改进方向: 扩充中文知识库内容 + 调整 chunk size",
+          "tags": ["评估", "RAG", "Hit Rate", "MRR", "Recall"]
+        },
+        {
+          "id": "eval-agent-metrics",
+          "type": "concept",
+          "title": "Agent 对比评测指标",
+          "content": "评测 Agent vs 直接 LLM 的 10 个任务设计:\n\n任务覆盖 (10个):\n  - 单工具调用 (6个): 知识检索、出题、进度查询、薄弱诊断、费曼检查、答案评估、深度提问\n  - 多工具串行 (3个): 学习计划(2 tools)、综合任务(2 tools)、搜索+诊断(3 tools)\n\n核心指标:\n  - 任务完成率: Agent 10/10 (100%), Direct LLM 0/10 (0%)\n  - Tool 调用准确性: 检查 required_tools 是否都被调用\n  - 延迟对比: Agent 13.2s avg vs Direct 4.7s avg (2.8x)\n  - Tool 调用效率: Agent 平均 1.6 tool calls/任务\n\n评测结论:\n  Agent 以 2.8x 延迟换取了 Direct LLM 无法实现的能力:\n  知识检索、学习诊断、个性化出题、答案评估、费曼检查、学习计划生成\n  Direct LLM 只能\"假装\"调用工具 (输出文本模拟)，没有真正的数据访问能力。",
+          "tags": ["评估", "Agent", "对比", "评测"]
+        }
+      ]
+    },
+    {
+      "id": "engineering-principles",
+      "title": "工程原则与方法论",
+      "items": [
+        {
+          "id": "fourth-wall",
+          "type": "concept",
+          "title": "第四面墙陷阱",
+          "content": "项目最核心的纪律: 先完成再扩展，永远不推半成品。\n\n定义: \"第四面墙\"是戏剧术语，指观众与舞台之间的隐形屏障。在软件开发中，它指的是\"开发者\"和\"系统使用者\"之间的角色混淆——开发者沉浸于技术实现，忘记了系统最终是要被人使用的。\n\n表象:\n  - 功能叠到 80% 就跳到下一个功能\n  - 有代码但没入口 (写了路由没加链接)\n  - 有页面但没数据 (HTML 写好了 API 没接)\n  - 有功能但没人知道 (没有文档)\n\n核心规则:\n  Phase 1: 吃透 — 现有功能完全可用，所有入口打通，数据真实\n  Phase 2: 加能力 — 只在 Phase 1 确认完成后再加新功能\n  Phase 3: 打磨 — CSS 细节、错误处理、边界 case、响应式\n\n对应到 Agent 开发:\n  Phase 1: Agent 能对话 + 调用工具 + 返回结果\n  Phase 2: 9 Tools + Memory + 前端集成\n  Phase 3: P0-P2 工程修复 + CSS utility classes + 评测",
+          "tags": ["工程原则", "第四面墙", "方法论", "纪律"]
+        },
+        {
+          "id": "harness-engineering",
+          "type": "concept",
+          "title": "Harness Engineering (无限细分)",
+          "content": "核心思想: 大问题拆到 AI 能完美解决的小问题，层层聚合。\n\n来源: \"Agentic Harness Engineering\" (arXiv 2605.27366)\n\n三项原则:\n  1. 无限细分: 一个复杂 Agent 功能 (如\"学习诊断\") 拆为 analyze_progress + diagnose_weakness + create_study_plan 三个 Tool，每个 Tool 只做一件事\n  2. 自指循环: Agent 系统本身的知识反哺知识库 (你正在做的事)\n  3. 文件系统优先: 状态存 JSON 而非内存，进程重启不丢数据\n\n在项目中的应用:\n  - 9 个 Tool 各司其职 vs 一个巨大的\"全能\" Tool\n  - progress.json 持久化学习数据\n  - 评测脚本独立运行，不依赖服务器状态\n  - 知识库内容通过脚本批量导入，而非手动录入\n\nToken 效率:\n  - 不锁定架构: 用 LangGraph 而非自研框架\n  - 为算力拐点预留接口: 模型切换只需改 config.py 一行",
+          "tags": ["Harness Engineering", "无限细分", "方法论", "自指"]
+        },
+        {
+          "id": "self-feedback-loop",
+          "type": "concept",
+          "title": "自反馈闭环",
+          "content": "系统的自我改进循环——这是 Agent 项目的\"元能力\"。\n\n五个反馈环:\n\n1. 学习数据→诊断→计划→练习→数据\n   用户答题 → progress.json → diagnose_weakness → create_study_plan → 针对性出题 → 更多数据\n\n2. 闪卡→评分→调度→复习→评分\n   闪卡复习 → 评分(1-5) → SRS 调度 → 下次复习时间 → 再次评分\n\n3. 开发过程→知识库→Agent→开发\n   开发经验 → agent-development.json → search_knowledge 可检索 → 后续开发参考\n\n4. 论文→提取→卡片→搜索→Answer\n   论文 PDF → knowledge_internalizer → insight cards → RAG 检索 → 回答用户问题\n\n5. 评估→发现问题→修复→再评估\n   eval_rag.py → 中文检索弱 → 扩充知识库 → 重新评测 → 对比数据\n\n关键设计:\n  每个反馈环都是\"数据驱动\"的: 有指标、有记录、可对比、可追溯。",
+          "tags": ["自反馈", "闭环", "系统设计", "方法论"]
+        },
+        {
+          "id": "scope-discipline",
+          "type": "concept",
+          "title": "范围纪律 (Scope Discipline)",
+          "content": "回答用户问的问题，不要自动扩展为完整分析。不确定是否深入时先问，别默认。\n\n在 Agent 开发中的体现:\n  1. 用户说\"检查一下X\" → 只检查 X，不顺着往下做\n  2. 用户说\"修复这个bug\" → 只修这个bug，不重构周边代码\n  3. 用户说\"做个对比评测\" → 做 10 个测试用例，不扩展到 50 个\n  4. 三个相似行比一个过早抽象好: 不因为\"以后可能\"而抽象\n\n反例 (避免了):\n  - \"P0 修复硬编码路径\" → 只改路径，不重新设计整个配置系统\n  - \"P1 拆分 api_ai.py\" → 只拆路由，不引入依赖注入框架\n  - \"评测 RAG\" → 做 30 题测试集，不等 300 题再做",
+          "tags": ["范围纪律", "方法论", "沟通"]
+        }
+      ]
+    },
+    {
+      "id": "debug-cases",
+      "title": "排错案例集",
+      "items": [
+        {
+          "id": "debug-api-key-leak",
+          "type": "qa",
+          "question": "API Key 泄露到 Git 历史，如何处理？",
+          "answer": "现象: API Key 在 config.py 中硬编码后提交到 Git。即使后续删除，仍然在 git log 中可见。\n\n根因: .gitignore 未包含 config.py，commit 时未检查 diff。\n\n解决: ①git filter-branch 重写历史 (删除所有涉及该 key 的 blob) ②改为环境变量 DEEPSEEK_API_KEY ③.gitignore 加固 (配置文件中不能有 sk- 开头的字符串) ④pre-commit 检查: grep 'sk-' 并拒绝。\n\n教训: 敏感信息的处理必须在第一次 commit 之前。事后补救需要重写历史 (危险操作)。",
+          "tags": ["debug", "安全", "API Key", "Git"],
+          "difficulty": 2
+        },
+        {
+          "id": "debug-ipv6",
+          "type": "qa",
+          "question": "Flask 应用在 Windows 上仪表盘数据显示\"-\"，浏览器 fetch 失败？",
+          "answer": "现象: 页面正常加载但所有统计数据显示\"-\"，F12 显示 fetch 请求失败。\n\n根因: Flask 默认绑定 127.0.0.1 (IPv4)，但 Windows 浏览器使用 ::1 (IPv6) 发起请求。浏览器安全策略不允许 IPv6 页面请求 IPv4 地址 (跨协议)。\n\n解决: config.py 中 HOST = \"0.0.0.0\" 绑定所有接口。验证: curl http://localhost:5000 和 curl http://127.0.0.1:5000 都能正常返回。\n\n教训: 开发服务器应绑定 0.0.0.0，尤其在 Windows 上开发。",
+          "tags": ["debug", "IPv6", "网络", "Flask"],
+          "difficulty": 1
+        },
+        {
+          "id": "debug-hardcoded-paths",
+          "type": "qa",
+          "question": "代码中包含硬编码路径 (如 D:/models/BAAI/bge-m3) 会导致什么问题？如何修复？",
+          "answer": "问题: 硬编码路径绑定了特定机器的文件系统布局，换一台机器直接报错 (FileNotFoundError)。\n\n修复: ①使用环境变量: os.environ.get(\"MODELS_DIR\", BASE_DIR / \"models\") ②使用项目相对路径: BASE_DIR 作为基准 ③提供合理的默认值: 如果环境变量未设置，使用项目内的路径 ④文档中说明: README.md 中写明需要配置的环境变量。\n\n本项目实际情况: 模型在 D:/models/BAAI/bge-m3，修复后通过设置环境变量 MODELS_DIR=\"D:/models\" 即可在任何路径下运行。",
+          "tags": ["debug", "路径", "可移植性", "环境变量"],
+          "difficulty": 1
+        },
+        {
+          "id": "debug-model-name",
+          "type": "qa",
+          "question": "DeepSeek API 返回 404 \"model not found\"？",
+          "answer": "现象: DeepSeek API 返回 HTTP 404，错误信息 \"The model `deepseek-chat` does not exist\"。\n\n根因: config.py 默认值写的是 \"deepseek-chat\" (DeepSeek API 的旧模型名)，实际应使用 \"deepseek-v4-flash\" (当前最新模型)。\n\n解决: 修改 config.py 默认值为 \"deepseek-v4-flash\"，同时保留 DEEPSEEK_MODEL 环境变量覆盖。\n\n教训: ①API 配置始终加环境变量 override ②模型名会随版本更新变化，使用环境变量方便切换 ③首次配置时先验证 API 连通性。",
+          "tags": ["debug", "API", "模型名", "配置"],
+          "difficulty": 1
+        },
+        {
+          "id": "debug-duplicate-code",
+          "type": "qa",
+          "question": "为什么需要消除代码重复 (如 _compute_weak_areas 和 temp_exercises.json 读写)？",
+          "answer": "问题: 同一逻辑在两个文件中有独立实现，修改时容易不同步，导致行为不一致。\n\n本项目案例:\n  1. _compute_weak_areas: agent_service.py 和 progress_tracker.py 各有一套 (23行重复)。如果修改薄弱点判定规则 (如正确率阈值从70%改为60%)，可能只改了一处。\n  2. temp_exercises.json: agent_service.py / api_agent.py / api_ai.py 三处各自实现读写。一处加了验证逻辑，另外两处不知道。\n\n修复: 统一到 Service 层 (progress_tracker.get_weak_areas / exercise_store)，单一真实来源 (Single Source of Truth)。\n\n检测方法: 搜索同一个文件名/函数名在多个文件中出现 → 检查是否是重复实现。",
+          "tags": ["debug", "代码重复", "DRY", "维护性"],
+          "difficulty": 2
+        },
+        {
+          "id": "debug-agent-cold-start",
+          "type": "qa",
+          "question": "Agent 首次调用为什么慢 (9-12s)？如何优化？",
+          "answer": "原因: 首次调用时 LangGraph + ChromaDB + sentence-transformers (bge-m3) 的导入和模型加载同时发生。bge-m3 需要加载 391 个权重文件 (~2.2GB) 到内存。\n\n解决:\n  1. Lazy import: API 路由中使用 from services.agent_service import agent_chat (不提前导入)\n  2. 单例模式: LLM 和 Embedding 模型只在首次使用时加载，后续调用复用\n  3. 服务器启动时不加载: 不在 server.py 中 import agent_service\n\n效果: 首次 9-12s (可接受)，后续 ~3s。\n\n注意: 冷启动延迟在用户感知层面是\"第一次打开页面AI没反应\"，前端应有 loading 状态反馈 (三点跳动动画)。",
+          "tags": ["debug", "性能", "冷启动", "模型加载"],
+          "difficulty": 2
+        },
+        {
+          "id": "debug-js-syntax",
+          "type": "qa",
+          "question": "浏览器控制台报 \"Missing initializer in const declaration\"，AI 面板无响应？",
+          "answer": "现象: 浏览器 F12 控制台报 JS 语法错误，AI 聊天面板完全无响应。\n\n根因: app.js 中 setOfflineBanner 函数结尾多了个 \"},\"——在 function setOfflineBanner() { ... }, 后又跟了一个 \"},\"。这在 JS 中是孤立的闭括号，导致整个脚本解析失败。\n\n发现: 运行 bash check-js.sh (node -e \"new Function(content)\" 检查每个 JS 文件)。\n\n预防: 每次修改 JS 后运行检查脚本。注意 Edit 工具在处理大段代码替换时可能留下残余括号。",
+          "tags": ["debug", "JavaScript", "语法错误", "前端"],
+          "difficulty": 1
+        },
+        {
+          "id": "debug-chinese-rag",
+          "type": "qa",
+          "question": "中文知识查询在 RAG 中命中率比英文论文低？",
+          "answer": "现象: 30 个评测查询中 7 个未命中，全部是中文知识领域 (Java、CSS、REST API、版本控制等)。\n\n根因: ChromaDB 3724 个文档块中，英文论文内容占了大部分向量空间。中文知识库内容 (知识库/导出/ 25个MD文件) 相对较少。bge-m3 虽然是多语言模型，但向量空间中英文论文的密度更高，中文查询的最近邻容易被英文结果\"挤掉\"。\n\n这不是代码 bug，而是数据分布问题。\n\n解决方向 (待执行):\n  1. 扩充中文知识库内容 (增加更多中文 MD 文件)\n  2. 调整 chunk size (实验 300/500/800 对比)\n  3. 考虑中英文分离索引 (两个 ChromaDB collection)\n  4. 在检索时按语言过滤 (检测 query 语言 → 优先检索对应语言的 chunks)",
+          "tags": ["debug", "RAG", "中文检索", "数据分布"],
+          "difficulty": 3
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,109 @@
+{
+  "suggestions": [
+    {
+      "score_id": "test_score_1",
+      "severity": "WARNING",
+      "category": "security",
+      "title": "测试建议",
+      "description": "这是一条测试建议",
+      "target_file": "test.py",
+      "target_type": "module",
+      "target_id": "test_module",
+      "suggestion_id": "0670c384ba71",
+      "status": "pending",
+      "created_at": "2026-06-21T10:30:19.953743",
+      "attribution_status": "pending",
+      "chain_hash": "b3b7c74b40dee62b"
+    },
+    {
+      "severity": "CRITICAL",
+      "category": "bug_risk",
+      "title": "Critical bug",
+      "description": "test",
+      "target_type": "module",
+      "target_id": "test",
+      "suggestion_id": "632a5df5599c",
+      "status": "pending",
+      "created_at": "2026-06-21T10:30:19.966636",
+      "attribution_status": "pending",
+      "chain_hash": "fa35275d3f89ab8a"
+    },
+    {
+      "severity": "WARNING",
+      "category": "security",
+      "title": "Apply test",
+      "description": "test",
+      "target_type": "module",
+      "target_id": "security_module",
+      "suggestion_id": "03920b6e1198",
+      "status": "applied",
+      "created_at": "2026-06-21T10:30:19.977685",
+      "attribution_status": "pending",
+      "chain_hash": "c24240dfb91c04a2",
+      "applied_at": "2026-06-21T10:30:20.009536",
+      "baseline_scores": {},
+      "applied_commit": "b7bd00afb25feaba93fbc49fc70994670cf563f5",
+      "status_updated_at": "2026-06-21T10:30:20.009546"
+    },
+    {
+      "severity": "SUGGESTION",
+      "category": "doc",
+      "title": "Reject test",
+      "description": "test",
+      "target_type": "module",
+      "target_id": "test",
+      "suggestion_id": "72d74625da2c",
+      "status": "rejected",
+      "created_at": "2026-06-21T10:30:20.015707",
+      "attribution_status": "pending",
+      "chain_hash": "d3fcffa395e15466",
+      "status_updated_at": "2026-06-21T10:30:20.031765"
+    },
+    {
+      "severity": "NITPICK",
+      "category": "maintainability",
+      "title": "Rollback test",
+      "description": "test",
+      "target_type": "module",
+      "target_id": "test",
+      "suggestion_id": "3ab4ed34a0ad",
+      "status": "rolled_back",
+      "created_at": "2026-06-21T10:30:20.036540",
+      "attribution_status": "pending",
+      "chain_hash": "afd3d9835fe6ef96",
+      "status_updated_at": "2026-06-21T10:30:20.049568"
+    },
+    {
+      "severity": "WARNING",
+      "category": "performance",
+      "title": "Effect test",
+      "description": "test",
+      "target_type": "module",
+      "target_id": "test",
+      "suggestion_id": "9d8ad1def038",
+      "status": "pending",
+      "created_at": "2026-06-21T10:30:20.054165",
+      "attribution_status": "attributed",
+      "chain_hash": "507bda742dfce118",
+      "effect_score_delta": 0.15,
+      "attribution_note": "测试归因",
+      "delta_details": {
+        "agent_efficiency": 0.15
+      },
+      "status_updated_at": "2026-06-21T10:30:20.067415"
+    },
+    {
+      "suggestion_id": "c6e5c944d086",
+      "severity": "P0",
+      "category": "review_agent_finding",
+      "description": "出现 OpenAI API 400 错误：'Messages with role \"tool\" must be a response to a preceding message with \"tool_calls\"'，表明 tool 角色消息发送顺序或结构有误，可能中断对话流程。",
+      "status": "pending",
+      "created_at": "2026-06-22T10:13:54.133761",
+      "linked_error_types": [],
+      "source_event_id": "f8a8c428d741",
+      "attribution_status": "pending",
+      "chain_hash": "48b9b3124394564f"
+    }
+  ],
+  "updated_at": "2026-06-22T10:13:54.134030"
+}

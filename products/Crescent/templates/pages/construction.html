@@ -1,0 +1,518 @@
+{% extends "base.html" %}
+{% block title %}施工现场{% endblock %}
+{% block body_class %}page-construction{% endblock %}
+{% block head %}
+<style>
+/* ── Warm construction site background ── */
+.page-construction { position: relative; }
+.page-construction::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background: linear-gradient(180deg, #faf8f5 0%, #f3efe8 50%, #ece6db 100%);
+}
+
+/* ── Warning stripe banner (top) ── */
+.construction-stripe-banner {
+  position: relative;
+  height: 4px;
+  background: repeating-linear-gradient(
+    45deg,
+    #f0b840 0px, #f0b840 10px,
+    #1a1a1a 10px, #1a1a1a 20px
+  );
+  z-index: 2;
+}
+
+/* Particle canvas */
+#constructionParticles {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.construction-wrap {
+  max-width: 880px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 1;
+  padding: 28px 20px 40px;
+}
+
+/* ── Header ── */
+.construction-hero {
+  text-align: center;
+  margin-bottom: 30px;
+  position: relative;
+}
+.construction-hero .hero-icon {
+  display: inline-block;
+  font-size: 36px;
+  margin-bottom: 10px;
+  filter: grayscale(0);
+}
+.construction-hero h2 {
+  font-size: 24px;
+  font-weight: 650;
+  color: #3d2b14;
+  letter-spacing: .02em;
+  margin-bottom: 6px;
+}
+.construction-hero .subtitle {
+  font-size: 13px;
+  color: rgba(61,43,20,.5);
+  max-width: 500px;
+  margin: 0 auto;
+  line-height: 1.7;
+}
+
+/* ── Warning divider ── */
+.warning-divider {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 22px;
+}
+.warning-divider .wd-line {
+  flex: 1;
+  height: 2px;
+  background: repeating-linear-gradient(
+    90deg,
+    #f0b840 0px, #f0b840 8px,
+    #1a1a1a 8px, #1a1a1a 16px
+  );
+  border-radius: 1px;
+}
+.warning-divider .wd-diamond {
+  font-size: 14px;
+  flex-shrink: 0;
+  color: #f0b840;
+}
+
+/* ── Status Panel ── */
+.status-panel {
+  background: #fff;
+  border: 1px solid #e7e3da;
+  border-left: 4px solid #f0b840;
+  border-radius: 4px;
+  padding: 18px 22px;
+  margin-bottom: 20px;
+  box-shadow: 0 1px 3px rgba(0,0,0,.04);
+  position: relative;
+}
+.status-panel h4 {
+  font-size: 13px;
+  font-weight: 650;
+  color: #5d3a1a;
+  margin-bottom: 12px;
+  letter-spacing: .03em;
+  text-transform: uppercase;
+}
+
+/* ── Status Lines ── */
+.status-line {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 8px 0;
+  border-bottom: 1px solid #f3efe8;
+  font-size: 13px;
+  color: #3d2b14;
+}
+.status-line:last-child { border-bottom: none; }
+
+/* Indicator bulb */
+.status-bulb {
+  width: 10px; height: 10px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  position: relative;
+}
+.status-bulb.active {
+  background: #22c55e;
+  box-shadow: 0 0 6px rgba(34,197,94,.3);
+}
+.status-bulb.wip {
+  background: #f0b840;
+  box-shadow: 0 0 6px rgba(240,184,64,.35);
+  animation: bulbPulse 1.5s ease-in-out infinite;
+}
+.status-bulb.planned {
+  background: #94a3b8;
+  box-shadow: none;
+}
+@keyframes bulbPulse {
+  0%, 100% { box-shadow: 0 0 6px rgba(240,184,64,.35); }
+  50% { box-shadow: 0 0 12px rgba(240,184,64,.55); }
+}
+.status-metric {
+  font-weight: 550;
+  font-size: 12px;
+  font-family: 'SF Mono', 'Cascadia Code', 'Consolas', monospace;
+}
+
+/* ── Metric Grid ── */
+.construction-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin-bottom: 22px;
+}
+@media (max-width: 640px) { .construction-grid { grid-template-columns: 1fr; } }
+
+/* Construction card with warning accent */
+.site-card {
+  background: #fff;
+  border: 1px solid #e7e3da;
+  border-radius: 4px;
+  padding: 20px 22px 16px;
+  position: relative;
+  box-shadow: 0 1px 3px rgba(0,0,0,.04);
+  transition: box-shadow .2s;
+  overflow: hidden;
+}
+/* Warning stripe accent — top-right corner only */
+.site-card::after {
+  content: '';
+  position: absolute;
+  top: 0; right: 0;
+  width: 32px; height: 32px;
+  background: repeating-linear-gradient(
+    45deg,
+    #f0b840 0px, #f0b840 5px,
+    #1a1a1a 5px, #1a1a1a 10px
+  );
+  clip-path: polygon(100% 0, 0 0, 100% 100%);
+  opacity: .5;
+}
+.site-card:hover {
+  box-shadow: 0 2px 8px rgba(0,0,0,.08);
+}
+a.site-card:hover { box-shadow: 0 2px 12px rgba(0,0,0,.12); }
+.site-card .card-icon {
+  font-size: 22px;
+  margin-bottom: 8px;
+}
+.site-card h4 {
+  font-size: 14px;
+  font-weight: 650;
+  color: #3d2b14;
+  margin-bottom: 5px;
+}
+.site-card p {
+  font-size: 12px;
+  color: rgba(61,43,20,.5);
+  line-height: 1.6;
+}
+.site-card .tag {
+  display: inline-block;
+  margin-top: 10px;
+  padding: 2px 10px;
+  font-size: 10px;
+  font-weight: 550;
+  letter-spacing: .03em;
+  color: #92400e;
+  background: #fffbeb;
+  border: 1px solid #fde68a;
+  border-radius: 2px;
+}
+
+/* ── Architecture panel ── */
+.arch-panel {
+  background: #fff;
+  border: 1px solid #e7e3da;
+  border-radius: 4px;
+  padding: 18px 22px;
+  box-shadow: 0 1px 3px rgba(0,0,0,.04);
+  position: relative;
+}
+.arch-panel h4 {
+  font-size: 13px;
+  font-weight: 650;
+  color: #5d3a1a;
+  margin-bottom: 10px;
+  letter-spacing: .03em;
+  text-transform: uppercase;
+}
+.arch-panel .arch-text {
+  font-size: 12px;
+  color: rgba(61,43,20,.45);
+  line-height: 1.7;
+  margin-bottom: 14px;
+}
+
+/* ── Metric row ── */
+.metric-row {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+}
+@media (max-width: 640px) { .metric-row { grid-template-columns: repeat(2, 1fr); } }
+.metric-col {
+  text-align: center;
+  padding: 14px 8px;
+  background: #faf8f5;
+  border-radius: 3px;
+  border: 1px solid #ede8df;
+}
+.metric-col .m-value {
+  font-size: 22px;
+  font-weight: 650;
+  color: #3d2b14;
+  font-family: 'SF Mono', 'Cascadia Code', 'Consolas', monospace;
+}
+.metric-col .m-value.m-empty { color: #ccc; }
+.metric-col .m-label {
+  font-size: 10px;
+  color: rgba(61,43,20,.35);
+  margin-top: 3px;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+}
+
+/* ── Footer caution tape ── */
+.construction-footer-stripe {
+  margin-top: 28px;
+  height: 3px;
+  background: repeating-linear-gradient(
+    45deg,
+    #f0b840 0px, #f0b840 8px,
+    #1a1a1a 8px, #1a1a1a 16px
+  );
+  border-radius: 1px;
+  opacity: .5;
+}
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="page-construction">
+<div class="construction-stripe-banner"></div>
+<canvas id="constructionParticles"></canvas>
+<div class="construction-wrap">
+
+  <div class="construction-hero">
+    <div class="hero-icon">&#128679;</div>
+    <h2>施工现场</h2>
+    <p class="subtitle">
+      这里是 Continuum 的"后台"——我们在这里构建系统自我进化能力。
+      可观测、可追溯、可编辑。明天比今天更准。
+    </p>
+  </div>
+
+  <div class="warning-divider">
+    <span class="wd-line"></span>
+    <span class="wd-diamond">&#9670;</span>
+    <span class="wd-line"></span>
+  </div>
+
+  {% if eval_data and eval_data.has_data %}
+  <div class="status-panel">
+    <h4>实时指标</h4>
+    <div class="status-line">
+      <span class="status-bulb active"></span>
+      <span style="flex:1">Eval 评估周期</span>
+      <span class="status-metric" style="color:#22c55e">{% if eval_data.heartbeat %}最近: {{ eval_data.heartbeat }}{% else %}运行中{% endif %}</span>
+    </div>
+    <div class="status-line">
+      <span class="status-bulb {{ 'active' if eval_data.rag_status == 'ok' else 'wip' }}"></span>
+      <span style="flex:1">RAG 知识检索</span>
+      <span class="status-metric" style="color:{{ '#22c55e' if eval_data.rag_status == 'ok' else '#f0b840' }}">{% if eval_data.rag_hit_rate is not none %}Hit@5: {{ (eval_data.rag_hit_rate * 100) | round(1) }}%{% else %}{{ eval_data.rag_status }}{% endif %}</span>
+    </div>
+    <div class="status-line">
+      <span class="status-bulb {{ 'active' if eval_data.meta_result_count and eval_data.meta_result_count > 0 else 'wip' }}"></span>
+      <span style="flex:1">元评估结果</span>
+      <span class="status-metric" style="color:{{ '#22c55e' if eval_data.meta_result_count and eval_data.meta_result_count > 0 else '#f0b840' }}">{{ eval_data.meta_result_count }} 条{% if eval_data.meta_freshness is not none %} | 新鲜度 {{ (eval_data.meta_freshness * 100) | round(1) }}%{% endif %}</span>
+    </div>
+    <div class="status-line">
+      <span class="status-bulb {{ 'active' if eval_data.suggestion_count and eval_data.suggestion_count > 0 else 'planned' }}"></span>
+      <span style="flex:1">离线建议生成</span>
+      <span class="status-metric" style="color:{{ '#22c55e' if eval_data.suggestion_count and eval_data.suggestion_count > 0 else '#94a3b8' }}">{{ eval_data.suggestion_count }} 条建议</span>
+    </div>
+  </div>
+
+  <div class="construction-grid">
+    <a href="/eval" class="site-card" style="text-decoration:none;color:inherit;display:block">
+      <div class="card-icon">&#128200;</div>
+      <h4>Eval 评估仪表盘 <span style="font-size:11px;color:var(--accent);font-weight:400">&rarr; 查看详情</span></h4>
+      <p>影子模式收集 Agent 表现数据。当前 {{ eval_data.config_count }} 个配置{% if eval_data.active_configs %}，{{ eval_data.active_configs | length }} 个活跃{% endif %}。</p>
+      <span class="tag">运行中</span>
+    </a>
+    <a href="/knowledge" class="site-card" style="text-decoration:none;color:inherit;display:block">
+      <div class="card-icon">&#128269;</div>
+      <h4>RAG 检索管道 <span style="font-size:11px;color:var(--accent);font-weight:400">&rarr; 查看详情</span></h4>
+      <p>BM25 + bge-m3 向量 → RRF 融合 → BGE Reranker 精排。{% if eval_data.rag_hit_rate is not none %}当前命中率 {{ (eval_data.rag_hit_rate * 100) | round(1) }}%。{% endif %}</p>
+      <span class="tag">{% if eval_data.rag_status == 'ok' %}运行中{% else %}施工中{% endif %}</span>
+    </a>
+    <a href="/eval#details" class="site-card" style="text-decoration:none;color:inherit;display:block">
+      <div class="card-icon">&#128230;</div>
+      <h4>离线建议管道 <span style="font-size:11px;color:var(--accent);font-weight:400">&rarr; 查看详情</span></h4>
+      <p>从对话日志中自动提取改进建议 → 审核 → 入库。已生成 {{ eval_data.suggestion_count }} 条。</p>
+      <span class="tag">{% if eval_data.suggestion_count and eval_data.suggestion_count > 0 %}运行中{% else %}施工中{% endif %}</span>
+    </a>
+    <a href="/eval#meta" class="site-card" style="text-decoration:none;color:inherit;display:block">
+      <div class="card-icon">&#128736;</div>
+      <h4>元评估系统 <span style="font-size:11px;color:var(--accent);font-weight:400">&rarr; 查看详情</span></h4>
+      <p>用 LLM 评估 LLM 输出，多维度打分，自动聚合趋势。{% if eval_data.meta_result_count %}已评估 {{ eval_data.meta_result_count }} 次。{% endif %}</p>
+      <span class="tag">{% if eval_data.meta_result_count and eval_data.meta_result_count > 0 %}运行中{% else %}待启动{% endif %}</span>
+    </a>
+  </div>
+
+  <div class="arch-panel">
+    <h4>架构概述</h4>
+    <p class="arch-text">Agent → Tool → Harness (5-validator) → Eval Trace → Shadow Mode → Meta Eval → Suggestion Pipeline → Human Review → Knowledge Base。所有链路在影子模式下运行，不阻塞主路径。</p>
+    <div class="metric-row">
+      <div class="metric-col">
+        <div class="m-value">{{ eval_data.config_count }}</div>
+        <div class="m-label">活跃配置</div>
+      </div>
+      <div class="metric-col">
+        <div class="m-value">{% if eval_data.rag_hit_rate is not none %}{{ (eval_data.rag_hit_rate * 100) | round(1) }}{% else %}<span class="m-empty">--</span>{% endif %}</div>
+        <div class="m-label">Hit@5 %</div>
+      </div>
+      <div class="metric-col">
+        <div class="m-value">{{ eval_data.meta_result_count }}</div>
+        <div class="m-label">元评估</div>
+      </div>
+      <div class="metric-col">
+        <div class="m-value">{{ eval_data.suggestion_count }}</div>
+        <div class="m-label">建议</div>
+      </div>
+    </div>
+  </div>
+
+  {% else %}
+  <!-- Fallback: no eval data -->
+  <div class="status-panel">
+    <h4>系统指标（实时）</h4>
+    <div class="status-line">
+      <span class="status-bulb active"></span>
+      <span style="flex:1">ReviewAgent 自我审查</span>
+      <span class="status-metric" style="color:#22c55e">运行中</span>
+    </div>
+    <div class="status-line">
+      <span class="status-bulb wip"></span>
+      <span style="flex:1">Eval 评估模块 — 影子模式</span>
+      <span class="status-metric" style="color:#f0b840">收集中</span>
+    </div>
+    <div class="status-line">
+      <span class="status-bulb wip"></span>
+      <span style="flex:1">知识管道 — 自动同步</span>
+      <span class="status-metric" style="color:#f0b840">定期运行</span>
+    </div>
+    <div class="status-line">
+      <span class="status-bulb planned"></span>
+      <span style="flex:1">多Agent协作编辑流水线</span>
+      <span class="status-metric" style="color:#94a3b8">计划中</span>
+    </div>
+  </div>
+
+  <div class="construction-grid">
+    <a href="/eval#agent" class="site-card" style="text-decoration:none;color:inherit;display:block">
+      <div class="card-icon">&#128269;</div>
+      <h4>ReviewAgent <span style="font-size:11px;color:var(--accent);font-weight:400">&rarr; 查看详情</span></h4>
+      <p>对 Agent 输出做自动审查，发现幻觉、逻辑不一致、来源缺失等问题。</p>
+      <span class="tag">施工中</span>
+    </a>
+    <a href="/eval" class="site-card" style="text-decoration:none;color:inherit;display:block">
+      <div class="card-icon">&#128200;</div>
+      <h4>Eval 评估仪表盘 <span style="font-size:11px;color:var(--accent);font-weight:400">&rarr; 查看详情</span></h4>
+      <p>影子模式收集 Agent 表现数据，分析准确率、幻觉率、用户满意度趋势。</p>
+      <span class="tag">施工中</span>
+    </a>
+    <a href="/knowledge" class="site-card" style="text-decoration:none;color:inherit;display:block">
+      <div class="card-icon">&#128230;</div>
+      <h4>知识管道 <span style="font-size:11px;color:var(--accent);font-weight:400">&rarr; 查看详情</span></h4>
+      <p>从对话中自动提取新知识 → 审核 → 入库 → 下次检索可用。形成知识闭环。</p>
+      <span class="tag">施工中</span>
+    </a>
+    <a href="/architecture" class="site-card" style="text-decoration:none;color:inherit;display:block">
+      <div class="card-icon">&#128736;</div>
+      <h4>系统架构图 <span style="font-size:11px;color:var(--accent);font-weight:400">&rarr; 查看详情</span></h4>
+      <p>CrescentAgent 完整系统架构与模块设计文档。</p>
+      <span class="tag">计划中</span>
+    </a>
+  </div>
+
+  <div class="arch-panel">
+    <h4>架构概述</h4>
+    <p class="arch-text">Agent → Tool → Harness (5-validator) → Eval Trace → Shadow Mode → Meta Eval → Suggestion Pipeline → Human Review → Knowledge Base。所有链路在影子模式下运行，不阻塞主路径。</p>
+    <div class="metric-row">
+      <div class="metric-col">
+        <div class="m-value"><span class="m-empty">--</span></div>
+        <div class="m-label">活跃配置</div>
+      </div>
+      <div class="metric-col">
+        <div class="m-value"><span class="m-empty">--</span></div>
+        <div class="m-label">Hit@5 %</div>
+      </div>
+      <div class="metric-col">
+        <div class="m-value"><span class="m-empty">--</span></div>
+        <div class="m-label">元评估</div>
+      </div>
+      <div class="metric-col">
+        <div class="m-value"><span class="m-empty">--</span></div>
+        <div class="m-label">建议</div>
+      </div>
+    </div>
+  </div>
+  {% endif %}
+
+  <div class="construction-footer-stripe"></div>
+</div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+(function() {
+  var canvas = document.getElementById('constructionParticles');
+  if (!canvas) return;
+  var ctx = canvas.getContext('2d');
+  var w, h, particles = [];
+  var COUNT = 35;
+
+  function resize() {
+    w = canvas.width = window.innerWidth;
+    h = canvas.height = window.innerHeight;
+  }
+  resize();
+  window.addEventListener('resize', resize);
+
+  for (var i = 0; i < COUNT; i++) {
+    particles.push({
+      x: Math.random() * w,
+      y: Math.random() * h,
+      size: 1 + Math.random() * 2,
+      speed: 0.1 + Math.random() * 0.3,
+      opacity: 0.03 + Math.random() * 0.06,
+      drift: (Math.random() - 0.5) * 0.15,
+      hue: Math.random() < 0.3 ? 40 : 25, // mostly warm amber, some darker
+    });
+  }
+
+  function draw() {
+    if (document.hidden) { requestAnimationFrame(draw); return; }
+    ctx.clearRect(0, 0, w, h);
+    for (var i = 0; i < particles.length; i++) {
+      var p = particles[i];
+      p.y -= p.speed;
+      p.x += p.drift;
+      if (p.y < -20) { p.y = h + 20; p.x = Math.random() * w; }
+      if (p.x < -20) p.x = w + 20;
+      if (p.x > w + 20) p.x = -20;
+
+      ctx.fillStyle = 'hsla(' + p.hue + ', 60%, 50%, ' + p.opacity + ')';
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+      ctx.fill();
+    }
+    requestAnimationFrame(draw);
+  }
+  draw();
+})();
+</script>
+{% endblock %}

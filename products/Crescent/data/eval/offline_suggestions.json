@@ -1,0 +1,188 @@
+{
+  "analyzed_at": "2026-06-24T12:00:00.000000+00:00",
+  "rag_regression": {
+    "status": "ok",
+    "baseline_summary": {
+      "total_queries": 30,
+      "k": 5,
+      "hit_rate@5": 0.833,
+      "mrr": 0.78,
+      "avg_relevant@5": 2.87,
+      "avg_latency_ms": 3120.5,
+      "hit_count": 25
+    },
+    "v2_summary": {
+      "config": "bm25-only",
+      "config_label": "纯BM25检索",
+      "k": 3,
+      "hit_rate@3": 0.7333,
+      "mrr": 0.7167,
+      "avg_relevant@3": 1.73,
+      "avg_latency_ms": 37352.7,
+      "hit_count": 22,
+      "total_queries": 30,
+      "timestamp": "2026-06-06T19:33:36.635162"
+    },
+    "findings": [
+      {
+        "severity": "warning",
+        "metric": "latency",
+        "delta_ms": 34489.5,
+        "message": "RAG 延迟增加 +34490ms (baseline=2863ms → v2=37353ms)"
+      }
+    ]
+  },
+  "domain_weakness": {
+    "status": "ok",
+    "all_domains": [
+      {
+        "domain": "项目开发",
+        "mrr": 0.0,
+        "hit_rate": 0.0
+      },
+      {
+        "domain": "框架工具",
+        "mrr": 0.0,
+        "hit_rate": 0.0
+      },
+      {
+        "domain": "Java基础",
+        "mrr": 0.0,
+        "hit_rate": 0.0
+      },
+      {
+        "domain": "Embodied AI",
+        "mrr": 0.25,
+        "hit_rate": 1.0
+      },
+      {
+        "domain": "AI大模型",
+        "mrr": 0.65,
+        "hit_rate": 0.8
+      },
+      {
+        "domain": "AI Agent",
+        "mrr": 0.8214,
+        "hit_rate": 0.8571
+      },
+      {
+        "domain": "Multi-Agent",
+        "mrr": 1.0,
+        "hit_rate": 1.0
+      },
+      {
+        "domain": "AI Benchmark",
+        "mrr": 1.0,
+        "hit_rate": 1.0
+      },
+      {
+        "domain": "Python基础",
+        "mrr": 1.0,
+        "hit_rate": 1.0
+      },
+      {
+        "domain": "数据库",
+        "mrr": 1.0,
+        "hit_rate": 1.0
+      },
+      {
+        "domain": "系统设计",
+        "mrr": 1.0,
+        "hit_rate": 1.0
+      },
+      {
+        "domain": "C++基础",
+        "mrr": 1.0,
+        "hit_rate": 1.0
+      }
+    ],
+    "weak_domains": [
+      {
+        "domain": "项目开发",
+        "mrr": 0.0,
+        "hit_rate": 0.0,
+        "sample_count": 2,
+        "miss_samples": [
+          "软件项目的版本控制最佳实践有哪些？",
+          "前端开发中 CSS Flexbox 和 Grid 布局有什么区别？"
+        ]
+      },
+      {
+        "domain": "框架工具",
+        "mrr": 0.0,
+        "hit_rate": 0.0,
+        "sample_count": 1,
+        "miss_samples": [
+          "RESTful API 设计原则有哪些？"
+        ]
+      },
+      {
+        "domain": "Java基础",
+        "mrr": 0.0,
+        "hit_rate": 0.0,
+        "sample_count": 1,
+        "miss_samples": [
+          "Java 中的面向对象编程四大特性是什么？"
+        ]
+      },
+      {
+        "domain": "Embodied AI",
+        "mrr": 0.25,
+        "hit_rate": 1.0,
+        "sample_count": 1,
+        "miss_samples": []
+      }
+    ]
+  },
+  "data_gaps": [
+    {
+      "severity": "info",
+      "file": "C:\\Users\\16008\\Desktop\\personal\\Write\\portfolio-v3\\portfolio-app\\data\\eval\\scores.json",
+      "message": "eval 元数据文件 scores.json 尚未生成"
+    },
+    {
+      "severity": "info",
+      "file": "C:\\Users\\16008\\Desktop\\personal\\Write\\portfolio-v3\\portfolio-app\\data\\eval\\heartbeat.json",
+      "message": "eval 元数据文件 heartbeat.json 尚未生成"
+    },
+    {
+      "severity": "info",
+      "file": "C:\\Users\\16008\\Desktop\\personal\\Write\\portfolio-v3\\portfolio-app\\data\\eval\\golden_dataset.json",
+      "message": "eval 元数据文件 golden_dataset.json 尚未生成"
+    }
+  ],
+  "suggestions": [
+    {
+      "priority": 1,
+      "category": "rag_performance",
+      "action": "BM25 全量加载导致延迟飙升，考虑缓存预热或限制 BM25 文档数",
+      "trigger": "RAG 延迟增加 +34490ms (baseline=2863ms → v2=37353ms)"
+    },
+    {
+      "priority": 2,
+      "category": "knowledge_gap",
+      "action": "补充 项目开发 领域的知识库文档 (当前 HR=0.0%, MRR=0.000)",
+      "trigger": "miss 样例: ['软件项目的版本控制最佳实践有哪些？', '前端开发中 CSS Flexbox 和 Grid 布局有什么区别？']"
+    },
+    {
+      "priority": 2,
+      "category": "knowledge_gap",
+      "action": "补充 框架工具 领域的知识库文档 (当前 HR=0.0%, MRR=0.000)",
+      "trigger": "miss 样例: ['RESTful API 设计原则有哪些？']"
+    },
+    {
+      "priority": 2,
+      "category": "knowledge_gap",
+      "action": "补充 Java基础 领域的知识库文档 (当前 HR=0.0%, MRR=0.000)",
+      "trigger": "miss 样例: ['Java 中的面向对象编程四大特性是什么？']"
+    },
+    {
+      "priority": 2,
+      "category": "knowledge_gap",
+      "action": "补充 Embodied AI 领域的知识库文档 (当前 HR=100.0%, MRR=0.250)",
+      "trigger": "miss 样例: []"
+    }
+  ],
+  "summary": "共 5 条建议 (P1=1, P2=4, P3=0)",
+  "_mode": "cron"
+}

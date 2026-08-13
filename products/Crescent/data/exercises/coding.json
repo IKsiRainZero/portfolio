@@ -1,0 +1,723 @@
+[
+  {
+    "id": 1,
+    "title": "计算日收益率",
+    "difficulty": 1,
+    "scenario": "从聚宽拿到收盘价，计算日收益率。",
+    "description": "写 calc_returns(prices):\n  输入:价格列表(list of float)\n  返回:日收益率列表，第一项=0.0\n  公式: return[t]=(price[t]-price[t-1])/price[t-1]",
+    "function_name": "calc_returns",
+    "starter_code": "def calc_returns(prices):\n    returns = [0.0]\n    # 你的代码...\n    return returns",
+    "hint": "第一项return 0.0，后面用(prices[i]-prices[i-1])/prices[i-1]",
+    "test_cases": [
+      {
+        "input": [
+          100,
+          101,
+          99,
+          102
+        ],
+        "expected": [
+          0.0,
+          0.01,
+          -0.019801980198019802,
+          0.030303030303030304
+        ]
+      },
+      {
+        "input": [
+          50,
+          50,
+          50
+        ],
+        "expected": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      {
+        "input": [
+          10.5,
+          11.0
+        ],
+        "expected": [
+          0.0,
+          0.047619047619047616
+        ]
+      }
+    ]
+  },
+  {
+    "id": 2,
+    "title": "缺失值前向填充",
+    "difficulty": 2,
+    "scenario": "停牌导致价格None，用最近有效值填充。",
+    "description": "写 ffill(data):\n  输入:可能含None的列表\n  返回:用最近有效值填充后的列表。开头None保持。\n  例:[100,None,None,102,None]->[100,100,100,102,102]",
+    "function_name": "ffill",
+    "starter_code": "def ffill(data):\n    result = []\n    last_valid = None\n    # 你的代码...\n    return result",
+    "hint": "维护last_valid，遇有效值就更新，遇None就用last_valid",
+    "test_cases": [
+      {
+        "input": [
+          100,
+          null,
+          null,
+          102,
+          null
+        ],
+        "expected": [
+          100,
+          100,
+          100,
+          102,
+          102
+        ]
+      },
+      {
+        "input": [
+          null,
+          null,
+          50,
+          null
+        ],
+        "expected": [
+          null,
+          null,
+          50,
+          50
+        ]
+      },
+      {
+        "input": [
+          1,
+          2,
+          3
+        ],
+        "expected": [
+          1,
+          2,
+          3
+        ]
+      }
+    ]
+  },
+  {
+    "id": 3,
+    "title": "移动平均线MA",
+    "difficulty": 2,
+    "scenario": "日历效应只买MA5以上的股票。实现MA计算。",
+    "description": "写 calc_ma(prices,window):\n  输入:价格列表和窗口\n  返回:等长列表，前window-1个填None\n  例:calc_ma([1,2,3,4,5],3)->[None,None,2.0,3.0,4.0]",
+    "function_name": "calc_ma",
+    "starter_code": "def calc_ma(prices, window):\n    result = []\n    # 你的代码...\n    return result",
+    "hint": "sum(prices[i-window+1:i+1])/window",
+    "test_cases": [
+      {
+        "input": {
+          "prices": [
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "window": 3
+        },
+        "expected": [
+          null,
+          null,
+          2.0,
+          3.0,
+          4.0
+        ]
+      },
+      {
+        "input": {
+          "prices": [
+            10,
+            20,
+            30
+          ],
+          "window": 2
+        },
+        "expected": [
+          null,
+          15.0,
+          25.0
+        ]
+      }
+    ]
+  },
+  {
+    "id": 4,
+    "title": "多条件选股",
+    "difficulty": 2,
+    "scenario": "筛选小盘股:pb>0,非ST,市值<100亿,按市值排序。",
+    "description": "写 filter_stocks(stocks):\n  输入:list[dict],每个含code/market_cap/pb/is_st\n  条件:pb>0,is_st=False,market_cap<100\n  返回:符合条件的股票代码,按市值升序",
+    "function_name": "filter_stocks",
+    "starter_code": "def filter_stocks(stocks):\n    # 你的代码...\n    return []",
+    "hint": "列表推导式过滤->sorted(key=lambda x:x['market_cap'])->取code",
+    "test_cases": [
+      {
+        "input": [
+          {
+            "code": "A",
+            "market_cap": 50,
+            "pb": 2.0,
+            "is_st": false
+          },
+          {
+            "code": "B",
+            "market_cap": 200,
+            "pb": 1.5,
+            "is_st": false
+          },
+          {
+            "code": "C",
+            "market_cap": 30,
+            "pb": -1.0,
+            "is_st": false
+          },
+          {
+            "code": "D",
+            "market_cap": 80,
+            "pb": 3.0,
+            "is_st": true
+          },
+          {
+            "code": "E",
+            "market_cap": 20,
+            "pb": 1.0,
+            "is_st": false
+          }
+        ],
+        "expected": [
+          "E",
+          "A"
+        ]
+      }
+    ]
+  },
+  {
+    "id": 5,
+    "title": "最大回撤计算",
+    "difficulty": 3,
+    "scenario": "你的策略用最大回撤止损。实现回撤计算。",
+    "description": "写 max_drawdown(nav_list):\n  输入:净值列表\n  返回:最大回撤比例(正数,如0.15=15%)\n  drawdown=(历史最高-当前)/历史最高",
+    "function_name": "max_drawdown",
+    "starter_code": "def max_drawdown(nav_list):\n    peak = nav_list[0]\n    max_dd = 0.0\n    # 你的代码...\n    return max_dd",
+    "hint": "维护peak历史最高点,遍历nav算(peak-nav)/peak取最大",
+    "test_cases": [
+      {
+        "input": [
+          1.0,
+          1.1,
+          0.9,
+          1.0,
+          0.95
+        ],
+        "expected": 0.18181818181818182
+      },
+      {
+        "input": [
+          1.0,
+          1.2,
+          1.5,
+          1.3,
+          1.4
+        ],
+        "expected": 0.13333333333333333
+      },
+      {
+        "input": [
+          1.0,
+          1.1,
+          1.2
+        ],
+        "expected": 0.0
+      }
+    ]
+  },
+  {
+    "id": 6,
+    "title": "Sobel X 卷积",
+    "difficulty": 2,
+    "scenario": "边缘检测基础：对3×3图像块做Sobel X卷积。",
+    "description": "写 sobel_x_conv(patch):\n  输入: 3x3 的 list of list (灰度值, 0-255)\n  返回: Sobel X 卷积结果(float)\n  Gx 核: [[-1,0,1],[-2,0,2],[-1,0,1]]\n  对patch逐元素乘Gx核对应位置后求和",
+    "function_name": "sobel_x_conv",
+    "starter_code": "def sobel_x_conv(patch):\n    Gx = [[-1,0,1],[-2,0,2],[-1,0,1]]\n    # 你的代码...\n    return result",
+    "hint": "二重循环i,j,patch[i][j]*Gx[i][j]累加即可",
+    "test_cases": [
+      {
+        "input": [
+          [
+            10,
+            20,
+            30
+          ],
+          [
+            40,
+            50,
+            60
+          ],
+          [
+            70,
+            80,
+            90
+          ]
+        ],
+        "expected": 80.0
+      },
+      {
+        "input": [
+          [
+            5,
+            5,
+            5
+          ],
+          [
+            5,
+            5,
+            5
+          ],
+          [
+            5,
+            5,
+            5
+          ]
+        ],
+        "expected": 0.0
+      },
+      {
+        "input": [
+          [
+            100,
+            0,
+            0
+          ],
+          [
+            50,
+            0,
+            0
+          ],
+          [
+            100,
+            0,
+            0
+          ]
+        ],
+        "expected": -300.0
+      }
+    ]
+  },
+  {
+    "id": 7,
+    "title": "2D卷积函数",
+    "difficulty": 3,
+    "scenario": "实现对灰度图像做任意核的二维卷积。",
+    "description": "写 conv2d(image, kernel):\n  输入: image是2D列表(HxW灰度值), kernel是2D列表(奇数×奇数)\n  返回: 卷积结果(2D列表,大小与image相同)\n  边界处理: 边缘外补0(zero-padding)\n  注意: kernel需先翻转180°(标准卷积定义)",
+    "function_name": "conv2d",
+    "starter_code": "def conv2d(image, kernel):\n    H, W = len(image), len(image[0])\n    kH, kW = len(kernel), len(kernel[0])\n    pad_h, pad_w = kH//2, kW//2\n    result = [[0.0]*W for _ in range(H)]\n    # 你的代码...\n    return result",
+    "hint": "1.翻转kernel(kH-1-i, kW-1-j) 2.外层遍历i,j(H*W) 3.内层遍历ki,kj累加image[i+ki-pad]*kernel[ki][kj](注意边界判断)",
+    "test_cases": [
+      {
+        "input": {
+          "image": [
+            [
+              1,
+              2,
+              3
+            ],
+            [
+              4,
+              5,
+              6
+            ],
+            [
+              7,
+              8,
+              9
+            ]
+          ],
+          "kernel": [
+            [
+              1,
+              0,
+              -1
+            ],
+            [
+              1,
+              0,
+              -1
+            ],
+            [
+              1,
+              0,
+              -1
+            ]
+          ]
+        },
+        "expected": [
+          [
+            -8.0,
+            -10.0,
+            -8.0
+          ],
+          [
+            -14.0,
+            -14.0,
+            -14.0
+          ],
+          [
+            -12.0,
+            -10.0,
+            -8.0
+          ]
+        ]
+      }
+    ]
+  },
+  {
+    "id": 8,
+    "title": "非极大值抑制(NMS)",
+    "difficulty": 3,
+    "scenario": "Canny算法的关键步骤：沿梯度方向做NMS细化边缘。",
+    "description": "写 nms(magnitude, angle):\n  magnitude: 2D列表(HxW),梯度幅值\n  angle: 2D列表(HxW),梯度方向(角度,0~180)\n  返回: NMS后的2D列表\n  方向量化: 0~22.5或157.5~180→比较左右; 22.5~67.5→比较对角; 67.5~112.5→比较上下; 112.5~157.5→比较反对角\n  只保留局部最大的像素,其余设为0",
+    "function_name": "nms",
+    "starter_code": "def nms(magnitude, angle):\n    H, W = len(magnitude), len(magnitude[0])\n    result = [[0.0]*W for _ in range(H)]\n    # 你的代码...\n    return result",
+    "hint": "遍历内部像素(1~H-1, 1~W-1),根据angle[yi][xi]选邻居位置,比较后决定保留还是置0",
+    "test_cases": [
+      {
+        "input": {
+          "magnitude": [
+            [
+              1,
+              2,
+              1
+            ],
+            [
+              1,
+              3,
+              1
+            ],
+            [
+              1,
+              1,
+              1
+            ]
+          ],
+          "angle": [
+            [
+              45,
+              0,
+              45
+            ],
+            [
+              90,
+              90,
+              90
+            ],
+            [
+              135,
+              180,
+              135
+            ]
+          ]
+        },
+        "expected": [
+          [
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            3,
+            0
+          ],
+          [
+            0,
+            0,
+            0
+          ]
+        ]
+      }
+    ]
+  },
+  {
+    "title": "实现静默绕过检测函数",
+    "description": "编写一个函数`detect_silent_bypass`，该函数接收一个技能调用日志列表（每个日志是一个字典，包含'skill_name'和'invoked'字段）和一个技能名称字符串，返回该技能是否处于静默绕过模式（即技能名称在日志中出现，但所有记录的'invoked'字段均为False）。如果技能名称不在日志中，也视为静默绕过。",
+    "scenario": "在SkillEvolver的审计过程中，需要检测已部署的技能是否被实际调用。如果技能从未被调用，则可能处于静默绕过模式。",
+    "function_name": "detect_silent_bypass",
+    "starter_code": "def detect_silent_bypass(logs, skill_name):\n    # 你的代码\n    pass",
+    "test_cases": [
+      {
+        "input": {
+          "logs": [
+            {
+              "skill_name": "skill_a",
+              "invoked": true
+            },
+            {
+              "skill_name": "skill_b",
+              "invoked": false
+            },
+            {
+              "skill_name": "skill_a",
+              "invoked": true
+            }
+          ],
+          "skill_name": "skill_b"
+        },
+        "expected": true
+      },
+      {
+        "input": {
+          "logs": [
+            {
+              "skill_name": "skill_a",
+              "invoked": true
+            },
+            {
+              "skill_name": "skill_b",
+              "invoked": true
+            }
+          ],
+          "skill_name": "skill_c"
+        },
+        "expected": true
+      },
+      {
+        "input": {
+          "logs": [
+            {
+              "skill_name": "skill_a",
+              "invoked": true
+            },
+            {
+              "skill_name": "skill_a",
+              "invoked": true
+            }
+          ],
+          "skill_name": "skill_a"
+        },
+        "expected": false
+      }
+    ],
+    "hint": "遍历日志，检查所有与skill_name匹配的记录的invoked字段。如果没有匹配记录，也返回True。",
+    "difficulty": 2,
+    "id": 9
+  },
+  {
+    "title": "实现技能感知反思的轨迹分类",
+    "description": "给定一个当前技能（以字符串表示）和一条任务执行轨迹（包含一系列步骤和结果），实现一个函数 classify_trajectory，返回一个字典，包含 'skill_change_evidence'（需要更新技能的证据列表）和 'execution_lapse_evidence'（执行失误的证据列表）。假设轨迹中的每个步骤是一个字典，包含 'action'（动作描述）、'result'（'success' 或 'failure'）和 'guidance'（当前技能提供的指导）。如果步骤失败且指导与动作一致，则视为执行失误；如果步骤失败且指导与动作不一致或指导缺失，则视为技能改变证据。",
+    "scenario": "具身智能体在执行任务后，需要分析轨迹以决定是更新技能还是保留技能。",
+    "function_name": "classify_trajectory",
+    "starter_code": "def classify_trajectory(skill: str, trajectory: list) -> dict:\n    # 你的代码\n    pass",
+    "test_cases": [
+      {
+        "input": {
+          "skill": "拿起杯子并放到桌子上",
+          "trajectory": [
+            {
+              "action": "移动到杯子位置",
+              "result": "success",
+              "guidance": "移动到杯子位置"
+            },
+            {
+              "action": "抓取杯子",
+              "result": "failure",
+              "guidance": "抓取杯子"
+            },
+            {
+              "action": "放下杯子",
+              "result": "success",
+              "guidance": "将杯子放到桌子上"
+            }
+          ]
+        },
+        "expected": {
+          "skill_change_evidence": [],
+          "execution_lapse_evidence": [
+            {
+              "action": "抓取杯子",
+              "result": "failure",
+              "guidance": "抓取杯子"
+            }
+          ]
+        }
+      },
+      {
+        "input": {
+          "skill": "打开冰箱门",
+          "trajectory": [
+            {
+              "action": "移动到冰箱",
+              "result": "success",
+              "guidance": "移动到冰箱"
+            },
+            {
+              "action": "拉开门",
+              "result": "failure",
+              "guidance": "按开门按钮"
+            }
+          ]
+        },
+        "expected": {
+          "skill_change_evidence": [
+            {
+              "action": "拉开门",
+              "result": "failure",
+              "guidance": "按开门按钮"
+            }
+          ],
+          "execution_lapse_evidence": []
+        }
+      }
+    ],
+    "hint": "检查每个步骤的 result 是否为 'failure'，然后比较 action 和 guidance 是否一致（例如，包含相同的关键动作词）。",
+    "difficulty": 2,
+    "id": 10
+  },
+  {
+    "title": "过滤偶数并平方",
+    "description": "编写一个函数filter_even_square，接收一个整数列表，使用列表推导式返回一个新列表，其中只包含原列表中偶数的平方。",
+    "scenario": "数据处理中需要筛选并转换列表元素",
+    "function_name": "filter_even_square",
+    "starter_code": "def filter_even_square(numbers):\n    # 你的代码\n    pass",
+    "test_cases": [
+      {
+        "input": {
+          "numbers": [
+            1,
+            2,
+            3,
+            4,
+            5
+          ]
+        },
+        "expected": [
+          4,
+          16
+        ]
+      },
+      {
+        "input": {
+          "numbers": [
+            10,
+            15,
+            20
+          ]
+        },
+        "expected": [
+          100,
+          400
+        ]
+      },
+      {
+        "input": {
+          "numbers": [
+            1,
+            3,
+            5
+          ]
+        },
+        "expected": []
+      }
+    ],
+    "hint": "使用列表推导式，在for循环后添加if条件过滤偶数，然后对每个元素求平方。",
+    "difficulty": 2,
+    "id": 11
+  },
+  {
+    "title": "平方数列表生成",
+    "description": "编写一个函数，使用列表推导式生成从1到n（包含n）的每个整数的平方组成的列表。输入一个正整数n，输出平方列表。",
+    "scenario": "数据处理中需要快速生成平方数序列",
+    "function_name": "generate_squares",
+    "starter_code": "def generate_squares(n):\n    # 你的代码\n    pass",
+    "test_cases": [
+      {
+        "input": {
+          "n": 5
+        },
+        "expected": [
+          1,
+          4,
+          9,
+          16,
+          25
+        ]
+      },
+      {
+        "input": {
+          "n": 3
+        },
+        "expected": [
+          1,
+          4,
+          9
+        ]
+      },
+      {
+        "input": {
+          "n": 1
+        },
+        "expected": [
+          1
+        ]
+      }
+    ],
+    "hint": "使用列表推导式 [x**2 for x in range(1, n+1)]",
+    "difficulty": 2,
+    "id": 12
+  },
+  {
+    "title": "实现静默绕过检测函数",
+    "description": "给定一个技能调用日志列表，每个日志是一个字典，包含'skill_name'（技能名称）和'invoked'（布尔值，表示该技能是否被调用）。请实现一个函数detect_silent_bypass，找出所有内容看似有效（即技能名称非空）但从未被调用（invoked为False）的技能。函数应返回一个包含这些技能名称的列表。",
+    "scenario": "在智能体技能审计系统中，需要自动检测“静默绕过”模式，即技能内容有效但未被实际调用。",
+    "function_name": "detect_silent_bypass",
+    "starter_code": "def detect_silent_bypass(logs):\n    # logs: list of dict, each with 'skill_name' (str) and 'invoked' (bool)\n    # 返回从未被调用的技能名称列表\n    pass",
+    "test_cases": [
+      {
+        "input": {
+          "logs": [
+            {
+              "skill_name": "fill_spreadsheet",
+              "invoked": false
+            },
+            {
+              "skill_name": "parse_data",
+              "invoked": true
+            }
+          ]
+        },
+        "expected": [
+          "fill_spreadsheet"
+        ]
+      },
+      {
+        "input": {
+          "logs": [
+            {
+              "skill_name": "optimize_kernel",
+              "invoked": false
+            },
+            {
+              "skill_name": "",
+              "invoked": false
+            },
+            {
+              "skill_name": "validate_schema",
+              "invoked": true
+            }
+          ]
+        },
+        "expected": [
+          "optimize_kernel"
+        ]
+      }
+    ],
+    "hint": "注意过滤掉技能名称为空的日志，只考虑技能名称非空且invoked为False的情况。",
+    "difficulty": 2,
+    "id": 13
+  }
+]

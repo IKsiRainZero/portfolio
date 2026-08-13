@@ -1,0 +1,18 @@
+{
+  "benchmark": "CRUD-RAG (ACM TOIS 2025)",
+  "dataset": "AndrewTsai0406/CRUD_RAG_3QA",
+  "sample_size": 150,
+  "random_seed": 42,
+  "pipeline": "bge-m3 + BM25 + jieba (混合检索, k=5)",
+  "retrieval": {
+    "hit_rate@5": 0.9933,
+    "mrr": 0.9758,
+    "avg_latency_ms": 149.0,
+    "total_queries": 150
+  },
+  "generation": {
+    "bleu-1": 0.374,
+    "rouge-l": 0.6103
+  },
+  "timestamp": 1781844183
+}

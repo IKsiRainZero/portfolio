@@ -1,0 +1,149 @@
+{
+  "metric": "定位误差 (Source Localization Error)",
+  "description": "来源追溯搜索准确度: 已知来源的声明能在搜索结果中找到正确域名",
+  "sample_size": 10,
+  "hit_rate": "6/10 (60.0%)",
+  "mrr": 0.3333,
+  "mean_rank": 2.5,
+  "missed": 4,
+  "details": [
+    {
+      "id": 1,
+      "claim": "Transformer使用自注意力机制替代RNN的循环结构",
+      "expected_domain": "arxiv.org",
+      "hit": true,
+      "rank": 2,
+      "rr": 0.5,
+      "total_sources_found": 5,
+      "top3_urls": [
+        "https://id2223kth.github.io/papers/2017+-+Attention+Is+All+You+Need.pdf",
+        "https://arxiv.org/abs/1706.03762",
+        "https://research.google/pubs/attention-is-all-you-need/"
+      ]
+    },
+    {
+      "id": 2,
+      "claim": "ResNet通过残差连接解决了深层网络的梯度消失问题",
+      "expected_domain": "arxiv.org",
+      "hit": true,
+      "rank": 1,
+      "rr": 1.0,
+      "total_sources_found": 5,
+      "top3_urls": [
+        "https://arxiv.org/abs/1512.03385",
+        "https://analyticsindiamag.com/it-services/why-resnets-are-a-major-breakthrough-in-image-processing",
+        "https://medium.com/@parimala.anja/deep-residual-learning-for-image-recognition-kaiming-he-xiangyu-zhang-shaoqing-ren-jian-sun-c86cdbab403c"
+      ]
+    },
+    {
+      "id": 3,
+      "claim": "RAG结合了检索和生成来提高LLM的事实准确性",
+      "expected_domain": "arxiv.org",
+      "hit": true,
+      "rank": 4,
+      "rr": 0.25,
+      "total_sources_found": 5,
+      "top3_urls": [
+        "https://en.wikipedia.org/wiki/Retrieval-augmented_generation",
+        "https://juggerinsight.com/en/how-rag-reduces-ai-hallucinations/",
+        "https://blogs.nvidia.com/blog/what-is-retrieval-augmented-generation/"
+      ]
+    },
+    {
+      "id": 4,
+      "claim": "Python的GIL限制了多线程CPU密集型任务的性能",
+      "expected_domain": "python.org",
+      "hit": true,
+      "rank": 3,
+      "rr": 0.3333,
+      "total_sources_found": 5,
+      "top3_urls": [
+        "https://lzwjava.github.io/notes/2025-06-28-gils-thread-limitation-en",
+        "https://realpython.com/python-gil/",
+        "https://wiki.python.org/moin/GlobalInterpreterLock"
+      ]
+    },
+    {
+      "id": 5,
+      "claim": "LoRA通过低秩分解实现大模型的高效微调",
+      "expected_domain": "arxiv.org",
+      "hit": false,
+      "rank": null,
+      "rr": 0.0,
+      "total_sources_found": 1,
+      "top3_urls": [
+        ""
+      ]
+    },
+    {
+      "id": 6,
+      "claim": "Canny边缘检测使用双阈值来区分强弱边缘",
+      "expected_domain": "wikipedia.org",
+      "hit": true,
+      "rank": 1,
+      "rr": 1.0,
+      "total_sources_found": 5,
+      "top3_urls": [
+        "https://en.wikipedia.org/wiki/Canny_edge_detector",
+        "https://scispace.com/pdf/feature-extraction-in-batik-image-geometric-motif-using-45xuhsnc2s.pdf",
+        "https://apxml.com/courses/introduction-to-computer-vision/chapter-4-introduction-feature-detection/canny-edge-detector"
+      ]
+    },
+    {
+      "id": 7,
+      "claim": "Diffusion模型通过逐步去噪来生成图像",
+      "expected_domain": "arxiv.org",
+      "hit": false,
+      "rank": null,
+      "rr": 0.0,
+      "total_sources_found": 5,
+      "top3_urls": [
+        "https://drpress.org/ojs/index.php/HSET/article/download/24652/24147",
+        "https://hal.science/hal-04909772v1/document",
+        "https://openreview.net/pdf?id=Oz7lKWVh45H"
+      ]
+    },
+    {
+      "id": 8,
+      "claim": "CLIP通过对比学习联合训练图像和文本编码器",
+      "expected_domain": "arxiv.org",
+      "hit": false,
+      "rank": null,
+      "rr": 0.0,
+      "total_sources_found": 5,
+      "top3_urls": [
+        "https://medium.com/@abdullahsamilguser/clip-contrastive-language-image-pretraining-83b8913cb7eb",
+        "https://pub.aimind.so/introduction-to-clip-contrastive-language-image-pretraining-5748d2081384",
+        "https://openai.com/index/clip/"
+      ]
+    },
+    {
+      "id": 9,
+      "claim": "Chromadb是一个开源向量数据库用于AI应用",
+      "expected_domain": "github.com",
+      "hit": false,
+      "rank": null,
+      "rr": 0.0,
+      "total_sources_found": 5,
+      "top3_urls": [
+        "https://colab.research.google.com/github/peremartra/Large-Language-Model-Notebooks-Course/blob/main/2-Vector+Databases+with+LLMs/2_1_Vector_Databases_LLMs.ipynb",
+        "https://launchweek.dev/integrations/vector-db-integrations/chromadb",
+        "https://www.jitendrazaa.com/blog/salesforce/talk-to-salesforce-data-using-openai-langchain-chroma/"
+      ]
+    },
+    {
+      "id": 10,
+      "claim": "DuckDuckGo是一个注重隐私的搜索引擎",
+      "expected_domain": "duckduckgo.com",
+      "hit": true,
+      "rank": 4,
+      "rr": 0.25,
+      "total_sources_found": 5,
+      "top3_urls": [
+        "https://www.cloudwards.net/search-engines-that-dont-track/",
+        "https://www.guru99.com/private-search-engines-anonymous-no-tracking.html",
+        "https://www.hongkiat.com/blog/private-search-engines/"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,59 @@
+.page {
+  padding: var(--cr-space-2xl) var(--cr-space-xl);
+  max-width: 780px;
+  margin: 0 auto;
+  display: flex; flex-direction: column; gap: var(--cr-space-2xl);
+}
+
+.narrator {
+  display: flex; align-items: center; gap: var(--cr-space-md);
+  padding: var(--cr-space-md) var(--cr-space-lg);
+  border-radius: var(--cr-radius-lg);
+  background: var(--cr-surface1);
+  border: 1px dashed var(--cr-border-hv);
+}
+.narratorIcon {
+  font-size: 20px; flex-shrink: 0;
+}
+.narratorText {
+  font-size: 13px; color: var(--cr-text2); line-height: 1.7;
+}
+
+.legend {
+  display: flex; gap: var(--cr-space-lg);
+  padding: var(--cr-space-sm) 0;
+}
+.legendItem {
+  display: flex; align-items: center; gap: 6px;
+  font-size: 11px; color: var(--cr-text3); font-family: var(--cr-mono);
+}
+.legendSwatch {
+  width: 10px; height: 10px; border-radius: 2px; flex-shrink: 0;
+}
+.swatchMust { background: var(--cr-red); }
+.swatchRec  { background: var(--cr-yellow); }
+.swatchOpt  { background: var(--cr-text3); opacity: 0.4; }
+
+.stateBadge {
+  font-size: 9px; font-weight: 600; padding: 2px 8px;
+  border-radius: var(--cr-radius-sm);
+  letter-spacing: 0.04em; text-transform: uppercase;
+}
+
+.confirmBar {
+  display: flex; justify-content: flex-end;
+}
+.confirmBtn {
+  padding: 12px 28px;
+  border-radius: var(--cr-radius);
+  border: none;
+  background: var(--cr-accent);
+  color: #fff;
+  font-size: 14px; font-weight: 600;
+  cursor: pointer;
+  transition: all var(--cr-dur-fast) var(--cr-ease);
+}
+.confirmBtn:hover { background: var(--cr-accent-hv); }
+.confirmBtn:disabled {
+  opacity: 0.35; cursor: not-allowed;
+}

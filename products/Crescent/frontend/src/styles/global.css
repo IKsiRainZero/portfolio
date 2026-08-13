@@ -1,0 +1,37 @@
+/* === Workbench Page Shell === */
+
+#root {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  overflow: hidden;
+}
+
+/* Top bar — minimal, subtle */
+.wb-topbar {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  height: 40px;
+  padding: 0 20px;
+  flex-shrink: 0;
+  position: relative;
+  border-bottom: 1px solid var(--cr-border);
+  background: var(--cr-base);
+  z-index: 10;
+}
+.wb-topbar-brand {
+  font-family: var(--cr-mono);
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--cr-text3);
+  letter-spacing: 0.04em;
+}
+.wb-topbar-spacer { flex: 1; }
+.wb-back-link {
+  font-size: 11px;
+  color: var(--cr-text3);
+  text-decoration: none;
+  transition: color var(--cr-dur-fast) var(--cr-ease);
+}
+.wb-back-link:hover { color: var(--cr-text2); }

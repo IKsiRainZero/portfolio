@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{% block title %}Crescent{% endblock %} — 终生学习伙伴</title>
+<link rel="stylesheet" href="/static/css/global.css?v=3">
+<link rel="stylesheet" href="/static/css/components.css?v=2">
+<link rel="stylesheet" href="/static/css/print.css?v=2" media="print">
+{% block head %}{% endblock %}
+<style>
+/* Source trace sidebar */
+.source-sidebar {
+  position: fixed; right: 0; top: 0; height: 100vh; width: 380px;
+  z-index: 200; background: #fefefb; border-left: 1px solid #e7e3da;
+  box-shadow: -4px 0 24px rgba(0,0,0,0.08);
+  display: flex; flex-direction: column;
+  animation: sourceSlideIn 0.25s ease-out;
+}
+@keyframes sourceSlideIn {
+  from { transform: translateX(100%); }
+  to { transform: translateX(0); }
+}
+.source-sidebar-header {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 16px 20px; border-bottom: 1px solid #e7e3da;
+  font-weight: 600; font-size: 15px;
+}
+.source-sidebar-close {
+  background: none; border: none; font-size: 20px; cursor: pointer;
+  color: #888; padding: 0 4px; line-height: 1;
+}
+.source-sidebar-body { flex: 1; overflow-y: auto; padding: 20px; }
+.source-ref { font-size: 0.85em; color: #8b7355; }
+.source-link {
+  color: #6b4c2a; text-decoration: underline;
+  text-decoration-style: dotted; text-underline-offset: 3px;
+  cursor: pointer;
+}
+.source-link:hover { color: #3d2b14; text-decoration-style: solid; }
+@media (max-width: 640px) {
+  .source-sidebar { width: 100vw; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .source-sidebar { animation: none; }
+}
+/* Deep thinking toggle */
+.deep-think-toggle {
+  display: inline-flex; align-items: center; gap: 4px;
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 16px; padding: 3px 10px 3px 6px;
+  font-size: 11px; font-family: inherit; cursor: pointer;
+  color: var(--text2); transition: all .15s;
+  white-space: nowrap;
+}
+.deep-think-toggle:hover { border-color: var(--accent); color: var(--text); }
+.deep-think-toggle.on { background: #fef3c7; border-color: #f59e0b; color: #92400e; }
+.deep-think-toggle .dt-icon { font-size: 13px; }
+.deep-think-toggle .dt-dot {
+  width: 6px; height: 6px; border-radius: 50%; background: #d1d5db;
+  transition: background .15s;
+}
+.deep-think-toggle.on .dt-dot { background: #f59e0b; }
+</style>
+</head>
+<body class="{% block body_class %}page-home{% endblock %}">
+
+<!-- Transition overlay: masks white flash between page exit and enter -->
+<div id="transition-overlay"></div>
+
+<div class="app">
+  <!-- Sidebar — light, clean, collapsible -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-logo">
+      <span class="logo-icon"></span><span>Crescent</span>
+    </div>
+    <nav class="sidebar-nav">
+      <div class="nav-section-label">学习桌面</div>
+      <a class="nav-item active" href="/" data-page="home">
+        <span class="nav-icon">&#9749;</span><span>同桌</span>
+      </a>
+      <a class="nav-item" href="/classroom" data-page="classroom">
+        <span class="nav-icon">&#127979;</span><span>教室</span>
+      </a>
+      <a class="nav-item" href="/interview" data-page="interview">
+        <span class="nav-icon">&#127970;</span><span>公司</span>
+      </a>
+      <a class="nav-item" href="/trainer" data-page="trainer">
+        <span class="nav-icon">&#9998;</span><span>训练器</span>
+      </a>
+      <a class="nav-item" href="/textbook" data-page="textbook">
+        <span class="nav-icon">&#128218;</span><span>课本·知识库</span>
+      </a>
+      <a class="nav-item" href="/research" data-page="research">
+        <span class="nav-icon">&#128269;</span><span>调研</span>
+      </a>
+      <a class="nav-item" href="/study-plan" data-page="study-plan">
+        <span class="nav-icon">&#9733;</span><span>学习计划</span>
+      </a>
+
+      <div class="nav-section-label">系统</div>
+      <a class="nav-item nav-item-construction" href="/construction" data-page="construction">
+        <span class="nav-icon">&#128679;</span><span>施工现场</span>
+      </a>
+      <a class="nav-item" href="/impressions" data-page="impressions">
+        <span class="nav-icon">&#128210;</span><span>印象</span>
+      </a>
+
+      <div class="nav-section-label" style="border-top:1px solid var(--sidebar-border);padding-top:14px;margin-top:6px">工具模式</div>
+      <a class="nav-item nav-item-workbench" href="/workbench" data-page="workbench">
+        <span class="nav-icon">&#9881;</span><span>工作台</span>
+      </a>
+    </nav>
+    <div class="sidebar-footer">
+      <button class="sidebar-collapse-btn" onclick="App.toggleSidebar()" title="收起侧边栏">«</button>
+      <button class="sidebar-collapse-btn" onclick="App.openSessionHistory()" title="会话历史" style="margin-left:4px">⌛</button>
+      <span id="sidebarStatus" style="font-size:10px;margin-left:8px"></span>
+    </div>
+  </aside>
+
+  <!-- Main -->
+  <main class="main">
+    <!-- Floating utilities (top-right) -->
+    <div class="util-bar">
+      <div class="model-switcher" id="modelSwitcher">
+        <button class="model-switch-btn" id="modelSwitchBtn" onclick="App.toggleModelDropdown()" title="切换模型">
+          <span class="model-indicator" id="modelIndicator"></span>
+          <span id="modelSwitchLabel">加载中...</span>
+          <span class="model-caret">▾</span>
+        </button>
+        <div class="model-dropdown hidden" id="modelDropdown">
+          <div class="model-dropdown-header">切换模型</div>
+          <div class="model-list" id="modelList"></div>
+          <div class="model-dropdown-footer">
+            <button class="btn btn-sm btn-ghost" onclick="App.openModelModal()" style="width:100%;font-size:11px">+ 添加模型</button>
+          </div>
+        </div>
+      </div>
+      <button class="deep-think-toggle" id="deepThinkToggle" onclick="App.toggleDeepThinking()" title="深度思考：关闭（单轮对话，省Token）">
+        <span class="dt-icon">⚡</span>
+        <span class="dt-label">深度思考</span>
+        <span class="dt-dot" id="dtDot"></span>
+      </button>
+      <a href="/settings" class="btn btn-sm btn-ghost" style="font-size:12px;padding:3px 8px" title="设置">&#9881;</a>
+    </div>
+    <!-- Offline Banner -->
+    <div id="offlineBanner" style="display:none;background:#fee2e2;color:#991b1b;padding:6px 16px;text-align:center;font-size:11px;border-bottom:1px solid #fca5a5">
+      服务器离线 — AI 功能不可用，请启动 <code>python server.py</code> 后刷新。
+    </div>
+    <div class="content" id="mainContent">
+      {% block content %}
+      <div class="empty-state"><h3>加载中...</h3></div>
+      {% endblock %}
+    </div>
+  </main>
+</div>
+
+<!-- Add Model Modal -->
+<div class="modal-overlay hidden" id="modelModal">
+  <div class="modal" style="max-width:380px">
+    <h2>添加模型</h2>
+    <label>模型名称</label>
+    <input type="text" id="newModelName" placeholder="如 llama3.1:8b 或 deepseek-v4-flash">
+    <label style="margin-top:8px">Provider</label>
+    <select id="newModelProvider" style="width:100%;padding:6px 8px;border:1px solid var(--border);border-radius:4px;font-size:13px">
+      <option value="local">本地 (Ollama)</option>
+      <option value="deepseek">DeepSeek API</option>
+    </select>
+    <div id="newModelApiKeyRow" style="display:none;margin-top:8px">
+      <label>API Key</label>
+      <input type="password" id="newModelApiKey" placeholder="sk-... (留空则用服务器配置的Key)">
+    </div>
+    <div id="newModelBaseUrlRow" style="display:none;margin-top:8px">
+      <label>Base URL</label>
+      <input type="text" id="newModelBaseUrl" placeholder="https://api.deepseek.com">
+    </div>
+    <p class="text-meta mb-12" style="font-size:11px">
+      <span id="newModelHint">本地模型需先 ollama pull 下载到本地</span>
+    </p>
+    <div class="modal-actions">
+      <button class="btn" onclick="App.closeModelModal()">取消</button>
+      <button class="btn btn-primary" onclick="App.addModel()">添加</button>
+    </div>
+  </div>
+</div>
+
+<!-- Settings Modal -->
+<div class="modal-overlay hidden" id="settingsModal">
+  <div class="modal">
+    <h2>API 设置</h2>
+    <div id="apiKeyStatus" style="font-size:12px;margin-bottom:8px"></div>
+    <label>API Key</label>
+    <input type="password" id="apiKeyInput" placeholder="输入 API Key (sk-... 或 ollama 留空)">
+    <p class="text-meta mb-12">
+      Key 持久化在服务器端 <code>data/user_data/</code>（已 gitignore），重启不丢失。
+    </p>
+    <div class="modal-actions">
+      <button class="btn" onclick="App.closeSettings()">取消</button>
+      <button class="btn btn-primary" onclick="App.saveSettings()">保存</button>
+    </div>
+  </div>
+</div>
+
+<!-- Session History Modal -->
+<div class="modal-overlay hidden" id="sessionHistoryModal">
+  <div class="modal" style="max-width:440px">
+    <h2>会话历史</h2>
+    <p class="text-meta" style="margin-bottom:12px">点击切换到对应会话页面，自动加载历史对话。</p>
+    <div id="sessionHistoryList" style="max-height:360px;overflow-y:auto;margin:-8px -14px 0"></div>
+    <div class="modal-actions">
+      <button class="btn" onclick="App.closeSessionHistory()">关闭</button>
+    </div>
+  </div>
+</div>
+
+<script src="/static/js/app.js?v=2"></script>
+{% block scripts %}{% endblock %}
+<!-- Source trace sidebar -->
+<div class="source-sidebar" id="sourceSidebar" style="display:none">
+  <div class="source-sidebar-header">
+    <span>知识溯源</span>
+    <button class="source-sidebar-close" onclick="SourceSidebar.hide()" aria-label="关闭">×</button>
+  </div>
+  <div class="source-sidebar-body" id="sourceSidebarBody">
+    <div class="pipeline-loading">加载中...</div>
+  </div>
+</div>
+
+<!-- 审查 Agent 浮动按钮（全局） -->
+<style>
+.review-float-btn {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 20;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 1px solid #c8c0d8;
+  background: #f8f6fc;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  transition: all .2s;
+}
+.review-float-btn:hover {
+  transform: scale(1.08);
+  box-shadow: 0 4px 14px rgba(0,0,0,0.1);
+}
+.review-float-dot {
+  display: none;
+  position: absolute;
+  top: 2px;
+  right: 2px;
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: #e53e3e;
+  border: 1px solid #fff;
+}
+.review-float-dot.on { display: block; }
+</style>
+<button class="review-float-btn" id="reviewFloatBtn" title="审查 Agent">
+  &#128269;
+  <span class="review-float-dot" id="reviewFloatDot"></span>
+</button>
+<script>
+(function() {
+  var btn = document.getElementById('reviewFloatBtn');
+  var dot = document.getElementById('reviewFloatDot');
+  var panel = null;
+
+  btn.addEventListener('click', function() {
+    if (panel) { panel.remove(); panel = null; return; }
+    panel = document.createElement('div');
+    panel.style.cssText = 'position:fixed;bottom:68px;right:20px;width:280px;max-height:300px;'
+      + 'background:#fffefb;border:1px solid rgba(0,0,0,0.08);border-radius:12px;'
+      + 'box-shadow:0 4px 24px rgba(0,0,0,0.1);z-index:21;padding:12px 14px;'
+      + 'overflow-y:auto;font-size:12px;';
+    panel.innerHTML = '<div style="font-weight:600;margin-bottom:8px;">审查 Agent</div>'
+      + '<div style="color:var(--text2);">加载中...</div>';
+    document.body.appendChild(panel);
+
+    fetch('/api/agent/review/status')
+      .then(function(r) { return r.json(); })
+      .then(function(d) {
+        var html = '<div style="font-weight:600;margin-bottom:8px;">审查 Agent</div>';
+        html += '<div style="color:var(--text2);margin-bottom:8px;">'
+          + '会话数: ' + (d.session_count || 0) + '</div>';
+
+        var mem = d.memory || {};
+        if (mem.hot_count || mem.warm_count || mem.cold_count) {
+          html += '<div style="margin:6px 0;font-size:11px;">'
+            + '记忆: ' + (mem.hot_count || 0) + ' hot / '
+            + (mem.warm_count || 0) + ' warm / '
+            + (mem.cold_count || 0) + ' cold</div>';
+        }
+
+        html += '<button style="margin-top:8px;padding:4px 12px;border-radius:6px;'
+          + 'border:1px solid var(--border);background:var(--surface);cursor:pointer;font-size:11px;"'
+          + 'onclick="fetch(\'/api/agent/review\',{method:\'POST\'}).then(function(r){return r.json()}).then(function(d){'
+          + 'alert(\'审查完成: \' + (d.suggestions||[]).length + \' 条建议\')'
+          + '})">运行审查</button>';
+
+        panel.innerHTML = html;
+        dot.classList.remove('on');
+      })
+      .catch(function() {
+        panel.innerHTML = '<div style="font-weight:600;">审查 Agent</div><div style="color:var(--text2);">加载失败</div>';
+      });
+  });
+
+  setInterval(function() {
+    if (document.hidden) return;
+    fetch('/api/agent/review/status')
+      .then(function(r) { return r.json(); })
+      .then(function(d) {
+        var mem = d.memory || {};
+        if (mem.hot_count > 0) dot.classList.add('on');
+      })
+      .catch(function() {});
+  }, 120000);
+})();
+</script>
+</body>
+</html>

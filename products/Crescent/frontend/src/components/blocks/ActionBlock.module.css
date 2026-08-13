@@ -1,0 +1,74 @@
+.block {
+  padding: 0;
+}
+
+.header {
+  display: flex; align-items: center; gap: var(--cr-space-sm);
+  margin-bottom: var(--cr-space-lg);
+}
+.title {
+  font-size: 22px; font-weight: 600; color: var(--cr-text1);
+  letter-spacing: -0.02em;
+}
+.badge {
+  font-size: 9px; font-weight: 600; padding: 2px 8px;
+  border-radius: var(--cr-radius-sm);
+  background: var(--cr-green-soft); color: var(--cr-green);
+  letter-spacing: 0.04em; text-transform: uppercase;
+}
+.badgePending { background: var(--cr-accent-soft); color: var(--cr-accent); }
+.badgeEmpty    { background: transparent; color: var(--cr-text3); border: 1px solid var(--cr-border); }
+
+.list {
+  display: flex; flex-direction: column;
+  background: var(--cr-surface1);
+  border-radius: var(--cr-radius-lg);
+  padding: var(--cr-space-sm);
+}
+
+.item {
+  display: flex; align-items: center; gap: var(--cr-space-md);
+  padding: var(--cr-space-md);
+  border-radius: var(--cr-radius);
+  transition: background var(--cr-dur-fast) var(--cr-ease);
+}
+.item:hover { background: var(--cr-surface2); }
+
+.checkbox {
+  width: 18px; height: 18px; border-radius: var(--cr-radius-sm);
+  border: 1.5px solid var(--cr-border-hv);
+  flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+  transition: all var(--cr-dur-fast) var(--cr-ease);
+}
+.checked {
+  background: var(--cr-green); border-color: var(--cr-green);
+}
+.checked::after {
+  content: '';
+  display: block;
+  width: 5px; height: 9px;
+  border: solid #fff;
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg) translateY(-1px);
+}
+
+.text {
+  flex: 1; font-size: 14px; color: var(--cr-text1);
+  min-width: 0;
+}
+.time {
+  font-family: var(--cr-mono); font-size: 10px; color: var(--cr-text3);
+  white-space: nowrap;
+}
+.prio {
+  font-size: 9px; font-weight: 600; padding: 2px 8px; border-radius: var(--cr-radius-sm);
+  white-space: nowrap;
+}
+.prioTag_high   { background: var(--cr-red-soft); color: var(--cr-red); }
+.prioTag_medium { background: var(--cr-accent-soft); color: var(--cr-accent); }
+.prioTag_low    { background: rgba(0,0,0,0.03); color: var(--cr-text3); }
+
+.empty {
+  font-size: 13px; color: var(--cr-text3); font-style: italic;
+}

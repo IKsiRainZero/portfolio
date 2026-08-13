@@ -1,0 +1,33 @@
+{
+  "suggestions": [
+    {
+      "score_id": "test_score_1",
+      "severity": "WARNING",
+      "category": "security",
+      "title": "测试建议",
+      "description": "这是一条测试建议",
+      "target_file": "test.py",
+      "target_type": "module",
+      "target_id": "test_module",
+      "suggestion_id": "0670c384ba71",
+      "status": "pending",
+      "created_at": "2026-06-21T10:30:19.953743",
+      "attribution_status": "pending",
+      "chain_hash": "b3b7c74b40dee62b"
+    },
+    {
+      "severity": "CRITICAL",
+      "category": "bug_risk",
+      "title": "Critical bug",
+      "description": "test",
+      "target_type": "module",
+      "target_id": "test",
+      "suggestion_id": "632a5df5599c",
+      "status": "pending",
+      "created_at": "2026-06-21T10:30:19.966636",
+      "attribution_status": "pending",
+      "chain_hash": "fa35275d3f89ab8a"
+    }
+  ],
+  "updated_at": "2026-06-21T10:30:19.966850"
+}

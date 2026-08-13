@@ -1,0 +1,5098 @@
+{
+  "scores": [
+    {
+      "score_id": "e77103ff3258",
+      "config_id": "knowledge_health",
+      "source": "CODE",
+      "value": 1.0,
+      "details": {
+        "json_total_items": 178,
+        "chroma_chunks": 232,
+        "pending_items": 0,
+        "needs_sync": false,
+        "pending_domains": [],
+        "health_score": 1.0
+      },
+      "created_at": "2026-06-20T15:08:30.981832",
+      "duration_ms": 0
+    },
+    {
+      "score_id": "d4294d6e57a0",
+      "config_id": "error_pattern_match",
+      "source": "CODE",
+      "value": 1.0,
+      "details": {
+        "reviews_scanned": 0,
+        "total_suggestions": 0,
+        "patterns_found": 0,
+        "patterns": [],
+        "pattern_score": 1.0
+      },
+      "created_at": "2026-06-20T15:08:30.984254",
+      "duration_ms": 0
+    },
+    {
+      "score_id": "9f05c2553af1",
+      "config_id": "knowledge_health",
+      "source": "CODE",
+      "value": 1.0,
+      "details": {
+        "json_total_items": 178,
+        "chroma_chunks": 232,
+        "pending_items": 0,
+        "needs_sync": false,
+        "pending_domains": [],
+        "health_score": 1.0
+      },
+      "created_at": "2026-06-20T16:01:01.018436",
+      "duration_ms": 0
+    },
+    {
+      "score_id": "a7dbb73651f0",
+      "config_id": "error_pattern_match",
+      "source": "CODE",
+      "value": 1.0,
+      "details": {
+        "reviews_scanned": 0,
+        "total_suggestions": 0,
+        "patterns_found": 0,
+        "patterns": [],
+        "pattern_score": 1.0
+      },
+      "created_at": "2026-06-20T16:01:01.023993",
+      "duration_ms": 0
+    },
+    {
+      "score_id": "fc62db83786f",
+      "config_id": "knowledge_health",
+      "source": "CODE",
+      "value": 1.0,
+      "details": {
+        "json_total_items": 178,
+        "chroma_chunks": 232,
+        "pending_items": 0,
+        "needs_sync": false,
+        "pending_domains": [],
+        "health_score": 1.0
+      },
+      "created_at": "2026-06-20T16:07:41.616411",
+      "duration_ms": 0
+    },
+    {
+      "score_id": "0e13cf608abf",
+      "config_id": "error_pattern_match",
+      "source": "CODE",
+      "value": 1.0,
+      "details": {
+        "reviews_scanned": 0,
+        "total_suggestions": 0,
+        "patterns_found": 0,
+        "patterns": [],
+        "pattern_score": 1.0
+      },
+      "created_at": "2026-06-20T16:07:41.623520",
+      "duration_ms": 0
+    },
+    {
+      "score_id": "1fa7bcbc3d4e",
+      "config_id": "knowledge_health",
+      "source": "CODE",
+      "value": 1.0,
+      "details": {
+        "json_total_items": 178,
+        "chroma_chunks": 232,
+        "pending_items": 0,
+        "needs_sync": false,
+        "pending_domains": [],
+        "health_score": 1.0
+      },
+      "created_at": "2026-06-20T16:24:20.573355",
+      "duration_ms": 0
+    },
+    {
+      "score_id": "64715f2f932f",
+      "config_id": "error_pattern_match",
+      "source": "CODE",
+      "value": 1.0,
+      "details": {
+        "reviews_scanned": 0,
+        "total_suggestions": 0,
+        "patterns_found": 0,
+        "patterns": [],
+        "pattern_score": 1.0
+      },
+      "created_at": "2026-06-20T16:24:20.579963",
+      "duration_ms": 0
+    },
+    {
+      "score_id": "6f500eebed63",
+      "config_id": "knowledge_health",
+      "source": "CODE",
+      "value": 1.0,
+      "details": {
+        "json_total_items": 178,
+        "chroma_chunks": 232,
+        "pending_items": 0,
+        "needs_sync": false,
+        "pending_domains": [],
+        "health_score": 1.0
+      },
+      "created_at": "2026-06-20T16:29:47.692791",
+      "duration_ms": 0
+    },
+    {
+      "score_id": "8c8200553129",
+      "config_id": "error_pattern_match",
+      "source": "CODE",
+      "value": 1.0,
+      "details": {
+        "reviews_scanned": 0,
+        "total_suggestions": 0,
+        "patterns_found": 0,
+        "patterns": [],
+        "pattern_score": 1.0
+      },
+      "created_at": "2026-06-20T16:29:47.698884",
+      "duration_ms": 0
+    },
+    {
+      "score_id": "5dbaab50f83a",
+      "config_id": "knowledge_health",
+      "source": "CODE",
+      "value": 1.0,
+      "details": {
+        "json_total_items": 178,
+        "chroma_chunks": 232,
+        "pending_items": 0,
+        "needs_sync": false,
+        "pending_domains": [],
+        "health_score": 1.0
+      },
+      "created_at": "2026-06-20T16:49:55.840765",
+      "duration_ms": 0
+    },
+    {
+      "score_id": "bf2161389b45",
+      "config_id": "error_pattern_match",
+      "source": "CODE",
+      "value": 1.0,
+      "details": {
+        "reviews_scanned": 0,
+        "total_suggestions": 0,
+        "patterns_found": 0,
+        "patterns": [],
+        "pattern_score": 1.0
+      },
+      "created_at": "2026-06-20T16:49:55.846696",
+      "duration_ms": 0
+    },
+    {
+      "score_id": "2239d68be3d7",
+      "config_id": "knowledge_health",
+      "source": "CODE",
+      "value": 1.0,
+      "details": {
+        "json_total_items": 178,
+        "chroma_chunks": 232,
+        "pending_items": 0,
+        "needs_sync": false,
+        "pending_domains": [],
+        "health_score": 1.0
+      },
+      "created_at": "2026-06-20T17:49:55.898943",
+      "duration_ms": 0
+    },
+    {
+      "score_id": "d016fe988f64",
+      "config_id": "error_pattern_match",
+      "source": "CODE",
+      "value": 1.0,
+      "details": {
+        "reviews_scanned": 0,
+        "total_suggestions": 0,
+        "patterns_found": 0,
+        "patterns": [],
+        "pattern_score": 1.0
+      },
+      "created_at": "2026-06-20T17:49:55.907196",
+      "duration_ms": 0
+    },
+    {
+      "score_id": "1bbd20c138c1",
+      "config_id": "knowledge_health",
+      "source": "CODE",
+      "value": 1.0,
+      "details": {
+        "json_total_items": 178,
+        "chroma_chunks": 232,
+        "pending_items": 0,
+        "needs_sync": false,
+        "pending_domains": [],
+        "health_score": 1.0
+      },
+      "created_at": "2026-06-20T18:17:27.729408",
+      "duration_ms": 0
+    },
+    {
+      "score_id": "81d051620aef",
+      "config_id": "error_pattern_match",
+      "source": "CODE",
+      "value": 1.0,
+      "details": {
+        "reviews_scanned": 0,
+        "total_suggestions": 0,
+        "patterns_found": 0,
+        "patterns": [],
+        "pattern_score": 1.0
+      },
+      "created_at": "2026-06-20T18:17:27.736251",
+      "duration_ms": 0
+    },
+    {
+      "score_id": "9435d7b47bcc",
+      "config_id": "knowledge_health",
+      "source": "CODE",
+      "value": 1.0,
+      "details": {
+        "json_total_items": 178,
+        "chroma_chunks": 232,
+        "pending_items": 0,
+        "needs_sync": false,
+        "pending_domains": [],
+        "health_score": 1.0
+      },
+      "created_at": "2026-06-20T18:53:47.585392",
+      "duration_ms": 0
+    },
+    {
+      "score_id": "7f440b7a3622",
+      "config_id": "error_pattern_match",
+      "source": "CODE",
+      "value": 1.0,
+      "details": {
+        "reviews_scanned": 0,
+        "total_suggestions": 0,
+        "patterns_found": 0,
+        "patterns": [],
+        "pattern_score": 1.0
+      },
+      "created_at": "2026-06-20T18:53:47.600338",
+      "duration_ms": 0
+    },
+    {
+      "score_id": "6804f1a4bb9d",
+      "config_id": "knowledge_health",
+      "source": "CODE",
+      "value": 1.0,
+      "details": {
+        "json_total_items": 178,
+        "chroma_chunks": 232,
+        "pending_items": 0,
+        "needs_sync": false,
+        "pending_domains": [],
+        "health_score": 1.0
+      },
+      "created_at": "2026-06-20T19:05:55.288945",
+      "duration_ms": 0
+    },
+    {
+      "score_id": "865c71681fb9",
+      "config_id": "error_pattern_match",
+      "source": "CODE",
+      "value": 1.0,
+      "details": {
+        "reviews_scanned": 0,
+        "total_suggestions": 0,
+        "patterns_found": 0,
+        "patterns": [],
+        "pattern_score": 1.0
+      },
+      "created_at": "2026-06-20T19:05:55.298212",
+      "duration_ms": 0
+    },
+    {
+      "score_id": "c2a9ff624b6a",
+      "config_id": "knowledge_health",
+      "source": "CODE",
+      "value": 1.0,
+      "details": {
+        "json_total_items": 178,
+        "chroma_chunks": 232,
+        "pending_items": 0,
+        "needs_sync": false,
+        "pending_domains": [],
+        "health_score": 1.0
+      },
+      "created_at": "2026-06-20T19:41:06.193065",
+      "duration_ms": 0
+    },
+    {
+      "score_id": "3b28936f7857",
+      "config_id": "error_pattern_match",
+      "source": "CODE",
+      "value": 1.0,
+      "details": {
+        "reviews_scanned": 0,
+        "total_suggestions": 0,
+        "patterns_found": 0,
+        "patterns": [],
+        "pattern_score": 1.0
+      },
+      "created_at": "2026-06-20T19:41:06.209876",
+      "duration_ms": 0
+    },
+    {
+      "score_id": "df318ccb436d",
+      "config_id": "knowledge_health",
+      "source": "CODE",
+      "value": 1.0,
+      "details": {
+        "json_total_items": 178,
+        "chroma_chunks": 232,
+        "pending_items": 0,
+        "needs_sync": false,
+        "pending_domains": [],
+        "health_score": 1.0
+      },
+      "created_at": "2026-06-20T20:41:06.262394",
+      "duration_ms": 0
+    },
+    {
+      "score_id": "6d9d0825a566",
+      "config_id": "error_pattern_match",
+      "source": "CODE",
+      "value": 1.0,
+      "details": {
+        "reviews_scanned": 0,
+        "total_suggestions": 0,
+        "patterns_found": 0,
+        "patterns": [],
+        "pattern_score": 1.0
+      },
+      "created_at": "2026-06-20T20:41:06.275882",
+      "duration_ms": 0
+    },
+    {
+      "score_id": "e04453a7cc92",
+      "config_id": "knowledge_health",
+      "source": "CODE",
+      "value": 1.0,
+      "details": {
+        "json_total_items": 178,
+        "chroma_chunks": 232,
+        "pending_items": 0,
+        "needs_sync": false,
+        "pending_domains": [],
+        "health_score": 1.0
+      },
+      "created_at": "2026-06-20T21:41:06.333167",
+      "duration_ms": 0
+    },
+    {
+      "score_id": "5e3652c9b891",
+      "config_id": "error_pattern_match",
+      "source": "CODE",
+      "value": 1.0,
+      "details": {
+        "reviews_scanned": 0,
+        "total_suggestions": 0,
+        "patterns_found": 0,
+        "patterns": [],
+        "pattern_score": 1.0
+      },
+      "created_at": "2026-06-20T21:41:06.340863",
+      "duration_ms": 0
+    },
+    {
+      "score_id": "cf46d0169d0f",
+      "config_id": "knowledge_health",
+      "source": "CODE",
+      "value": 1.0,
+      "details": {
+        "json_total_items": 178,
+        "chroma_chunks": 232,
+        "pending_items": 0,
+        "needs_sync": false,
+        "pending_domains": [],
+        "health_score": 1.0
+      },
+      "created_at": "2026-06-20T22:15:27.701791",
+      "duration_ms": 0
+    },
+    {
+      "score_id": "1fedac62e2ed",
+      "config_id": "error_pattern_match",
+      "source": "CODE",
+      "value": 1.0,
+      "details": {
+        "reviews_scanned": 0,
+        "total_suggestions": 0,
+        "patterns_found": 0,
+        "patterns": [],
+        "pattern_score": 1.0
+      },
+      "created_at": "2026-06-20T22:15:27.716837",
+      "duration_ms": 0
+    },
+    {
+      "score_id": "7b51f994a751",
+      "config_id": "knowledge_health",
+      "source": "CODE",
+      "value": 1.0,
+      "details": {
+        "json_total_items": 178,
+        "chroma_chunks": 232,
+        "pending_items": 0,
+        "needs_sync": false,
+        "pending_domains": [],
+        "health_score": 1.0
+      },
+      "created_at": "2026-06-21T16:30:09.881620",
+      "duration_ms": 0
+    },
+    {
+      "score_id": "924af2c92add",
+      "config_id": "knowledge_health",
+      "source": "CODE",
+      "value": 1.0,
+      "details": {
+        "json_total_items": 178,
+        "chroma_chunks": 232,
+        "pending_items": 0,
+        "needs_sync": false,
+        "pending_domains": [],
+        "health_score": 1.0
+      },
+      "created_at": "2026-06-21T16:30:11.348255",
+      "duration_ms": 0
+    },
+    {
+      "score_id": "d1835621d6d8",
+      "config_id": "knowledge_health",
+      "source": "CODE",
+      "value": 1.0,
+      "details": {
+        "json_total_items": 178,
+        "chroma_chunks": 232,
+        "pending_items": 0,
+        "needs_sync": false,
+        "pending_domains": [],
+        "health_score": 1.0
+      },
+      "created_at": "2026-06-21T16:37:40.259144",
+      "duration_ms": 0
+    },
+    {
+      "score_id": "8b0945804d41",
+      "config_id": "knowledge_health",
+      "source": "CODE",
+      "value": 1.0,
+      "details": {
+        "json_total_items": 178,
+        "chroma_chunks": 232,
+        "pending_items": 0,
+        "needs_sync": false,
+        "pending_domains": [],
+        "health_score": 1.0
+      },
+      "created_at": "2026-06-21T16:39:18.978381",
+      "duration_ms": 0
+    },
+    {
+      "score_id": "bde29e3913b8",
+      "config_id": "knowledge_health",
+      "source": "CODE",
+      "value": 1.0,
+      "details": {
+        "json_total_items": 178,
+        "chroma_chunks": 232,
+        "pending_items": 0,
+        "needs_sync": false,
+        "pending_domains": [],
+        "health_score": 1.0
+      },
+      "created_at": "2026-06-21T16:46:39.313199",
+      "duration_ms": 0
+    },
+    {
+      "score_id": "a48dbc6d277c",
+      "config_id": "knowledge_health",
+      "source": "CODE",
+      "value": 1.0,
+      "details": {
+        "json_total_items": 178,
+        "chroma_chunks": 232,
+        "pending_items": 0,
+        "needs_sync": false,
+        "pending_domains": [],
+        "health_score": 1.0
+      },
+      "created_at": "2026-06-21T16:47:53.479637",
+      "duration_ms": 0
+    },
+    {
+      "score_id": "01c89c62aeb2",
+      "config_id": "knowledge_health",
+      "source": "CODE",
+      "value": 1.0,
+      "details": {
+        "json_total_items": 178,
+        "chroma_chunks": 232,
+        "pending_items": 0,
+        "needs_sync": false,
+        "pending_domains": [],
+        "health_score": 1.0
+      },
+      "created_at": "2026-06-21T17:01:09.593548",
+      "duration_ms": 0
+    },
+    {
+      "score_id": "a80fa7b2a304",
+      "config_id": "knowledge_health",
+      "source": "CODE",
+      "value": 1.0,
+      "details": {
+        "json_total_items": 178,
+        "chroma_chunks": 232,
+        "pending_items": 0,
+        "needs_sync": false,
+        "pending_domains": [],
+        "health_score": 1.0
+      },
+      "created_at": "2026-06-21T17:04:31.149868",
+      "duration_ms": 0
+    },
+    {
+      "score_id": "6eb13c4c480e",
+      "config_id": "knowledge_health",
+      "source": "CODE",
+      "value": 1.0,
+      "details": {
+        "json_total_items": 178,
+        "chroma_chunks": 232,
+        "pending_items": 0,
+        "needs_sync": false,
+        "pending_domains": [],
+        "health_score": 1.0
+      },
+      "created_at": "2026-06-21T17:09:10.452885",
+      "duration_ms": 0
+    },
+    {
+      "score_id": "a72a0fabe75a",
+      "config_id": "knowledge_health",
+      "source": "CODE",
+      "value": 1.0,
+      "details": {
+        "json_total_items": 178,
+        "chroma_chunks": 232,
+        "pending_items": 0,
+        "needs_sync": false,
+        "pending_domains": [],
+        "health_score": 1.0
+      },
+      "created_at": "2026-06-21T17:12:38.566722",
+      "duration_ms": 0
+    },
+    {
+      "score_id": "78cd01337b78",
+      "config_id": "knowledge_health",
+      "source": "CODE",
+      "value": 1.0,
+      "details": {
+        "json_total_items": 178,
+        "chroma_chunks": 232,
+        "pending_items": 0,
+        "needs_sync": false,
+        "pending_domains": [],
+        "health_score": 1.0
+      },
+      "created_at": "2026-06-21T17:17:58.333068",
+      "duration_ms": 0
+    },
+    {
+      "score_id": "c61947e52159",
+      "config_id": "knowledge_health",
+      "source": "CODE",
+      "value": 1.0,
+      "details": {
+        "json_total_items": 178,
+        "chroma_chunks": 232,
+        "pending_items": 0,
+        "needs_sync": false,
+        "pending_domains": [],
+        "health_score": 1.0
+      },
+      "created_at": "2026-06-21T18:00:23.199448",
+      "duration_ms": 0
+    },
+    {
+      "score_id": "e4c4e8c222d6",
+      "config_id": "error_pattern_match",
+      "source": "CODE",
+      "value": 1.0,
+      "details": {
+        "reviews_scanned": 1,
+        "total_suggestions": 2,
+        "patterns_found": 0,
+        "patterns": [],
+        "pattern_score": 1.0
+      },
+      "created_at": "2026-06-21T18:00:23.217172",
+      "duration_ms": 0
+    },
+    {
+      "score_id": "d8399c963f4d",
+      "config_id": "knowledge_health",
+      "source": "CODE",
+      "value": 1.0,
+      "details": {
+        "json_total_items": 178,
+        "chroma_chunks": 232,
+        "pending_items": 0,
+        "needs_sync": false,
+        "pending_domains": [],
+        "health_score": 1.0
+      },
+      "created_at": "2026-06-21T18:17:56.180777",
+      "duration_ms": 0
+    },
+    {
+      "score_id": "3d0b8c95ed18",
+      "config_id": "knowledge_health",
+      "source": "CODE",
+      "value": 1.0,
+      "details": {
+        "json_total_items": 178,
+        "chroma_chunks": 232,
+        "pending_items": 0,
+        "needs_sync": false,
+        "pending_domains": [],
+        "health_score": 1.0
+      },
+      "created_at": "2026-06-21T19:00:23.313864",
+      "duration_ms": 0
+    },
+    {
+      "score_id": "d1acb98aaae4",
+      "config_id": "error_pattern_match",
+      "source": "CODE",
+      "value": 1.0,
+      "details": {
+        "reviews_scanned": 1,
+        "total_suggestions": 2,
+        "patterns_found": 0,
+        "patterns": [],
+        "pattern_score": 1.0
+      },
+      "created_at": "2026-06-21T19:00:23.325473",
+      "duration_ms": 0
+    },
+    {
+      "score_id": "8dd6fb874af3",
+      "config_id": "knowledge_health",
+      "source": "CODE",
+      "value": 1.0,
+      "details": {
+        "json_total_items": 178,
+        "chroma_chunks": 232,
+        "pending_items": 0,
+        "needs_sync": false,
+        "pending_domains": [],
+        "health_score": 1.0
+      },
+      "created_at": "2026-06-21T19:17:56.315554",
+      "duration_ms": 0
+    },
+    {
+      "score_id": "0da8d67ae5fb",
+      "config_id": "knowledge_health",
+      "source": "CODE",
+      "value": 1.0,
+      "details": {
+        "json_total_items": 178,
+        "chroma_chunks": 232,
+        "pending_items": 0,
+        "needs_sync": false,
+        "pending_domains": [],
+        "health_score": 1.0
+      },
+      "created_at": "2026-06-21T19:18:08.435405",
+      "duration_ms": 0
+    },
+    {
+      "score_id": "40fca4731a84",
+      "config_id": "error_pattern_match",
+      "source": "CODE",
+      "value": 1.0,
+      "details": {
+        "reviews_scanned": 1,
+        "total_suggestions": 2,
+        "patterns_found": 0,
+        "patterns": [],
+        "pattern_score": 1.0
+      },
+      "created_at": "2026-06-21T19:18:08.454665",
+      "duration_ms": 0
+    },
+    {
+      "score_id": "2d05710879e3",
+      "config_id": "knowledge_health",
+      "source": "CODE",
+      "value": 1.0,
+      "details": {
+        "json_total_items": 178,
+        "chroma_chunks": 232,
+        "pending_items": 0,
+        "needs_sync": false,
+        "pending_domains": [],
+        "health_score": 1.0
+      },
+      "created_at": "2026-06-21T19:18:39.988059",
+      "duration_ms": 0
+    },
+    {
+      "score_id": "737733517ed2",
+      "config_id": "error_pattern_match",
+      "source": "CODE",
+      "value": 1.0,
+      "details": {
+        "reviews_scanned": 1,
+        "total_suggestions": 2,
+        "patterns_found": 0,
+        "patterns": [],
+        "pattern_score": 1.0
+      },
+      "created_at": "2026-06-21T19:18:40.005969",
+      "duration_ms": 0
+    },
+    {
+      "score_id": "bb0dbf86fe4f",
+      "config_id": "knowledge_health",
+      "source": "CODE",
+      "value": 1.0,
+      "details": {
+        "json_total_items": 178,
+        "chroma_chunks": 232,
+        "pending_items": 0,
+        "needs_sync": false,
+        "pending_domains": [],
+        "health_score": 1.0
+      },
+      "created_at": "2026-06-21T19:19:09.375218",
+      "duration_ms": 0
+    },
+    {
+      "score_id": "5e0f6ae76ceb",
+      "config_id": "error_pattern_match",
+      "source": "CODE",
+      "value": 1.0,
+      "details": {
+        "reviews_scanned": 1,
+        "total_suggestions": 2,
+        "patterns_found": 0,
+        "patterns": [],
+        "pattern_score": 1.0
+      },
+      "created_at": "2026-06-21T19:19:09.398097",
+      "duration_ms": 0
+    },
+    {
+      "score_id": "ee4117e98e9e",
+      "config_id": "knowledge_health",
+      "source": "CODE",
+      "value": 1.0,
+      "details": {
+        "json_total_items": 178,
+        "chroma_chunks": 232,
+        "pending_items": 0,
+        "needs_sync": false,
+        "pending_domains": [],
+        "health_score": 1.0
+      },
+      "created_at": "2026-06-21T19:21:00.524003",
+      "duration_ms": 0
+    },
+    {
+      "score_id": "9e31754f342b",
+      "config_id": "error_pattern_match",
+      "source": "CODE",
+      "value": 1.0,
+      "details": {
+        "reviews_scanned": 1,
+        "total_suggestions": 2,
+        "patterns_found": 0,
+        "patterns": [],
+        "pattern_score": 1.0
+      },
+      "created_at": "2026-06-21T19:21:00.541511",
+      "duration_ms": 0
+    },
+    {
+      "score_id": "ec3c44b41ad0",
+      "config_id": "knowledge_health",
+      "source": "CODE",
+      "value": 1.0,
+      "details": {
+        "json_total_items": 178,
+        "chroma_chunks": 232,
+        "pending_items": 0,
+        "needs_sync": false,
+        "pending_domains": [],
+        "health_score": 1.0
+      },
+      "created_at": "2026-06-21T19:23:56.304384",
+      "duration_ms": 0
+    },
+    {
+      "score_id": "17a3790e21ff",
+      "config_id": "error_pattern_match",
+      "source": "CODE",
+      "value": 1.0,
+      "details": {
+        "reviews_scanned": 1,
+        "total_suggestions": 2,
+        "patterns_found": 0,
+        "patterns": [],
+        "pattern_score": 1.0
+      },
+      "created_at": "2026-06-21T19:23:56.322830",
+      "duration_ms": 0
+    },
+    {
+      "score_id": "fb67a49a1543",
+      "config_id": "knowledge_health",
+      "source": "CODE",
+      "value": 1.0,
+      "details": {
+        "json_total_items": 178,
+        "chroma_chunks": 232,
+        "pending_items": 0,
+        "needs_sync": false,
+        "pending_domains": [],
+        "health_score": 1.0
+      },
+      "created_at": "2026-06-21T19:24:30.990419",
+      "duration_ms": 0
+    },
+    {
+      "score_id": "b75136a8bbf3",
+      "config_id": "error_pattern_match",
+      "source": "CODE",
+      "value": 1.0,
+      "details": {
+        "reviews_scanned": 1,
+        "total_suggestions": 2,
+        "patterns_found": 0,
+        "patterns": [],
+        "pattern_score": 1.0
+      },
+      "created_at": "2026-06-21T19:24:31.010692",
+      "duration_ms": 0
+    },
+    {
+      "score_id": "0bef9588bf91",
+      "config_id": "knowledge_health",
+      "source": "CODE",
+      "value": 1.0,
+      "details": {
+        "json_total_items": 178,
+        "chroma_chunks": 232,
+        "pending_items": 0,
+        "needs_sync": false,
+        "pending_domains": [],
+        "health_score": 1.0
+      },
+      "created_at": "2026-06-21T19:25:20.567798",
+      "duration_ms": 0
+    },
+    {
+      "score_id": "0d70f33650a0",
+      "config_id": "error_pattern_match",
+      "source": "CODE",
+      "value": 1.0,
+      "details": {
+        "reviews_scanned": 1,
+        "total_suggestions": 2,
+        "patterns_found": 0,
+        "patterns": [],
+        "pattern_score": 1.0
+      },
+      "created_at": "2026-06-21T19:25:20.587805",
+      "duration_ms": 0
+    },
+    {
+      "score_id": "096ef0c85cd9",
+      "config_id": "knowledge_health",
+      "source": "CODE",
+      "value": 1.0,
+      "details": {
+        "json_total_items": 178,
+        "chroma_chunks": 232,
+        "pending_items": 0,
+        "needs_sync": false,
+        "pending_domains": [],
+        "health_score": 1.0
+      },
+      "created_at": "2026-06-21T19:25:37.846516",
+      "duration_ms": 0
+    },
+    {
+      "score_id": "cb8eab645aca",
+      "config_id": "error_pattern_match",
+      "source": "CODE",
+      "value": 1.0,
+      "details": {
+        "reviews_scanned": 1,
+        "total_suggestions": 2,
+        "patterns_found": 0,
+        "patterns": [],
+        "pattern_score": 1.0
+      },
+      "created_at": "2026-06-21T19:25:37.864904",
+      "duration_ms": 0
+    },
+    {
+      "score_id": "0fc371060727",
+      "config_id": "knowledge_health",
+      "source": "CODE",
+      "value": 1.0,
+      "details": {
+        "json_total_items": 178,
+        "chroma_chunks": 232,
+        "pending_items": 0,
+        "needs_sync": false,
+        "pending_domains": [],
+        "health_score": 1.0
+      },
+      "created_at": "2026-06-21T19:40:07.025816",
+      "duration_ms": 0
+    },
+    {
+      "score_id": "23ce7a43d7a2",
+      "config_id": "error_pattern_match",
+      "source": "CODE",
+      "value": 1.0,
+      "details": {
+        "reviews_scanned": 1,
+        "total_suggestions": 2,
+        "patterns_found": 0,
+        "patterns": [],
+        "pattern_score": 1.0
+      },
+      "created_at": "2026-06-21T19:40:07.037064",
+      "duration_ms": 0
+    },
+    {
+      "score_id": "c213df227fac",
+      "config_id": "knowledge_health",
+      "source": "CODE",
+      "value": 1.0,
+      "details": {
+        "json_total_items": 178,
+        "chroma_chunks": 232,
+        "pending_items": 0,
+        "needs_sync": false,
+        "pending_domains": [],
+        "health_score": 1.0
+      },
+      "created_at": "2026-06-21T20:31:28.820178",
+      "duration_ms": 0
+    },
+    {
+      "score_id": "fd8d1d11260a",
+      "config_id": "error_pattern_match",
+      "source": "CODE",
+      "value": 1.0,
+      "details": {
+        "reviews_scanned": 1,
+        "total_suggestions": 2,
+        "patterns_found": 0,
+        "patterns": [],
+        "pattern_score": 1.0
+      },
+      "created_at": "2026-06-21T20:31:28.830074",
+      "duration_ms": 0
+    },
+    {
+      "score_id": "4a267dc074b4",
+      "config_id": "knowledge_health",
+      "source": "CODE",
+      "value": 1.0,
+      "details": {
+        "json_total_items": 178,
+        "chroma_chunks": 232,
+        "pending_items": 0,
+        "needs_sync": false,
+        "pending_domains": [],
+        "health_score": 1.0
+      },
+      "created_at": "2026-06-21T20:37:56.272870",
+      "duration_ms": 0
+    },
+    {
+      "score_id": "af5965774c7b",
+      "config_id": "error_pattern_match",
+      "source": "CODE",
+      "value": 1.0,
+      "details": {
+        "reviews_scanned": 1,
+        "total_suggestions": 2,
+        "patterns_found": 0,
+        "patterns": [],
+        "pattern_score": 1.0
+      },
+      "created_at": "2026-06-21T20:37:56.284893",
+      "duration_ms": 0
+    },
+    {
+      "score_id": "185797d400bd",
+      "config_id": "knowledge_health",
+      "source": "CODE",
+      "value": 1.0,
+      "details": {
+        "json_total_items": 178,
+        "chroma_chunks": 232,
+        "pending_items": 0,
+        "needs_sync": false,
+        "pending_domains": [],
+        "health_score": 1.0
+      },
+      "created_at": "2026-06-21T20:43:55.811674",
+      "duration_ms": 0
+    },
+    {
+      "score_id": "9d0edb3498a3",
+      "config_id": "error_pattern_match",
+      "source": "CODE",
+      "value": 1.0,
+      "details": {
+        "reviews_scanned": 1,
+        "total_suggestions": 2,
+        "patterns_found": 0,
+        "patterns": [],
+        "pattern_score": 1.0
+      },
+      "created_at": "2026-06-21T20:43:55.832156",
+      "duration_ms": 0
+    },
+    {
+      "score_id": "a7977b6db7d6",
+      "config_id": "knowledge_health",
+      "source": "CODE",
+      "value": 1.0,
+      "details": {
+        "json_total_items": 178,
+        "chroma_chunks": 232,
+        "pending_items": 0,
+        "needs_sync": false,
+        "pending_domains": [],
+        "health_score": 1.0
+      },
+      "created_at": "2026-06-21T20:57:23.467796",
+      "duration_ms": 0
+    },
+    {
+      "score_id": "91fefd0d89d6",
+      "config_id": "error_pattern_match",
+      "source": "CODE",
+      "value": 1.0,
+      "details": {
+        "reviews_scanned": 1,
+        "total_suggestions": 2,
+        "patterns_found": 0,
+        "patterns": [],
+        "pattern_score": 1.0
+      },
+      "created_at": "2026-06-21T20:57:23.486370",
+      "duration_ms": 0
+    },
+    {
+      "score_id": "dfe921f43263",
+      "config_id": "knowledge_health",
+      "source": "CODE",
+      "value": 1.0,
+      "details": {
+        "json_total_items": 178,
+        "chroma_chunks": 232,
+        "pending_items": 0,
+        "needs_sync": false,
+        "pending_domains": [],
+        "health_score": 1.0
+      },
+      "created_at": "2026-06-21T20:59:44.295823",
+      "duration_ms": 0
+    },
+    {
+      "score_id": "6fe9cc6aada3",
+      "config_id": "error_pattern_match",
+      "source": "CODE",
+      "value": 1.0,
+      "details": {
+        "reviews_scanned": 1,
+        "total_suggestions": 2,
+        "patterns_found": 0,
+        "patterns": [],
+        "pattern_score": 1.0
+      },
+      "created_at": "2026-06-21T20:59:44.316818",
+      "duration_ms": 0
+    },
+    {
+      "score_id": "01b051d51219",
+      "config_id": "knowledge_health",
+      "source": "CODE",
+      "value": 1.0,
+      "details": {
+        "json_total_items": 178,
+        "chroma_chunks": 232,
+        "pending_items": 0,
+        "needs_sync": false,
+        "pending_domains": [],
+        "health_score": 1.0
+      },
+      "created_at": "2026-06-21T21:24:54.465198",
+      "duration_ms": 0
+    },
+    {
+      "score_id": "57e0e4578ca3",
+      "config_id": "error_pattern_match",
+      "source": "CODE",
+      "value": 1.0,
+      "details": {
+        "reviews_scanned": 1,
+        "total_suggestions": 2,
+        "patterns_found": 0,
+        "patterns": [],
+        "pattern_score": 1.0
+      },
+      "created_at": "2026-06-21T21:24:54.483840",
+      "duration_ms": 0
+    },
+    {
+      "score_id": "f036015653b1",
+      "config_id": "knowledge_health",
+      "source": "CODE",
+      "value": 1.0,
+      "details": {
+        "json_total_items": 178,
+        "chroma_chunks": 232,
+        "pending_items": 0,
+        "needs_sync": false,
+        "pending_domains": [],
+        "health_score": 1.0
+      },
+      "created_at": "2026-06-21T21:27:12.436158",
+      "duration_ms": 0
+    },
+    {
+      "score_id": "ca2082648d3e",
+      "config_id": "error_pattern_match",
+      "source": "CODE",
+      "value": 1.0,
+      "details": {
+        "reviews_scanned": 1,
+        "total_suggestions": 2,
+        "patterns_found": 0,
+        "patterns": [],
+        "pattern_score": 1.0
+      },
+      "created_at": "2026-06-21T21:27:12.453090",
+      "duration_ms": 0
+    },
+    {
+      "score_id": "416e20e3433d",
+      "config_id": "knowledge_health",
+      "source": "CODE",
+      "value": 1.0,
+      "details": {
+        "json_total_items": 178,
+        "chroma_chunks": 232,
+        "pending_items": 0,
+        "needs_sync": false,
+        "pending_domains": [],
+        "health_score": 1.0
+      },
+      "created_at": "2026-06-21T21:37:40.294438",
+      "duration_ms": 0
+    },
+    {
+      "score_id": "c4b74f37b674",
+      "config_id": "error_pattern_match",
+      "source": "CODE",
+      "value": 1.0,
+      "details": {
+        "reviews_scanned": 1,
+        "total_suggestions": 2,
+        "patterns_found": 0,
+        "patterns": [],
+        "pattern_score": 1.0
+      },
+      "created_at": "2026-06-21T21:37:40.318374",
+      "duration_ms": 0
+    },
+    {
+      "score_id": "d999c7f64da7",
+      "config_id": "knowledge_health",
+      "source": "CODE",
+      "value": 1.0,
+      "details": {
+        "json_total_items": 178,
+        "chroma_chunks": 232,
+        "pending_items": 0,
+        "needs_sync": false,
+        "pending_domains": [],
+        "health_score": 1.0
+      },
+      "created_at": "2026-06-21T22:35:54.450886",
+      "duration_ms": 0
+    },
+    {
+      "score_id": "2105b0fb4e4f",
+      "config_id": "error_pattern_match",
+      "source": "CODE",
+      "value": 1.0,
+      "details": {
+        "reviews_scanned": 1,
+        "total_suggestions": 2,
+        "patterns_found": 0,
+        "patterns": [],
+        "pattern_score": 1.0
+      },
+      "created_at": "2026-06-21T22:35:54.465017",
+      "duration_ms": 0
+    },
+    {
+      "score_id": "2571221750e8",
+      "config_id": "knowledge_health",
+      "source": "CODE",
+      "value": 1.0,
+      "details": {
+        "json_total_items": 178,
+        "chroma_chunks": 232,
+        "pending_items": 0,
+        "needs_sync": false,
+        "pending_domains": [],
+        "health_score": 1.0
+      },
+      "created_at": "2026-06-21T22:35:59.674481",
+      "duration_ms": 0
+    },
+    {
+      "score_id": "c87425af5a48",
+      "config_id": "error_pattern_match",
+      "source": "CODE",
+      "value": 1.0,
+      "details": {
+        "reviews_scanned": 1,
+        "total_suggestions": 2,
+        "patterns_found": 0,
+        "patterns": [],
+        "pattern_score": 1.0
+      },
+      "created_at": "2026-06-21T22:35:59.689398",
+      "duration_ms": 0
+    },
+    {
+      "score_id": "adcfcede5a1a",
+      "config_id": "knowledge_health",
+      "source": "CODE",
+      "value": 1.0,
+      "details": {
+        "json_total_items": 178,
+        "chroma_chunks": 232,
+        "pending_items": 0,
+        "needs_sync": false,
+        "pending_domains": [],
+        "health_score": 1.0
+      },
+      "created_at": "2026-06-22T08:45:25.401031",
+      "duration_ms": 0
+    },
+    {
+      "score_id": "9ab99b716b06",
+      "config_id": "error_pattern_match",
+      "source": "CODE",
+      "value": 1.0,
+      "details": {
+        "reviews_scanned": 1,
+        "total_suggestions": 2,
+        "patterns_found": 0,
+        "patterns": [],
+        "pattern_score": 1.0
+      },
+      "created_at": "2026-06-22T08:45:25.425764",
+      "duration_ms": 0
+    },
+    {
+      "score_id": "2b03dcdd0c58",
+      "config_id": "knowledge_health",
+      "source": "CODE",
+      "value": 1.0,
+      "details": {
+        "json_total_items": 178,
+        "chroma_chunks": 232,
+        "pending_items": 0,
+        "needs_sync": false,
+        "pending_domains": [],
+        "health_score": 1.0
+      },
+      "created_at": "2026-06-22T08:56:00.579736",
+      "duration_ms": 0
+    },
+    {
+      "score_id": "24dc62965368",
+      "config_id": "error_pattern_match",
+      "source": "CODE",
+      "value": 1.0,
+      "details": {
+        "reviews_scanned": 1,
+        "total_suggestions": 2,
+        "patterns_found": 0,
+        "patterns": [],
+        "pattern_score": 1.0
+      },
+      "created_at": "2026-06-22T08:56:00.586658",
+      "duration_ms": 0
+    },
+    {
+      "score_id": "617f616d1211",
+      "config_id": "knowledge_health",
+      "source": "CODE",
+      "value": 1.0,
+      "details": {
+        "json_total_items": 178,
+        "chroma_chunks": 232,
+        "pending_items": 0,
+        "needs_sync": false,
+        "pending_domains": [],
+        "health_score": 1.0
+      },
+      "created_at": "2026-06-22T09:28:31.532190",
+      "duration_ms": 0
+    },
+    {
+      "score_id": "40522a46d748",
+      "config_id": "error_pattern_match",
+      "source": "CODE",
+      "value": 1.0,
+      "details": {
+        "reviews_scanned": 1,
+        "total_suggestions": 2,
+        "patterns_found": 0,
+        "patterns": [],
+        "pattern_score": 1.0
+      },
+      "created_at": "2026-06-22T09:28:31.542490",
+      "duration_ms": 0
+    },
+    {
+      "score_id": "d03a55e84396",
+      "config_id": "knowledge_health",
+      "source": "CODE",
+      "value": 1.0,
+      "details": {
+        "json_total_items": 178,
+        "chroma_chunks": 232,
+        "pending_items": 0,
+        "needs_sync": false,
+        "pending_domains": [],
+        "health_score": 1.0
+      },
+      "created_at": "2026-06-22T09:30:36.156391",
+      "duration_ms": 0
+    },
+    {
+      "score_id": "18608c712f69",
+      "config_id": "error_pattern_match",
+      "source": "CODE",
+      "value": 1.0,
+      "details": {
+        "reviews_scanned": 1,
+        "total_suggestions": 2,
+        "patterns_found": 0,
+        "patterns": [],
+        "pattern_score": 1.0
+      },
+      "created_at": "2026-06-22T09:30:36.163406",
+      "duration_ms": 0
+    },
+    {
+      "score_id": "af7162717b0b",
+      "config_id": "knowledge_health",
+      "source": "CODE",
+      "value": 1.0,
+      "details": {
+        "json_total_items": 178,
+        "chroma_chunks": 232,
+        "pending_items": 0,
+        "needs_sync": false,
+        "pending_domains": [],
+        "health_score": 1.0
+      },
+      "created_at": "2026-06-22T09:50:06.517549",
+      "duration_ms": 0
+    },
+    {
+      "score_id": "3db9f2166b61",
+      "config_id": "error_pattern_match",
+      "source": "CODE",
+      "value": 1.0,
+      "details": {
+        "reviews_scanned": 1,
+        "total_suggestions": 2,
+        "patterns_found": 0,
+        "patterns": [],
+        "pattern_score": 1.0
+      },
+      "created_at": "2026-06-22T09:50:06.534598",
+      "duration_ms": 0
+    },
+    {
+      "score_id": "e6fc646342a0",
+      "config_id": "knowledge_health",
+      "source": "CODE",
+      "value": 1.0,
+      "details": {
+        "json_total_items": 178,
+        "chroma_chunks": 232,
+        "pending_items": 0,
+        "needs_sync": false,
+        "pending_domains": [],
+        "health_score": 1.0
+      },
+      "created_at": "2026-06-22T10:13:54.101214",
+      "duration_ms": 0
+    },
+    {
+      "score_id": "769a799d7a4b",
+      "config_id": "error_pattern_match",
+      "source": "CODE",
+      "value": 1.0,
+      "details": {
+        "reviews_scanned": 2,
+        "total_suggestions": 3,
+        "patterns_found": 0,
+        "patterns": [],
+        "pattern_score": 1.0
+      },
+      "created_at": "2026-06-22T10:13:54.116141",
+      "duration_ms": 0
+    },
+    {
+      "score_id": "c2794db63d0a",
+      "config_id": "knowledge_health",
+      "source": "CODE",
+      "value": 1.0,
+      "details": {
+        "json_total_items": 178,
+        "chroma_chunks": 232,
+        "pending_items": 0,
+        "needs_sync": false,
+        "pending_domains": [],
+        "health_score": 1.0
+      },
+      "created_at": "2026-06-22T11:00:04.457718",
+      "duration_ms": 0
+    },
+    {
+      "score_id": "4025c2118dc1",
+      "config_id": "error_pattern_match",
+      "source": "CODE",
+      "value": 1.0,
+      "details": {
+        "reviews_scanned": 2,
+        "total_suggestions": 3,
+        "patterns_found": 0,
+        "patterns": [],
+        "pattern_score": 1.0
+      },
+      "created_at": "2026-06-22T11:00:04.471002",
+      "duration_ms": 0
+    },
+    {
+      "score_id": "d73786f86bd6",
+      "config_id": "knowledge_health",
+      "source": "CODE",
+      "value": 1.0,
+      "details": {
+        "json_total_items": 178,
+        "chroma_chunks": 232,
+        "pending_items": 0,
+        "needs_sync": false,
+        "pending_domains": [],
+        "health_score": 1.0
+      },
+      "created_at": "2026-06-22T12:00:04.530130",
+      "duration_ms": 0
+    },
+    {
+      "score_id": "37ee8dc38e14",
+      "config_id": "error_pattern_match",
+      "source": "CODE",
+      "value": 1.0,
+      "details": {
+        "reviews_scanned": 2,
+        "total_suggestions": 3,
+        "patterns_found": 0,
+        "patterns": [],
+        "pattern_score": 1.0
+      },
+      "created_at": "2026-06-22T12:00:04.551106",
+      "duration_ms": 0
+    },
+    {
+      "score_id": "1ce55b347669",
+      "config_id": "knowledge_health",
+      "source": "CODE",
+      "value": 1.0,
+      "details": {
+        "json_total_items": 178,
+        "chroma_chunks": 232,
+        "pending_items": 0,
+        "needs_sync": false,
+        "pending_domains": [],
+        "health_score": 1.0
+      },
+      "created_at": "2026-06-22T12:52:25.907907",
+      "duration_ms": 0
+    },
+    {
+      "score_id": "49404a62933b",
+      "config_id": "error_pattern_match",
+      "source": "CODE",
+      "value": 1.0,
+      "details": {
+        "reviews_scanned": 2,
+        "total_suggestions": 3,
+        "patterns_found": 0,
+        "patterns": [],
+        "pattern_score": 1.0
+      },
+      "created_at": "2026-06-22T12:52:25.915518",
+      "duration_ms": 0
+    },
+    {
+      "score_id": "d8991e3b9304",
+      "config_id": "knowledge_health",
+      "source": "CODE",
+      "value": 1.0,
+      "details": {
+        "json_total_items": 178,
+        "chroma_chunks": 232,
+        "pending_items": 0,
+        "needs_sync": false,
+        "pending_domains": [],
+        "health_score": 1.0
+      },
+      "created_at": "2026-06-22T12:53:17.822897",
+      "duration_ms": 0
+    },
+    {
+      "score_id": "b145b3aa7296",
+      "config_id": "error_pattern_match",
+      "source": "CODE",
+      "value": 1.0,
+      "details": {
+        "reviews_scanned": 2,
+        "total_suggestions": 3,
+        "patterns_found": 0,
+        "patterns": [],
+        "pattern_score": 1.0
+      },
+      "created_at": "2026-06-22T12:53:17.840655",
+      "duration_ms": 0
+    },
+    {
+      "score_id": "dd5501d84726",
+      "config_id": "knowledge_health",
+      "source": "CODE",
+      "value": 1.0,
+      "details": {
+        "json_total_items": 178,
+        "chroma_chunks": 232,
+        "pending_items": 0,
+        "needs_sync": false,
+        "pending_domains": [],
+        "health_score": 1.0
+      },
+      "created_at": "2026-06-22T12:53:33.023480",
+      "duration_ms": 0
+    },
+    {
+      "score_id": "dfe603b05537",
+      "config_id": "error_pattern_match",
+      "source": "CODE",
+      "value": 1.0,
+      "details": {
+        "reviews_scanned": 2,
+        "total_suggestions": 3,
+        "patterns_found": 0,
+        "patterns": [],
+        "pattern_score": 1.0
+      },
+      "created_at": "2026-06-22T12:53:33.031098",
+      "duration_ms": 0
+    },
+    {
+      "score_id": "c02318519322",
+      "config_id": "knowledge_health",
+      "source": "CODE",
+      "value": 1.0,
+      "details": {
+        "json_total_items": 178,
+        "chroma_chunks": 232,
+        "pending_items": 0,
+        "needs_sync": false,
+        "pending_domains": [],
+        "health_score": 1.0
+      },
+      "created_at": "2026-06-22T13:00:04.598056",
+      "duration_ms": 0
+    },
+    {
+      "score_id": "7f25ebefed3c",
+      "config_id": "error_pattern_match",
+      "source": "CODE",
+      "value": 1.0,
+      "details": {
+        "reviews_scanned": 2,
+        "total_suggestions": 3,
+        "patterns_found": 0,
+        "patterns": [],
+        "pattern_score": 1.0
+      },
+      "created_at": "2026-06-22T13:00:04.604459",
+      "duration_ms": 0
+    },
+    {
+      "score_id": "07f1776ce5c0",
+      "config_id": "knowledge_health",
+      "source": "CODE",
+      "value": 1.0,
+      "details": {
+        "json_total_items": 178,
+        "chroma_chunks": 232,
+        "pending_items": 0,
+        "needs_sync": false,
+        "pending_domains": [],
+        "health_score": 1.0
+      },
+      "created_at": "2026-06-22T13:06:24.681990",
+      "duration_ms": 0
+    },
+    {
+      "score_id": "08429241e2be",
+      "config_id": "error_pattern_match",
+      "source": "CODE",
+      "value": 1.0,
+      "details": {
+        "reviews_scanned": 2,
+        "total_suggestions": 3,
+        "patterns_found": 0,
+        "patterns": [],
+        "pattern_score": 1.0
+      },
+      "created_at": "2026-06-22T13:06:24.695346",
+      "duration_ms": 0
+    },
+    {
+      "score_id": "cd96cbc15a3c",
+      "config_id": "knowledge_health",
+      "source": "CODE",
+      "value": 1.0,
+      "details": {
+        "json_total_items": 178,
+        "chroma_chunks": 232,
+        "pending_items": 0,
+        "needs_sync": false,
+        "pending_domains": [],
+        "health_score": 1.0
+      },
+      "created_at": "2026-06-22T13:07:00.821658",
+      "duration_ms": 0
+    },
+    {
+      "score_id": "358266ddc0b9",
+      "config_id": "error_pattern_match",
+      "source": "CODE",
+      "value": 1.0,
+      "details": {
+        "reviews_scanned": 2,
+        "total_suggestions": 3,
+        "patterns_found": 0,
+        "patterns": [],
+        "pattern_score": 1.0
+      },
+      "created_at": "2026-06-22T13:07:00.837628",
+      "duration_ms": 0
+    },
+    {
+      "score_id": "fdd6bba2f7b5",
+      "config_id": "knowledge_health",
+      "source": "CODE",
+      "value": 1.0,
+      "details": {
+        "json_total_items": 178,
+        "chroma_chunks": 232,
+        "pending_items": 0,
+        "needs_sync": false,
+        "pending_domains": [],
+        "health_score": 1.0
+      },
+      "created_at": "2026-06-22T13:08:55.504479",
+      "duration_ms": 0
+    },
+    {
+      "score_id": "a9dd905b173a",
+      "config_id": "error_pattern_match",
+      "source": "CODE",
+      "value": 1.0,
+      "details": {
+        "reviews_scanned": 2,
+        "total_suggestions": 3,
+        "patterns_found": 0,
+        "patterns": [],
+        "pattern_score": 1.0
+      },
+      "created_at": "2026-06-22T13:08:55.512391",
+      "duration_ms": 0
+    },
+    {
+      "score_id": "6d5483bdeabf",
+      "config_id": "knowledge_health",
+      "source": "CODE",
+      "value": 1.0,
+      "details": {
+        "json_total_items": 178,
+        "chroma_chunks": 232,
+        "pending_items": 0,
+        "needs_sync": false,
+        "pending_domains": [],
+        "health_score": 1.0
+      },
+      "created_at": "2026-06-22T14:08:55.553162",
+      "duration_ms": 0
+    },
+    {
+      "score_id": "8f5a600aa599",
+      "config_id": "error_pattern_match",
+      "source": "CODE",
+      "value": 1.0,
+      "details": {
+        "reviews_scanned": 2,
+        "total_suggestions": 3,
+        "patterns_found": 0,
+        "patterns": [],
+        "pattern_score": 1.0
+      },
+      "created_at": "2026-06-22T14:08:55.560087",
+      "duration_ms": 0
+    },
+    {
+      "score_id": "600748ba02ee",
+      "config_id": "knowledge_health",
+      "source": "CODE",
+      "value": 1.0,
+      "details": {
+        "json_total_items": 178,
+        "chroma_chunks": 232,
+        "pending_items": 0,
+        "needs_sync": false,
+        "pending_domains": [],
+        "health_score": 1.0
+      },
+      "created_at": "2026-06-22T15:08:55.609714",
+      "duration_ms": 0
+    },
+    {
+      "score_id": "ae503aba40a2",
+      "config_id": "error_pattern_match",
+      "source": "CODE",
+      "value": 1.0,
+      "details": {
+        "reviews_scanned": 2,
+        "total_suggestions": 3,
+        "patterns_found": 0,
+        "patterns": [],
+        "pattern_score": 1.0
+      },
+      "created_at": "2026-06-22T15:08:55.616564",
+      "duration_ms": 0
+    },
+    {
+      "score_id": "072af38d1ec3",
+      "config_id": "knowledge_health",
+      "source": "CODE",
+      "value": 1.0,
+      "details": {
+        "json_total_items": 178,
+        "chroma_chunks": 232,
+        "pending_items": 0,
+        "needs_sync": false,
+        "pending_domains": [],
+        "health_score": 1.0
+      },
+      "created_at": "2026-06-22T16:08:55.660411",
+      "duration_ms": 0
+    },
+    {
+      "score_id": "7941105e0716",
+      "config_id": "error_pattern_match",
+      "source": "CODE",
+      "value": 1.0,
+      "details": {
+        "reviews_scanned": 2,
+        "total_suggestions": 3,
+        "patterns_found": 0,
+        "patterns": [],
+        "pattern_score": 1.0
+      },
+      "created_at": "2026-06-22T16:08:55.667060",
+      "duration_ms": 0
+    },
+    {
+      "score_id": "659898d4185d",
+      "config_id": "knowledge_health",
+      "source": "CODE",
+      "value": 1.0,
+      "details": {
+        "json_total_items": 178,
+        "chroma_chunks": 232,
+        "pending_items": 0,
+        "needs_sync": false,
+        "pending_domains": [],
+        "health_score": 1.0
+      },
+      "created_at": "2026-06-22T17:08:55.709409",
+      "duration_ms": 0
+    },
+    {
+      "score_id": "96d8a723c119",
+      "config_id": "error_pattern_match",
+      "source": "CODE",
+      "value": 1.0,
+      "details": {
+        "reviews_scanned": 2,
+        "total_suggestions": 3,
+        "patterns_found": 0,
+        "patterns": [],
+        "pattern_score": 1.0
+      },
+      "created_at": "2026-06-22T17:08:55.722928",
+      "duration_ms": 0
+    },
+    {
+      "score_id": "6ff66f71f1e8",
+      "config_id": "knowledge_health",
+      "source": "CODE",
+      "value": 1.0,
+      "details": {
+        "json_total_items": 178,
+        "chroma_chunks": 232,
+        "pending_items": 0,
+        "needs_sync": false,
+        "pending_domains": [],
+        "health_score": 1.0
+      },
+      "created_at": "2026-06-22T18:08:55.762149",
+      "duration_ms": 0
+    },
+    {
+      "score_id": "7820f077f389",
+      "config_id": "error_pattern_match",
+      "source": "CODE",
+      "value": 1.0,
+      "details": {
+        "reviews_scanned": 2,
+        "total_suggestions": 3,
+        "patterns_found": 0,
+        "patterns": [],
+        "pattern_score": 1.0
+      },
+      "created_at": "2026-06-22T18:08:55.778423",
+      "duration_ms": 0
+    },
+    {
+      "score_id": "c4e49450e5c3",
+      "config_id": "eval_process_adherence",
+      "target_type": "system",
+      "target_id": "eval_system",
+      "value": 0.6667,
+      "details": {
+        "passes": 4,
+        "total": 6,
+        "deviations": [
+          "redline3_20mile_march",
+          "redline3_20mile_march"
+        ]
+      },
+      "created_at": "2026-06-22T18:08:55.800757",
+      "source": "META_EVAL"
+    },
+    {
+      "score_id": "5af45fd605d0",
+      "config_id": "eval_system_freshness",
+      "target_type": "system",
+      "target_id": "eval_system",
+      "value": 0.0,
+      "details": {
+        "total_configs": 17,
+        "fresh": 0,
+        "stale": 17,
+        "stale_configs": [
+          {
+            "config_id": "data_completeness",
+            "age_days": null,
+            "reason": "no timestamp"
+          },
+          {
+            "config_id": "eval_system_freshness",
+            "age_days": null,
+            "reason": "no timestamp"
+          },
+          {
+            "config_id": "security_score",
+            "age_days": null,
+            "reason": "no timestamp"
+          },
+          {
+            "config_id": "agent_success_rate",
+            "age_days": null,
+            "reason": "no timestamp"
+          },
+          {
+            "config_id": "agent_efficiency",
+            "age_days": null,
+            "reason": "no timestamp"
+          },
+          {
+            "config_id": "agent_tool_accuracy",
+            "age_days": null,
+            "reason": "no timestamp"
+          },
+          {
+            "config_id": "code_health",
+            "age_days": null,
+            "reason": "no timestamp"
+          },
+          {
+            "config_id": "doc_coverage",
+            "age_days": null,
+            "reason": "no timestamp"
+          },
+          {
+            "config_id": "data_completeness_crossval",
+            "age_days": null,
+            "reason": "no timestamp"
+          },
+          {
+            "config_id": "code_llm_consensus",
+            "age_days": null,
+            "reason": "no timestamp"
+          }
+        ]
+      },
+      "created_at": "2026-06-22T18:08:55.813715",
+      "source": "META_EVAL"
+    },
+    {
+      "score_id": "bd56ac84ecfd",
+      "config_id": "code_llm_consensus",
+      "target_type": "system",
+      "target_id": "eval_system",
+      "value": 1.0,
+      "details": {
+        "compared": 0,
+        "disagreements": 0,
+        "disagreement_rate": null
+      },
+      "created_at": "2026-06-22T18:08:55.831222",
+      "source": "META_EVAL"
+    },
+    {
+      "score_id": "45b812133a24",
+      "config_id": "score_drift",
+      "target_type": "system",
+      "target_id": "eval_system",
+      "value": 1.0,
+      "details": {
+        "checked": 9,
+        "drifting": 0,
+        "drifting_configs": []
+      },
+      "created_at": "2026-06-22T18:08:55.854123",
+      "source": "META_EVAL"
+    },
+    {
+      "score_id": "fcd8551d1d4e",
+      "config_id": "kb_protection_coverage",
+      "target_type": "system",
+      "target_id": "eval_system",
+      "value": 1.0,
+      "details": {
+        "checked": 6,
+        "unprotected": 0,
+        "unprotected_details": []
+      },
+      "created_at": "2026-06-22T18:09:01.461648",
+      "source": "META_EVAL"
+    },
+    {
+      "score_id": "fb2480642796",
+      "config_id": "knowledge_health",
+      "source": "CODE",
+      "value": 1.0,
+      "details": {
+        "json_total_items": 178,
+        "chroma_chunks": 232,
+        "pending_items": 0,
+        "needs_sync": false,
+        "pending_domains": [],
+        "health_score": 1.0
+      },
+      "created_at": "2026-06-22T18:18:57.810067",
+      "duration_ms": 0
+    },
+    {
+      "score_id": "1679954a08d3",
+      "config_id": "error_pattern_match",
+      "source": "CODE",
+      "value": 1.0,
+      "details": {
+        "reviews_scanned": 2,
+        "total_suggestions": 3,
+        "patterns_found": 0,
+        "patterns": [],
+        "pattern_score": 1.0
+      },
+      "created_at": "2026-06-22T18:18:57.817840",
+      "duration_ms": 0
+    },
+    {
+      "score_id": "ed307449eca4",
+      "config_id": "knowledge_health",
+      "source": "CODE",
+      "value": 1.0,
+      "details": {
+        "json_total_items": 178,
+        "chroma_chunks": 232,
+        "pending_items": 0,
+        "needs_sync": false,
+        "pending_domains": [],
+        "health_score": 1.0
+      },
+      "created_at": "2026-06-22T18:20:45.746843",
+      "duration_ms": 0
+    },
+    {
+      "score_id": "7ec1a11402a5",
+      "config_id": "error_pattern_match",
+      "source": "CODE",
+      "value": 1.0,
+      "details": {
+        "reviews_scanned": 2,
+        "total_suggestions": 3,
+        "patterns_found": 0,
+        "patterns": [],
+        "pattern_score": 1.0
+      },
+      "created_at": "2026-06-22T18:20:45.763329",
+      "duration_ms": 0
+    },
+    {
+      "score_id": "80dbe0c78f29",
+      "config_id": "knowledge_health",
+      "source": "CODE",
+      "value": 1.0,
+      "details": {
+        "json_total_items": 178,
+        "chroma_chunks": 232,
+        "pending_items": 0,
+        "needs_sync": false,
+        "pending_domains": [],
+        "health_score": 1.0
+      },
+      "created_at": "2026-06-22T18:21:58.843745",
+      "duration_ms": 0
+    },
+    {
+      "score_id": "d60b9d816472",
+      "config_id": "error_pattern_match",
+      "source": "CODE",
+      "value": 1.0,
+      "details": {
+        "reviews_scanned": 2,
+        "total_suggestions": 3,
+        "patterns_found": 0,
+        "patterns": [],
+        "pattern_score": 1.0
+      },
+      "created_at": "2026-06-22T18:21:58.858898",
+      "duration_ms": 0
+    },
+    {
+      "score_id": "17af50bd79b5",
+      "config_id": "knowledge_health",
+      "source": "CODE",
+      "value": 1.0,
+      "details": {
+        "json_total_items": 178,
+        "chroma_chunks": 232,
+        "pending_items": 0,
+        "needs_sync": false,
+        "pending_domains": [],
+        "health_score": 1.0
+      },
+      "created_at": "2026-06-22T19:02:26.398959",
+      "duration_ms": 0
+    },
+    {
+      "score_id": "7518af23dae9",
+      "config_id": "error_pattern_match",
+      "source": "CODE",
+      "value": 1.0,
+      "details": {
+        "reviews_scanned": 3,
+        "total_suggestions": 4,
+        "patterns_found": 0,
+        "patterns": [],
+        "pattern_score": 1.0
+      },
+      "created_at": "2026-06-22T19:02:26.407861",
+      "duration_ms": 0
+    },
+    {
+      "score_id": "da3d087ac7e3",
+      "config_id": "knowledge_health",
+      "source": "CODE",
+      "value": 1.0,
+      "details": {
+        "json_total_items": 178,
+        "chroma_chunks": 232,
+        "pending_items": 0,
+        "needs_sync": false,
+        "pending_domains": [],
+        "health_score": 1.0
+      },
+      "created_at": "2026-06-22T19:02:48.299206",
+      "duration_ms": 0
+    },
+    {
+      "score_id": "a1415c1dbc92",
+      "config_id": "error_pattern_match",
+      "source": "CODE",
+      "value": 1.0,
+      "details": {
+        "reviews_scanned": 3,
+        "total_suggestions": 4,
+        "patterns_found": 0,
+        "patterns": [],
+        "pattern_score": 1.0
+      },
+      "created_at": "2026-06-22T19:02:48.315621",
+      "duration_ms": 0
+    },
+    {
+      "score_id": "e65ef8e76366",
+      "config_id": "knowledge_health",
+      "source": "CODE",
+      "value": 1.0,
+      "details": {
+        "json_total_items": 178,
+        "chroma_chunks": 232,
+        "pending_items": 0,
+        "needs_sync": false,
+        "pending_domains": [],
+        "health_score": 1.0
+      },
+      "created_at": "2026-06-22T19:03:06.313975",
+      "duration_ms": 0
+    },
+    {
+      "score_id": "f482a69662ed",
+      "config_id": "error_pattern_match",
+      "source": "CODE",
+      "value": 1.0,
+      "details": {
+        "reviews_scanned": 3,
+        "total_suggestions": 4,
+        "patterns_found": 0,
+        "patterns": [],
+        "pattern_score": 1.0
+      },
+      "created_at": "2026-06-22T19:03:06.329506",
+      "duration_ms": 0
+    },
+    {
+      "score_id": "66d7a5f2a9dc",
+      "config_id": "knowledge_health",
+      "source": "CODE",
+      "value": 1.0,
+      "details": {
+        "json_total_items": 178,
+        "chroma_chunks": 232,
+        "pending_items": 0,
+        "needs_sync": false,
+        "pending_domains": [],
+        "health_score": 1.0
+      },
+      "created_at": "2026-06-22T19:05:40.562334",
+      "duration_ms": 0
+    },
+    {
+      "score_id": "6fc5ba9c3b10",
+      "config_id": "error_pattern_match",
+      "source": "CODE",
+      "value": 1.0,
+      "details": {
+        "reviews_scanned": 3,
+        "total_suggestions": 4,
+        "patterns_found": 0,
+        "patterns": [],
+        "pattern_score": 1.0
+      },
+      "created_at": "2026-06-22T19:05:40.580130",
+      "duration_ms": 0
+    },
+    {
+      "score_id": "d01cbe0fba4b",
+      "config_id": "knowledge_health",
+      "source": "CODE",
+      "value": 1.0,
+      "details": {
+        "json_total_items": 178,
+        "chroma_chunks": 232,
+        "pending_items": 0,
+        "needs_sync": false,
+        "pending_domains": [],
+        "health_score": 1.0
+      },
+      "created_at": "2026-06-22T19:59:36.894018",
+      "duration_ms": 0
+    },
+    {
+      "score_id": "d9a2a5749a85",
+      "config_id": "error_pattern_match",
+      "source": "CODE",
+      "value": 1.0,
+      "details": {
+        "reviews_scanned": 3,
+        "total_suggestions": 4,
+        "patterns_found": 0,
+        "patterns": [],
+        "pattern_score": 1.0
+      },
+      "created_at": "2026-06-22T19:59:36.901788",
+      "duration_ms": 0
+    },
+    {
+      "score_id": "8329635c76bc",
+      "config_id": "knowledge_health",
+      "source": "CODE",
+      "value": 1.0,
+      "details": {
+        "json_total_items": 178,
+        "chroma_chunks": 232,
+        "pending_items": 0,
+        "needs_sync": false,
+        "pending_domains": [],
+        "health_score": 1.0
+      },
+      "created_at": "2026-06-22T20:19:28.254945",
+      "duration_ms": 0
+    },
+    {
+      "score_id": "5e97aa2be990",
+      "config_id": "error_pattern_match",
+      "source": "CODE",
+      "value": 1.0,
+      "details": {
+        "reviews_scanned": 3,
+        "total_suggestions": 4,
+        "patterns_found": 0,
+        "patterns": [],
+        "pattern_score": 1.0
+      },
+      "created_at": "2026-06-22T20:19:28.263890",
+      "duration_ms": 0
+    },
+    {
+      "score_id": "d21f81d5fc61",
+      "config_id": "knowledge_health",
+      "source": "CODE",
+      "value": 1.0,
+      "details": {
+        "json_total_items": 178,
+        "chroma_chunks": 232,
+        "pending_items": 0,
+        "needs_sync": false,
+        "pending_domains": [],
+        "health_score": 1.0
+      },
+      "created_at": "2026-06-22T20:26:57.011499",
+      "duration_ms": 0
+    },
+    {
+      "score_id": "5dc978b9dd7a",
+      "config_id": "error_pattern_match",
+      "source": "CODE",
+      "value": 1.0,
+      "details": {
+        "reviews_scanned": 3,
+        "total_suggestions": 4,
+        "patterns_found": 0,
+        "patterns": [],
+        "pattern_score": 1.0
+      },
+      "created_at": "2026-06-22T20:26:57.020516",
+      "duration_ms": 0
+    },
+    {
+      "score_id": "34a8cbb9bd90",
+      "config_id": "knowledge_health",
+      "source": "CODE",
+      "value": 1.0,
+      "details": {
+        "json_total_items": 178,
+        "chroma_chunks": 232,
+        "pending_items": 0,
+        "needs_sync": false,
+        "pending_domains": [],
+        "health_score": 1.0
+      },
+      "created_at": "2026-06-22T20:55:17.801621",
+      "duration_ms": 0
+    },
+    {
+      "score_id": "bbc393e3ca3b",
+      "config_id": "error_pattern_match",
+      "source": "CODE",
+      "value": 1.0,
+      "details": {
+        "reviews_scanned": 3,
+        "total_suggestions": 4,
+        "patterns_found": 0,
+        "patterns": [],
+        "pattern_score": 1.0
+      },
+      "created_at": "2026-06-22T20:55:17.810257",
+      "duration_ms": 0
+    },
+    {
+      "score_id": "8442c21d6a6e",
+      "config_id": "knowledge_health",
+      "source": "CODE",
+      "value": 1.0,
+      "details": {
+        "json_total_items": 178,
+        "chroma_chunks": 232,
+        "pending_items": 0,
+        "needs_sync": false,
+        "pending_domains": [],
+        "health_score": 1.0
+      },
+      "created_at": "2026-06-22T21:01:52.351778",
+      "duration_ms": 0
+    },
+    {
+      "score_id": "4986270a3954",
+      "config_id": "error_pattern_match",
+      "source": "CODE",
+      "value": 1.0,
+      "details": {
+        "reviews_scanned": 3,
+        "total_suggestions": 4,
+        "patterns_found": 0,
+        "patterns": [],
+        "pattern_score": 1.0
+      },
+      "created_at": "2026-06-22T21:01:52.368448",
+      "duration_ms": 0
+    },
+    {
+      "score_id": "5e8fb88c45b8",
+      "config_id": "knowledge_health",
+      "source": "CODE",
+      "value": 1.0,
+      "details": {
+        "json_total_items": 178,
+        "chroma_chunks": 232,
+        "pending_items": 0,
+        "needs_sync": false,
+        "pending_domains": [],
+        "health_score": 1.0
+      },
+      "created_at": "2026-06-22T21:05:21.297528",
+      "duration_ms": 0
+    },
+    {
+      "score_id": "ac71ed3d17f5",
+      "config_id": "error_pattern_match",
+      "source": "CODE",
+      "value": 1.0,
+      "details": {
+        "reviews_scanned": 3,
+        "total_suggestions": 4,
+        "patterns_found": 0,
+        "patterns": [],
+        "pattern_score": 1.0
+      },
+      "created_at": "2026-06-22T21:05:21.315438",
+      "duration_ms": 0
+    },
+    {
+      "score_id": "07c4ae6514fb",
+      "config_id": "knowledge_health",
+      "source": "CODE",
+      "value": 1.0,
+      "details": {
+        "json_total_items": 178,
+        "chroma_chunks": 232,
+        "pending_items": 0,
+        "needs_sync": false,
+        "pending_domains": [],
+        "health_score": 1.0
+      },
+      "created_at": "2026-06-22T21:10:37.223657",
+      "duration_ms": 0
+    },
+    {
+      "score_id": "051cad942d93",
+      "config_id": "error_pattern_match",
+      "source": "CODE",
+      "value": 1.0,
+      "details": {
+        "reviews_scanned": 3,
+        "total_suggestions": 4,
+        "patterns_found": 0,
+        "patterns": [],
+        "pattern_score": 1.0
+      },
+      "created_at": "2026-06-22T21:10:37.241610",
+      "duration_ms": 0
+    },
+    {
+      "score_id": "c9ffab8625f1",
+      "config_id": "knowledge_health",
+      "source": "CODE",
+      "value": 1.0,
+      "details": {
+        "json_total_items": 178,
+        "chroma_chunks": 232,
+        "pending_items": 0,
+        "needs_sync": false,
+        "pending_domains": [],
+        "health_score": 1.0
+      },
+      "created_at": "2026-06-22T22:10:37.283256",
+      "duration_ms": 0
+    },
+    {
+      "score_id": "d03afe8273c4",
+      "config_id": "error_pattern_match",
+      "source": "CODE",
+      "value": 1.0,
+      "details": {
+        "reviews_scanned": 3,
+        "total_suggestions": 4,
+        "patterns_found": 0,
+        "patterns": [],
+        "pattern_score": 1.0
+      },
+      "created_at": "2026-06-22T22:10:37.290704",
+      "duration_ms": 0
+    },
+    {
+      "score_id": "2c372674cbf4",
+      "config_id": "knowledge_health",
+      "source": "CODE",
+      "value": 1.0,
+      "details": {
+        "json_total_items": 178,
+        "chroma_chunks": 232,
+        "pending_items": 0,
+        "needs_sync": false,
+        "pending_domains": [],
+        "health_score": 1.0
+      },
+      "created_at": "2026-06-22T22:54:12.644981",
+      "duration_ms": 0
+    },
+    {
+      "score_id": "12e66c944ea6",
+      "config_id": "error_pattern_match",
+      "source": "CODE",
+      "value": 1.0,
+      "details": {
+        "reviews_scanned": 3,
+        "total_suggestions": 4,
+        "patterns_found": 0,
+        "patterns": [],
+        "pattern_score": 1.0
+      },
+      "created_at": "2026-06-22T22:54:12.661077",
+      "duration_ms": 0
+    },
+    {
+      "score_id": "fb1038cc489e",
+      "config_id": "knowledge_health",
+      "source": "CODE",
+      "value": 1.0,
+      "details": {
+        "json_total_items": 178,
+        "chroma_chunks": 232,
+        "pending_items": 0,
+        "needs_sync": false,
+        "pending_domains": [],
+        "health_score": 1.0
+      },
+      "created_at": "2026-06-22T23:08:02.226657",
+      "duration_ms": 0
+    },
+    {
+      "score_id": "abbdd0951d02",
+      "config_id": "error_pattern_match",
+      "source": "CODE",
+      "value": 1.0,
+      "details": {
+        "reviews_scanned": 3,
+        "total_suggestions": 4,
+        "patterns_found": 0,
+        "patterns": [],
+        "pattern_score": 1.0
+      },
+      "created_at": "2026-06-22T23:08:02.257427",
+      "duration_ms": 0
+    },
+    {
+      "score_id": "0d3dc132e18c",
+      "config_id": "knowledge_health",
+      "source": "CODE",
+      "value": 1.0,
+      "details": {
+        "json_total_items": 178,
+        "chroma_chunks": 232,
+        "pending_items": 0,
+        "needs_sync": false,
+        "pending_domains": [],
+        "health_score": 1.0
+      },
+      "created_at": "2026-06-22T23:10:37.345431",
+      "duration_ms": 0
+    },
+    {
+      "score_id": "49005f0c24ef",
+      "config_id": "error_pattern_match",
+      "source": "CODE",
+      "value": 1.0,
+      "details": {
+        "reviews_scanned": 3,
+        "total_suggestions": 4,
+        "patterns_found": 0,
+        "patterns": [],
+        "pattern_score": 1.0
+      },
+      "created_at": "2026-06-22T23:10:37.358110",
+      "duration_ms": 0
+    },
+    {
+      "score_id": "3239f24a880e",
+      "config_id": "knowledge_health",
+      "source": "CODE",
+      "value": 1.0,
+      "details": {
+        "json_total_items": 178,
+        "chroma_chunks": 232,
+        "pending_items": 0,
+        "needs_sync": false,
+        "pending_domains": [],
+        "health_score": 1.0
+      },
+      "created_at": "2026-06-22T23:27:58.269183",
+      "duration_ms": 0
+    },
+    {
+      "score_id": "72d384c33245",
+      "config_id": "error_pattern_match",
+      "source": "CODE",
+      "value": 1.0,
+      "details": {
+        "reviews_scanned": 3,
+        "total_suggestions": 4,
+        "patterns_found": 0,
+        "patterns": [],
+        "pattern_score": 1.0
+      },
+      "created_at": "2026-06-22T23:27:58.307916",
+      "duration_ms": 0
+    },
+    {
+      "score_id": "95dadaeff145",
+      "config_id": "knowledge_health",
+      "source": "CODE",
+      "value": 1.0,
+      "details": {
+        "json_total_items": 178,
+        "chroma_chunks": 232,
+        "pending_items": 0,
+        "needs_sync": false,
+        "pending_domains": [],
+        "health_score": 1.0
+      },
+      "created_at": "2026-06-23T00:01:14.674575",
+      "duration_ms": 0
+    },
+    {
+      "score_id": "31d8e3a25a40",
+      "config_id": "error_pattern_match",
+      "source": "CODE",
+      "value": 1.0,
+      "details": {
+        "reviews_scanned": 3,
+        "total_suggestions": 4,
+        "patterns_found": 0,
+        "patterns": [],
+        "pattern_score": 1.0
+      },
+      "created_at": "2026-06-23T00:01:14.690401",
+      "duration_ms": 0
+    },
+    {
+      "score_id": "2d572677955c",
+      "config_id": "knowledge_health",
+      "source": "CODE",
+      "value": 1.0,
+      "details": {
+        "json_total_items": 178,
+        "chroma_chunks": 232,
+        "pending_items": 0,
+        "needs_sync": false,
+        "pending_domains": [],
+        "health_score": 1.0
+      },
+      "created_at": "2026-06-23T00:08:38.353386",
+      "duration_ms": 0
+    },
+    {
+      "score_id": "c3e83a6ce380",
+      "config_id": "error_pattern_match",
+      "source": "CODE",
+      "value": 1.0,
+      "details": {
+        "reviews_scanned": 3,
+        "total_suggestions": 4,
+        "patterns_found": 0,
+        "patterns": [],
+        "pattern_score": 1.0
+      },
+      "created_at": "2026-06-23T00:08:38.370980",
+      "duration_ms": 0
+    },
+    {
+      "score_id": "d94d5dbdfb52",
+      "config_id": "knowledge_health",
+      "source": "CODE",
+      "value": 1.0,
+      "details": {
+        "json_total_items": 178,
+        "chroma_chunks": 232,
+        "pending_items": 0,
+        "needs_sync": false,
+        "pending_domains": [],
+        "health_score": 1.0
+      },
+      "created_at": "2026-06-23T00:10:37.417440",
+      "duration_ms": 0
+    },
+    {
+      "score_id": "8824298600c1",
+      "config_id": "error_pattern_match",
+      "source": "CODE",
+      "value": 1.0,
+      "details": {
+        "reviews_scanned": 3,
+        "total_suggestions": 4,
+        "patterns_found": 0,
+        "patterns": [],
+        "pattern_score": 1.0
+      },
+      "created_at": "2026-06-23T00:10:37.438524",
+      "duration_ms": 0
+    },
+    {
+      "score_id": "2797ce6b2a7b",
+      "config_id": "knowledge_health",
+      "source": "CODE",
+      "value": 1.0,
+      "details": {
+        "json_total_items": 178,
+        "chroma_chunks": 232,
+        "pending_items": 0,
+        "needs_sync": false,
+        "pending_domains": [],
+        "health_score": 1.0
+      },
+      "created_at": "2026-06-23T00:15:25.513159",
+      "duration_ms": 0
+    },
+    {
+      "score_id": "b65895be3fd1",
+      "config_id": "error_pattern_match",
+      "source": "CODE",
+      "value": 1.0,
+      "details": {
+        "reviews_scanned": 3,
+        "total_suggestions": 4,
+        "patterns_found": 0,
+        "patterns": [],
+        "pattern_score": 1.0
+      },
+      "created_at": "2026-06-23T00:15:25.554630",
+      "duration_ms": 0
+    },
+    {
+      "score_id": "e6bd3a1eedba",
+      "config_id": "knowledge_health",
+      "source": "CODE",
+      "value": 1.0,
+      "details": {
+        "json_total_items": 178,
+        "chroma_chunks": 232,
+        "pending_items": 0,
+        "needs_sync": false,
+        "pending_domains": [],
+        "health_score": 1.0
+      },
+      "created_at": "2026-06-23T00:18:10.374457",
+      "duration_ms": 0
+    },
+    {
+      "score_id": "c49b031cc7a0",
+      "config_id": "error_pattern_match",
+      "source": "CODE",
+      "value": 1.0,
+      "details": {
+        "reviews_scanned": 3,
+        "total_suggestions": 4,
+        "patterns_found": 0,
+        "patterns": [],
+        "pattern_score": 1.0
+      },
+      "created_at": "2026-06-23T00:18:10.416403",
+      "duration_ms": 0
+    },
+    {
+      "score_id": "0e241b83ea59",
+      "config_id": "knowledge_health",
+      "source": "CODE",
+      "value": 1.0,
+      "details": {
+        "json_total_items": 178,
+        "chroma_chunks": 232,
+        "pending_items": 0,
+        "needs_sync": false,
+        "pending_domains": [],
+        "health_score": 1.0
+      },
+      "created_at": "2026-06-23T09:00:10.330127",
+      "duration_ms": 0
+    },
+    {
+      "score_id": "3f8f8adfdf4d",
+      "config_id": "error_pattern_match",
+      "source": "CODE",
+      "value": 1.0,
+      "details": {
+        "reviews_scanned": 3,
+        "total_suggestions": 4,
+        "patterns_found": 0,
+        "patterns": [],
+        "pattern_score": 1.0
+      },
+      "created_at": "2026-06-23T09:00:10.375899",
+      "duration_ms": 0
+    },
+    {
+      "score_id": "35b1d288a84e",
+      "config_id": "knowledge_health",
+      "source": "CODE",
+      "value": 1.0,
+      "details": {
+        "json_total_items": 178,
+        "chroma_chunks": 232,
+        "pending_items": 0,
+        "needs_sync": false,
+        "pending_domains": [],
+        "health_score": 1.0
+      },
+      "created_at": "2026-06-23T12:45:56.030094",
+      "duration_ms": 0
+    },
+    {
+      "score_id": "b468d1222cba",
+      "config_id": "error_pattern_match",
+      "source": "CODE",
+      "value": 1.0,
+      "details": {
+        "reviews_scanned": 3,
+        "total_suggestions": 4,
+        "patterns_found": 0,
+        "patterns": [],
+        "pattern_score": 1.0
+      },
+      "created_at": "2026-06-23T12:45:56.042526",
+      "duration_ms": 0
+    },
+    {
+      "score_id": "fdfa4d7855ac",
+      "config_id": "knowledge_health",
+      "source": "CODE",
+      "value": 1.0,
+      "details": {
+        "json_total_items": 178,
+        "chroma_chunks": 232,
+        "pending_items": 0,
+        "needs_sync": false,
+        "pending_domains": [],
+        "health_score": 1.0
+      },
+      "created_at": "2026-06-23T12:54:22.299523",
+      "duration_ms": 0
+    },
+    {
+      "score_id": "8020edaeb479",
+      "config_id": "error_pattern_match",
+      "source": "CODE",
+      "value": 1.0,
+      "details": {
+        "reviews_scanned": 3,
+        "total_suggestions": 4,
+        "patterns_found": 0,
+        "patterns": [],
+        "pattern_score": 1.0
+      },
+      "created_at": "2026-06-23T12:54:22.312258",
+      "duration_ms": 0
+    },
+    {
+      "score_id": "8230a99b94d6",
+      "config_id": "knowledge_health",
+      "source": "CODE",
+      "value": 1.0,
+      "details": {
+        "json_total_items": 178,
+        "chroma_chunks": 232,
+        "pending_items": 0,
+        "needs_sync": false,
+        "pending_domains": [],
+        "health_score": 1.0
+      },
+      "created_at": "2026-06-23T12:57:20.967355",
+      "duration_ms": 0
+    },
+    {
+      "score_id": "e7fb3471f4b6",
+      "config_id": "error_pattern_match",
+      "source": "CODE",
+      "value": 1.0,
+      "details": {
+        "reviews_scanned": 3,
+        "total_suggestions": 4,
+        "patterns_found": 0,
+        "patterns": [],
+        "pattern_score": 1.0
+      },
+      "created_at": "2026-06-23T12:57:20.990535",
+      "duration_ms": 0
+    },
+    {
+      "score_id": "e89583642fb4",
+      "config_id": "knowledge_health",
+      "source": "CODE",
+      "value": 1.0,
+      "details": {
+        "json_total_items": 178,
+        "chroma_chunks": 232,
+        "pending_items": 0,
+        "needs_sync": false,
+        "pending_domains": [],
+        "health_score": 1.0
+      },
+      "created_at": "2026-06-23T13:04:50.024524",
+      "duration_ms": 0
+    },
+    {
+      "score_id": "7d607602c746",
+      "config_id": "error_pattern_match",
+      "source": "CODE",
+      "value": 1.0,
+      "details": {
+        "reviews_scanned": 3,
+        "total_suggestions": 4,
+        "patterns_found": 0,
+        "patterns": [],
+        "pattern_score": 1.0
+      },
+      "created_at": "2026-06-23T13:04:50.040203",
+      "duration_ms": 0
+    },
+    {
+      "score_id": "4ff50de0faac",
+      "config_id": "knowledge_health",
+      "source": "CODE",
+      "value": 1.0,
+      "details": {
+        "json_total_items": 178,
+        "chroma_chunks": 232,
+        "pending_items": 0,
+        "needs_sync": false,
+        "pending_domains": [],
+        "health_score": 1.0
+      },
+      "created_at": "2026-06-23T13:12:02.361520",
+      "duration_ms": 0
+    },
+    {
+      "score_id": "6e1b0ca4938e",
+      "config_id": "error_pattern_match",
+      "source": "CODE",
+      "value": 1.0,
+      "details": {
+        "reviews_scanned": 3,
+        "total_suggestions": 4,
+        "patterns_found": 0,
+        "patterns": [],
+        "pattern_score": 1.0
+      },
+      "created_at": "2026-06-23T13:12:02.377180",
+      "duration_ms": 0
+    },
+    {
+      "score_id": "af180af172a4",
+      "config_id": "knowledge_health",
+      "source": "CODE",
+      "value": 1.0,
+      "details": {
+        "json_total_items": 178,
+        "chroma_chunks": 232,
+        "pending_items": 0,
+        "needs_sync": false,
+        "pending_domains": [],
+        "health_score": 1.0
+      },
+      "created_at": "2026-06-23T13:14:52.706616",
+      "duration_ms": 0
+    },
+    {
+      "score_id": "06fb6cc439a6",
+      "config_id": "error_pattern_match",
+      "source": "CODE",
+      "value": 1.0,
+      "details": {
+        "reviews_scanned": 3,
+        "total_suggestions": 4,
+        "patterns_found": 0,
+        "patterns": [],
+        "pattern_score": 1.0
+      },
+      "created_at": "2026-06-23T13:14:52.723157",
+      "duration_ms": 0
+    },
+    {
+      "score_id": "19faeac1550d",
+      "config_id": "knowledge_health",
+      "source": "CODE",
+      "value": 1.0,
+      "details": {
+        "json_total_items": 178,
+        "chroma_chunks": 232,
+        "pending_items": 0,
+        "needs_sync": false,
+        "pending_domains": [],
+        "health_score": 1.0
+      },
+      "created_at": "2026-06-23T14:14:52.770055",
+      "duration_ms": 0
+    },
+    {
+      "score_id": "4e41a58a6bc7",
+      "config_id": "error_pattern_match",
+      "source": "CODE",
+      "value": 1.0,
+      "details": {
+        "reviews_scanned": 3,
+        "total_suggestions": 4,
+        "patterns_found": 0,
+        "patterns": [],
+        "pattern_score": 1.0
+      },
+      "created_at": "2026-06-23T14:14:52.786641",
+      "duration_ms": 0
+    },
+    {
+      "score_id": "8dd81707231e",
+      "config_id": "knowledge_health",
+      "source": "CODE",
+      "value": 1.0,
+      "details": {
+        "json_total_items": 178,
+        "chroma_chunks": 232,
+        "pending_items": 0,
+        "needs_sync": false,
+        "pending_domains": [],
+        "health_score": 1.0
+      },
+      "created_at": "2026-06-23T17:32:38.089722",
+      "duration_ms": 0
+    },
+    {
+      "score_id": "009e594a4bb2",
+      "config_id": "error_pattern_match",
+      "source": "CODE",
+      "value": 1.0,
+      "details": {
+        "reviews_scanned": 3,
+        "total_suggestions": 4,
+        "patterns_found": 0,
+        "patterns": [],
+        "pattern_score": 1.0
+      },
+      "created_at": "2026-06-23T17:32:38.100830",
+      "duration_ms": 0
+    },
+    {
+      "score_id": "8a589683cc19",
+      "config_id": "knowledge_health",
+      "source": "CODE",
+      "value": 1.0,
+      "details": {
+        "json_total_items": 178,
+        "chroma_chunks": 232,
+        "pending_items": 0,
+        "needs_sync": false,
+        "pending_domains": [],
+        "health_score": 1.0
+      },
+      "created_at": "2026-06-23T17:40:54.362143",
+      "duration_ms": 0
+    },
+    {
+      "score_id": "2ee84e775c67",
+      "config_id": "error_pattern_match",
+      "source": "CODE",
+      "value": 1.0,
+      "details": {
+        "reviews_scanned": 3,
+        "total_suggestions": 4,
+        "patterns_found": 0,
+        "patterns": [],
+        "pattern_score": 1.0
+      },
+      "created_at": "2026-06-23T17:40:54.381400",
+      "duration_ms": 0
+    },
+    {
+      "score_id": "040433093d94",
+      "config_id": "knowledge_health",
+      "source": "CODE",
+      "value": 1.0,
+      "details": {
+        "json_total_items": 178,
+        "chroma_chunks": 232,
+        "pending_items": 0,
+        "needs_sync": false,
+        "pending_domains": [],
+        "health_score": 1.0
+      },
+      "created_at": "2026-06-23T17:44:50.183194",
+      "duration_ms": 0
+    },
+    {
+      "score_id": "74b9c00d8053",
+      "config_id": "error_pattern_match",
+      "source": "CODE",
+      "value": 1.0,
+      "details": {
+        "reviews_scanned": 3,
+        "total_suggestions": 4,
+        "patterns_found": 0,
+        "patterns": [],
+        "pattern_score": 1.0
+      },
+      "created_at": "2026-06-23T17:44:50.200905",
+      "duration_ms": 0
+    },
+    {
+      "score_id": "0ba983b5b61c",
+      "config_id": "knowledge_health",
+      "source": "CODE",
+      "value": 1.0,
+      "details": {
+        "json_total_items": 178,
+        "chroma_chunks": 232,
+        "pending_items": 0,
+        "needs_sync": false,
+        "pending_domains": [],
+        "health_score": 1.0
+      },
+      "created_at": "2026-06-23T18:13:26.711867",
+      "duration_ms": 0
+    },
+    {
+      "score_id": "7e4b2403fae9",
+      "config_id": "error_pattern_match",
+      "source": "CODE",
+      "value": 1.0,
+      "details": {
+        "reviews_scanned": 3,
+        "total_suggestions": 4,
+        "patterns_found": 0,
+        "patterns": [],
+        "pattern_score": 1.0
+      },
+      "created_at": "2026-06-23T18:13:26.730960",
+      "duration_ms": 0
+    },
+    {
+      "score_id": "52b062672e77",
+      "config_id": "knowledge_health",
+      "source": "CODE",
+      "value": 1.0,
+      "details": {
+        "json_total_items": 178,
+        "chroma_chunks": 232,
+        "pending_items": 0,
+        "needs_sync": false,
+        "pending_domains": [],
+        "health_score": 1.0
+      },
+      "created_at": "2026-06-23T19:13:26.795762",
+      "duration_ms": 0
+    },
+    {
+      "score_id": "2467cb2e9a6d",
+      "config_id": "error_pattern_match",
+      "source": "CODE",
+      "value": 1.0,
+      "details": {
+        "reviews_scanned": 3,
+        "total_suggestions": 4,
+        "patterns_found": 0,
+        "patterns": [],
+        "pattern_score": 1.0
+      },
+      "created_at": "2026-06-23T19:13:26.804161",
+      "duration_ms": 0
+    },
+    {
+      "score_id": "0af3fbf4db12",
+      "config_id": "knowledge_health",
+      "source": "CODE",
+      "value": 1.0,
+      "details": {
+        "json_total_items": 178,
+        "chroma_chunks": 232,
+        "pending_items": 0,
+        "needs_sync": false,
+        "pending_domains": [],
+        "health_score": 1.0
+      },
+      "created_at": "2026-06-23T19:44:16.600865",
+      "duration_ms": 0
+    },
+    {
+      "score_id": "dbe56e33e5c2",
+      "config_id": "error_pattern_match",
+      "source": "CODE",
+      "value": 1.0,
+      "details": {
+        "reviews_scanned": 3,
+        "total_suggestions": 4,
+        "patterns_found": 0,
+        "patterns": [],
+        "pattern_score": 1.0
+      },
+      "created_at": "2026-06-23T19:44:16.621194",
+      "duration_ms": 0
+    },
+    {
+      "score_id": "5a0530b99a58",
+      "config_id": "knowledge_health",
+      "source": "CODE",
+      "value": 1.0,
+      "details": {
+        "json_total_items": 178,
+        "chroma_chunks": 232,
+        "pending_items": 0,
+        "needs_sync": false,
+        "pending_domains": [],
+        "health_score": 1.0
+      },
+      "created_at": "2026-06-23T19:48:49.396872",
+      "duration_ms": 0
+    },
+    {
+      "score_id": "fb22cda0be71",
+      "config_id": "error_pattern_match",
+      "source": "CODE",
+      "value": 1.0,
+      "details": {
+        "reviews_scanned": 3,
+        "total_suggestions": 4,
+        "patterns_found": 0,
+        "patterns": [],
+        "pattern_score": 1.0
+      },
+      "created_at": "2026-06-23T19:48:49.415559",
+      "duration_ms": 0
+    },
+    {
+      "score_id": "40be2556f038",
+      "config_id": "knowledge_health",
+      "source": "CODE",
+      "value": 1.0,
+      "details": {
+        "json_total_items": 178,
+        "chroma_chunks": 232,
+        "pending_items": 0,
+        "needs_sync": false,
+        "pending_domains": [],
+        "health_score": 1.0
+      },
+      "created_at": "2026-06-23T19:52:26.839180",
+      "duration_ms": 0
+    },
+    {
+      "score_id": "7683081694ab",
+      "config_id": "error_pattern_match",
+      "source": "CODE",
+      "value": 1.0,
+      "details": {
+        "reviews_scanned": 3,
+        "total_suggestions": 4,
+        "patterns_found": 0,
+        "patterns": [],
+        "pattern_score": 1.0
+      },
+      "created_at": "2026-06-23T19:52:26.862568",
+      "duration_ms": 0
+    },
+    {
+      "score_id": "7ab84a37898a",
+      "config_id": "knowledge_health",
+      "source": "CODE",
+      "value": 1.0,
+      "details": {
+        "json_total_items": 178,
+        "chroma_chunks": 232,
+        "pending_items": 0,
+        "needs_sync": false,
+        "pending_domains": [],
+        "health_score": 1.0
+      },
+      "created_at": "2026-06-23T20:03:44.145789",
+      "duration_ms": 0
+    },
+    {
+      "score_id": "500ec7f2bce3",
+      "config_id": "error_pattern_match",
+      "source": "CODE",
+      "value": 1.0,
+      "details": {
+        "reviews_scanned": 3,
+        "total_suggestions": 4,
+        "patterns_found": 0,
+        "patterns": [],
+        "pattern_score": 1.0
+      },
+      "created_at": "2026-06-23T20:03:44.165272",
+      "duration_ms": 0
+    },
+    {
+      "score_id": "652fc0f64b8e",
+      "config_id": "knowledge_health",
+      "source": "CODE",
+      "value": 1.0,
+      "details": {
+        "json_total_items": 178,
+        "chroma_chunks": 232,
+        "pending_items": 0,
+        "needs_sync": false,
+        "pending_domains": [],
+        "health_score": 1.0
+      },
+      "created_at": "2026-06-23T20:19:27.573256",
+      "duration_ms": 0
+    },
+    {
+      "score_id": "49ca4e40fdd1",
+      "config_id": "error_pattern_match",
+      "source": "CODE",
+      "value": 1.0,
+      "details": {
+        "reviews_scanned": 3,
+        "total_suggestions": 4,
+        "patterns_found": 0,
+        "patterns": [],
+        "pattern_score": 1.0
+      },
+      "created_at": "2026-06-23T20:19:27.590581",
+      "duration_ms": 0
+    },
+    {
+      "score_id": "0a09a6450e9a",
+      "config_id": "knowledge_health",
+      "source": "CODE",
+      "value": 1.0,
+      "details": {
+        "json_total_items": 178,
+        "chroma_chunks": 232,
+        "pending_items": 0,
+        "needs_sync": false,
+        "pending_domains": [],
+        "health_score": 1.0
+      },
+      "created_at": "2026-06-23T20:37:52.662769",
+      "duration_ms": 0
+    },
+    {
+      "score_id": "bdec174c9cf8",
+      "config_id": "error_pattern_match",
+      "source": "CODE",
+      "value": 1.0,
+      "details": {
+        "reviews_scanned": 3,
+        "total_suggestions": 4,
+        "patterns_found": 0,
+        "patterns": [],
+        "pattern_score": 1.0
+      },
+      "created_at": "2026-06-23T20:37:52.673311",
+      "duration_ms": 0
+    },
+    {
+      "score_id": "ac557de34535",
+      "config_id": "knowledge_health",
+      "source": "CODE",
+      "value": 1.0,
+      "details": {
+        "json_total_items": 178,
+        "chroma_chunks": 232,
+        "pending_items": 0,
+        "needs_sync": false,
+        "pending_domains": [],
+        "health_score": 1.0
+      },
+      "created_at": "2026-06-23T20:40:58.913021",
+      "duration_ms": 0
+    },
+    {
+      "score_id": "7a72302796e5",
+      "config_id": "error_pattern_match",
+      "source": "CODE",
+      "value": 1.0,
+      "details": {
+        "reviews_scanned": 3,
+        "total_suggestions": 4,
+        "patterns_found": 0,
+        "patterns": [],
+        "pattern_score": 1.0
+      },
+      "created_at": "2026-06-23T20:40:58.929819",
+      "duration_ms": 0
+    },
+    {
+      "score_id": "ea2155e2a35b",
+      "config_id": "knowledge_health",
+      "source": "CODE",
+      "value": 1.0,
+      "details": {
+        "json_total_items": 178,
+        "chroma_chunks": 232,
+        "pending_items": 0,
+        "needs_sync": false,
+        "pending_domains": [],
+        "health_score": 1.0
+      },
+      "created_at": "2026-06-23T20:55:25.136235",
+      "duration_ms": 0
+    },
+    {
+      "score_id": "e0a020b199c6",
+      "config_id": "error_pattern_match",
+      "source": "CODE",
+      "value": 1.0,
+      "details": {
+        "reviews_scanned": 3,
+        "total_suggestions": 4,
+        "patterns_found": 0,
+        "patterns": [],
+        "pattern_score": 1.0
+      },
+      "created_at": "2026-06-23T20:55:25.156282",
+      "duration_ms": 0
+    },
+    {
+      "score_id": "a6b7e3d8dc88",
+      "config_id": "knowledge_health",
+      "source": "CODE",
+      "value": 1.0,
+      "details": {
+        "json_total_items": 178,
+        "chroma_chunks": 232,
+        "pending_items": 0,
+        "needs_sync": false,
+        "pending_domains": [],
+        "health_score": 1.0
+      },
+      "created_at": "2026-06-23T21:05:59.280066",
+      "duration_ms": 0
+    },
+    {
+      "score_id": "3e45fb95d94b",
+      "config_id": "error_pattern_match",
+      "source": "CODE",
+      "value": 1.0,
+      "details": {
+        "reviews_scanned": 3,
+        "total_suggestions": 4,
+        "patterns_found": 0,
+        "patterns": [],
+        "pattern_score": 1.0
+      },
+      "created_at": "2026-06-23T21:05:59.299068",
+      "duration_ms": 0
+    },
+    {
+      "score_id": "7d656ae0d367",
+      "config_id": "knowledge_health",
+      "source": "CODE",
+      "value": 1.0,
+      "details": {
+        "json_total_items": 178,
+        "chroma_chunks": 232,
+        "pending_items": 0,
+        "needs_sync": false,
+        "pending_domains": [],
+        "health_score": 1.0
+      },
+      "created_at": "2026-06-23T21:15:17.465365",
+      "duration_ms": 0
+    },
+    {
+      "score_id": "85463280468b",
+      "config_id": "error_pattern_match",
+      "source": "CODE",
+      "value": 1.0,
+      "details": {
+        "reviews_scanned": 3,
+        "total_suggestions": 4,
+        "patterns_found": 0,
+        "patterns": [],
+        "pattern_score": 1.0
+      },
+      "created_at": "2026-06-23T21:15:17.483192",
+      "duration_ms": 0
+    },
+    {
+      "score_id": "a8ed10833371",
+      "config_id": "knowledge_health",
+      "source": "CODE",
+      "value": 1.0,
+      "details": {
+        "json_total_items": 178,
+        "chroma_chunks": 232,
+        "pending_items": 0,
+        "needs_sync": false,
+        "pending_domains": [],
+        "health_score": 1.0
+      },
+      "created_at": "2026-06-23T21:27:35.535740",
+      "duration_ms": 0
+    },
+    {
+      "score_id": "0ceb8d3128aa",
+      "config_id": "error_pattern_match",
+      "source": "CODE",
+      "value": 1.0,
+      "details": {
+        "reviews_scanned": 3,
+        "total_suggestions": 4,
+        "patterns_found": 0,
+        "patterns": [],
+        "pattern_score": 1.0
+      },
+      "created_at": "2026-06-23T21:27:35.545068",
+      "duration_ms": 0
+    },
+    {
+      "score_id": "a130cdb078f7",
+      "config_id": "knowledge_health",
+      "source": "CODE",
+      "value": 1.0,
+      "details": {
+        "json_total_items": 178,
+        "chroma_chunks": 232,
+        "pending_items": 0,
+        "needs_sync": false,
+        "pending_domains": [],
+        "health_score": 1.0
+      },
+      "created_at": "2026-06-24T09:28:17.084347",
+      "duration_ms": 0
+    },
+    {
+      "score_id": "8a6130dcc133",
+      "config_id": "error_pattern_match",
+      "source": "CODE",
+      "value": 1.0,
+      "details": {
+        "reviews_scanned": 3,
+        "total_suggestions": 4,
+        "patterns_found": 0,
+        "patterns": [],
+        "pattern_score": 1.0
+      },
+      "created_at": "2026-06-24T09:28:17.118058",
+      "duration_ms": 0
+    },
+    {
+      "score_id": "ec6b717c869a",
+      "config_id": "knowledge_health",
+      "source": "CODE",
+      "value": 1.0,
+      "details": {
+        "json_total_items": 178,
+        "chroma_chunks": 232,
+        "pending_items": 0,
+        "needs_sync": false,
+        "pending_domains": [],
+        "health_score": 1.0
+      },
+      "created_at": "2026-06-24T10:08:51.879977",
+      "duration_ms": 0
+    },
+    {
+      "score_id": "549811dfb00b",
+      "config_id": "error_pattern_match",
+      "source": "CODE",
+      "value": 1.0,
+      "details": {
+        "reviews_scanned": 3,
+        "total_suggestions": 4,
+        "patterns_found": 0,
+        "patterns": [],
+        "pattern_score": 1.0
+      },
+      "created_at": "2026-06-24T10:08:51.890565",
+      "duration_ms": 0
+    },
+    {
+      "score_id": "fa37ca44380a",
+      "config_id": "knowledge_health",
+      "source": "CODE",
+      "value": 1.0,
+      "details": {
+        "json_total_items": 178,
+        "chroma_chunks": 232,
+        "pending_items": 0,
+        "needs_sync": false,
+        "pending_domains": [],
+        "health_score": 1.0
+      },
+      "created_at": "2026-06-24T10:28:06.400518",
+      "duration_ms": 0
+    },
+    {
+      "score_id": "7afa67a83485",
+      "config_id": "error_pattern_match",
+      "source": "CODE",
+      "value": 1.0,
+      "details": {
+        "reviews_scanned": 3,
+        "total_suggestions": 4,
+        "patterns_found": 0,
+        "patterns": [],
+        "pattern_score": 1.0
+      },
+      "created_at": "2026-06-24T10:28:06.409759",
+      "duration_ms": 0
+    },
+    {
+      "score_id": "37dcfe0b1398",
+      "config_id": "knowledge_health",
+      "source": "CODE",
+      "value": 1.0,
+      "details": {
+        "json_total_items": 178,
+        "chroma_chunks": 232,
+        "pending_items": 0,
+        "needs_sync": false,
+        "pending_domains": [],
+        "health_score": 1.0
+      },
+      "created_at": "2026-06-24T11:08:43.529083",
+      "duration_ms": 0
+    },
+    {
+      "score_id": "b5d5a68020e9",
+      "config_id": "error_pattern_match",
+      "source": "CODE",
+      "value": 1.0,
+      "details": {
+        "reviews_scanned": 3,
+        "total_suggestions": 4,
+        "patterns_found": 0,
+        "patterns": [],
+        "pattern_score": 1.0
+      },
+      "created_at": "2026-06-24T11:08:43.537865",
+      "duration_ms": 0
+    },
+    {
+      "score_id": "5b2bbe19ae6f",
+      "config_id": "knowledge_health",
+      "source": "CODE",
+      "value": 1.0,
+      "details": {
+        "json_total_items": 178,
+        "chroma_chunks": 232,
+        "pending_items": 0,
+        "needs_sync": false,
+        "pending_domains": [],
+        "health_score": 1.0
+      },
+      "created_at": "2026-06-24T11:28:06.454103",
+      "duration_ms": 0
+    },
+    {
+      "score_id": "0c378d83c29e",
+      "config_id": "error_pattern_match",
+      "source": "CODE",
+      "value": 1.0,
+      "details": {
+        "reviews_scanned": 3,
+        "total_suggestions": 4,
+        "patterns_found": 0,
+        "patterns": [],
+        "pattern_score": 1.0
+      },
+      "created_at": "2026-06-24T11:28:06.462701",
+      "duration_ms": 0
+    },
+    {
+      "score_id": "451be9c876a6",
+      "config_id": "knowledge_health",
+      "source": "CODE",
+      "value": 1.0,
+      "details": {
+        "json_total_items": 178,
+        "chroma_chunks": 232,
+        "pending_items": 0,
+        "needs_sync": false,
+        "pending_domains": [],
+        "health_score": 1.0
+      },
+      "created_at": "2026-06-24T12:08:43.625650",
+      "duration_ms": 0
+    },
+    {
+      "score_id": "30860931a82f",
+      "config_id": "error_pattern_match",
+      "source": "CODE",
+      "value": 1.0,
+      "details": {
+        "reviews_scanned": 3,
+        "total_suggestions": 4,
+        "patterns_found": 0,
+        "patterns": [],
+        "pattern_score": 1.0
+      },
+      "created_at": "2026-06-24T12:08:43.645448",
+      "duration_ms": 0
+    },
+    {
+      "score_id": "afdd07458233",
+      "config_id": "knowledge_health",
+      "source": "CODE",
+      "value": 1.0,
+      "details": {
+        "json_total_items": 178,
+        "chroma_chunks": 232,
+        "pending_items": 0,
+        "needs_sync": false,
+        "pending_domains": [],
+        "health_score": 1.0
+      },
+      "created_at": "2026-06-24T12:28:06.504448",
+      "duration_ms": 0
+    },
+    {
+      "score_id": "d36cec4bb625",
+      "config_id": "error_pattern_match",
+      "source": "CODE",
+      "value": 1.0,
+      "details": {
+        "reviews_scanned": 3,
+        "total_suggestions": 4,
+        "patterns_found": 0,
+        "patterns": [],
+        "pattern_score": 1.0
+      },
+      "created_at": "2026-06-24T12:28:06.521661",
+      "duration_ms": 0
+    },
+    {
+      "score_id": "9a1a0870611b",
+      "config_id": "knowledge_health",
+      "source": "CODE",
+      "value": 1.0,
+      "details": {
+        "json_total_items": 178,
+        "chroma_chunks": 232,
+        "pending_items": 0,
+        "needs_sync": false,
+        "pending_domains": [],
+        "health_score": 1.0
+      },
+      "created_at": "2026-06-24T13:04:15.241552",
+      "duration_ms": 0
+    },
+    {
+      "score_id": "c2cf44700f54",
+      "config_id": "error_pattern_match",
+      "source": "CODE",
+      "value": 1.0,
+      "details": {
+        "reviews_scanned": 3,
+        "total_suggestions": 4,
+        "patterns_found": 0,
+        "patterns": [],
+        "pattern_score": 1.0
+      },
+      "created_at": "2026-06-24T13:04:15.252212",
+      "duration_ms": 0
+    },
+    {
+      "score_id": "12f69b5840d8",
+      "config_id": "knowledge_health",
+      "source": "CODE",
+      "value": 1.0,
+      "details": {
+        "json_total_items": 178,
+        "chroma_chunks": 232,
+        "pending_items": 0,
+        "needs_sync": false,
+        "pending_domains": [],
+        "health_score": 1.0
+      },
+      "created_at": "2026-06-24T13:20:39.718800",
+      "duration_ms": 0
+    },
+    {
+      "score_id": "d2a9207f5b5c",
+      "config_id": "error_pattern_match",
+      "source": "CODE",
+      "value": 1.0,
+      "details": {
+        "reviews_scanned": 3,
+        "total_suggestions": 4,
+        "patterns_found": 0,
+        "patterns": [],
+        "pattern_score": 1.0
+      },
+      "created_at": "2026-06-24T13:20:39.737413",
+      "duration_ms": 0
+    },
+    {
+      "score_id": "9d0837d29f6f",
+      "config_id": "knowledge_health",
+      "source": "CODE",
+      "value": 1.0,
+      "details": {
+        "json_total_items": 178,
+        "chroma_chunks": 232,
+        "pending_items": 0,
+        "needs_sync": false,
+        "pending_domains": [],
+        "health_score": 1.0
+      },
+      "created_at": "2026-06-24T13:43:57.465290",
+      "duration_ms": 0
+    },
+    {
+      "score_id": "6242462f26c0",
+      "config_id": "error_pattern_match",
+      "source": "CODE",
+      "value": 1.0,
+      "details": {
+        "reviews_scanned": 3,
+        "total_suggestions": 4,
+        "patterns_found": 0,
+        "patterns": [],
+        "pattern_score": 1.0
+      },
+      "created_at": "2026-06-24T13:43:57.481034",
+      "duration_ms": 0
+    },
+    {
+      "score_id": "f7b53ec5f37c",
+      "config_id": "knowledge_health",
+      "source": "CODE",
+      "value": 1.0,
+      "details": {
+        "json_total_items": 178,
+        "chroma_chunks": 232,
+        "pending_items": 0,
+        "needs_sync": false,
+        "pending_domains": [],
+        "health_score": 1.0
+      },
+      "created_at": "2026-06-24T14:07:49.631454",
+      "duration_ms": 0
+    },
+    {
+      "score_id": "234cb021d861",
+      "config_id": "error_pattern_match",
+      "source": "CODE",
+      "value": 1.0,
+      "details": {
+        "reviews_scanned": 3,
+        "total_suggestions": 4,
+        "patterns_found": 0,
+        "patterns": [],
+        "pattern_score": 1.0
+      },
+      "created_at": "2026-06-24T14:07:49.639959",
+      "duration_ms": 0
+    },
+    {
+      "score_id": "21e49f0cf5b2",
+      "config_id": "knowledge_health",
+      "source": "CODE",
+      "value": 1.0,
+      "details": {
+        "json_total_items": 178,
+        "chroma_chunks": 232,
+        "pending_items": 0,
+        "needs_sync": false,
+        "pending_domains": [],
+        "health_score": 1.0
+      },
+      "created_at": "2026-06-24T14:21:22.443849",
+      "duration_ms": 0
+    },
+    {
+      "score_id": "d1b6f5ec57a2",
+      "config_id": "error_pattern_match",
+      "source": "CODE",
+      "value": 1.0,
+      "details": {
+        "reviews_scanned": 3,
+        "total_suggestions": 4,
+        "patterns_found": 0,
+        "patterns": [],
+        "pattern_score": 1.0
+      },
+      "created_at": "2026-06-24T14:21:22.464259",
+      "duration_ms": 0
+    },
+    {
+      "score_id": "50829e120470",
+      "config_id": "knowledge_health",
+      "source": "CODE",
+      "value": 1.0,
+      "details": {
+        "json_total_items": 178,
+        "chroma_chunks": 232,
+        "pending_items": 0,
+        "needs_sync": false,
+        "pending_domains": [],
+        "health_score": 1.0
+      },
+      "created_at": "2026-06-24T14:46:11.705889",
+      "duration_ms": 0
+    },
+    {
+      "score_id": "69f15db1561e",
+      "config_id": "error_pattern_match",
+      "source": "CODE",
+      "value": 1.0,
+      "details": {
+        "reviews_scanned": 3,
+        "total_suggestions": 4,
+        "patterns_found": 0,
+        "patterns": [],
+        "pattern_score": 1.0
+      },
+      "created_at": "2026-06-24T14:46:11.715361",
+      "duration_ms": 0
+    },
+    {
+      "score_id": "7b6343f1bca5",
+      "config_id": "knowledge_health",
+      "source": "CODE",
+      "value": 1.0,
+      "details": {
+        "json_total_items": 178,
+        "chroma_chunks": 232,
+        "pending_items": 0,
+        "needs_sync": false,
+        "pending_domains": [],
+        "health_score": 1.0
+      },
+      "created_at": "2026-06-24T14:52:26.682763",
+      "duration_ms": 0
+    },
+    {
+      "score_id": "16447cf5776e",
+      "config_id": "error_pattern_match",
+      "source": "CODE",
+      "value": 1.0,
+      "details": {
+        "reviews_scanned": 3,
+        "total_suggestions": 4,
+        "patterns_found": 0,
+        "patterns": [],
+        "pattern_score": 1.0
+      },
+      "created_at": "2026-06-24T14:52:26.707513",
+      "duration_ms": 0
+    },
+    {
+      "score_id": "12c392345da2",
+      "config_id": "knowledge_health",
+      "source": "CODE",
+      "value": 1.0,
+      "details": {
+        "json_total_items": 178,
+        "chroma_chunks": 232,
+        "pending_items": 0,
+        "needs_sync": false,
+        "pending_domains": [],
+        "health_score": 1.0
+      },
+      "created_at": "2026-06-24T15:01:18.869643",
+      "duration_ms": 0
+    },
+    {
+      "score_id": "b6ba8d8d1ae3",
+      "config_id": "error_pattern_match",
+      "source": "CODE",
+      "value": 1.0,
+      "details": {
+        "reviews_scanned": 3,
+        "total_suggestions": 4,
+        "patterns_found": 0,
+        "patterns": [],
+        "pattern_score": 1.0
+      },
+      "created_at": "2026-06-24T15:01:18.889068",
+      "duration_ms": 0
+    },
+    {
+      "score_id": "9d17c1f6f759",
+      "config_id": "knowledge_health",
+      "source": "CODE",
+      "value": 1.0,
+      "details": {
+        "json_total_items": 178,
+        "chroma_chunks": 232,
+        "pending_items": 0,
+        "needs_sync": false,
+        "pending_domains": [],
+        "health_score": 1.0
+      },
+      "created_at": "2026-06-24T15:08:58.827379",
+      "duration_ms": 0
+    },
+    {
+      "score_id": "2230e868baf5",
+      "config_id": "error_pattern_match",
+      "source": "CODE",
+      "value": 1.0,
+      "details": {
+        "reviews_scanned": 3,
+        "total_suggestions": 4,
+        "patterns_found": 0,
+        "patterns": [],
+        "pattern_score": 1.0
+      },
+      "created_at": "2026-06-24T15:08:58.846633",
+      "duration_ms": 0
+    },
+    {
+      "score_id": "5c6e09a1920a",
+      "config_id": "knowledge_health",
+      "source": "CODE",
+      "value": 1.0,
+      "details": {
+        "json_total_items": 178,
+        "chroma_chunks": 232,
+        "pending_items": 0,
+        "needs_sync": false,
+        "pending_domains": [],
+        "health_score": 1.0
+      },
+      "created_at": "2026-06-24T16:08:58.908257",
+      "duration_ms": 0
+    },
+    {
+      "score_id": "06dfa81d12ad",
+      "config_id": "error_pattern_match",
+      "source": "CODE",
+      "value": 1.0,
+      "details": {
+        "reviews_scanned": 3,
+        "total_suggestions": 4,
+        "patterns_found": 0,
+        "patterns": [],
+        "pattern_score": 1.0
+      },
+      "created_at": "2026-06-24T16:08:58.918026",
+      "duration_ms": 0
+    },
+    {
+      "score_id": "1a1f12990840",
+      "config_id": "knowledge_health",
+      "source": "CODE",
+      "value": 1.0,
+      "details": {
+        "json_total_items": 178,
+        "chroma_chunks": 232,
+        "pending_items": 0,
+        "needs_sync": false,
+        "pending_domains": [],
+        "health_score": 1.0
+      },
+      "created_at": "2026-06-24T17:08:58.968462",
+      "duration_ms": 0
+    },
+    {
+      "score_id": "f476580516fe",
+      "config_id": "error_pattern_match",
+      "source": "CODE",
+      "value": 1.0,
+      "details": {
+        "reviews_scanned": 3,
+        "total_suggestions": 4,
+        "patterns_found": 0,
+        "patterns": [],
+        "pattern_score": 1.0
+      },
+      "created_at": "2026-06-24T17:08:58.977522",
+      "duration_ms": 0
+    },
+    {
+      "score_id": "b4c70c25868e",
+      "config_id": "knowledge_health",
+      "source": "CODE",
+      "value": 1.0,
+      "details": {
+        "json_total_items": 178,
+        "chroma_chunks": 232,
+        "pending_items": 0,
+        "needs_sync": false,
+        "pending_domains": [],
+        "health_score": 1.0
+      },
+      "created_at": "2026-06-24T18:08:59.024897",
+      "duration_ms": 0
+    },
+    {
+      "score_id": "52d020b1bd1a",
+      "config_id": "error_pattern_match",
+      "source": "CODE",
+      "value": 1.0,
+      "details": {
+        "reviews_scanned": 3,
+        "total_suggestions": 4,
+        "patterns_found": 0,
+        "patterns": [],
+        "pattern_score": 1.0
+      },
+      "created_at": "2026-06-24T18:08:59.043956",
+      "duration_ms": 0
+    },
+    {
+      "score_id": "e49074ef5c41",
+      "config_id": "knowledge_health",
+      "source": "CODE",
+      "value": 1.0,
+      "details": {
+        "json_total_items": 178,
+        "chroma_chunks": 232,
+        "pending_items": 0,
+        "needs_sync": false,
+        "pending_domains": [],
+        "health_score": 1.0
+      },
+      "created_at": "2026-06-24T19:08:59.088419",
+      "duration_ms": 0
+    },
+    {
+      "score_id": "f2bdc08b4764",
+      "config_id": "error_pattern_match",
+      "source": "CODE",
+      "value": 1.0,
+      "details": {
+        "reviews_scanned": 3,
+        "total_suggestions": 4,
+        "patterns_found": 0,
+        "patterns": [],
+        "pattern_score": 1.0
+      },
+      "created_at": "2026-06-24T19:08:59.096951",
+      "duration_ms": 0
+    },
+    {
+      "score_id": "541f4412ee51",
+      "config_id": "knowledge_health",
+      "source": "CODE",
+      "value": 1.0,
+      "details": {
+        "json_total_items": 178,
+        "chroma_chunks": 232,
+        "pending_items": 0,
+        "needs_sync": false,
+        "pending_domains": [],
+        "health_score": 1.0
+      },
+      "created_at": "2026-06-24T20:08:59.151309",
+      "duration_ms": 0
+    },
+    {
+      "score_id": "38b6f24b9870",
+      "config_id": "error_pattern_match",
+      "source": "CODE",
+      "value": 1.0,
+      "details": {
+        "reviews_scanned": 3,
+        "total_suggestions": 4,
+        "patterns_found": 0,
+        "patterns": [],
+        "pattern_score": 1.0
+      },
+      "created_at": "2026-06-24T20:08:59.161138",
+      "duration_ms": 0
+    },
+    {
+      "score_id": "18937830ef16",
+      "config_id": "eval_process_adherence",
+      "target_type": "system",
+      "target_id": "eval_system",
+      "value": 0.6667,
+      "details": {
+        "passes": 4,
+        "total": 6,
+        "deviations": [
+          "redline3_20mile_march",
+          "redline3_20mile_march"
+        ]
+      },
+      "created_at": "2026-06-24T20:08:59.199800",
+      "source": "META_EVAL"
+    },
+    {
+      "score_id": "8d32ceb69ce7",
+      "config_id": "eval_system_freshness",
+      "target_type": "system",
+      "target_id": "eval_system",
+      "value": 0.0,
+      "details": {
+        "total_configs": 17,
+        "fresh": 0,
+        "stale": 17,
+        "stale_configs": [
+          {
+            "config_id": "data_completeness",
+            "age_days": null,
+            "reason": "no timestamp"
+          },
+          {
+            "config_id": "eval_system_freshness",
+            "age_days": null,
+            "reason": "no timestamp"
+          },
+          {
+            "config_id": "security_score",
+            "age_days": null,
+            "reason": "no timestamp"
+          },
+          {
+            "config_id": "agent_success_rate",
+            "age_days": null,
+            "reason": "no timestamp"
+          },
+          {
+            "config_id": "agent_efficiency",
+            "age_days": null,
+            "reason": "no timestamp"
+          },
+          {
+            "config_id": "agent_tool_accuracy",
+            "age_days": null,
+            "reason": "no timestamp"
+          },
+          {
+            "config_id": "code_health",
+            "age_days": null,
+            "reason": "no timestamp"
+          },
+          {
+            "config_id": "doc_coverage",
+            "age_days": null,
+            "reason": "no timestamp"
+          },
+          {
+            "config_id": "data_completeness_crossval",
+            "age_days": null,
+            "reason": "no timestamp"
+          },
+          {
+            "config_id": "code_llm_consensus",
+            "age_days": null,
+            "reason": "no timestamp"
+          }
+        ]
+      },
+      "created_at": "2026-06-24T20:08:59.214116",
+      "source": "META_EVAL"
+    },
+    {
+      "score_id": "2962460ec0af",
+      "config_id": "code_llm_consensus",
+      "target_type": "system",
+      "target_id": "eval_system",
+      "value": 1.0,
+      "details": {
+        "compared": 0,
+        "disagreements": 0,
+        "disagreement_rate": null
+      },
+      "created_at": "2026-06-24T20:08:59.239791",
+      "source": "META_EVAL"
+    },
+    {
+      "score_id": "28a57d065617",
+      "config_id": "score_drift",
+      "target_type": "system",
+      "target_id": "eval_system",
+      "value": 1.0,
+      "details": {
+        "checked": 9,
+        "drifting": 0,
+        "drifting_configs": []
+      },
+      "created_at": "2026-06-24T20:08:59.270016",
+      "source": "META_EVAL"
+    },
+    {
+      "score_id": "34ce4c8b6129",
+      "config_id": "kb_protection_coverage",
+      "target_type": "system",
+      "target_id": "eval_system",
+      "value": 1.0,
+      "details": {
+        "checked": 8,
+        "unprotected": 0,
+        "unprotected_details": []
+      },
+      "created_at": "2026-06-24T20:09:07.822035",
+      "source": "META_EVAL"
+    },
+    {
+      "score_id": "6a1a367716ae",
+      "config_id": "knowledge_health",
+      "source": "CODE",
+      "value": 1.0,
+      "details": {
+        "json_total_items": 178,
+        "chroma_chunks": 232,
+        "pending_items": 0,
+        "needs_sync": false,
+        "pending_domains": [],
+        "health_score": 1.0
+      },
+      "created_at": "2026-06-24T20:12:47.901013",
+      "duration_ms": 0
+    },
+    {
+      "score_id": "7b74bdf6fef1",
+      "config_id": "error_pattern_match",
+      "source": "CODE",
+      "value": 1.0,
+      "details": {
+        "reviews_scanned": 3,
+        "total_suggestions": 4,
+        "patterns_found": 0,
+        "patterns": [],
+        "pattern_score": 1.0
+      },
+      "created_at": "2026-06-24T20:12:47.921993",
+      "duration_ms": 0
+    },
+    {
+      "score_id": "582ee6effc6d",
+      "config_id": "knowledge_health",
+      "source": "CODE",
+      "value": 1.0,
+      "details": {
+        "json_total_items": 178,
+        "chroma_chunks": 232,
+        "pending_items": 0,
+        "needs_sync": false,
+        "pending_domains": [],
+        "health_score": 1.0
+      },
+      "created_at": "2026-06-24T20:26:24.305163",
+      "duration_ms": 0
+    },
+    {
+      "score_id": "be8371cd07e2",
+      "config_id": "error_pattern_match",
+      "source": "CODE",
+      "value": 1.0,
+      "details": {
+        "reviews_scanned": 3,
+        "total_suggestions": 4,
+        "patterns_found": 0,
+        "patterns": [],
+        "pattern_score": 1.0
+      },
+      "created_at": "2026-06-24T20:26:24.325983",
+      "duration_ms": 0
+    },
+    {
+      "score_id": "f3dd10767f30",
+      "config_id": "knowledge_health",
+      "source": "CODE",
+      "value": 1.0,
+      "details": {
+        "json_total_items": 178,
+        "chroma_chunks": 232,
+        "pending_items": 0,
+        "needs_sync": false,
+        "pending_domains": [],
+        "health_score": 1.0
+      },
+      "created_at": "2026-06-24T20:59:02.824510",
+      "duration_ms": 0
+    },
+    {
+      "score_id": "67f5aa9141f0",
+      "config_id": "error_pattern_match",
+      "source": "CODE",
+      "value": 1.0,
+      "details": {
+        "reviews_scanned": 3,
+        "total_suggestions": 4,
+        "patterns_found": 0,
+        "patterns": [],
+        "pattern_score": 1.0
+      },
+      "created_at": "2026-06-24T20:59:02.840384",
+      "duration_ms": 0
+    },
+    {
+      "score_id": "7dc18de7db0c",
+      "config_id": "knowledge_health",
+      "source": "CODE",
+      "value": 1.0,
+      "details": {
+        "json_total_items": 178,
+        "chroma_chunks": 232,
+        "pending_items": 0,
+        "needs_sync": false,
+        "pending_domains": [],
+        "health_score": 1.0
+      },
+      "created_at": "2026-06-24T21:00:12.903314",
+      "duration_ms": 0
+    },
+    {
+      "score_id": "664fde6238ea",
+      "config_id": "error_pattern_match",
+      "source": "CODE",
+      "value": 1.0,
+      "details": {
+        "reviews_scanned": 3,
+        "total_suggestions": 4,
+        "patterns_found": 0,
+        "patterns": [],
+        "pattern_score": 1.0
+      },
+      "created_at": "2026-06-24T21:00:12.924269",
+      "duration_ms": 0
+    },
+    {
+      "score_id": "9dbc7097032b",
+      "config_id": "knowledge_health",
+      "source": "CODE",
+      "value": 1.0,
+      "details": {
+        "json_total_items": 178,
+        "chroma_chunks": 232,
+        "pending_items": 0,
+        "needs_sync": false,
+        "pending_domains": [],
+        "health_score": 1.0
+      },
+      "created_at": "2026-06-24T21:02:33.653502",
+      "duration_ms": 0
+    },
+    {
+      "score_id": "5c95238da164",
+      "config_id": "error_pattern_match",
+      "source": "CODE",
+      "value": 1.0,
+      "details": {
+        "reviews_scanned": 3,
+        "total_suggestions": 4,
+        "patterns_found": 0,
+        "patterns": [],
+        "pattern_score": 1.0
+      },
+      "created_at": "2026-06-24T21:02:33.670725",
+      "duration_ms": 0
+    },
+    {
+      "score_id": "3be10f217cf4",
+      "config_id": "knowledge_health",
+      "source": "CODE",
+      "value": 1.0,
+      "details": {
+        "json_total_items": 178,
+        "chroma_chunks": 232,
+        "pending_items": 0,
+        "needs_sync": false,
+        "pending_domains": [],
+        "health_score": 1.0
+      },
+      "created_at": "2026-06-24T21:05:06.460146",
+      "duration_ms": 0
+    },
+    {
+      "score_id": "a8b2591da406",
+      "config_id": "error_pattern_match",
+      "source": "CODE",
+      "value": 1.0,
+      "details": {
+        "reviews_scanned": 3,
+        "total_suggestions": 4,
+        "patterns_found": 0,
+        "patterns": [],
+        "pattern_score": 1.0
+      },
+      "created_at": "2026-06-24T21:05:06.479246",
+      "duration_ms": 0
+    },
+    {
+      "score_id": "5570e9b3ec7b",
+      "config_id": "knowledge_health",
+      "source": "CODE",
+      "value": 1.0,
+      "details": {
+        "json_total_items": 178,
+        "chroma_chunks": 232,
+        "pending_items": 0,
+        "needs_sync": false,
+        "pending_domains": [],
+        "health_score": 1.0
+      },
+      "created_at": "2026-06-24T21:09:27.048925",
+      "duration_ms": 0
+    },
+    {
+      "score_id": "ed4769061676",
+      "config_id": "error_pattern_match",
+      "source": "CODE",
+      "value": 1.0,
+      "details": {
+        "reviews_scanned": 3,
+        "total_suggestions": 4,
+        "patterns_found": 0,
+        "patterns": [],
+        "pattern_score": 1.0
+      },
+      "created_at": "2026-06-24T21:09:27.059398",
+      "duration_ms": 0
+    },
+    {
+      "score_id": "7ca4ef77bcf1",
+      "config_id": "knowledge_health",
+      "source": "CODE",
+      "value": 1.0,
+      "details": {
+        "json_total_items": 178,
+        "chroma_chunks": 232,
+        "pending_items": 0,
+        "needs_sync": false,
+        "pending_domains": [],
+        "health_score": 1.0
+      },
+      "created_at": "2026-06-24T21:11:20.819080",
+      "duration_ms": 0
+    },
+    {
+      "score_id": "aa4c0e4454a0",
+      "config_id": "error_pattern_match",
+      "source": "CODE",
+      "value": 1.0,
+      "details": {
+        "reviews_scanned": 3,
+        "total_suggestions": 4,
+        "patterns_found": 0,
+        "patterns": [],
+        "pattern_score": 1.0
+      },
+      "created_at": "2026-06-24T21:11:20.829914",
+      "duration_ms": 0
+    },
+    {
+      "score_id": "67965a107201",
+      "config_id": "knowledge_health",
+      "source": "CODE",
+      "value": 1.0,
+      "details": {
+        "json_total_items": 178,
+        "chroma_chunks": 232,
+        "pending_items": 0,
+        "needs_sync": false,
+        "pending_domains": [],
+        "health_score": 1.0
+      },
+      "created_at": "2026-06-24T21:17:24.820461",
+      "duration_ms": 0
+    },
+    {
+      "score_id": "d632fb2130fb",
+      "config_id": "error_pattern_match",
+      "source": "CODE",
+      "value": 1.0,
+      "details": {
+        "reviews_scanned": 3,
+        "total_suggestions": 4,
+        "patterns_found": 0,
+        "patterns": [],
+        "pattern_score": 1.0
+      },
+      "created_at": "2026-06-24T21:17:24.829992",
+      "duration_ms": 0
+    },
+    {
+      "score_id": "07685ff9ab0a",
+      "config_id": "knowledge_health",
+      "source": "CODE",
+      "value": 1.0,
+      "details": {
+        "json_total_items": 178,
+        "chroma_chunks": 232,
+        "pending_items": 0,
+        "needs_sync": false,
+        "pending_domains": [],
+        "health_score": 1.0
+      },
+      "created_at": "2026-06-24T21:18:38.982565",
+      "duration_ms": 0
+    },
+    {
+      "score_id": "561c48f14dad",
+      "config_id": "error_pattern_match",
+      "source": "CODE",
+      "value": 1.0,
+      "details": {
+        "reviews_scanned": 3,
+        "total_suggestions": 4,
+        "patterns_found": 0,
+        "patterns": [],
+        "pattern_score": 1.0
+      },
+      "created_at": "2026-06-24T21:18:39.002182",
+      "duration_ms": 0
+    },
+    {
+      "score_id": "aa473edf5771",
+      "config_id": "knowledge_health",
+      "source": "CODE",
+      "value": 1.0,
+      "details": {
+        "json_total_items": 178,
+        "chroma_chunks": 232,
+        "pending_items": 0,
+        "needs_sync": false,
+        "pending_domains": [],
+        "health_score": 1.0
+      },
+      "created_at": "2026-06-24T21:29:47.277174",
+      "duration_ms": 0
+    },
+    {
+      "score_id": "3226c41ac19a",
+      "config_id": "error_pattern_match",
+      "source": "CODE",
+      "value": 1.0,
+      "details": {
+        "reviews_scanned": 3,
+        "total_suggestions": 4,
+        "patterns_found": 0,
+        "patterns": [],
+        "pattern_score": 1.0
+      },
+      "created_at": "2026-06-24T21:29:47.286273",
+      "duration_ms": 0
+    },
+    {
+      "score_id": "c57f5524c5cb",
+      "config_id": "knowledge_health",
+      "source": "CODE",
+      "value": 1.0,
+      "details": {
+        "json_total_items": 178,
+        "chroma_chunks": 232,
+        "pending_items": 0,
+        "needs_sync": false,
+        "pending_domains": [],
+        "health_score": 1.0
+      },
+      "created_at": "2026-06-24T21:48:40.647500",
+      "duration_ms": 0
+    },
+    {
+      "score_id": "d3a987ca80e7",
+      "config_id": "error_pattern_match",
+      "source": "CODE",
+      "value": 1.0,
+      "details": {
+        "reviews_scanned": 3,
+        "total_suggestions": 4,
+        "patterns_found": 0,
+        "patterns": [],
+        "pattern_score": 1.0
+      },
+      "created_at": "2026-06-24T21:48:40.657776",
+      "duration_ms": 0
+    },
+    {
+      "score_id": "f642a4fc99c3",
+      "config_id": "knowledge_health",
+      "source": "CODE",
+      "value": 1.0,
+      "details": {
+        "json_total_items": 178,
+        "chroma_chunks": 232,
+        "pending_items": 0,
+        "needs_sync": false,
+        "pending_domains": [],
+        "health_score": 1.0
+      },
+      "created_at": "2026-06-24T22:48:40.781101",
+      "duration_ms": 0
+    },
+    {
+      "score_id": "85874aa4ce5b",
+      "config_id": "error_pattern_match",
+      "source": "CODE",
+      "value": 1.0,
+      "details": {
+        "reviews_scanned": 3,
+        "total_suggestions": 4,
+        "patterns_found": 0,
+        "patterns": [],
+        "pattern_score": 1.0
+      },
+      "created_at": "2026-06-24T22:48:40.790773",
+      "duration_ms": 0
+    },
+    {
+      "score_id": "dd4ee5d9dc8d",
+      "config_id": "knowledge_health",
+      "source": "CODE",
+      "value": 1.0,
+      "details": {
+        "json_total_items": 178,
+        "chroma_chunks": 232,
+        "pending_items": 0,
+        "needs_sync": false,
+        "pending_domains": [],
+        "health_score": 1.0
+      },
+      "created_at": "2026-06-24T23:48:40.863259",
+      "duration_ms": 0
+    },
+    {
+      "score_id": "2ac3f764a6aa",
+      "config_id": "error_pattern_match",
+      "source": "CODE",
+      "value": 1.0,
+      "details": {
+        "reviews_scanned": 3,
+        "total_suggestions": 4,
+        "patterns_found": 0,
+        "patterns": [],
+        "pattern_score": 1.0
+      },
+      "created_at": "2026-06-24T23:48:40.887790",
+      "duration_ms": 0
+    },
+    {
+      "score_id": "71c381ecc238",
+      "config_id": "knowledge_health",
+      "source": "CODE",
+      "value": 1.0,
+      "details": {
+        "json_total_items": 178,
+        "chroma_chunks": 232,
+        "pending_items": 0,
+        "needs_sync": false,
+        "pending_domains": [],
+        "health_score": 1.0
+      },
+      "created_at": "2026-06-29T19:25:24.283084",
+      "duration_ms": 0
+    },
+    {
+      "score_id": "06bed472622c",
+      "config_id": "error_pattern_match",
+      "source": "CODE",
+      "value": 1.0,
+      "details": {
+        "reviews_scanned": 3,
+        "total_suggestions": 4,
+        "patterns_found": 0,
+        "patterns": [],
+        "pattern_score": 1.0
+      },
+      "created_at": "2026-06-29T19:25:24.300530",
+      "duration_ms": 0
+    },
+    {
+      "score_id": "7d4fd539a8cf",
+      "config_id": "knowledge_health",
+      "source": "CODE",
+      "value": 1.0,
+      "details": {
+        "json_total_items": 178,
+        "chroma_chunks": 232,
+        "pending_items": 0,
+        "needs_sync": false,
+        "pending_domains": [],
+        "health_score": 1.0
+      },
+      "created_at": "2026-06-29T19:57:13.677419",
+      "duration_ms": 0
+    },
+    {
+      "score_id": "cfa1387a2cd6",
+      "config_id": "error_pattern_match",
+      "source": "CODE",
+      "value": 1.0,
+      "details": {
+        "reviews_scanned": 3,
+        "total_suggestions": 4,
+        "patterns_found": 0,
+        "patterns": [],
+        "pattern_score": 1.0
+      },
+      "created_at": "2026-06-29T19:57:13.689282",
+      "duration_ms": 0
+    },
+    {
+      "score_id": "aaa27499292f",
+      "config_id": "knowledge_health",
+      "source": "CODE",
+      "value": 1.0,
+      "details": {
+        "json_total_items": 178,
+        "chroma_chunks": 232,
+        "pending_items": 0,
+        "needs_sync": false,
+        "pending_domains": [],
+        "health_score": 1.0
+      },
+      "created_at": "2026-06-29T20:02:00.101895",
+      "duration_ms": 0
+    },
+    {
+      "score_id": "16d2c1c137ff",
+      "config_id": "error_pattern_match",
+      "source": "CODE",
+      "value": 1.0,
+      "details": {
+        "reviews_scanned": 3,
+        "total_suggestions": 4,
+        "patterns_found": 0,
+        "patterns": [],
+        "pattern_score": 1.0
+      },
+      "created_at": "2026-06-29T20:02:00.124621",
+      "duration_ms": 0
+    },
+    {
+      "score_id": "b09e5204c5e6",
+      "config_id": "knowledge_health",
+      "source": "CODE",
+      "value": 1.0,
+      "details": {
+        "json_total_items": 178,
+        "chroma_chunks": 232,
+        "pending_items": 0,
+        "needs_sync": false,
+        "pending_domains": [],
+        "health_score": 1.0
+      },
+      "created_at": "2026-06-29T20:19:41.844985",
+      "duration_ms": 0
+    },
+    {
+      "score_id": "d43383595abf",
+      "config_id": "error_pattern_match",
+      "source": "CODE",
+      "value": 1.0,
+      "details": {
+        "reviews_scanned": 3,
+        "total_suggestions": 4,
+        "patterns_found": 0,
+        "patterns": [],
+        "pattern_score": 1.0
+      },
+      "created_at": "2026-06-29T20:19:41.865689",
+      "duration_ms": 0
+    },
+    {
+      "score_id": "872aa0ad666e",
+      "config_id": "knowledge_health",
+      "source": "CODE",
+      "value": 1.0,
+      "details": {
+        "json_total_items": 178,
+        "chroma_chunks": 232,
+        "pending_items": 0,
+        "needs_sync": false,
+        "pending_domains": [],
+        "health_score": 1.0
+      },
+      "created_at": "2026-06-29T20:24:13.059288",
+      "duration_ms": 0
+    },
+    {
+      "score_id": "f6ed1853957f",
+      "config_id": "error_pattern_match",
+      "source": "CODE",
+      "value": 1.0,
+      "details": {
+        "reviews_scanned": 3,
+        "total_suggestions": 4,
+        "patterns_found": 0,
+        "patterns": [],
+        "pattern_score": 1.0
+      },
+      "created_at": "2026-06-29T20:24:13.087238",
+      "duration_ms": 0
+    },
+    {
+      "score_id": "2a8ac282f715",
+      "config_id": "knowledge_health",
+      "source": "CODE",
+      "value": 1.0,
+      "details": {
+        "json_total_items": 178,
+        "chroma_chunks": 232,
+        "pending_items": 0,
+        "needs_sync": false,
+        "pending_domains": [],
+        "health_score": 1.0
+      },
+      "created_at": "2026-06-30T09:00:07.003256",
+      "duration_ms": 0
+    },
+    {
+      "score_id": "e51d45517821",
+      "config_id": "error_pattern_match",
+      "source": "CODE",
+      "value": 1.0,
+      "details": {
+        "reviews_scanned": 3,
+        "total_suggestions": 4,
+        "patterns_found": 0,
+        "patterns": [],
+        "pattern_score": 1.0
+      },
+      "created_at": "2026-06-30T09:00:07.034203",
+      "duration_ms": 0
+    },
+    {
+      "score_id": "d001dd03102d",
+      "config_id": "knowledge_health",
+      "source": "CODE",
+      "value": 1.0,
+      "details": {
+        "json_total_items": 178,
+        "chroma_chunks": 232,
+        "pending_items": 0,
+        "needs_sync": false,
+        "pending_domains": [],
+        "health_score": 1.0
+      },
+      "created_at": "2026-06-30T09:33:35.672788",
+      "duration_ms": 0
+    },
+    {
+      "score_id": "31101af56318",
+      "config_id": "error_pattern_match",
+      "source": "CODE",
+      "value": 1.0,
+      "details": {
+        "reviews_scanned": 3,
+        "total_suggestions": 4,
+        "patterns_found": 0,
+        "patterns": [],
+        "pattern_score": 1.0
+      },
+      "created_at": "2026-06-30T09:33:35.697224",
+      "duration_ms": 0
+    },
+    {
+      "score_id": "370dc4af6192",
+      "config_id": "knowledge_health",
+      "source": "CODE",
+      "value": 1.0,
+      "details": {
+        "json_total_items": 178,
+        "chroma_chunks": 232,
+        "pending_items": 0,
+        "needs_sync": false,
+        "pending_domains": [],
+        "health_score": 1.0
+      },
+      "created_at": "2026-06-30T10:00:07.123431",
+      "duration_ms": 0
+    },
+    {
+      "score_id": "0178163c8871",
+      "config_id": "error_pattern_match",
+      "source": "CODE",
+      "value": 1.0,
+      "details": {
+        "reviews_scanned": 3,
+        "total_suggestions": 4,
+        "patterns_found": 0,
+        "patterns": [],
+        "pattern_score": 1.0
+      },
+      "created_at": "2026-06-30T10:00:07.144816",
+      "duration_ms": 0
+    },
+    {
+      "score_id": "10c06ee70b7e",
+      "config_id": "knowledge_health",
+      "source": "CODE",
+      "value": 1.0,
+      "details": {
+        "json_total_items": 178,
+        "chroma_chunks": 232,
+        "pending_items": 0,
+        "needs_sync": false,
+        "pending_domains": [],
+        "health_score": 1.0
+      },
+      "created_at": "2026-06-30T10:33:35.745610",
+      "duration_ms": 0
+    },
+    {
+      "score_id": "dcef50d54d0e",
+      "config_id": "error_pattern_match",
+      "source": "CODE",
+      "value": 1.0,
+      "details": {
+        "reviews_scanned": 3,
+        "total_suggestions": 4,
+        "patterns_found": 0,
+        "patterns": [],
+        "pattern_score": 1.0
+      },
+      "created_at": "2026-06-30T10:33:35.767960",
+      "duration_ms": 0
+    },
+    {
+      "score_id": "9b3964b4e0cd",
+      "config_id": "knowledge_health",
+      "source": "CODE",
+      "value": 1.0,
+      "details": {
+        "json_total_items": 178,
+        "chroma_chunks": 232,
+        "pending_items": 0,
+        "needs_sync": false,
+        "pending_domains": [],
+        "health_score": 1.0
+      },
+      "created_at": "2026-06-30T11:00:07.193505",
+      "duration_ms": 0
+    },
+    {
+      "score_id": "c946e63f4a65",
+      "config_id": "error_pattern_match",
+      "source": "CODE",
+      "value": 1.0,
+      "details": {
+        "reviews_scanned": 3,
+        "total_suggestions": 4,
+        "patterns_found": 0,
+        "patterns": [],
+        "pattern_score": 1.0
+      },
+      "created_at": "2026-06-30T11:00:07.204148",
+      "duration_ms": 0
+    },
+    {
+      "score_id": "2f0c79e852f9",
+      "config_id": "knowledge_health",
+      "source": "CODE",
+      "value": 1.0,
+      "details": {
+        "json_total_items": 178,
+        "chroma_chunks": 232,
+        "pending_items": 0,
+        "needs_sync": false,
+        "pending_domains": [],
+        "health_score": 1.0
+      },
+      "created_at": "2026-06-30T11:33:35.822140",
+      "duration_ms": 0
+    },
+    {
+      "score_id": "625e5084d5ed",
+      "config_id": "error_pattern_match",
+      "source": "CODE",
+      "value": 1.0,
+      "details": {
+        "reviews_scanned": 3,
+        "total_suggestions": 4,
+        "patterns_found": 0,
+        "patterns": [],
+        "pattern_score": 1.0
+      },
+      "created_at": "2026-06-30T11:33:35.835348",
+      "duration_ms": 0
+    },
+    {
+      "score_id": "81dc72d16316",
+      "config_id": "knowledge_health",
+      "source": "CODE",
+      "value": 1.0,
+      "details": {
+        "json_total_items": 178,
+        "chroma_chunks": 232,
+        "pending_items": 0,
+        "needs_sync": false,
+        "pending_domains": [],
+        "health_score": 1.0
+      },
+      "created_at": "2026-06-30T12:00:07.309911",
+      "duration_ms": 0
+    }
+  ],
+  "updated_at": "2026-06-30T12:00:07.322070"
+}

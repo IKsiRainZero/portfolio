@@ -1,0 +1,287 @@
+/* ProfileEditor — 可编辑画像面板 */
+
+.panel {
+  display: flex;
+  flex-direction: column;
+  gap: var(--cr-space-2xl);
+}
+
+.empty {
+  padding: var(--cr-space-2xl);
+  text-align: center;
+  font-size: 13px;
+  color: var(--cr-text3);
+  font-style: italic;
+  border: 1px dashed var(--cr-border);
+  border-radius: var(--cr-radius-lg);
+}
+
+/* ── Top row: Radar + Completeness bars ── */
+
+.topRow {
+  display: flex;
+  gap: var(--cr-space-xl);
+  align-items: flex-start;
+}
+
+.completenessBars {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: var(--cr-space-md);
+  min-width: 0;
+}
+
+.barRow {
+  display: grid;
+  grid-template-columns: 48px 1fr 36px;
+  gap: var(--cr-space-sm);
+  align-items: center;
+}
+
+.barLabel {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--cr-text2);
+  font-family: var(--cr-mono);
+}
+
+.barTrack {
+  height: 6px;
+  border-radius: 3px;
+  background: var(--cr-surface2);
+  overflow: hidden;
+}
+
+.barFill {
+  height: 100%;
+  border-radius: 3px;
+  transition: width 0.8s var(--cr-ease), background-color 0.3s ease;
+}
+
+.barVal {
+  font-family: var(--cr-mono);
+  font-size: 10px;
+  color: var(--cr-text2);
+  text-align: right;
+}
+
+.barHint {
+  grid-column: 2 / -1;
+  font-size: 10px;
+  color: var(--cr-text3);
+  line-height: 1.4;
+  margin-top: -2px;
+}
+
+/* ── Sections ── */
+
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: var(--cr-space-md);
+}
+
+.sectionTitle {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--cr-text1);
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  margin: 0;
+}
+
+/* ── Skill tags ── */
+
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 11px;
+  padding: 3px 8px;
+  border-radius: var(--cr-radius-sm);
+  transition: all var(--cr-dur-fast) var(--cr-ease);
+}
+
+.cat_language {
+  background: var(--cr-blue-soft, rgba(59, 130, 246, 0.08));
+  color: var(--cr-blue, #3b82f6);
+}
+
+.cat_framework {
+  background: var(--cr-accent-soft, rgba(212, 140, 64, 0.08));
+  color: var(--cr-accent);
+}
+
+.cat_tool {
+  background: var(--cr-green-soft, rgba(34, 197, 94, 0.08));
+  color: var(--cr-green, #22c55e);
+}
+
+.cat_soft {
+  background: rgba(168, 85, 247, 0.08);
+  color: #a855f7;
+}
+
+.tagDel {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 14px;
+  height: 14px;
+  border: none;
+  background: transparent;
+  color: inherit;
+  opacity: 0.4;
+  cursor: pointer;
+  font-size: 13px;
+  line-height: 1;
+  padding: 0;
+  border-radius: 50%;
+  transition: opacity var(--cr-dur-fast);
+}
+
+.tagDel:hover {
+  opacity: 1;
+}
+
+/* ── Analysis conclusions ── */
+
+.conclusionRow {
+  display: grid;
+  grid-template-columns: 48px 1fr;
+  gap: var(--cr-space-sm);
+  align-items: start;
+}
+
+.conclusionLabel {
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--cr-text3);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding-top: 4px;
+}
+
+.conclusionText {
+  margin: 0;
+  font-size: 13px;
+  line-height: 1.7;
+  color: var(--cr-text2);
+  cursor: pointer;
+  padding: 4px 8px;
+  border-radius: var(--cr-radius-sm);
+  transition: background var(--cr-dur-fast);
+}
+
+.conclusionText:hover {
+  background: var(--cr-surface2);
+}
+
+.conclusionInput {
+  width: 100%;
+  min-height: 48px;
+  padding: 6px 8px;
+  font-size: 13px;
+  line-height: 1.6;
+  font-family: inherit;
+  background: var(--cr-surface1);
+  border: 1px solid var(--cr-border-hv);
+  border-radius: var(--cr-radius-sm);
+  color: var(--cr-text1);
+  resize: vertical;
+  outline: none;
+}
+
+.conclusionInput:focus {
+  border-color: var(--cr-accent);
+  box-shadow: 0 0 0 2px rgba(212, 140, 64, 0.12);
+}
+
+.resetBtn {
+  align-self: flex-start;
+  font-size: 10px;
+  color: var(--cr-text3);
+  background: none;
+  border: 1px solid var(--cr-border);
+  border-radius: var(--cr-radius-sm);
+  padding: 4px 10px;
+  cursor: pointer;
+  transition: all var(--cr-dur-fast) var(--cr-ease);
+}
+
+.resetBtn:hover {
+  border-color: var(--cr-border-hv);
+  color: var(--cr-text2);
+  background: var(--cr-surface1);
+}
+
+/* ── Confirm bar ── */
+
+.confirmBar {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.confirmBtn {
+  padding: 10px 24px;
+  border-radius: var(--cr-radius);
+  border: none;
+  background: var(--cr-accent);
+  color: #fff;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all var(--cr-dur-fast) var(--cr-ease);
+}
+
+.confirmBtn:hover {
+  background: var(--cr-accent-hv);
+}
+
+.confirmBtn:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+
+/* ── Add skill form ── */
+
+.addForm {
+  display: flex;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.addInput {
+  flex: 1;
+  background: transparent;
+  border: 1px solid var(--cr-border);
+  border-radius: var(--cr-radius-sm);
+  padding: 4px 8px;
+  color: var(--cr-text1);
+  font-size: 12px;
+}
+
+.addSelect {
+  background: var(--cr-surface1);
+  border: 1px solid var(--cr-border);
+  border-radius: var(--cr-radius-sm);
+  color: var(--cr-text1);
+  font-size: 12px;
+}
+
+.addBtn {
+  background: var(--cr-accent);
+  color: #fff;
+  border: none;
+  border-radius: var(--cr-radius-sm);
+  padding: 4px 12px;
+  cursor: pointer;
+  font-size: 12px;
+}

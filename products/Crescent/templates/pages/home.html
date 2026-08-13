@@ -1,0 +1,1468 @@
+{% extends "base.html" %}
+{% block title %}同桌{% endblock %}
+{% block body_class %}page-home{% endblock %}
+{% block head %}
+<link rel="stylesheet" href="/static/css/mascot.css">
+<style>
+/* ── Blob backgrounds: warm ambient shapes behind everything ── */
+.page-home {
+  position: relative;
+  overflow: hidden;
+}
+.home-blobs {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+}
+.home-blob {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(100px);
+}
+.home-blob-1 {
+  width: 55vw; height: 55vw;
+  top: -20%; right: -12%;
+  background: radial-gradient(circle, rgba(220,190,140,0.4) 0%, rgba(210,175,120,0.15) 40%, transparent 70%);
+  animation: blobDrift1 18s ease-in-out infinite;
+}
+.home-blob-2 {
+  width: 42vw; height: 42vw;
+  bottom: -12%; left: -6%;
+  background: radial-gradient(circle, rgba(180,160,210,0.3) 0%, rgba(170,150,200,0.1) 40%, transparent 70%);
+  animation: blobDrift2 22s ease-in-out infinite;
+}
+.home-blob-3 {
+  width: 32vw; height: 32vw;
+  top: 45%; left: 55%;
+  transform: translate(-50%, -50%);
+  background: radial-gradient(circle, rgba(200,185,150,0.25) 0%, rgba(190,175,140,0.08) 40%, transparent 70%);
+  animation: blobDrift3 15s ease-in-out infinite;
+}
+@keyframes blobDrift1 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  25% { transform: translate(-3vw, 2vh) scale(1.05); }
+  50% { transform: translate(-1vw, -1vh) scale(0.96); }
+  75% { transform: translate(2vw, 1vh) scale(1.03); }
+}
+@keyframes blobDrift2 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  33% { transform: translate(2vw, -2vh) scale(1.04); }
+  66% { transform: translate(-2vw, 1vh) scale(0.97); }
+}
+@keyframes blobDrift3 {
+  0%, 100% { transform: translate(-50%, -50%) scale(1); }
+  50% { transform: translate(calc(-50% - 1vw), calc(-50% + 2vh)) scale(1.06); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .home-blob { animation: none; }
+}
+
+/* ── Left widget area: "desk panel" with subtle warmth ── */
+.desk-left {
+  position: fixed;
+  top: 100px;
+  left: calc(var(--sidebar-collapsed-w) + 42px);
+  width: 250px;
+  max-height: calc(100vh - 140px);
+  overflow-y: auto;
+  z-index: 4;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  transition: left 0.2s ease, z-index 0s 0.12s;
+  scrollbar-width: none;
+  background:
+    repeating-linear-gradient(1.5deg, transparent, transparent 3px, rgba(180,150,110,0.04) 3px, rgba(180,150,110,0.04) 4px),
+    repeating-linear-gradient(89deg, transparent, transparent 2px, rgba(160,130,90,0.025) 2px, rgba(160,130,90,0.025) 3px),
+    linear-gradient(175deg, rgba(252,248,240,0.82) 0%, rgba(247,241,230,0.85) 50%, rgba(250,245,237,0.82) 100%);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  border-radius: 6px;
+  padding: 14px;
+  box-shadow: 0 2px 16px rgba(0,0,0,0.04);
+}
+
+/* ── Particles canvas (above desk surface) ── */
+#particlesCanvas {
+  position: fixed;
+  inset: 0;
+  width: 100%; height: 100%;
+  pointer-events: none;
+  z-index: 2;
+}
+
+	/* ── Decorative desk items container (pointer passthrough) ── */
+	.desk-items {
+	  position: fixed;
+	  inset: 0;
+	  z-index: 7;
+	  pointer-events: none;
+	}
+	/* ── Decorative desk items (draggable, with idle float physics) ── */
+	.desk-eraser {
+	  position: absolute;
+	  top: 24%;
+	  left: calc(var(--sidebar-w) + 48px);
+	  width: 44px; height: 24px;
+	  background: linear-gradient(180deg, #f5d5cc 0%, #e8b8b0 60%, #dba89e 100%);
+	  border-radius: 4px 4px 7px 7px;
+	  transform: rotate(7deg);
+	  box-shadow: 1px 3px 4px rgba(0,0,0,0.08);
+	  opacity: 0.8;
+	  cursor: grab;
+	  -webkit-user-select: none;
+	  user-select: none;
+	  pointer-events: auto;
+	  transition: filter 0.3s ease, box-shadow 0.3s ease;
+	}
+	.desk-eraser:hover {
+	  filter: brightness(1.18) drop-shadow(0 6px 12px rgba(0,0,0,0.18));
+	}
+	.desk-eraser.dragging {
+	  cursor: grabbing;
+	  z-index: 21;
+	  transition: none;
+	}
+	.desk-notebook-item {
+	  position: absolute;
+	  top: 22%;
+	  left: calc(var(--sidebar-w) + 140px);
+	  width: 52px; height: 68px;
+	  background:
+	    repeating-linear-gradient(
+	      0deg,
+	      transparent,
+	      transparent 11px,
+	      rgba(100,140,180,0.25) 11px,
+	      rgba(100,140,180,0.25) 12px
+	    ),
+	    linear-gradient(180deg, #fafaf7 0%, #f2f0ea 100%);
+	  border: 1px solid #d8d4cc;
+	  border-radius: 2px 6px 6px 2px;
+	  transform: rotate(-5deg);
+	  box-shadow: 1px 3px 5px rgba(0,0,0,0.07);
+	  opacity: 0.75;
+	  cursor: grab;
+	  -webkit-user-select: none;
+	  user-select: none;
+	  pointer-events: auto;
+	  transition: filter 0.3s ease, box-shadow 0.3s ease;
+	}
+	.desk-notebook-item:hover {
+	  filter: brightness(1.18) drop-shadow(0 6px 12px rgba(0,0,0,0.18));
+	}
+	.desk-notebook-item.dragging {
+	  cursor: grabbing;
+	  z-index: 21;
+	  transition: none;
+	}
+
+	/* Idle float animations — different phase per item for organic feel */
+	@keyframes itemFloatEraser {
+	  0%, 100% { transform: rotate(7deg) translateY(0); }
+	  50% { transform: rotate(7deg) translateY(-4px); }
+	}
+	@keyframes itemFloatNotebook {
+	  0%, 100% { transform: rotate(-5deg) translateY(0); }
+	  50% { transform: rotate(-5deg) translateY(-7px); }
+	}
+	.desk-eraser:not(.dragging) { animation: itemFloatEraser 3.8s ease-in-out infinite; }
+	.desk-notebook-item:not(.dragging) { animation: itemFloatNotebook 4.6s ease-in-out infinite; }
+	@media (prefers-reduced-motion: reduce) {
+	  .desk-eraser:not(.dragging), .desk-notebook-item:not(.dragging) {
+	    animation: none !important;
+	  }
+	}
+
+/* ── Left widget area: auxiliary rules ── */
+.desk-left::-webkit-scrollbar { display: none; }
+.desk-left:hover {
+  z-index: 6;
+  transition: z-index 0s;
+}
+.sidebar:not(.collapsed) ~ .main .desk-left {
+  left: calc(var(--sidebar-w) + 42px);
+}
+
+/* ── Chat wrapper (above desk, left widgets below) ── */
+.desk-wrap {
+  position: relative;
+  z-index: 5;
+  max-width: 700px;
+  margin: 0 auto;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  padding: 16px 0 0;
+}
+
+/* ── Greeting ── */
+.desk-greeting {
+  text-align: center;
+  padding: 14px 0 6px;
+}
+.desk-greeting .greeting-ornament {
+  display: block;
+  font-size: 32px;
+  margin-bottom: 6px;
+  animation: gentleFloat 3.5s ease-in-out infinite;
+}
+@keyframes gentleFloat {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-5px); }
+}
+.desk-greeting h2 {
+  font-size: 21px;
+  font-weight: 650;
+  letter-spacing: -.015em;
+  margin-bottom: 2px;
+}
+.desk-tips {
+  font-size: 12px;
+  color: var(--text2);
+  max-width: 460px;
+  margin: 0 auto;
+  min-height: 18px;
+  transition: opacity .4s;
+}
+
+/* ── Suggestions ── */
+.desk-suggest {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin: 6px 0 12px;
+  justify-content: center;
+}
+.desk-suggest button {
+  font-size: 11px;
+  padding: 5px 14px;
+  border-radius: 16px;
+  border: 1px solid var(--border);
+  background: rgba(255,255,255,0.5);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  cursor: pointer;
+  color: var(--text2);
+  transition: all .2s;
+}
+.desk-suggest button:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+  background: rgba(255,255,255,0.7);
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+}
+
+/* ── Chat area ── */
+.desk-chat {
+  flex: 1;
+  overflow-y: auto;
+  padding: 8px 0 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.desk-msg {
+  max-width: 88%;
+  padding: 10px 16px;
+  border-radius: 12px;
+  font-size: 14px;
+  line-height: 1.7;
+  word-break: break-word;
+  animation: msgPopIn 0.25s cubic-bezier(0.0, 0, 0.2, 1);
+}
+@keyframes msgPopIn {
+  from { opacity: 0; transform: translateY(8px) scale(0.97); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+.desk-msg.deskmate {
+  align-self: flex-start;
+  background: rgba(245,244,241,0.7);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  border: 1px solid rgba(0,0,0,0.04);
+  border-bottom-left-radius: 4px;
+}
+.desk-msg.deskmate a {
+  color: var(--accent);
+  font-weight: 500;
+  text-decoration: underline;
+}
+.desk-msg.user {
+  align-self: flex-end;
+  background: var(--accent);
+  color: #fff;
+  border-bottom-right-radius: 4px;
+  box-shadow: 0 2px 8px rgba(79,110,246,0.2);
+}
+.desk-msg .meta {
+  font-size: 10px;
+  opacity: .6;
+  margin-bottom: 2px;
+}
+.desk-msg.thinking {
+  background: rgba(248,247,244,0.7);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 10px 14px;
+  font-size: 13px;
+  color: var(--text);
+  line-height: 1.5;
+}
+
+/* ── Input area — liquid glass centerpiece ── */
+.desk-input-area {
+  position: relative;
+  z-index: 2;
+  margin: 4px 0 8px;
+  padding: 14px 16px 6px;
+  border-radius: 16px;
+  background: rgba(255,255,255,0.4);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255,255,255,0.55);
+  box-shadow:
+    0 8px 32px rgba(0,0,0,0.05),
+    inset 0 1px 1px rgba(255,255,255,0.5);
+  transition: box-shadow 0.4s ease, border-color 0.4s ease;
+}
+/* Gradient accent on top edge — the liquid-glass signature */
+.desk-input-area::before {
+  content: "";
+  position: absolute; top: 0; left: 24px; right: 24px;
+  height: 1px;
+  background: linear-gradient(90deg,
+    transparent 0%,
+    rgba(255,255,255,0.8) 15%,
+    rgba(200,200,220,0.6) 50%,
+    rgba(255,255,255,0.8) 85%,
+    transparent 100%);
+}
+/* Subtle glow when interacting with the input area */
+.desk-input-area:focus-within {
+  border-color: rgba(79,110,246,0.25);
+  box-shadow:
+    0 8px 32px rgba(0,0,0,0.05),
+    0 0 0 1px rgba(79,110,246,0.08),
+    0 0 60px rgba(79,110,246,0.06),
+    inset 0 1px 1px rgba(255,255,255,0.5);
+}
+.desk-input-row {
+  display: flex;
+  gap: 8px;
+}
+.desk-input-row textarea {
+  flex: 1;
+  padding: 10px 14px;
+  border: 1px solid rgba(0,0,0,0.08);
+  border-radius: 12px;
+  font-size: 14px;
+  font-family: inherit;
+  resize: none;
+  min-height: 42px;
+  max-height: 100px;
+  background: rgba(255,255,255,0.55);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  transition: border-color .2s, box-shadow .3s, background .3s;
+}
+.desk-input-row textarea:focus {
+  outline: none;
+  border-color: var(--accent);
+  background: rgba(255,255,255,0.75);
+  box-shadow: 0 0 0 3px rgba(79,110,246,0.08), 0 0 30px rgba(79,110,246,0.05);
+}
+.desk-input-row button {
+  padding: 8px 18px;
+  border-radius: 12px;
+  border: none;
+  background: var(--accent);
+  color: #fff;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: all .2s;
+}
+.desk-input-row button:hover {
+  background: var(--accent-hover);
+  box-shadow: 0 4px 12px rgba(79,110,246,0.25);
+  transform: translateY(-1px);
+}
+.desk-input-row button:active { transform: scale(0.97); }
+.desk-input-row button:disabled { opacity: .5; cursor: default; transform: none; box-shadow: none; }
+
+.desk-notebook {
+  margin-top: 8px;
+  padding-bottom: 6px;
+}
+.desk-notebook input {
+  width: 100%;
+  padding: 7px 12px;
+  border: 1px dashed rgba(0,0,0,0.1);
+  border-radius: 8px;
+  font-size: 11px;
+  font-family: inherit;
+  color: var(--text2);
+  background: rgba(255,255,255,0.4);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  transition: border-color .2s, background .2s;
+}
+.desk-notebook input:focus {
+  outline: none;
+  border-color: var(--accent);
+  border-style: solid;
+  background: rgba(255,255,255,0.65);
+  color: var(--text);
+}
+.desk-notebook input::placeholder { color: var(--text3); }
+
+/* ── Left widget cards (shared base) ── */
+.desk-left-card {
+  background: #fefefb;
+  border: 1px solid rgba(0,0,0,0.12);
+  border-radius: 0;
+  padding: 14px 16px;
+  box-shadow: 3px 3px 0px rgba(0,0,0,0.08);
+  font-size: 12px;
+  line-height: 1.6;
+  color: var(--text);
+  transition: box-shadow .2s, transform .2s, opacity .2s;
+  opacity: 0.82;
+}
+.desk-left-card:hover {
+  box-shadow: 4px 4px 0px rgba(0,0,0,0.12);
+  transform: translate(-1px, -1px);
+  opacity: 1;
+}
+.desk-left-card .card-label {
+  font-size: 9px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text2);
+  font-family: var(--font-mono);
+  margin-bottom: 8px;
+}
+.desk-left-card .card-stat-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  padding: 4px 0;
+  border-bottom: 1px solid rgba(0,0,0,0.06);
+}
+.desk-left-card .card-stat-row:last-child {
+  border-bottom: none;
+}
+.desk-left-card .card-stat-val {
+  font-weight: 650;
+  font-size: 16px;
+  font-family: var(--font-mono);
+  letter-spacing: -0.02em;
+}
+.desk-left-card .card-stat-label {
+  font-size: 11px;
+  color: var(--text2);
+}
+.desk-left-card .card-sparkline {
+  width: 100%;
+  height: 40px;
+  margin: 6px 0 2px;
+  display: block;
+}
+.desk-left-card card-empty {
+  color: var(--text3);
+  font-style: italic;
+  font-size: 11px;
+}
+
+/* ── Daily brief items ── */
+.brief-loading {
+  padding: 12px 0;
+  font-size: 12px;
+  color: var(--text-muted, #999);
+  text-align: center;
+}
+.brief-item {
+  display: block;
+  padding: 6px 0;
+  border-bottom: 1px solid rgba(0,0,0,0.05);
+  cursor: pointer;
+  transition: background .15s, transform .15s;
+  margin: 0 -8px;
+  padding-left: 8px;
+  padding-right: 8px;
+}
+.brief-item:last-of-type {
+  border-bottom: none;
+}
+.brief-item:hover {
+  background: rgba(79,110,246,0.04);
+  transform: translateX(2px);
+}
+.brief-source {
+  display: block;
+  font-size: 9px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--text3);
+  font-family: var(--font-mono);
+  margin-bottom: 1px;
+}
+.brief-title {
+  font-size: 12px;
+  line-height: 1.45;
+  color: var(--text);
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.brief-meta {
+  margin-top: 8px;
+  padding-top: 6px;
+  border-top: 1px solid rgba(0,0,0,0.06);
+  font-size: 9px;
+  font-family: var(--font-mono);
+  color: var(--text3);
+  letter-spacing: 0.04em;
+}
+	/* ── Web Search Toggle ── */
+	.ws-toggle {
+	  width: 32px; height: 32px;
+	  border-radius: 8px;
+	  border: 1px solid #ddd8cd;
+	  background: #fdfcf9;
+	  cursor: pointer;
+	  font-size: 14px;
+	  display: flex; align-items: center; justify-content: center;
+	  transition: all .2s;
+	  flex-shrink: 0;
+	  line-height: 1;
+	}
+	.ws-toggle.on {
+	  border-color: #1d4ed8;
+	  background: #1d4ed8;
+	  color: #fff;
+	  box-shadow: 0 0 0 2px rgba(29,78,216,0.25);
+	}
+	.ws-toggle.off { opacity: 0.45; }
+	.ws-toggle:hover { transform: scale(1.08); }
+
+/* ── Lead type block: knowledge pipeline entry ── */
+.lead-block {
+  position: fixed;
+  right: 48px;
+  top: 42%;
+  z-index: 6;
+  width: 52px; height: 52px;
+  cursor: pointer;
+  pointer-events: auto;
+  transform: perspective(600px) rotateY(-8deg) rotateX(3deg);
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+              box-shadow 0.35s ease;
+  background:
+    radial-gradient(circle at 30% 25%, rgba(255,255,255,0.25) 0%, transparent 50%),
+    linear-gradient(180deg, #8c8c8c 0%, #6b6b6b 25%, #7a7a7a 50%, #5a5a5a 100%);
+  border-radius: 4px;
+  box-shadow:
+    2px 4px 12px rgba(0,0,0,0.15),
+    inset 0 1px 0 rgba(255,255,255,0.1);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 22px; font-weight: 700; color: #e8d5b0;
+  font-family: Georgia, "Times New Roman", serif;
+  -webkit-user-select: none; user-select: none;
+}
+.lead-block::after {
+  content: '探索知识管道';
+  position: absolute;
+  top: calc(100% + 10px);
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 11px;
+  color: rgba(61,43,20,.4);
+  white-space: nowrap;
+  font-family: var(--font-sans, system-ui);
+  font-weight: 400;
+  letter-spacing: .03em;
+}
+.lead-block:hover {
+  transform: perspective(600px) rotateY(0deg) rotateX(0deg) translateY(-4px);
+  box-shadow:
+    4px 8px 20px rgba(0,0,0,0.2),
+    0 0 24px rgba(184,149,106,0.2),
+    inset 0 1px 0 rgba(255,255,255,0.15);
+}
+.lead-block:active { transform: perspective(600px) rotateY(0) scale(0.95); }
+
+@media (prefers-reduced-motion: reduce) {
+  .lead-block, .lead-block:hover, .lead-block:active { transform: none; transition: none; }
+}
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="page-home">
+
+  <!-- Blob background shapes -->
+  <div class="home-blobs" aria-hidden="true">
+    <div class="home-blob home-blob-1"></div>
+    <div class="home-blob home-blob-2"></div>
+    <div class="home-blob home-blob-3"></div>
+  </div>
+
+  <!-- Floating particles canvas -->
+  <canvas id="particlesCanvas" aria-hidden="true"></canvas>
+
+
+  <!-- Decorative desk items (CSS shapes, non-interactive) -->
+  <div class="desk-items" aria-hidden="true">
+
+    <div class="desk-eraser" id="deskEraser"></div>
+    <div class="desk-notebook-item" id="deskNotebook"></div>
+  </div>
+
+  <!-- Left widget area: learning dashboard, daily brief, mascot (commits 2-4) -->
+	    <!-- Q版 Mascot (Task 5: Mascot component mount) -->
+	    <div id="deskmateMascotMount"></div>
+		<!-- Lead type block: entrance to knowledge pipeline -->
+		<div class="lead-block" onclick="Router.navigate('/knowledge-pipeline')" title="探索知识管道">知</div>
+  <div class="desk-left" id="deskLeft">
+    <!-- Learning Dashboard (Commit 2) -->
+    <div class="desk-left-card" id="dashCard">
+      <div class="card-label">学习记录</div>
+      <canvas class="card-sparkline" id="dashSparkline" width="222" height="40"></canvas>
+      <div class="card-stat-row">
+        <span class="card-stat-label">本周学习</span>
+        <span class="card-stat-val" id="dashDays">--</span>
+      </div>
+      <div class="card-stat-row">
+        <span class="card-stat-label">累计练习</span>
+        <span class="card-stat-val" id="dashTotal">--</span>
+      </div>
+      <div class="card-stat-row">
+        <span class="card-stat-label">掌握主题</span>
+        <span class="card-stat-val" id="dashTopics">--</span>
+      </div>
+      <div class="card-stat-row">
+        <span class="card-stat-label">待复习</span>
+        <span class="card-stat-val" id="dashDue">--</span>
+      </div>
+    </div>
+
+    <!-- Daily Brief (async loaded) -->
+    <div class="desk-left-card" id="briefCard">
+      <div class="card-label">每日简报</div>
+      <div id="briefItems"><div class="brief-loading">加载中...</div></div>
+      <div class="brief-meta" id="briefMeta">聚合新闻 | 实时更新</div>
+    </div>
+  </div>
+
+  <div class="desk-wrap">
+    <!-- Greeting -->
+    <div class="desk-greeting" id="deskGreeting">
+      <span class="greeting-ornament" aria-hidden="true">&#9749;</span>
+      <h2>要一起学习吗？同学？</h2>
+      <div class="desk-tips" id="deskTips"></div>
+    </div>
+
+    <!-- Quick suggestions (show before first message) -->
+    <div class="desk-suggest" id="deskSuggest">
+      <button onclick="DeskMate.quickAsk('为啥说AI是猜谜高手啊？')">为啥说AI是猜谜高手？</button>
+      <button onclick="DeskMate.quickAsk('帮我推荐今天学点什么')">今天学点什么？</button>
+      <button onclick="DeskMate.quickAsk('怎么查自己哪里学得不好？')">怎么查薄弱点？</button>
+      <button onclick="DeskMate.quickAsk('这个系统都有什么功能？')">都什么功能？</button>
+    </div>
+
+    <!-- Chat messages -->
+    <div class="desk-chat" id="deskChat">
+      <div class="desk-msg deskmate">
+        <div class="meta">同桌</div>
+        你好！我是你的同桌，陪你一起学习。<br>
+        有啥想问的尽管说——概念不懂我讲给你听，想做题我带你去训练器，学累了咱就聊聊天。
+      </div>
+    </div>
+
+    <!-- Chat input — liquid glass panel -->
+    <div class="desk-input-area">
+      <div class="desk-input-row">
+        <textarea id="deskInput" placeholder="跟同桌聊聊..."
+          rows="1"
+          onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();DeskMate.send();}"></textarea>
+        <button class="ws-toggle on" id="wsToggleBtn" onclick="WebSearchToggle.toggle()" title="联网搜索: 开">&#128269;</button>
+        <button class="ws-toggle on" id="toolToggleBtn" onclick="ToolToggle.toggle()" title="工具调用: 开">&#128736;</button>
+        <button id="deskSendBtn" onclick="DeskMate.send()">发送</button>
+      </div>
+      <div class="desk-notebook">
+        <input id="deskNoteInput" placeholder="好记性不如烂笔头，记个笔记吧！"
+          onkeydown="if(event.key==='Enter'){DeskMate.saveNote();}">
+      </div>
+    </div>
+  </div>
+
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="/static/js/modules/mascot.js"></script>
+<script>
+// ── Canvas Particles (adapted from Veldara reference) ──
+(function() {
+  var reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (reducedMotion) return;
+
+  var canvas = document.getElementById('particlesCanvas');
+  if (!canvas) return;
+  var ctx = canvas.getContext('2d');
+  var particles = [];
+  var rafId = null;
+
+  function resize() {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+    createParticles();
+  }
+
+  function createParticles() {
+    particles = [];
+    var count = Math.floor((canvas.width * canvas.height) / 14000);
+    for (var i = 0; i < count; i++) {
+      particles.push({
+        x: Math.random() * canvas.width,
+        y: Math.random() * canvas.height,
+        vx: (Math.random() - 0.5) * 0.25,
+        vy: (Math.random() - 0.5) * 0.25 - 0.08,
+        size: Math.random() * 1.4 + 0.4,
+        opacity: Math.random() * 0.35 + 0.08
+      });
+    }
+  }
+
+  function animate() {
+    if (!document.contains(canvas)) { rafId = null; return; }
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    for (var i = 0; i < particles.length; i++) {
+      var p = particles[i];
+      p.x += p.vx; p.y += p.vy;
+      if (p.x < -10) p.x = canvas.width + 10;
+      if (p.x > canvas.width + 10) p.x = -10;
+      if (p.y < -10) p.y = canvas.height + 10;
+      if (p.y > canvas.height + 10) p.y = -10;
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+      ctx.fillStyle = 'rgba(190,165,130,' + p.opacity + ')';
+      ctx.fill();
+    }
+    rafId = requestAnimationFrame(animate);
+  }
+
+  resize();
+  window.addEventListener('resize', resize);
+  rafId = requestAnimationFrame(animate);
+
+  // Clean up previous particle loop if Router re-executes this page
+  if (window._homeParticlesRaf) cancelAnimationFrame(window._homeParticlesRaf);
+  window._homeParticlesRaf = rafId;
+})();
+
+// ── Rotating tips ──
+var _tips = [
+  'tips：你知道吗，现在的很多AI其实就是猜谜高手promax，果然是虚假（artificial）智能啊',
+  'tips：Transformer 不是变形金刚，是一种让AI读懂上下文的结构',
+  'tips：你每次做错的题，同桌和老师都会记得，下次帮你重点复习',
+  'tips：把概念讲到12岁小孩也能懂，才是真正的学会——这叫费曼学习法',
+  'tips：每隔几天回来看看，印象里会沉淀你的学习痕迹和Agent对你的评价',
+  'tips：同桌讲故事，老师讲结构，面试官问难题——各有所长'
+];
+var _tipIdx = 0;
+function _rotateTip() {
+  var el = document.getElementById('deskTips');
+  if (!el) return;
+  el.style.opacity = '0';
+  setTimeout(function() {
+    el.textContent = _tips[_tipIdx % _tips.length];
+    _tipIdx++;
+    el.style.opacity = '1';
+  }, 400);
+}
+_rotateTip();
+setInterval(_rotateTip, 8000);
+
+var deskmateMascot;
+
+// ── DeskMate Chat ──
+var DeskMate = {
+  sending: false,
+  _eventSource: null,
+
+  addMsg(role, html) {
+    var chat = document.getElementById('deskChat');
+    var div = document.createElement('div');
+    div.className = 'desk-msg ' + role;
+    if (role === 'deskmate') {
+      div.innerHTML = '<div class="meta">同桌</div>' + html;
+    } else {
+      div.textContent = html;
+    }
+    chat.appendChild(div);
+    chat.scrollTop = chat.scrollHeight;
+    return div;
+  },
+
+  addThinking(msg) {
+    var chat = document.getElementById('deskChat');
+    var prev = chat.querySelector('.desk-msg.thinking');
+    if (msg === null) {
+      if (prev) prev.remove();
+      return;
+    }
+    if (!prev) {
+      prev = document.createElement('div');
+      prev.className = 'desk-msg thinking';
+      chat.appendChild(prev);
+    }
+    prev.innerHTML =
+      '<div class="thinking-status">' +
+        '<span class="thinking-dot"></span>' +
+        '<span class="thinking-label">' + App.escapeHtml(msg) + '</span>' +
+      '</div>';
+    chat.scrollTop = chat.scrollHeight;
+  },
+
+  quickAsk(q) {
+    document.getElementById('deskInput').value = q;
+    this.send();
+  },
+
+  send() {
+    if (this.sending) return;
+    var input = document.getElementById('deskInput');
+    var msg = input.value.trim();
+    if (!msg) return;
+
+    if (!App.serverOnline) {
+      this.addMsg('deskmate', '唔，服务器好像没连上。检查一下 <code>python server.py</code> 是不是在运行？');
+      return;
+    }
+    if (!App.apiConfigured) {
+      this.addMsg('deskmate', '还没配置AI接口呢。去<a href="/settings">设置</a>配一下API Key，或者启动本地Ollama。');
+      return;
+    }
+
+    // Hide suggestions after first send
+    var suggest = document.getElementById('deskSuggest');
+    if (suggest) suggest.style.display = 'none';
+
+    this.addMsg('user', msg);
+    if (typeof App !== 'undefined') App.trackImpression('agent_message', {persona: 'deskmate'});
+    input.value = '';
+    input.style.height = 'auto';
+    this.sending = true;
+    var sendBtn = document.getElementById('deskSendBtn');
+    sendBtn.disabled = false;
+    sendBtn.textContent = '停止';
+    sendBtn.onclick = function() { DeskMate.stopStream(); };
+    sendBtn.classList.add('btn-stop');
+    if (typeof App !== 'undefined') App._streamingActive = true;
+
+    var self = this;
+    var replyDiv = null;
+    var finalReply = '';
+
+    // Show thinking card immediately
+    self.addThinking('同桌在想...');
+
+    // Use SSE streaming
+    var sessionId = 'deskmate_' + (App._deskmateSessionId || Date.now());
+    App._deskmateSessionId = sessionId;
+
+    var url = App.serverUrl + '/api/agent/chat/stream?message=' + encodeURIComponent(msg) +
+      '&session_id=' + encodeURIComponent(sessionId) + '&persona=deskmate' +
+      (ToolToggle._enabled ? '&force_tools=1' : '');
+
+    this._eventSource = new EventSource(url);
+    App._activeEventSource = this._eventSource;
+
+    this._eventSource.onmessage = function(e) {
+      var data = JSON.parse(e.data);
+
+      if (data.type === 'thought') {
+        if (self._streamingEl) { self._streamingEl.remove(); self._streamingEl = null; }
+        self.addThinking('同桌在想：' + (data.content || '').slice(0, 100));
+	        deskmateMascot.setState('thinking', '同桌在想...');
+      } else if (data.type === 'action') {
+        if (self._streamingEl) { self._streamingEl.remove(); self._streamingEl = null; }
+        var toolLabels = { search_knowledge: '翻翻知识库', generate_question: '出题', analyze_progress: '看看进度', diagnose_weakness: '找找薄弱点', create_study_plan: '制定学习计划' };
+        self.addThinking('正在' + (toolLabels[data.tool] || data.tool || '处理') + '...');
+	        deskmateMascot.setState('thinking', '同桌在想...');
+      } else if (data.type === 'observation') {
+        self.addThinking('资料找到了，整理一下...');
+	        deskmateMascot.setState('thinking', '同桌在想...');
+      } else if (data.type === 'token') {
+        var msgs = document.getElementById('deskMessages');
+        if (!msgs) return; // 页面已切换，DOM 已销毁
+        if (!self._streamingEl) {
+          self.addThinking(null);
+          self._streamingEl = document.createElement('div');
+          self._streamingEl.className = 'tutor-msg ai streaming';
+          msgs.appendChild(self._streamingEl);
+          self._streamingBuf = '';
+        }
+        self._streamingBuf += data.content;
+        self._streamingEl.innerHTML = App.renderMarkdown(self._streamingBuf);
+        msgs.scrollTop = msgs.scrollHeight;
+      } else if (data.type === 'final') {
+        if (self._streamingEl) { self._streamingEl.remove(); self._streamingEl = null; }
+        self.addThinking(null); // remove thinking
+	        deskmateMascot.setState('done', '找到啦！');
+	        deskmateMascot.updateFromFinal(data);
+	        // 拉取气泡
+	        fetch('/api/agent/bubbles?limit=5&exclude_persona=deskmate&session_id=' + encodeURIComponent(App._deskmateSessionId))
+	          .then(function(r) { return r.json(); })
+	          .then(function(d) { deskmateMascot.updateFromPoll(d); });
+        finalReply = data.reply || '';
+
+        var html = App.renderMarkdown(finalReply);
+
+        if (!replyDiv) {
+          replyDiv = self.addMsg('deskmate', html);
+        } else {
+          replyDiv.innerHTML = '<div class="meta">同桌</div>' + html;
+        }
+
+        self.sending = false;
+        var sendBtnF = document.getElementById('deskSendBtn');
+        sendBtnF.textContent = '发送'; sendBtnF.onclick = function() { DeskMate.send(); };
+        sendBtnF.classList.remove('btn-stop'); sendBtnF.disabled = false;
+        if (typeof App !== 'undefined') App._streamingActive = false;
+        self._eventSource.close();
+        self._eventSource = null;
+        App._activeEventSource = null;
+      } else if (data.type === 'error') {
+        self.addThinking(null);
+	        deskmateMascot.setState('idle');
+        self.addMsg('deskmate', '唔，出错了：' + App.escapeHtml(data.content || ''));
+        self.sending = false;
+        var sendBtnE = document.getElementById('deskSendBtn');
+        sendBtnE.textContent = '发送'; sendBtnE.onclick = function() { DeskMate.send(); };
+        sendBtnE.classList.remove('btn-stop'); sendBtnE.disabled = false;
+        if (typeof App !== 'undefined') App._streamingActive = false;
+        if (self._eventSource) { self._eventSource.close(); self._eventSource = null; }
+        App._activeEventSource = null;
+      }
+    };
+
+    this._eventSource.onerror = function() {
+      if (!finalReply && self.sending) {
+        self.addThinking(null);
+        self.addMsg('deskmate', '连接断开了，再试一次？');
+        self.sending = false;
+        var sendBtnO = document.getElementById('deskSendBtn');
+        sendBtnO.textContent = '发送'; sendBtnO.onclick = function() { DeskMate.send(); };
+        sendBtnO.classList.remove('btn-stop'); sendBtnO.disabled = false;
+        if (typeof App !== 'undefined') App._streamingActive = false;
+      }
+      if (self._eventSource) { self._eventSource.close(); self._eventSource = null; }
+      App._activeEventSource = null;
+      deskmateMascot.setState('idle');
+    };
+  },
+
+  stopStream() {
+    this.sending = false;
+    var sid = App._deskmateSessionId || App.getSessionId();
+    fetch(App.serverUrl + '/api/agent/chat/cancel', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ session_id: sid })
+    }).catch(function() {});
+    if (this._eventSource) { this._eventSource.close(); this._eventSource = null; }
+    if (App._activeEventSource) App._activeEventSource = null;
+    var sendBtn = document.getElementById('deskSendBtn');
+    sendBtn.textContent = '发送'; sendBtn.onclick = function() { DeskMate.send(); };
+    sendBtn.classList.remove('btn-stop'); sendBtn.disabled = false;
+    if (typeof App !== 'undefined') App._streamingActive = false;
+    if (this._streamingEl) { this._streamingEl.remove(); this._streamingEl = null; }
+    this.addThinking(null);
+    this.addMsg('deskmate', '⚠️ 已中断');
+  },
+
+  saveNote() {
+    var input = document.getElementById('deskNoteInput');
+    var note = input.value.trim();
+    if (!note) return;
+    var notes = [];
+    try { notes = JSON.parse(localStorage.getItem('desk_notes') || '[]'); } catch(e) {}
+    notes.push({ text: note, time: new Date().toISOString() });
+    localStorage.setItem('desk_notes', JSON.stringify(notes.slice(-50)));
+    input.value = '';
+    input.placeholder = '已保存！继续写...';
+    setTimeout(function() { input.placeholder = '好记性不如烂笔头，记个笔记吧！'; }, 1500);
+  }
+};
+
+	// ── DeskPhysics: shared drag + momentum for desk items + mascot ──
+	var DeskPhysics = {
+	  _items: {},
+	  _globalHandlersSet: false,
+
+	  makeDraggable: function(el, storageKey, opts) {
+	    opts = opts || {};
+	    var self = this;
+	    var item = {
+	      el: el,
+	      key: storageKey,
+	      dragging: false,
+	      startX: 0, startY: 0,
+	      origLeft: 0, origTop: 0,
+	      vx: 0, vy: 0,
+	      lastX: 0, lastY: 0,
+	      lastT: 0,
+	      momentumId: null
+	    };
+
+	    // Restore saved position
+	    var saved = null;
+	    try { saved = JSON.parse(localStorage.getItem(storageKey)); } catch(e) {}
+	    if (saved && saved.x !== undefined) {
+	      el.style.left = saved.x + 'px';
+	      el.style.top = saved.y + 'px';
+	    }
+
+	    this._items[storageKey] = item;
+
+	    var onStart = function(cx, cy) {
+	      item.dragging = true;
+	      el.classList.add('dragging');
+	      item.startX = cx; item.startY = cy;
+	      item.lastX = cx; item.lastY = cy;
+	      item.lastT = performance.now();
+	      item.vx = 0; item.vy = 0;
+	      var r = el.getBoundingClientRect();
+	      item.origLeft = r.left;
+	      item.origTop = r.top;
+	      if (item.momentumId) { cancelAnimationFrame(item.momentumId); item.momentumId = null; }
+	    };
+
+	    var onMove = function(cx, cy) {
+	      if (!item.dragging) return;
+	      var now = performance.now();
+	      var dt = Math.max(now - item.lastT, 1);
+	      item.vx = (cx - item.lastX) / dt;
+	      item.vy = (cy - item.lastY) / dt;
+	      item.lastX = cx; item.lastY = cy;
+	      item.lastT = now;
+	      el.style.left = (item.origLeft + cx - item.startX) + 'px';
+	      el.style.top = (item.origTop + cy - item.startY) + 'px';
+	    };
+
+	    var onEnd = function() {
+	      if (!item.dragging) return;
+	      item.dragging = false;
+	      el.classList.remove('dragging');
+	      self._startMomentum(item);
+	    };
+
+	    el.addEventListener('mousedown', function(e) {
+	      if (opts.ignoreSelector && e.target.closest(opts.ignoreSelector)) return;
+	      onStart(e.clientX, e.clientY); e.preventDefault();
+	    });
+	    el.addEventListener('touchstart', function(e) {
+	      if (opts.ignoreSelector && e.target.closest(opts.ignoreSelector)) return;
+	      onStart(e.touches[0].clientX, e.touches[0].clientY);
+	    }, {passive: false});
+
+	    // Store per-item refs for global handlers
+	    item._onMoveRef = onMove;
+	    item._onEndRef = onEnd;
+
+	    if (!this._globalHandlersSet) {
+	      this._globalHandlersSet = true;
+	      document.addEventListener('mousemove', function(e) {
+	        for (var k in self._items) {
+	          var it = self._items[k];
+	          if (it.dragging) it._onMoveRef(e.clientX, e.clientY);
+	        }
+	      });
+	      document.addEventListener('mouseup', function() {
+	        for (var k in self._items) {
+	          var it = self._items[k];
+	          if (it.dragging) it._onEndRef();
+	        }
+	      });
+	      document.addEventListener('touchmove', function(e) {
+	        for (var k in self._items) {
+	          var it = self._items[k];
+	          if (it.dragging) {
+	            it._onMoveRef(e.touches[0].clientX, e.touches[0].clientY);
+	            e.preventDefault();
+	          }
+	        }
+	      }, {passive: false});
+	      document.addEventListener('touchend', function() {
+	        for (var k in self._items) {
+	          var it = self._items[k];
+	          if (it.dragging) it._onEndRef();
+	        }
+	      });
+	    }
+	  },
+
+	  _startMomentum: function(item) {
+	    var self = this;
+	    var el = item.el;
+	    var speed = Math.abs(item.vx) + Math.abs(item.vy);
+	    if (speed < 0.05) {
+	      self._savePos(item);
+	      return;
+	    }
+
+	    var friction = 0.92;
+	    var minSpeed = 0.015;
+	    var vx = item.vx * 16;
+	    var vy = item.vy * 16;
+
+	    function step() {
+	      vx *= friction;
+	      vy *= friction;
+
+	      var rect = el.getBoundingClientRect();
+	      var nl = rect.left + vx;
+	      var nt = rect.top + vy;
+
+	      // Soft boundary bounce
+	      var pad = 16;
+	      if (nl < pad) { nl = pad; vx *= -0.25; }
+	      if (nt < pad) { nt = pad; vy *= -0.25; }
+	      if (nl + rect.width > window.innerWidth - pad) {
+	        nl = window.innerWidth - pad - rect.width;
+	        vx *= -0.25;
+	      }
+	      if (nt + rect.height > window.innerHeight - pad) {
+	        nt = window.innerHeight - pad - rect.height;
+	        vy *= -0.25;
+	      }
+
+	      el.style.left = nl + 'px';
+	      el.style.top = nt + 'px';
+
+	      var curSpeed = Math.abs(vx) + Math.abs(vy);
+	      if (curSpeed > minSpeed) {
+	        item.momentumId = requestAnimationFrame(step);
+	      } else {
+	        item.momentumId = null;
+	        self._savePos(item);
+	      }
+	    }
+	    item.momentumId = requestAnimationFrame(step);
+	  },
+
+	  _savePos: function(item) {
+	    var r = item.el.getBoundingClientRect();
+	    localStorage.setItem(item.key, JSON.stringify({x: r.left, y: r.top}));
+	  }
+	};
+
+	// Initialize all draggable desk items
+	App.ready(function() {
+	  DeskPhysics.makeDraggable(document.getElementById('deskEraser'), 'desk_item_eraser_v2');
+	  DeskPhysics.makeDraggable(document.getElementById('deskNotebook'), 'desk_item_notebook_v2');
+
+	  // Set CSS-based defaults for items without saved positions
+	  var defaults = {
+	    'desk_item_eraser_v2':   { el: 'deskEraser',   cssLeft: 'calc(var(--sidebar-w) + 48px)',  cssTop: '24%' },
+	    'desk_item_notebook_v2': { el: 'deskNotebook', cssLeft: 'calc(var(--sidebar-w) + 140px)', cssTop: '22%' }
+	  };
+	  for (var key in defaults) {
+	    var d = defaults[key];
+	    try {
+	      var saved = JSON.parse(localStorage.getItem(key));
+	      if (!saved || saved.x === undefined) {
+	        var el = document.getElementById(d.el);
+	        if (el && !el.style.left) {
+	          el.style.left = d.cssLeft;
+	          el.style.top = d.cssTop;
+	        }
+	      }
+	    } catch(e) {}
+	  }
+	});
+
+// ── Home Dashboard: aggregate learning data + sparkline ──
+var HomeDashboard = {
+  getData: function() {
+    var now = Date.now();
+    var dayMs = 86400000;
+    var weekAgo = now - 7 * dayMs;
+
+    // Count study days this week from available timestamped data
+    var studyDays = new Set();
+    var totalExercises = 0;
+    var topicSet = new Set();
+    var dailyActivity = [0,0,0,0,0,0,0]; // last 7 days, oldest first
+
+    function addDay(ts) {
+      if (ts > weekAgo) {
+        var d = new Date(ts).getDay();
+        studyDays.add(d);
+        var idx = Math.floor((ts - weekAgo) / dayMs);
+        if (idx >= 0 && idx < 7) dailyActivity[idx] = 1;
+      }
+    }
+
+    // Scan desk_notes for timestamps
+    try {
+      var notes = JSON.parse(localStorage.getItem('desk_notes') || '[]');
+      notes.forEach(function(n) { if (n.time) addDay(new Date(n.time).getTime()); });
+    } catch(e) {}
+
+    // Scan error_notebook
+    try {
+      var errors = JSON.parse(localStorage.getItem('error_notebook') || '[]');
+      errors.forEach(function(e) {
+        if (e.time) addDay(new Date(e.time).getTime());
+        totalExercises++;
+        if (e.topic) topicSet.add(e.topic);
+      });
+    } catch(e) {}
+
+    // Scan trainer_data
+    try {
+      var td = JSON.parse(localStorage.getItem('trainer_data') || 'null');
+      if (td) {
+        if (td.questions_answered) totalExercises += td.questions_answered;
+        if (td.topics_covered) td.topics_covered.forEach(function(t) { topicSet.add(t); });
+        if (td.last_session) addDay(new Date(td.last_session).getTime());
+        if (td.sessions) {
+          td.sessions.forEach(function(s) {
+            if (s.time) addDay(new Date(s.time).getTime());
+            if (s.count) totalExercises += s.count;
+            if (s.topic) topicSet.add(s.topic);
+          });
+        }
+      }
+    } catch(e) {}
+
+    // Scan knowledge_read
+    try {
+      var read = JSON.parse(localStorage.getItem('knowledge_read') || '[]');
+      read.forEach(function(r) {
+        if (r.time) addDay(new Date(r.time).getTime());
+        if (r.topic) topicSet.add(r.topic);
+      });
+    } catch(e) {}
+
+    // Scan interview_history
+    try {
+      var iv = JSON.parse(localStorage.getItem('interview_history') || '[]');
+      iv.forEach(function(s) {
+        if (s.time) addDay(new Date(s.time).getTime());
+        totalExercises++;
+      });
+    } catch(e) {}
+
+    var dueCount = 0;
+    try {
+      var errs = JSON.parse(localStorage.getItem('error_notebook') || '[]');
+      dueCount = errs.length;
+    } catch(e) {}
+
+    return {
+      studyDays: studyDays.size,
+      totalExercises: totalExercises,
+      topicsMastered: topicSet.size,
+      dueReview: dueCount,
+      dailyActivity: dailyActivity
+    };
+  },
+
+  drawSparkline: function(canvasId, dailyActivity) {
+    var canvas = document.getElementById(canvasId);
+    if (!canvas) return;
+    var ctx = canvas.getContext('2d');
+    var w = canvas.width, h = canvas.height;
+    ctx.clearRect(0, 0, w, h);
+
+    var pad = { top: 6, right: 4, bottom: 12, left: 4 };
+    var plotW = w - pad.left - pad.right;
+    var plotH = h - pad.top - pad.bottom;
+    var n = dailyActivity.length;
+
+    // Baseline
+    ctx.strokeStyle = 'rgba(0,0,0,0.1)';
+    ctx.lineWidth = 1;
+    ctx.beginPath();
+    ctx.moveTo(pad.left, h - pad.bottom);
+    ctx.lineTo(w - pad.right, h - pad.bottom);
+    ctx.stroke();
+
+    if (n === 0) return;
+
+    // Scale activity values (0-1 → maybe more with stacking)
+    // For now, find max and use simple 0-1 scale
+    var maxVal = Math.max.apply(null, dailyActivity.concat([1]));
+
+    // Draw sparkline
+    ctx.strokeStyle = '#4f6ef6';
+    ctx.lineWidth = 1.5;
+    ctx.lineJoin = 'round';
+    ctx.lineCap = 'round';
+    ctx.beginPath();
+    var stepX = plotW / Math.max(n - 1, 1);
+    var first = true;
+    for (var i = 0; i < n; i++) {
+      var x = pad.left + i * stepX;
+      var y = h - pad.bottom - (dailyActivity[i] / maxVal) * plotH;
+      if (first) { ctx.moveTo(x, y); first = false; }
+      else ctx.lineTo(x, y);
+    }
+    ctx.stroke();
+
+    // Dot at each data point
+    for (var i = 0; i < n; i++) {
+      var x = pad.left + i * stepX;
+      var y = h - pad.bottom - (dailyActivity[i] / maxVal) * plotH;
+      ctx.fillStyle = dailyActivity[i] > 0 ? '#4f6ef6' : 'rgba(0,0,0,0.15)';
+      ctx.beginPath();
+      ctx.arc(x, y, 2, 0, Math.PI * 2);
+      ctx.fill();
+    }
+
+    // Day labels (S M T W T F S)
+    var days = ['S','M','T','W','T','F','S'];
+    var today = new Date().getDay();
+    ctx.fillStyle = 'rgba(0,0,0,0.3)';
+    ctx.font = '8px ' + getComputedStyle(document.body).fontFamily;
+    ctx.textAlign = 'center';
+    for (var i = 0; i < n; i++) {
+      var x = pad.left + i * stepX;
+      var dayIdx = (today - (6 - i) + 7) % 7;
+      ctx.fillText(days[dayIdx], x, h - 1);
+    }
+  },
+
+  render: function() {
+    var data = this.getData();
+    var daysEl = document.getElementById('dashDays');
+    var totalEl = document.getElementById('dashTotal');
+    var topicsEl = document.getElementById('dashTopics');
+    var dueEl = document.getElementById('dashDue');
+
+    if (daysEl) daysEl.textContent = data.studyDays > 0 ? data.studyDays + ' 天' : '--';
+    if (totalEl) totalEl.textContent = data.totalExercises > 0 ? data.totalExercises + ' 题' : '--';
+    if (topicsEl) topicsEl.textContent = data.topicsMastered > 0 ? data.topicsMastered + ' 个' : '--';
+    if (dueEl) dueEl.textContent = data.dueReview + ' 条';
+
+    this.drawSparkline('dashSparkline', data.dailyActivity);
+  }
+};
+
+// Init
+App.ready(function() {
+  HomeDashboard.render();
+
+  var ta = document.getElementById('deskInput');
+  if (ta) {
+    ta.addEventListener('input', function() {
+      this.style.height = 'auto';
+      this.style.height = Math.min(this.scrollHeight, 100) + 'px';
+    });
+  }
+  try {
+    var notes = JSON.parse(localStorage.getItem('desk_notes') || '[]');
+    if (notes.length > 0) {
+      document.getElementById('deskNoteInput').placeholder =
+        '你有 ' + notes.length + ' 条笔记，好记性不如烂笔头！';
+    }
+  } catch(e) {}
+});
+
+// ── Mascot initialization (Task 5) ──
+App.ready(function() {
+  deskmateMascot = new Mascot({
+    persona: 'deskmate',
+    container: '#deskmateMascotMount',
+    defaultPos: 'bottom-right',
+  });
+  window._deskmateMascot = deskmateMascot;
+  deskmateMascot.tryShowGuide('点我查看跨角色消息和工具状态');
+  deskmateMascot.startBubbles({interval: 28, duration: 6});
+});
+
+// ── Mascot polling (60s interval with Page Visibility) ──
+var _mascotPollTimer = null;
+function startMascotPoll() {
+  if (_mascotPollTimer) clearInterval(_mascotPollTimer);
+  _mascotPollTimer = setInterval(function() {
+    if (document.hidden) return;
+    fetch('/api/agent/bubbles?limit=5&exclude_persona=deskmate')
+      .then(function(r) { return r.json(); })
+      .then(function(d) { deskmateMascot.updateFromPoll(d); })
+      .catch(function() {});
+  }, 60000);
+}
+startMascotPoll();
+document.addEventListener('visibilitychange', function() {
+  if (!document.hidden) {
+    // 页面恢复可见时立即拉一次
+    fetch('/api/agent/bubbles?limit=5&exclude_persona=deskmate')
+      .then(function(r) { return r.json(); })
+      .then(function(d) { deskmateMascot.updateFromPoll(d); })
+      .catch(function() {});
+  }
+});
+
+// ── Async Daily Brief ──
+(function() {
+  var container = document.getElementById('briefItems');
+  var metaEl = document.getElementById('briefMeta');
+  if (!container) return;
+
+  function renderBriefs(data) {
+    if (!data || !data.briefs || !data.briefs.length) {
+      container.innerHTML = '<div class="brief-loading">暂无新闻数据</div>';
+      return;
+    }
+    var html = '';
+    for (var i = 0; i < data.briefs.length; i++) {
+      var b = data.briefs[i];
+      var title = App.escapeHtml(b.title || '');
+      var source = App.escapeHtml(b.source || '');
+      html += '<div class="brief-item" onclick="DeskMate.quickAsk(\'给我讲讲：' + title.replace(/'/g, "\\'") + '\')" title="点击追问同桌"><span class="brief-source">' + source + '</span><span class="brief-title">' + title + '</span></div>';
+    }
+    container.innerHTML = html;
+    if (metaEl) {
+      metaEl.textContent = (data.stale && data.meta) ? data.meta : '聚合新闻 | 实时更新';
+    }
+  }
+
+  fetch('/api/briefs')
+    .then(function(r) { return r.json(); })
+    .then(renderBriefs)
+    .catch(function() {
+      container.innerHTML = '<div class="brief-loading">简报暂不可用</div>';
+    });
+})();
+
+</script>
+<script src="/static/js/modules/web-search-toggle.js"></script>
+<script>WebSearchToggle.init({btnId: 'wsToggleBtn'});</script>
+<script>
+// ── 工具调用强制开关 ──
+var ToolToggle = {
+  _enabled: true,
+  toggle: function() {
+    this._enabled = !this._enabled;
+    var btn = document.getElementById('toolToggleBtn');
+    if (btn) {
+      btn.className = 'ws-toggle' + (this._enabled ? ' on' : ' off');
+      btn.title = '工具调用: ' + (this._enabled ? '开 — 强制Agent使用工具' : '关 — 允许Agent自行判断');
+    }
+  }
+};
+</script>
+{% endblock %}

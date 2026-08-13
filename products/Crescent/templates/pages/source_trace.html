@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% block title %}来源追溯{% endblock %}
+{% block body_class %}page-source-trace{% endblock %}
+{% block page_title %}来源追溯{% endblock %}
+
+{% block head %}
+<script src="/static/js/modules/source-trace.js"></script>
+{% endblock %}
+
+{% block content %}
+<div class="page-source-trace">
+<section class="source-trace-page">
+  <div class="card" style="margin-bottom: 20px;">
+    <h3>粘贴内容或链接，追溯信息来源</h3>
+    <p class="subtitle" style="color:var(--text2);margin-bottom:12px;">
+      支持：网页链接、截图文字、转发消息。所有搜索过程实时展示，来源链接可点击验证。
+    </p>
+    <textarea id="stInput" class="form-input" rows="4"
+      placeholder="例如：粘贴一段微信聊天记录，或一个微博链接…"
+      style="width:100%;resize:vertical;"></textarea>
+    <div style="margin-top:12px;display:flex;align-items:center;gap:12px;">
+      <button id="stStartBtn" class="btn btn-primary" onclick="SourceTrace.start()">
+        开始追溯
+      </button>
+      <span id="stStatus" style="color:var(--text2);font-size:13px;"></span>
+    </div>
+  </div>
+
+  <div id="stResults" style="display:none;">
+    <div id="stCards"></div>
+  </div>
+</section>
+
+</div>
+{% endblock %}

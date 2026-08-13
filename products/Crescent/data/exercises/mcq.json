@@ -1,0 +1,2334 @@
+[
+  {
+    "id": 1,
+    "topic": "Python基础",
+    "difficulty": 1,
+    "question": "以下哪个不是 Python 的不可变数据类型？",
+    "options": [
+      "int",
+      "tuple",
+      "list",
+      "str"
+    ],
+    "answer": "C",
+    "explanation": "list 可变（可增删改），int/tuple/str 不可变。不可变类型可以做 dict 的 key，list 不行。",
+    "correct": 2
+  },
+  {
+    "id": 2,
+    "topic": "Python基础",
+    "difficulty": 1,
+    "question": "x=[1,2,3]; y=x; y.append(4); print(x) 的输出是？",
+    "options": [
+      "[1,2,3]",
+      "[1,2,3,4]",
+      "报错",
+      "[1,2,3,[4]]"
+    ],
+    "answer": "B",
+    "explanation": "y=x 是引用赋值，y和x指向同一对象。想独立拷贝用 x.copy() 或 x[:]。",
+    "correct": 1
+  },
+  {
+    "id": 3,
+    "topic": "Python基础",
+    "difficulty": 1,
+    "question": "列表推导式 [s for s in stocks if not s.startswith('68')] 的作用？",
+    "options": [
+      "选出68开头的",
+      "排除68开头的(科创板)",
+      "加上68前缀",
+      "统计68开头的数量"
+    ],
+    "answer": "B",
+    "explanation": "filter_kcb_stock 就是过滤科创板(688)和创业板(3)。",
+    "correct": 1
+  },
+  {
+    "id": 4,
+    "topic": "Python基础",
+    "difficulty": 2,
+    "question": "关于 try/except，哪个说法错误？",
+    "options": [
+      "try块出错跳except",
+      "finally总执行",
+      "except后程序一定不崩",
+      "可用except Exception as e获取详情"
+    ],
+    "answer": "C",
+    "explanation": "except只捕获try块异常——except块自身出错、异常类型不匹配，照样崩。策略里每笔交易包在try里，单只出问题不影响全局。",
+    "correct": 2
+  },
+  {
+    "id": 5,
+    "topic": "Python基础",
+    "difficulty": 2,
+    "question": "lambda x,y: x+y; f(3,5) 的结果？",
+    "options": [
+      "报错",
+      "8",
+      "35",
+      "None"
+    ],
+    "answer": "B",
+    "explanation": "lambda是匿名函数。策略里优化器用 lambda w: sum(w)-1 定义'权重之和=1'的约束。",
+    "correct": 1
+  },
+  {
+    "id": 6,
+    "topic": "数据结构",
+    "difficulty": 1,
+    "question": "存储'股票代码->持仓市值'映射，最适合？",
+    "options": [
+      "list",
+      "set",
+      "dict",
+      "tuple"
+    ],
+    "answer": "C",
+    "explanation": "dict O(1)查询。你的 g.value={} 就是dict。",
+    "correct": 2
+  },
+  {
+    "id": 7,
+    "topic": "数据结构",
+    "difficulty": 1,
+    "question": "set(集合)在量化中适合？",
+    "options": [
+      "顺序存代码",
+      "去重+快速查找",
+      "存持仓数量",
+      "替代DataFrame"
+    ],
+    "answer": "B",
+    "explanation": "set自动去重，O(1)查找。策略用 set union 合并历史持仓。",
+    "correct": 1
+  },
+  {
+    "id": 8,
+    "topic": "数据结构",
+    "difficulty": 2,
+    "question": "聚宽策略的 g 对象是什么？好处？",
+    "options": [
+      "list",
+      "全局对象/命名空间，跨函数共享参数",
+      "dict",
+      "module"
+    ],
+    "answer": "B",
+    "explanation": "g 在 initialize 和定时函数间传参，省去全局变量声明。",
+    "correct": 1
+  },
+  {
+    "id": 9,
+    "topic": "数据结构",
+    "difficulty": 2,
+    "question": "tuple和list核心区别？必须用tuple的场景？",
+    "options": [
+      "tuple可变list不可变",
+      "tuple不可变可做dict key;list可变不能做key",
+      "tuple更慢",
+      "一样"
+    ],
+    "answer": "B",
+    "explanation": "tuple可哈希->可做key。portfolio={('000001.XSHE','2024-01-15'):1000}。",
+    "correct": 1
+  },
+  {
+    "id": 10,
+    "topic": "pandas",
+    "difficulty": 2,
+    "question": "DataFrame和Series的区别？",
+    "options": [
+      "DF一维Series二维",
+      "Series一维(一列+索引) DF二维(多列)",
+      "一样",
+      "Series只存数字"
+    ],
+    "answer": "B",
+    "explanation": "Excel类比:Series=一列，DataFrame=一张表。get_fundamentals返回DataFrame，选一列变Series。",
+    "correct": 1
+  },
+  {
+    "id": 11,
+    "topic": "pandas",
+    "difficulty": 2,
+    "question": "df['close'].pct_change() 计算的是？",
+    "options": [
+      "绝对变化",
+      "百分比变化(收益率)",
+      "累计求和",
+      "移动平均"
+    ],
+    "answer": "B",
+    "explanation": "=(当前-前值)/前值。等价于 df['close']/df['close'].shift(1)-1。",
+    "correct": 1
+  },
+  {
+    "id": 12,
+    "topic": "pandas",
+    "difficulty": 2,
+    "question": "df.query('close==high_limit and paused==0') 做了什么？",
+    "options": [
+      "查数据库",
+      "筛选涨停且未停牌",
+      "算涨跌停价",
+      "修改收盘价"
+    ],
+    "answer": "B",
+    "explanation": "query用字符串表达式筛选行。策略用它找涨停股：封板的持有，开板的卖。",
+    "correct": 1
+  },
+  {
+    "id": 13,
+    "topic": "pandas",
+    "difficulty": 3,
+    "question": "停牌日价格缺失，最合理的处理？",
+    "options": [
+      "fillna(0)",
+      "dropna()",
+      "fillna(method='ffill')",
+      "fillna(method='bfill')"
+    ],
+    "answer": "C",
+    "explanation": "停牌价不变，ffill最合理。填0算出-100%收益；bfill会未来信息泄露(回测大忌)。",
+    "correct": 2
+  },
+  {
+    "id": 14,
+    "topic": "pandas",
+    "difficulty": 2,
+    "question": "df.groupby('industry')['pe'].mean() 做了什么？",
+    "options": [
+      "加总PE",
+      "按行业分组的平均PE",
+      "找最大PE",
+      "改名"
+    ],
+    "answer": "B",
+    "explanation": "策略用 groupby('code')['high_limit'].count() 统计涨停次数。",
+    "correct": 1
+  },
+  {
+    "id": 15,
+    "topic": "pandas",
+    "difficulty": 3,
+    "question": "pd.merge(df1,df2,on='code',how='left') 中 how='left' 含义？",
+    "options": [
+      "只保留左表独有的",
+      "以左表为准，右表匹配就加不匹配填NaN",
+      "只保留共有的",
+      "把左表放右边"
+    ],
+    "answer": "B",
+    "explanation": "左表全保留。股票列表left join财务数据->全股票在，财务不全留空后续处理。",
+    "correct": 1
+  },
+  {
+    "id": 16,
+    "topic": "numpy",
+    "difficulty": 2,
+    "question": "量化为什么用numpy而不是纯Python循环？",
+    "options": [
+      "语法好看",
+      "底层C向量化，快10-100倍",
+      "不用安装",
+      "Python不能算数"
+    ],
+    "answer": "B",
+    "explanation": "回测N年xN只股票，循环太慢。策略里 np.dot(cov,weights) 就是向量化算组合方差。",
+    "correct": 1
+  },
+  {
+    "id": 17,
+    "topic": "numpy",
+    "difficulty": 2,
+    "question": "np.log()在量化中常用于？",
+    "options": [
+      "文件命名",
+      "取对数-消除极端值,乘法变加法",
+      "输出日志",
+      "算密码"
+    ],
+    "answer": "B",
+    "explanation": "金融数据常有极端值。log还把多期收益率变成加法:log(1+r1)+log(1+r2)=log(累积收益)。",
+    "correct": 1
+  },
+  {
+    "id": 18,
+    "topic": "numpy",
+    "difficulty": 3,
+    "question": "np.dot(w.T, np.dot(cov*252, w)) 计算的是？",
+    "options": [
+      "PE",
+      "组合年化方差(风险)",
+      "组合收益",
+      "相关系数"
+    ],
+    "answer": "B",
+    "explanation": "wT*Sigma*w是组合方差矩阵形式。*252把日协方差年化。你的 portfolio_variance 就是这个。",
+    "correct": 1
+  },
+  {
+    "id": 19,
+    "topic": "数据库",
+    "difficulty": 2,
+    "question": "策略为什么把信号存MySQL？",
+    "options": [
+      "好看",
+      "实盘终端从DB读信号执行——策略和交易端通过DB解耦",
+      "Python不能下单",
+      "DB更快"
+    ],
+    "answer": "B",
+    "explanation": "signal pipeline: 聚宽->MySQL->QMT。异步解耦、可追溯、多终端共享。",
+    "correct": 1
+  },
+  {
+    "id": 20,
+    "topic": "数据库",
+    "difficulty": 2,
+    "question": "防SQL注入的正确做法？",
+    "options": [
+      "字符串拼接",
+      "参数化查询(%s+单独传值)",
+      "直接拼用户输入",
+      "无所谓"
+    ],
+    "answer": "B",
+    "explanation": "代码里: connection.execute(g.query_, values) — values单独传，不会被当SQL执行。",
+    "correct": 1
+  },
+  {
+    "id": 21,
+    "topic": "边缘检测基础",
+    "difficulty": 1,
+    "question": "图像中'边缘'的数学定义是什么？",
+    "options": [
+      "像素值相同的位置",
+      "像素灰度值发生剧烈变化的位置",
+      "图像中对角线位置",
+      "图像中心线位置"
+    ],
+    "answer": "B",
+    "explanation": "边缘是灰度函数 f(x,y) 梯度幅值最大的位置—灰度值剧烈变化=梯度大。物理上对应物体边界、纹理变化。",
+    "correct": 1
+  },
+  {
+    "id": 22,
+    "topic": "边缘检测基础",
+    "difficulty": 1,
+    "question": "边缘检测核（如Sobel）的权值之和通常是多少？",
+    "options": [
+      "1",
+      "0",
+      "255",
+      "-1"
+    ],
+    "answer": "B",
+    "explanation": "边缘检测核的权值之和=0。这样在平滑区域（邻域像素值相近）输出≈0，只有边缘区域（邻域像素差大）输出非零值。高通滤波器的特征。",
+    "correct": 1
+  },
+  {
+    "id": 23,
+    "topic": "边缘检测基础",
+    "difficulty": 2,
+    "question": "图像梯度的方向表示什么？",
+    "options": [
+      "边缘的方向(沿边缘)",
+      "灰度变化最快的方向(垂直边缘)",
+      "图像的亮度方向",
+      "卷积核的旋转方向"
+    ],
+    "answer": "B",
+    "explanation": "梯度方向 = 灰度变化最快的方向 = 边缘法线方向（垂直边缘）。梯度幅值 = 变化剧烈程度 = 边缘强度。",
+    "correct": 1
+  },
+  {
+    "id": 24,
+    "topic": "Sobel算子",
+    "difficulty": 1,
+    "question": "Sobel 算子 Gx 核中间一列的值是什么？",
+    "options": [
+      "[-1,-2,-1]",
+      "[0,0,0]",
+      "[1,2,1]",
+      "[-1,0,1]"
+    ],
+    "answer": "C",
+    "explanation": "Sobel Gx 检测垂直边缘(水平梯度):\n[-1,0,1]\n[-2,0,2]\n[-1,0,1]\n中间列为[1,2,1](右列)-[-1,-2,-1](左列)→检测左右灰度差。",
+    "correct": 2
+  },
+  {
+    "id": 25,
+    "topic": "Sobel算子",
+    "difficulty": 2,
+    "question": "Sobel 核中 ±2 的权重设计是为了什么？",
+    "options": [
+      "让边缘更暗",
+      "同时做平滑(降噪)和差分(检测边缘)",
+      "加速计算",
+      "让图像更亮"
+    ],
+    "answer": "B",
+    "explanation": "±2 靠近中心像素，贡献更大，等价于：先对正交方向做加权平均(降噪)，再对检测方向做差分。比简单的[-1,0,+1]差分更抗噪声。",
+    "correct": 1
+  },
+  {
+    "id": 26,
+    "topic": "Sobel算子",
+    "difficulty": 2,
+    "question": "Sobel Gx 和 Gy 分别检测什么方向的边缘？",
+    "options": [
+      "Gx检测水平边缘,Gy检测垂直边缘",
+      "Gx检测垂直边缘,Gy检测水平边缘",
+      "都检测所有方向",
+      "都检测对角边缘"
+    ],
+    "answer": "B",
+    "explanation": "Gx 核左右差分→检测垂直边缘(Gx大=左右灰度突变=垂直方向边界)\nGy 核上下差分→检测水平边缘(Gy大=上下灰度突变=水平方向边界)",
+    "correct": 1
+  },
+  {
+    "id": 27,
+    "topic": "Sobel算子",
+    "difficulty": 2,
+    "question": "梯度幅值 G = sqrt(Gx²+Gy²) 为什么常用 |Gx|+|Gy| 近似？",
+    "options": [
+      "计算无需开方,速度更快",
+      "结果更准确",
+      "避免溢出",
+      "能检测更多边缘"
+    ],
+    "answer": "A",
+    "explanation": "开方运算在逐像素处理时成本高。近似 |Gx|+|Gy| 误差<12%，对边缘检测影响不大，但速度显著提升。",
+    "correct": 0
+  },
+  {
+    "id": 28,
+    "topic": "Sobel算子",
+    "difficulty": 2,
+    "question": "已知某像素 Gx=30, Gy=40，梯度幅值和方向(度)约为？",
+    "options": [
+      "幅值50,方向约53°",
+      "幅值70,方向约37°",
+      "幅值10,方向约90°",
+      "幅值50,方向约37°"
+    ],
+    "answer": "A",
+    "explanation": "幅值: sqrt(30²+40²)=50\n方向: atan2(40,30)≈53°(从水平轴逆时针)\nθ≈53°意味着边缘大致在水平方向(梯度主要是垂直分量)。",
+    "correct": 0
+  },
+  {
+    "id": 29,
+    "topic": "Canny算法",
+    "difficulty": 1,
+    "question": "Canny边缘检测的第一步是什么？目的是什么？",
+    "options": [
+      "Sobel梯度计算,检测边缘",
+      "高斯平滑,去除噪声",
+      "NMS,细化边缘",
+      "双阈值,分类边缘"
+    ],
+    "answer": "B",
+    "explanation": "Canny五步: 高斯平滑→梯度计算→NMS→双阈值→滞后追踪。第一步高斯平滑降低噪声，否则噪声会在梯度步骤被误判为边缘。",
+    "correct": 1
+  },
+  {
+    "id": 30,
+    "topic": "Canny算法",
+    "difficulty": 2,
+    "question": "NMS（非极大值抑制）的目的是什么？",
+    "options": [
+      "增加边缘数量",
+      "把粗边缘细化为单像素宽",
+      "降低图像亮度",
+      "加速计算"
+    ],
+    "answer": "B",
+    "explanation": "Sobel输出的边缘通常有几个像素宽(灰度渐变)。NMS沿梯度方向只保留局部最大值，将多像素宽边缘压缩为单像素宽的精确定位。",
+    "correct": 1
+  },
+  {
+    "id": 31,
+    "topic": "Canny算法",
+    "difficulty": 2,
+    "question": "NMS中梯度方向 θ 被量化为几个标准方向？",
+    "options": [
+      "2个(水平和垂直)",
+      "4个(0°/45°/90°/135°)",
+      "8个",
+      "不量化,用精确角度"
+    ],
+    "answer": "B",
+    "explanation": "量化为4个方向:\n- 0°(水平): 比较左右邻居\n- 45°(对角): 比较对角线邻居\n- 90°(垂直): 比较上下邻居\n- 135°(反对角): 比较反对角邻居\n量化减少计算量，对最终结果影响很小。",
+    "correct": 1
+  },
+  {
+    "id": 32,
+    "topic": "Canny算法",
+    "difficulty": 2,
+    "question": "Canny双阈值中，满足什么条件的像素是'强边缘'？",
+    "options": [
+      "梯度<T_low",
+      "T_low < 梯度 < T_high",
+      "梯度 > T_high",
+      "所有非零像素"
+    ],
+    "answer": "C",
+    "explanation": ">T_high→强边缘(确信)\nT_low~T_high→弱边缘(待定,由滞后追踪决定)\n<T_low→非边缘(丢弃)\n双阈值替代单阈值，兼顾检出率和精确率。",
+    "correct": 2
+  },
+  {
+    "id": 33,
+    "topic": "Canny算法",
+    "difficulty": 3,
+    "question": "滞后追踪(Hysteresis)中，弱边缘保留的条件是什么？",
+    "options": [
+      "只要梯度>0就保留",
+      "和强边缘8邻域连通就保留，否则丢弃",
+      "全部保留",
+      "随机保留"
+    ],
+    "answer": "B",
+    "explanation": "原则:弱边缘和强边缘连通→保留(真实边缘通常是连续的);孤立的弱边缘→丢弃(可能是噪声)。用BFS/DFS从强边缘出发连接弱边缘，这是Canny最关键的创新。",
+    "correct": 1
+  },
+  {
+    "id": 34,
+    "topic": "Canny算法",
+    "difficulty": 3,
+    "question": "Canny建议高阈值:低阈值约为多少？",
+    "options": [
+      "高:低 = 1:1",
+      "高:低 ≈ 2:1到3:1",
+      "高:低 = 10:1",
+      "高:低 = 1:2"
+    ],
+    "answer": "B",
+    "explanation": "典型设置: T_low = T_high * 0.4~0.5\n即高阈值约为低阈值的2~2.5倍。也可用梯度直方图百分位数: T_high = 70%分位, T_low = 30%分位。",
+    "correct": 1
+  },
+  {
+    "id": 35,
+    "topic": "Canny算法",
+    "difficulty": 2,
+    "question": "Canny三个设计目标是什么？",
+    "options": [
+      "速度快,内存小,精度高",
+      "高检出率,精确定位,单一边缘响应",
+      "多尺度,多方向,自适应的",
+      "支持彩色,实时,低功耗"
+    ],
+    "answer": "B",
+    "explanation": "Canny(1986)论文提出的三个目标:\n1. 高检出率(不漏真边缘)\n2. 精确定位(标记位置=边缘中心)\n3. 单一边缘响应(一个边缘只标记一次)\n这三个目标指导了Canny全部5步的设计。",
+    "correct": 1
+  },
+  {
+    "topic": "EmbodiSkill",
+    "question": "EmbodiSkill框架的主要创新点是什么？",
+    "options": [
+      "通过大量训练数据预训练技能库",
+      "区分技能内容错误和执行失误，进行定向修订",
+      "直接使用GPT-5.2作为执行器",
+      "在数字环境中进行技能进化"
+    ],
+    "answer": "B",
+    "explanation": "EmbodiSkill的关键创新在于它能够区分轨迹中的失败是由于技能内容错误还是执行失误，并分别进行更新或保留，而不是像传统方法那样将所有失败归因于技能问题。",
+    "difficulty": 2,
+    "id": 36,
+    "correct": 1
+  },
+  {
+    "topic": "技能自我进化",
+    "question": "为什么直接将在数字环境中开发的技能自我进化方法应用到具身环境会有问题？",
+    "options": [
+      "数字环境不需要技能",
+      "具身环境中的失败可能源于执行失误而非技能错误",
+      "数字环境中的轨迹更复杂",
+      "具身环境无法生成轨迹"
+    ],
+    "answer": "B",
+    "explanation": "具身环境中，任务执行失败可能不仅因为技能内容不正确，还因为智能体未能正确遵循有效指导（执行失误）。传统方法将所有失败都视为技能问题，导致粗粒度的技能更新。",
+    "difficulty": 2,
+    "id": 37,
+    "correct": 1
+  },
+  {
+    "topic": "SkillEvolver核心概念",
+    "question": "SkillEvolver的学习目标是什么？",
+    "options": [
+      "模型权重",
+      "技能的文本描述和代码",
+      "智能体的架构",
+      "训练数据"
+    ],
+    "answer": "B",
+    "explanation": "根据原文，SkillEvolver的学习目标是技能的文本描述和代码（skill's prose and code），而不是模型权重。这使得生成的技能可以直接用于任何智能体而无需重新训练。",
+    "difficulty": 1,
+    "id": 38,
+    "correct": 1
+  },
+  {
+    "topic": "新鲜智能体过拟合审计",
+    "question": "新鲜智能体过拟合审计（Fresh-Agent Overfit Audit）的主要作用是什么？",
+    "options": [
+      "提高技能生成速度",
+      "捕获技能泄漏和部署技能特有的失败",
+      "减少模型参数量",
+      "优化训练数据分布"
+    ],
+    "answer": "B",
+    "explanation": "原文指出，新鲜智能体过拟合审计用于捕获可能的泄漏以及已部署技能特有的失败，包括静默绕过模式。这是为了确保技能在真实使用中有效。",
+    "difficulty": 2,
+    "id": 39,
+    "correct": 1
+  },
+  {
+    "topic": "EmbodiSkill 核心概念",
+    "question": "EmbodiSkill 框架的主要创新点是什么？",
+    "options": [
+      "通过大量训练数据预训练技能库",
+      "在数字环境中优化技能更新算法",
+      "区分技能错误和执行失误，进行针对性技能修订",
+      "直接使用大型语言模型作为执行器"
+    ],
+    "answer": "C",
+    "explanation": "EmbodiSkill 的关键创新在于它能够区分任务失败是由于技能内容错误还是执行失误，并分别处理：更新技能内容或保留并强调有效指导，从而避免将执行失误误当作技能错误。",
+    "difficulty": 2,
+    "id": 40,
+    "correct": 2
+  },
+  {
+    "topic": "技能自我进化挑战",
+    "question": "为什么直接将数字环境中的技能自我进化方法应用于具身环境会有问题？",
+    "options": [
+      "数字环境中的轨迹数据格式不同",
+      "具身环境中的任务失败可能源于执行失误而非技能错误",
+      "具身智能体无法生成轨迹",
+      "数字环境中的技能更新速度太慢"
+    ],
+    "answer": "B",
+    "explanation": "在具身环境中，任务失败可能由两种原因导致：技能内容不正确（如错误的行动顺序）或执行失误（如智能体未能正确遵循有效指导）。现有方法通常将所有失败归因于技能错误，导致粗粒度的技能更新，这在具身环境中不适用。",
+    "difficulty": 2,
+    "id": 41,
+    "correct": 1
+  },
+  {
+    "topic": "列表推导式",
+    "question": "以下哪个是列表推导式的基本语法结构？",
+    "options": [
+      "[expression for item in iterable if condition]",
+      "(expression for item in iterable if condition)",
+      "{expression for item in iterable if condition}",
+      "for item in iterable: expression"
+    ],
+    "answer": "A",
+    "explanation": "列表推导式使用方括号[]包裹，内部包含表达式、for循环和可选的if条件，选项A正确。选项B是生成器表达式，选项C是集合推导式，选项D是普通for循环。",
+    "difficulty": 1,
+    "id": 42,
+    "correct": 0
+  },
+  {
+    "topic": "列表推导式",
+    "question": "给定列表 numbers = [1, 2, 3, 4, 5]，使用列表推导式生成每个数的平方，应如何写？",
+    "options": [
+      "[x**2 for x in numbers]",
+      "[x*2 for x in numbers]",
+      "[x^2 for x in numbers]",
+      "[x**2 if x in numbers]"
+    ],
+    "answer": "A",
+    "explanation": "列表推导式语法为[expression for item in iterable]，这里expression是x**2，iterable是numbers，选项A正确。选项B是乘以2，选项C中^是异或运算符，选项D语法错误。",
+    "difficulty": 2,
+    "id": 43,
+    "correct": 0
+  },
+  {
+    "topic": "列表推导式",
+    "question": "以下哪个是Python列表推导式的正确语法？",
+    "options": [
+      "[expr for item in iterable]",
+      "(expr for item in iterable)",
+      "{expr for item in iterable}",
+      "for item in iterable: expr"
+    ],
+    "answer": "A",
+    "explanation": "列表推导式使用方括号[]，形式为 [expr for item in iterable]。选项B是生成器表达式，选项C是集合推导式，选项D是普通for循环。",
+    "difficulty": 1,
+    "id": 44,
+    "correct": 0
+  },
+  {
+    "topic": "列表推导式",
+    "question": "使用列表推导式生成[0, 2, 4, 6, 8]的正确代码是？",
+    "options": [
+      "[x for x in range(10) if x % 2 == 0]",
+      "[x*2 for x in range(5)]",
+      "[x for x in range(0, 10, 2)]",
+      "以上都是"
+    ],
+    "answer": "D",
+    "explanation": "三个选项都能生成相同结果：A通过条件筛选偶数，B通过乘法生成偶数，C通过步长直接生成偶数。",
+    "difficulty": 2,
+    "id": 45,
+    "correct": 3
+  },
+  {
+    "topic": "EmbodiSkill 核心机制",
+    "question": "EmbodiSkill 如何区分轨迹中的失败原因？",
+    "options": [
+      "将所有失败都归因于技能内容错误",
+      "将所有失败都归因于执行失误",
+      "通过技能感知反思区分技能更改证据和执行失误证据",
+      "忽略失败轨迹，只从成功轨迹中学习"
+    ],
+    "answer": "C",
+    "explanation": "EmbodiSkill 的核心创新在于技能感知反思，它根据当前技能解释每条轨迹，区分技能更改证据（需要更新技能内容）和执行失误证据（需要保留并强调有效指导），从而避免将执行失误误判为技能错误。",
+    "difficulty": 2,
+    "id": 46,
+    "correct": 2
+  },
+  {
+    "topic": "EmbodiSkill 性能",
+    "question": "在 ALFWorld 基准上，EmbodiSkill 使冻结的 Qwen3.5-27B 执行器达到了多少任务成功率？",
+    "options": [
+      "61.70%",
+      "93.28%",
+      "31.58%",
+      "100%"
+    ],
+    "answer": "B",
+    "explanation": "根据论文结果，EmbodiSkill 在 ALFWorld 上使冻结的 Qwen3.5-27B 执行器达到 93.28% 的任务成功率，比直接使用 GPT-5.2 作为无技能智能体高出 31.58%。",
+    "difficulty": 1,
+    "id": 47,
+    "correct": 1
+  },
+  {
+    "topic": "SkillEvolver核心概念",
+    "question": "SkillEvolver的学习目标是什么？",
+    "options": [
+      "模型权重",
+      "技能的文本描述和代码",
+      "智能体的整体架构",
+      "训练数据集"
+    ],
+    "answer": "B",
+    "explanation": "根据摘要，SkillEvolver的学习目标是技能的文本描述和代码（prose and code），而不是模型权重。这使得生成的技能可以即插即用，无需重新训练。",
+    "difficulty": 1,
+    "id": 48,
+    "correct": 1
+  },
+  {
+    "topic": "SkillEvolver优化机制",
+    "question": "与传统的轨迹蒸馏（trace-distillation）相比，SkillEvolver的元技能在何时进行优化？",
+    "options": [
+      "在探索性轨迹收集过程中",
+      "在部署所学技能之后，基于其他智能体使用时的失败",
+      "在技能编写之前，基于预定义规则",
+      "在每次推理时实时优化"
+    ],
+    "answer": "B",
+    "explanation": "摘要明确指出，与轨迹蒸馏不同，元技能只在部署所学技能后，根据其他智能体使用该技能时遇到的失败进行优化，而不是仅依赖探索性轨迹。",
+    "difficulty": 2,
+    "id": 49,
+    "correct": 1
+  },
+  {
+    "id": 50,
+    "question": "在RAG系统中，混合检索通常结合哪两种检索方式？",
+    "topic": "AI大模型",
+    "options": [
+      "稀疏检索和密集检索",
+      "精确检索和模糊检索",
+      "全文检索和正则检索",
+      "向量检索和哈希检索"
+    ],
+    "correct": 0,
+    "explanation": "混合检索结合稀疏检索（如BM25）和密集检索（如向量相似度），前者基于关键词匹配，后者基于语义相似度，两者互补提升召回和精度。其他选项不是标准混合检索组合。",
+    "_source": "interview_experience"
+  },
+  {
+    "id": 51,
+    "question": "在RLHF训练中，奖励模型的作用是什么？",
+    "topic": "AI大模型",
+    "options": [
+      "直接生成最终答案",
+      "为生成结果打分以反映人类偏好",
+      "加速模型推理速度",
+      "减少模型参数量"
+    ],
+    "correct": 1,
+    "explanation": "奖励模型在RLHF中用于对生成结果进行评分，反映人类偏好，然后通过PPO/GRPO优化策略模型。A是生成模型的作用，C和D与奖励模型无关。",
+    "_source": "interview_experience"
+  },
+  {
+    "id": 52,
+    "question": "滑动窗口算法解决“最小长度子数组”问题的时间复杂度是？",
+    "topic": "算法",
+    "options": [
+      "O(n^2)",
+      "O(n log n)",
+      "O(n)",
+      "O(1)"
+    ],
+    "correct": 2,
+    "explanation": "滑动窗口每个元素最多被访问两次（左右指针各一次），因此时间复杂度为O(n)。其他选项：O(n^2)是暴力法，O(n log n)是二分法，O(1)不可能。",
+    "_source": "interview_experience"
+  },
+  {
+    "id": 53,
+    "question": "JDK 1.8中，HashMap链表转为红黑树的阈值是？",
+    "topic": "Java基础",
+    "options": [
+      "链表长度≥6",
+      "链表长度≥8且数组长度≥64",
+      "链表长度≥8",
+      "链表长度≥10"
+    ],
+    "correct": 1,
+    "explanation": "正确答案是B。链表长度≥8且数组长度≥64时转红黑树，若数组长度<64则优先扩容。A、C、D条件不完整或错误。",
+    "_source": "interview_experience"
+  },
+  {
+    "id": 54,
+    "question": "MySQL InnoDB中，用于保证事务持久性的日志是？",
+    "topic": "数据库",
+    "options": [
+      "binlog",
+      "redo log",
+      "undo log",
+      "error log"
+    ],
+    "correct": 1,
+    "explanation": "正确答案是B。redo log保证持久性，崩溃恢复时重放。binlog用于主从复制，undo log用于回滚和MVCC，error log记录错误。",
+    "_source": "interview_experience"
+  },
+  {
+    "id": 55,
+    "question": "Redis分布式锁实现中，保证原子性的命令是？",
+    "topic": "数据库",
+    "options": [
+      "SETNX",
+      "SET key value NX EX seconds",
+      "GETSET",
+      "WATCH"
+    ],
+    "correct": 1,
+    "explanation": "正确答案是B。SET key value NX EX seconds是原子操作，同时设置过期时间。SETNX不保证过期时间原子性，GETSET和WATCH不适用。",
+    "_source": "interview_experience"
+  },
+  {
+    "id": 56,
+    "question": "在AdamW优化器中，权重衰减与Adam的动量更新是如何解耦的？",
+    "topic": "深度学习",
+    "options": [
+      "权重衰减直接加到参数更新中，不参与动量计算",
+      "权重衰减作为动量的一部分参与更新",
+      "权重衰减只在学习率调整时应用",
+      "权重衰减与Adam无关"
+    ],
+    "correct": 0,
+    "explanation": "AdamW的关键创新是将权重衰减与动量更新解耦。权重衰减项直接加到参数更新中（param -= lr * (m_hat/(sqrt(v_hat)+eps) + lambda*param)），不参与动量和二阶矩的计算，避免了Adam中权重衰减与学习率耦合的问题。",
+    "_source": "interview_experience"
+  },
+  {
+    "id": 57,
+    "question": "在PPO算法中，clip操作的主要目的是什么？",
+    "topic": "强化学习",
+    "options": [
+      "防止梯度爆炸",
+      "限制策略更新幅度，防止策略崩溃",
+      "加速收敛",
+      "减少方差"
+    ],
+    "correct": 1,
+    "explanation": "PPO的clip操作将重要性采样比率限制在[1-ε, 1+ε]内，防止策略更新过大导致性能崩溃。这是PPO的核心机制，与梯度爆炸（A）、加速收敛（C）或方差减少（D）无直接关系。",
+    "_source": "interview_experience"
+  },
+  {
+    "id": 58,
+    "question": "bf16相比fp16的主要优势是什么？",
+    "topic": "深度学习",
+    "options": [
+      "精度更高",
+      "指数范围与fp32相同，训练更稳定",
+      "内存占用更小",
+      "计算速度更快"
+    ],
+    "correct": 1,
+    "explanation": "bf16的指数位与fp32相同（8位），因此动态范围与fp32一致，避免了fp16因指数位少（5位）导致的溢出问题，训练更稳定。bf16精度低于fp16（尾数位少），但内存和速度与fp16相同。",
+    "_source": "interview_experience"
+  },
+  {
+    "id": 59,
+    "question": "LoRA微调中，低秩矩阵的秩r通常取什么值？",
+    "topic": "深度学习",
+    "options": [
+      "1-4",
+      "8-16",
+      "64-128",
+      "与模型维度相同"
+    ],
+    "correct": 1,
+    "explanation": "LoRA中秩r通常取8或16，远小于模型维度（如d_model=4096）。r过小（如1-4）可能表达能力不足，过大（如64-128）则失去低秩优势。r与模型维度相同（D）则退化为全参数微调。",
+    "_source": "interview_experience"
+  },
+  {
+    "id": 60,
+    "question": "判断两个链表是否相交的最优空间复杂度方法是什么？",
+    "topic": "算法",
+    "options": [
+      "哈希集合法，空间O(n)",
+      "双指针法，空间O(1)",
+      "暴力法，空间O(1)",
+      "递归法，空间O(n)"
+    ],
+    "correct": 1,
+    "explanation": "双指针法（如pA和pB循环遍历）时间复杂度O(n+m)，空间复杂度O(1)，是最优解。哈希集合法空间O(n)，暴力法时间O(n*m)，递归法空间O(n)。",
+    "_source": "interview_experience"
+  },
+  {
+    "id": 61,
+    "question": "关于MCP和Function Calling，以下说法正确的是？",
+    "topic": "AI大模型",
+    "options": [
+      "MCP是模型原生能力，Function Calling是标准化协议",
+      "MCP强调动态工具发现，Function Calling依赖预定义函数签名",
+      "MCP只支持单一任务，Function Calling适合复杂工具链",
+      "MCP和Function Calling完全等价"
+    ],
+    "correct": 1,
+    "explanation": "MCP是标准化协议，支持动态工具发现和上下文管理；Function Calling是模型原生能力，通过预定义函数签名调用。B正确。A混淆了定义；C说反了；D明显错误。",
+    "_source": "interview_experience"
+  },
+  {
+    "id": 62,
+    "question": "在RAG系统中，确保答案正确性的关键步骤不包括？",
+    "topic": "AI大模型",
+    "options": [
+      "检索相关文档作为上下文",
+      "设置置信度阈值并拒绝低置信度回答",
+      "使用验证模型进行事实核查",
+      "完全依赖大模型内部知识"
+    ],
+    "correct": 3,
+    "explanation": "RAG的核心是检索外部知识辅助生成，而非完全依赖模型内部知识。A、B、C都是RAG中确保正确性的常见方法，D则违背了RAG的设计初衷。",
+    "_source": "interview_experience"
+  },
+  {
+    "id": 63,
+    "question": "在RAG知识库构建中，对于token长度大于512的文本块，通常采用什么存储策略？",
+    "topic": "AI大模型",
+    "options": [
+      "直接丢弃",
+      "存入缓存",
+      "存入向量数据库",
+      "压缩后存入缓存"
+    ],
+    "correct": 2,
+    "explanation": "根据面试记录，大于512 token的内容存入向量数据库，小于512的存入缓存。向量数据库用于高效检索，缓存用于快速访问小片段。",
+    "_source": "interview_experience"
+  },
+  {
+    "id": 64,
+    "question": "知识蒸馏技术的主要目的是什么？",
+    "topic": "AI大模型",
+    "options": [
+      "提高模型准确率",
+      "减少模型参数量和计算成本",
+      "增加模型训练数据",
+      "加速模型推理速度但牺牲精度"
+    ],
+    "correct": 1,
+    "explanation": "知识蒸馏通过学生模型模仿教师模型，在保持性能的同时减少参数量和计算成本，常用于模型压缩和部署。选项A不是主要目的，选项D描述不准确（通常精度损失较小）。",
+    "_source": "interview_experience"
+  },
+  {
+    "id": 65,
+    "question": "在RAG流程中，以下哪个步骤通常发生在检索阶段之前？",
+    "topic": "AI大模型",
+    "options": [
+      "用户查询向量化",
+      "文档切块与向量化",
+      "相似度计算",
+      "Prompt拼接"
+    ],
+    "correct": 1,
+    "explanation": "正确答案是B。RAG流程中，索引阶段（文档切块→向量化→存入数据库）发生在检索阶段之前。用户查询向量化（A）是检索阶段的开始，相似度计算（C）和Prompt拼接（D）都在检索阶段中。",
+    "_source": "interview_experience"
+  },
+  {
+    "id": 66,
+    "question": "企业级Claw系统相比开源OpenClaw，最不可能具备以下哪项特性？",
+    "topic": "系统设计",
+    "options": [
+      "细粒度权限控制",
+      "动态技能热更新",
+      "单节点轻量部署",
+      "完整的审计日志"
+    ],
+    "correct": 2,
+    "explanation": "正确答案是C。企业级Claw强调高可用、集群部署，单节点轻量部署是开源或小型系统的特点，企业版通常需要多节点、负载均衡等能力。A、B、D都是企业级系统的常见特性。",
+    "_source": "interview_experience"
+  },
+  {
+    "id": 67,
+    "question": "在RAG系统中，以下哪种chunking策略最可能保留文档的语义完整性？",
+    "topic": "RAG",
+    "options": [
+      "固定token数切分，不重叠",
+      "按段落边界切分，适当重叠",
+      "随机切分，每块大小相同",
+      "按字符数切分，忽略标点"
+    ],
+    "correct": 1,
+    "explanation": "按段落边界切分能保留自然语义单元，适当重叠可避免信息丢失。固定token数切分可能切断句子，随机切分和字符切分均破坏语义结构。",
+    "_source": "interview_experience"
+  },
+  {
+    "id": 68,
+    "question": "在RAG系统中，对文档进行语义切分和聚类的主要目的是什么？",
+    "topic": "AI大模型",
+    "options": [
+      "减少存储空间",
+      "加速检索并提高召回质量",
+      "提升模型生成速度",
+      "降低计算成本"
+    ],
+    "correct": 1,
+    "explanation": "语义切分和聚类将文档按语义分组，检索时先定位到相关组，再返回整组内容，既加速了检索（减少候选数），又通过保留上下文提高了召回质量。其他选项不是主要目的。",
+    "_source": "interview_experience"
+  },
+  {
+    "id": 69,
+    "question": "简历中写“召回率提升25.9%”时，最可能引发面试官什么质疑？",
+    "topic": "项目经验",
+    "options": [
+      "这个数字太小，没有说服力",
+      "相比什么提升的？测试集是什么？",
+      "这个数字是理论值还是实测值？",
+      "为什么只提升这么多，没有更多？"
+    ],
+    "correct": 1,
+    "explanation": "面试官最关心baseline和测试条件，因为数字本身没有意义，必须明确对比基准和测试场景。选项B直接对应面试官常见追问。选项C虽然相关，但不如B具体；A和D不是主要质疑点。",
+    "_source": "interview_experience"
+  },
+  {
+    "id": 70,
+    "question": "关于MCP和Skill的区别，以下说法正确的是？",
+    "topic": "AI大模型",
+    "options": [
+      "MCP是体系化文档，Skill是扩展AI执行操作的能力",
+      "MCP是扩展AI的'手脚'帮它执行操作，Skill是体系化文档只教它怎么做",
+      "MCP和Skill功能完全相同，只是名称不同",
+      "MCP用于前端开发，Skill用于后端开发"
+    ],
+    "correct": 1,
+    "explanation": "MCP（Model Context Protocol）通过Tools扩展AI执行操作的能力，如查文档、调接口；Skill是体系化文档，只提供知识指导，不直接执行操作。",
+    "_source": "interview_experience"
+  },
+  {
+    "id": 71,
+    "question": "React Fiber架构中，以下哪个阶段是不可中断的？",
+    "topic": "框架工具",
+    "options": [
+      "协调阶段（Reconciliation）",
+      "渲染阶段（Render）",
+      "提交阶段（Commit）",
+      "时间片轮转阶段"
+    ],
+    "correct": 2,
+    "explanation": "Commit阶段负责将虚拟DOM变更同步到真实DOM，必须一次性完成，不可中断。协调阶段（Render）可被高优任务打断，时间片轮转是调度机制。",
+    "_source": "interview_experience"
+  },
+  {
+    "id": 72,
+    "question": "在RAG系统中，以下哪个模块负责将用户查询与文档块进行语义匹配？",
+    "topic": "AI大模型",
+    "options": [
+      "文档解析与分块模块",
+      "向量化与索引模块",
+      "检索模块",
+      "生成模块"
+    ],
+    "correct": 2,
+    "explanation": "检索模块负责根据用户查询的向量表示，在向量数据库中检索最相似的文档块。文档解析模块负责文本处理，向量化模块负责生成向量，生成模块负责最终答案合成。",
+    "_source": "interview_experience"
+  },
+  {
+    "id": 73,
+    "question": "关于分布式锁，以下说法正确的是？",
+    "topic": "系统设计",
+    "options": [
+      "分布式锁可以防止所有外部系统对数据库的并发访问",
+      "Redis分布式锁锁定的对象是数据库中的一条具体记录",
+      "分布式锁只对使用同一锁机制的客户端有效",
+      "使用分布式锁后，无需再使用数据库乐观锁"
+    ],
+    "correct": 2,
+    "explanation": "分布式锁只对使用同一锁机制的客户端有效，外部系统直接操作数据库会绕过锁。锁定的对象是业务Key，不是数据库记录。分布式锁和乐观锁可以结合使用，提供双重保障。",
+    "_source": "interview_experience"
+  },
+  {
+    "id": 74,
+    "question": "在Trae编码工具中，/spec指令的主要用途是什么？",
+    "topic": "工具框架",
+    "options": [
+      "直接生成代码实现",
+      "生成详细的功能规格说明书",
+      "执行自动化测试",
+      "部署应用到服务器"
+    ],
+    "correct": 1,
+    "explanation": "/spec用于生成功能规格说明书，定义输入输出和边界条件，帮助澄清需求。/plan用于生成实现计划，/code用于生成代码。",
+    "_source": "interview_experience"
+  },
+  {
+    "id": 75,
+    "question": "高并发抢单场景中，使用Redis分布式锁配合数据库乐观锁的主要目的是？",
+    "topic": "系统设计",
+    "options": [
+      "提高数据库查询速度",
+      "防止超卖并保证数据一致性",
+      "减少网络延迟",
+      "简化代码逻辑"
+    ],
+    "correct": 1,
+    "explanation": "Redis锁防止并发请求同时操作，乐观锁（版本号）防止数据库层面数据冲突，两者结合有效防止超卖，保证数据一致性。其他选项不是主要目的。",
+    "_source": "interview_experience"
+  },
+  {
+    "id": 76,
+    "question": "以下哪种Agent范式最适合解决“长任务执行过程中容易偏离目标”的问题？",
+    "topic": "AI大模型",
+    "options": [
+      "ReAct",
+      "Plan-and-Execute",
+      "Reflection",
+      "Multi-Agent"
+    ],
+    "correct": 1,
+    "explanation": "Plan-and-Execute通过先全局规划再逐步执行，提供明确的执行路线图，能有效防止长任务中偏离目标。ReAct虽然灵活但容易迷失方向；Reflection主要解决输出质量问题而非方向偏离；Multi-Agent解决单Agent能力边界问题。",
+    "_source": "interview_experience"
+  },
+  {
+    "id": 77,
+    "question": "在RAG系统中，混合召回通常结合哪两种检索方法？",
+    "topic": "AI大模型",
+    "options": [
+      "关键词检索和语义检索",
+      "精确匹配和模糊匹配",
+      "向量检索和图像检索",
+      "全文检索和正则检索"
+    ],
+    "correct": 0,
+    "explanation": "混合召回结合关键词检索（如BM25）和语义检索（如向量相似度），以互补精确性和语义理解。其他选项不标准：精确/模糊匹配是子集，图像检索不相关，正则检索是关键词的一种形式。",
+    "_source": "interview_experience"
+  },
+  {
+    "question": "在构建复杂多步Agent流程时，选择LangGraph而非LangChain的最主要原因是？",
+    "topic": "系统设计",
+    "options": [
+      "LangGraph提供更丰富的LLM集成",
+      "LangGraph支持有向图结构，便于管理复杂流程",
+      "LangGraph的社区更活跃",
+      "LangGraph的模块化设计更优秀"
+    ],
+    "correct": 1,
+    "explanation": "根据Flashcard，选LangGraph主要因其支持有向图结构，适合复杂多步Agent流程。其他选项虽可能是LangGraph的优点，但并非选择它的最主要原因。",
+    "_api_cost": 9.6e-05,
+    "_source": "flashcard_conversion",
+    "id": 78
+  },
+  {
+    "question": "在Agent工具链的流程中，以下哪个节点通常负责将用户请求转化为可执行的操作指令？",
+    "topic": "系统设计",
+    "options": [
+      "意图识别",
+      "工具选择",
+      "参数填充",
+      "结果解析"
+    ],
+    "correct": 0,
+    "explanation": "意图识别节点负责理解用户输入的目的，将其转化为可执行的操作指令，是后续工具选择和参数填充的基础。",
+    "_api_cost": 8.4e-05,
+    "_source": "flashcard_conversion",
+    "id": 79
+  },
+  {
+    "question": "当工具响应缓慢时，以下哪种处理方式最合理？",
+    "topic": "系统设计",
+    "options": [
+      "增加超时时间，等待工具响应，避免丢失数据",
+      "设置超时阈值，超时后重试1-2次，失败则降级为缓存或默认值",
+      "直接返回错误给用户，让用户稍后再试",
+      "忽略超时，继续等待直到工具响应"
+    ],
+    "correct": 1,
+    "explanation": "根据系统设计原则，工具响应慢时应设置超时阈值，超时后重试1-2次，若仍失败则降级为缓存结果或返回默认值，同时记录异常日志、异步调用避免阻塞主流程，并对慢工具做限流或熔断。选项B正确描述了这一处理流程。",
+    "_api_cost": 0.00011,
+    "_source": "flashcard_conversion",
+    "id": 80
+  },
+  {
+    "question": "在日志查询系统中，当用户查询的时间跨度过大或未提供具体关键词时，以下哪种处理策略最有效？",
+    "topic": "系统设计",
+    "options": [
+      "直接返回所有日志，让用户自行筛选",
+      "使用时间分区索引和预聚合统计，并提示用户补充关键词",
+      "仅使用模糊搜索，不限制返回条数",
+      "限制返回条数并忽略时间跨度"
+    ],
+    "correct": 1,
+    "explanation": "根据日志查询优化策略，时间跨度大时应使用时间分区索引、预聚合统计、分页查询和限制返回条数；关键词缺失时可采用模糊搜索或提示用户补充关键词。选项B综合了这两种策略，是最有效的处理方式。",
+    "_api_cost": 0.000103,
+    "_source": "flashcard_conversion",
+    "id": 81
+  },
+  {
+    "question": "开发一个企业级RAG项目，包含混合检索、重排序和多轮对话功能，预计需要多长时间？",
+    "topic": "项目经验",
+    "options": [
+      "1-2个月",
+      "2-3个月",
+      "4-6个月",
+      "6-9个月"
+    ],
+    "correct": 2,
+    "explanation": "根据项目经验，基础版（检索+生成）需2-3个月；含混合检索、重排序、多轮对话属于中等复杂度，需4-6个月；含微调、评测、部署则需6-9个月。题干中提到的功能对应中等复杂度，因此正确答案为C。",
+    "_api_cost": 0.000101,
+    "_source": "flashcard_conversion",
+    "id": 82
+  },
+  {
+    "question": "在操作系统中，关于进程、线程和协程的描述，哪一项是正确的？",
+    "topic": "操作系统",
+    "options": [
+      "进程是CPU调度的最小单位，线程是资源分配的最小单位。",
+      "协程的切换依赖于操作系统内核，其开销大于线程切换。",
+      "线程是资源分配的最小单位，进程是CPU调度的最小单位。",
+      "进程是资源分配的最小单位，线程是CPU调度的最小单位，协程是用户态轻量级线程。"
+    ],
+    "correct": 3,
+    "explanation": "根据概念，进程是资源分配的最小单位，线程是CPU调度的最小单位，协程是用户态轻量级线程，因此选项D正确。选项A和C将进程和线程的角色颠倒，选项B错误，因为协程切换由程序控制，开销小于线程切换。",
+    "_api_cost": 0.00011,
+    "_source": "flashcard_conversion",
+    "id": 83
+  },
+  {
+    "question": "在网络编程中，为什么通常优先选择多线程或协程而非多进程？",
+    "topic": "操作系统",
+    "options": [
+      "多进程切换开销大且内存隔离导致共享数据复杂",
+      "多进程能更好地利用多核CPU",
+      "多线程在IO密集型任务中性能最差",
+      "协程需要内核支持，切换成本高"
+    ],
+    "correct": 0,
+    "explanation": "多进程切换开销大、内存隔离导致共享数据复杂，而多线程共享内存、切换快，协程更轻量且用户态切换无系统调用，适合高并发IO密集型任务。因此选项A正确。",
+    "_api_cost": 9.8e-05,
+    "_source": "flashcard_conversion",
+    "id": 84
+  },
+  {
+    "question": "下列关于进程、线程和协程切换与通信方式的描述中，哪一项是正确的？",
+    "topic": "操作系统",
+    "options": [
+      "进程切换由内核完成，线程切换只能由内核管理，协程切换由用户程序控制",
+      "进程间通信方式包括管道、消息队列和共享内存，线程间通信不可以使用共享内存",
+      "协程的切换开销比线程小，因为协程切换完全由程序控制，无需内核参与",
+      "进程和线程的通信方式完全相同，都可以使用共享内存和锁"
+    ],
+    "correct": 2,
+    "explanation": "协程切换由程序控制，不涉及内核态切换，因此开销小于线程切换。选项A错误，因为线程切换既可由内核管理（内核级线程），也可由用户态管理（用户级线程）；选项B错误，线程间通信也可以使用共享内存；选项D错误，进程通信通常不直接使用锁（锁更多用于线程同步），且进程通信方式更丰富。",
+    "_api_cost": 0.000119,
+    "_source": "flashcard_conversion",
+    "id": 85
+  },
+  {
+    "question": "当线程池中的核心线程已满且阻塞队列已满时，提交新任务会触发哪种操作？",
+    "topic": "操作系统",
+    "options": [
+      "创建新核心线程执行任务",
+      "将任务加入阻塞队列等待",
+      "判断当前线程数是否达到最大线程数，未满则创建临时线程",
+      "直接执行拒绝策略"
+    ],
+    "correct": 2,
+    "explanation": "根据线程池工作流程，核心线程满且阻塞队列满时，会判断当前线程数是否小于最大线程数，若是则创建临时线程执行任务；否则执行拒绝策略。",
+    "_api_cost": 9.4e-05,
+    "_source": "flashcard_conversion",
+    "id": 86
+  },
+  {
+    "question": "在MySQL中，InnoDB存储引擎默认创建的索引属于哪种数据结构？",
+    "topic": "数据库",
+    "options": [
+      "哈希索引",
+      "B+树索引",
+      "全文索引",
+      "自适应哈希索引"
+    ],
+    "correct": 1,
+    "explanation": "InnoDB存储引擎默认使用B+树索引结构，虽然也支持自适应哈希索引，但默认创建的索引是B+树索引。",
+    "_api_cost": 8.2e-05,
+    "_source": "flashcard_conversion",
+    "id": 87
+  },
+  {
+    "question": "InnoDB引擎为什么选择B+树作为索引结构，而不是B树？",
+    "topic": "数据库",
+    "options": [
+      "B+树非叶子节点不存储数据，叶子节点形成有序链表，支持高效的范围查询和排序，且树高度低，磁盘IO少",
+      "B树的所有节点都存储数据，查询更快，但范围查询效率不如B+树",
+      "B+树在插入和删除时比B树更简单，不需要维护平衡",
+      "B+树只能用于主键索引，不能用于辅助索引"
+    ],
+    "correct": 0,
+    "explanation": "InnoDB使用B+树的关键优势在于：非叶子节点只存键值，不存数据，使得树更矮，减少磁盘IO；叶子节点形成有序链表，支持高效的范围查询和排序。B树虽然所有节点都存数据，但范围查询需要中序遍历，效率较低。B+树的插入和删除同样需要维护平衡，并不更简单。B+树既可以用于主键索引，也可以用于辅助索引。",
+    "_api_cost": 0.000122,
+    "_source": "flashcard_conversion",
+    "id": 88
+  },
+  {
+    "question": "在MySQL中，用于主从复制和数据恢复的日志是哪一个？",
+    "topic": "数据库",
+    "options": [
+      "redo log",
+      "undo log",
+      "binlog",
+      "error log"
+    ],
+    "correct": 2,
+    "explanation": "binlog（二进制日志）用于记录所有更改数据的语句，主要用于主从复制和基于时间点的数据恢复。redo log用于保证事务持久性和崩溃恢复，undo log用于事务回滚和MVCC。",
+    "_api_cost": 8.6e-05,
+    "_source": "flashcard_conversion",
+    "id": 89
+  },
+  {
+    "question": "MySQL的Buffer Pool主要用于解决什么问题？",
+    "topic": "数据库",
+    "options": [
+      "存储日志信息，保证事务持久性",
+      "缓存数据和索引页，减少磁盘IO",
+      "管理数据库连接，提高并发性",
+      "存储查询结果，避免重复计算"
+    ],
+    "correct": 1,
+    "explanation": "Buffer Pool的主要作用是缓存数据和索引页，从而减少磁盘IO，提高读写性能。选项A描述的是Redo Log的作用；选项C描述的是连接池的作用；选项D描述的是查询缓存的作用，但MySQL 8.0已移除查询缓存。",
+    "_api_cost": 9.1e-05,
+    "_source": "flashcard_conversion",
+    "id": 90
+  },
+  {
+    "question": "在数据库查询中，以下哪种情况最可能导致回表查询？",
+    "topic": "数据库",
+    "options": [
+      "使用聚簇索引查询所有列",
+      "使用非聚簇索引查询，且查询列全部在索引中",
+      "使用非聚簇索引查询，且查询列包含索引外的列",
+      "使用全表扫描查询"
+    ],
+    "correct": 2,
+    "explanation": "回表查询发生在使用非聚簇索引时，如果查询的列不在该索引中，就需要根据索引中的主键值到聚簇索引中查找完整行记录。选项C正是这种情况，选项B可以通过覆盖索引避免回表，选项A和D不涉及回表。",
+    "_api_cost": 9.9e-05,
+    "_source": "flashcard_conversion",
+    "id": 91
+  },
+  {
+    "question": "下列哪项不是常见的数据库优化方法？",
+    "topic": "数据库",
+    "options": [
+      "添加索引，提高查询速度",
+      "使用SELECT *获取所有字段，减少代码修改",
+      "分库分表，减少单表数据量",
+      "引入缓存（如Redis），减少数据库压力"
+    ],
+    "correct": 1,
+    "explanation": "使用SELECT *会返回所有列，增加I/O和网络传输，通常应避免，而应只选择需要的列。其他选项都是常见的优化方法。",
+    "_api_cost": 8.8e-05,
+    "_source": "flashcard_conversion",
+    "id": 92
+  },
+  {
+    "question": "在系统架构中，以下哪项措施不能有效减轻数据库压力？",
+    "topic": "系统设计",
+    "options": [
+      "引入Redis缓存热点数据",
+      "使用消息队列异步处理",
+      "增加数据库索引",
+      "读写分离、分库分表"
+    ],
+    "correct": 2,
+    "explanation": "增加数据库索引虽然能提高查询速度，但并不能减轻数据库的总体压力，反而可能增加写入时的维护开销。而其他选项（缓存、异步处理、读写分离、分库分表）都是常用的减轻数据库压力的架构措施。",
+    "_api_cost": 9e-05,
+    "_source": "flashcard_conversion",
+    "id": 93
+  },
+  {
+    "question": "在千万级大表中进行深分页查询时，以下哪种方法最有效？",
+    "topic": "数据库",
+    "options": [
+      "使用子查询先定位主键，再通过主键获取数据",
+      "直接使用limit和offset进行分页",
+      "增加数据库缓存大小",
+      "使用模糊查询代替精确查询"
+    ],
+    "correct": 0,
+    "explanation": "深分页优化常用子查询先定位主键，避免大偏移量扫描，这是最有效的方法之一。",
+    "_api_cost": 8.8e-05,
+    "_source": "flashcard_conversion",
+    "id": 94
+  },
+  {
+    "question": "以下哪个不是Redis支持的数据类型？",
+    "topic": "数据库",
+    "options": [
+      "String",
+      "List",
+      "Array",
+      "Hash"
+    ],
+    "correct": 2,
+    "explanation": "Redis支持String、List、Set、Zset、Hash、Bitmaps、HyperLogLog、Geospatial、Stream等数据类型，但不支持Array类型。Array是其他数据库或编程语言中的概念，不是Redis内置的数据类型。",
+    "_api_cost": 8e-05,
+    "_source": "flashcard_conversion",
+    "id": 95
+  },
+  {
+    "question": "在数据库并发控制中，乐观锁和悲观锁的核心区别是什么？",
+    "topic": "数据库",
+    "options": [
+      "悲观锁假设冲突较少，乐观锁假设冲突频繁",
+      "悲观锁通过版本号实现，乐观锁通过加锁实现",
+      "悲观锁先加锁再操作，乐观锁先操作再验证",
+      "乐观锁适合写多场景，悲观锁适合读多场景"
+    ],
+    "correct": 2,
+    "explanation": "悲观锁假设冲突频繁，因此先加锁再操作，确保数据一致性；乐观锁假设冲突较少，因此先操作，在提交时通过版本号或CAS验证冲突。选项C正确描述了这一核心区别。选项A将两者假设颠倒，选项B将实现方式颠倒，选项D将适用场景颠倒。",
+    "_api_cost": 0.000106,
+    "_source": "flashcard_conversion",
+    "id": 96
+  },
+  {
+    "question": "在系统设计中，以下哪种方法不能有效同时保证高并发与数据一致性？",
+    "topic": "系统设计",
+    "options": [
+      "使用缓存+数据库双写，并通过消息队列实现最终一致性",
+      "采用读写分离，主库负责写，从库负责读",
+      "对所有写操作使用分布式锁，确保串行化执行",
+      "使用乐观锁重试机制处理并发冲突"
+    ],
+    "correct": 2,
+    "explanation": "分布式锁虽然能保证数据一致性，但会严重降低并发性能，因为锁会导致请求串行化。其他选项（缓存+数据库双写、最终一致性、读写分离、乐观锁重试）都能在保证数据一致性的同时提高并发能力。",
+    "_api_cost": 9.9e-05,
+    "_source": "flashcard_conversion",
+    "id": 97
+  },
+  {
+    "question": "在典型的项目部署流程中，代码提交后，CI/CD流水线通常不会执行以下哪一项操作？",
+    "topic": "项目经验",
+    "options": [
+      "自动构建",
+      "手动测试",
+      "打包成可部署的工件",
+      "部署到服务器"
+    ],
+    "correct": 1,
+    "explanation": "CI/CD流水线强调自动化，手动测试不符合自动化流程，而自动构建、打包和部署都是流水线的典型步骤。",
+    "_api_cost": 8.4e-05,
+    "_source": "flashcard_conversion",
+    "id": 98
+  },
+  {
+    "question": "关于Docker和Kubernetes，以下哪项描述是正确的？",
+    "topic": "项目经验",
+    "options": [
+      "Docker用于容器编排，Kubernetes用于容器化部署",
+      "Docker用于容器化部署，Kubernetes用于容器编排",
+      "Docker和Kubernetes都用于容器化部署",
+      "Docker和Kubernetes都用于容器编排"
+    ],
+    "correct": 1,
+    "explanation": "Docker主要用于容器化部署，提供轻量级的隔离环境；Kubernetes（K8s）用于容器编排，管理集群、自动扩缩容、服务发现等。",
+    "_api_cost": 9.2e-05,
+    "_source": "flashcard_conversion",
+    "id": 99
+  },
+  {
+    "question": "在处理海量文本数据时，以下哪种方法最适合用于敏感词过滤，且具有线性时间复杂度？",
+    "topic": "系统设计",
+    "options": [
+      "基于Trie树的AC自动机",
+      "布隆过滤器",
+      "正则表达式匹配",
+      "哈希表逐词查找"
+    ],
+    "correct": 0,
+    "explanation": "AC自动机基于Trie树，能够实现多模式匹配，时间复杂度为O(n)，其中n为文本长度，适合海量数据敏感词过滤。布隆过滤器可能有误判，正则表达式和哈希表逐词查找效率较低。",
+    "_api_cost": 0.000103,
+    "_source": "flashcard_conversion",
+    "id": 100
+  },
+  {
+    "question": "在分层记忆设计中，以下哪一项最准确地描述了长期记忆的实现方式？",
+    "topic": "系统设计",
+    "options": [
+      "使用缓存存储最近对话上下文",
+      "使用向量数据库存储关键实体和关系，并通过语义检索召回",
+      "使用滑动窗口管理当前任务状态",
+      "使用键值存储保存所有历史对话"
+    ],
+    "correct": 1,
+    "explanation": "根据记忆模块设计，长期记忆使用向量数据库（如ChromaDB）存储关键实体和关系，通过语义检索召回。选项A描述的是短期记忆，选项C描述的是工作记忆，选项D并非分层记忆中的典型实现。",
+    "_api_cost": 9.8e-05,
+    "_source": "flashcard_conversion",
+    "id": 101
+  },
+  {
+    "question": "在评估项目的不可替代性时，以下哪项最能体现项目的核心价值？",
+    "topic": "项目经验",
+    "options": [
+      "使用最新的技术栈和框架",
+      "针对特定场景的深度优化和领域知识嵌入",
+      "拥有大量的代码行数和功能模块",
+      "采用流行的开源工具和标准算法"
+    ],
+    "correct": 1,
+    "explanation": "项目的不可替代性通常来源于对特定业务场景的深入理解、领域知识的嵌入以及数据积累和持续迭代，而非单纯的技术栈或代码量。",
+    "_api_cost": 9.2e-05,
+    "_source": "flashcard_conversion",
+    "id": 102
+  },
+  {
+    "question": "在编写一个Skill（技能/工具函数）时，以下哪项不是必须遵循的步骤？",
+    "topic": "系统设计",
+    "options": [
+      "定义输入参数（Schema），明确类型和描述",
+      "实现核心逻辑，调用外部API或本地函数",
+      "将Skill部署到独立服务器上",
+      "注册到Agent框架中，配置触发条件或描述"
+    ],
+    "correct": 2,
+    "explanation": "编写Skill的核心步骤包括定义输入参数、实现核心逻辑、返回结构化输出以及注册到Agent框架中。部署到独立服务器并不是必须的，Skill可以以函数形式存在于同一个进程中。",
+    "_api_cost": 0.000101,
+    "_source": "flashcard_conversion",
+    "id": 103
+  },
+  {
+    "question": "关于Hermes和OpenClaw两种Agent/工具调用框架，以下哪项描述正确？",
+    "topic": "系统设计",
+    "options": [
+      "Hermes侧重于企业级能力，如权限管理和多步骤工作流编排",
+      "OpenClaw强调轻量级、灵活的函数调用，适合快速集成",
+      "与之前产品相比，Hermes和OpenClaw都支持动态技能注册和热更新",
+      "与之前产品相比，Hermes和OpenClaw都从多Agent协作转向单一工具调用"
+    ],
+    "correct": 2,
+    "explanation": "根据闪存卡内容，Hermes侧重轻量级、灵活的函数调用，OpenClaw强调企业级能力；与之前产品相比，核心区别包括从单一工具调用转向多Agent协作、支持动态技能注册和热更新、更完善的错误恢复和重试机制。因此选项C正确，其他选项均与描述相反。",
+    "_api_cost": 0.000121,
+    "_source": "flashcard_conversion",
+    "id": 104
+  },
+  {
+    "question": "在自建Agent工具调用系统（如Claw）时，以下哪一项不是核心步骤？",
+    "topic": "系统设计",
+    "options": [
+      "定义Skill接口规范（输入Schema、输出格式）",
+      "实现核心调度器，接收LLM的Function Call请求并路由到对应Skill",
+      "设计注册中心，支持动态添加/移除Skill",
+      "实现LLM的预训练微调以提升其工具调用能力"
+    ],
+    "correct": 3,
+    "explanation": "自建Claw系统聚焦于工具调用的工程实现，如接口定义、调度、注册和上下文管理，而LLM的预训练微调属于模型训练范畴，并非系统构建的核心步骤。",
+    "_api_cost": 0.000111,
+    "_source": "flashcard_conversion",
+    "id": 105
+  },
+  {
+    "question": "企业级Claw（如Qclaw、WorkBuddy）与OpenClaw相比，以下哪项是企业级Claw特有的功能？",
+    "topic": "系统设计",
+    "options": [
+      "支持单次任务调用",
+      "提供细粒度RBAC权限控制",
+      "开源且完全免费",
+      "仅支持命令行接口"
+    ],
+    "correct": 1,
+    "explanation": "企业级Claw提供细粒度RBAC权限控制，而OpenClaw通常不具备此功能。其他选项：单次任务调用是基础功能，开源免费是OpenClaw的特点，命令行接口两者都支持。",
+    "_api_cost": 0.000108,
+    "_source": "flashcard_conversion",
+    "id": 106
+  },
+  {
+    "question": "在简历中描述团队项目时，以下哪种做法最能体现个人贡献并增强可信度？",
+    "topic": "项目经验",
+    "options": [
+      "列出项目所有功能模块，强调团队整体成果",
+      "只写自己独立负责的2-3个模块，并说明技术细节和效果",
+      "描述从模型训练到前端推送的完整流程，展示全面能力",
+      "使用“我们”为主语，突出团队协作精神"
+    ],
+    "correct": 1,
+    "explanation": "面试官会怀疑一条涵盖过多内容的bullet，正确做法是收窄范围，只写自己独立负责的模块，并写清技术细节和效果，这样更可信。选项B符合这一原则。",
+    "_api_cost": 0.000106,
+    "_source": "flashcard_conversion",
+    "id": 107
+  },
+  {
+    "question": "简历中写“召回率提升25.9%”时，面试官最可能追问什么？",
+    "topic": "项目经验",
+    "options": [
+      "这个提升是在什么数据集上测的？",
+      "你用了什么机器学习模型？",
+      "这个数字是离线还是在线评估得到的？",
+      "相比什么基线（baseline）提升的？"
+    ],
+    "correct": 3,
+    "explanation": "面试官最关心数字的baseline、测试方法和场景，相比什么基线提升是核心问题，其他选项虽相关但不如基线关键。",
+    "_api_cost": 9.6e-05,
+    "_source": "flashcard_conversion",
+    "id": 108
+  },
+  {
+    "question": "简历中两个项目方向不一致时，哪种优化策略最有效？",
+    "topic": "项目经验",
+    "options": [
+      "两个项目都详细描述，以展示多样性",
+      "删除不相关的项目，只保留一个",
+      "压缩次要项目，突出主项目，并尝试建立联系",
+      "将两个项目合并为一个项目"
+    ],
+    "correct": 2,
+    "explanation": "正确答案是C。根据简历优化原则，当项目方向不一致时，应压缩与岗位关系不大的项目，只保留关键标签，同时重点展开主项目，并尽可能找到两个项目之间的联系，使其互相支撑。选项A会导致重点不突出，选项B可能损失有价值的信息，选项D不切实际且可能造假。",
+    "_api_cost": 0.000106,
+    "_source": "flashcard_conversion",
+    "id": 109
+  },
+  {
+    "question": "简历中“构建了完整Agent工作流”这类描述有什么问题？如何改进？",
+    "topic": "项目经验",
+    "options": [
+      "描述太详细，应更简洁",
+      "只说了做了什么，没提技术选择和效果，应补充怎么做和结果",
+      "技术选择不重要，应只突出结果",
+      "描述正确，无需改进"
+    ],
+    "correct": 1,
+    "explanation": "根据简历bullet三要素原则，应包含做了什么、怎么做和结果。原描述只说了做了什么，缺乏技术选择和效果，面试官无法判断难点和成果。改进需补充怎么做（如基于BERT微调）和结果（如时延从1.4s降至360ms）。",
+    "_api_cost": 0.000105,
+    "_source": "flashcard_conversion",
+    "id": 110
+  },
+  {
+    "question": "在简历自测中，判断一条经历描述是否合格的关键标准是什么？",
+    "topic": "项目经验",
+    "options": [
+      "描述是否足够简洁，不超过一行",
+      "能否经得起面试官连续三个追问",
+      "是否包含所有的技术名词",
+      "是否有量化的数据支撑"
+    ],
+    "correct": 1,
+    "explanation": "根据简历自测方法，每条bullet应能撑住面试官连续三个追问，即对技术选型、实现细节、效果对比等问题能完整回答。选项B正确，其他选项虽有一定道理，但不是核心标准。",
+    "_api_cost": 9.7e-05,
+    "_source": "flashcard_conversion",
+    "id": 111
+  },
+  {
+    "question": "在Monorepo架构下实现PC和移动端双端复用的组件库时，以下哪种做法最能实现逻辑与UI的分离？",
+    "topic": "项目经验",
+    "options": [
+      "将PC和移动端的UI组件放在同一个包中，通过条件判断渲染不同UI",
+      "将核心逻辑抽离为独立包，PC和移动端通过工厂函数传入UI层生成组件",
+      "分别维护PC和移动端两套独立的组件库，通过复制代码保证一致性",
+      "在核心包中直接包含PC和移动端的UI代码，通过构建工具按需打包"
+    ],
+    "correct": 1,
+    "explanation": "正确答案是B。采用Monorepo架构，将核心逻辑抽离为Core包，PC和移动端通过工厂函数传入各自UI层生成组件，实现了逻辑与UI的分离，便于双端复用。A选项将UI放在同一包中会导致耦合；C选项分别维护两套库无法复用逻辑；D选项核心包包含UI代码违反了分离原则。",
+    "_api_cost": 0.000123,
+    "_source": "flashcard_conversion",
+    "id": 112
+  },
+  {
+    "question": "设计一个并发控制函数，限制最多同时处理6个请求，并确保结果按请求顺序返回。以下哪种实现思路最符合要求？",
+    "topic": "系统设计",
+    "options": [
+      "使用Promise.all一次性发送所有请求，通过设置超时时间控制并发数。",
+      "使用队列和计数器，每次启动不超过6个请求，每个请求完成后从队列取出下一个，并用索引记录结果位置。",
+      "将请求分组，每组6个顺序执行，组内并行，组间等待。",
+      "使用信号量控制并发数，但结果按完成顺序返回。"
+    ],
+    "correct": 1,
+    "explanation": "选项B正确描述了使用队列管理请求、维护并发计数器、通过Promise和索引保证返回顺序的方法。选项A无法控制并发数；选项C组间等待导致效率低；选项D结果按完成顺序而非请求顺序返回。",
+    "_api_cost": 0.000115,
+    "_source": "flashcard_conversion",
+    "id": 113
+  },
+  {
+    "question": "在回文串最少分割次数问题中，为什么贪心算法（每次切割最长的回文前缀）可能无法得到最优解？",
+    "topic": "系统设计",
+    "options": [
+      "因为贪心算法的时间复杂度过高，无法处理大规模数据。",
+      "因为局部最优（切割最长回文）不一定导致全局最少分割次数。",
+      "因为贪心算法无法处理字符串中的重复字符。",
+      "因为贪心算法需要额外的空间来存储中间结果。"
+    ],
+    "correct": 1,
+    "explanation": "贪心算法每次选择最长的回文前缀进行切割，但局部最优并不保证全局最优。例如字符串'aab'，贪心算法先切出'aa'，剩余'b'需1刀，共2刀；而最优解是切出'a','a','b'，也是2刀，但其他例子如'abac'，贪心切'aba'后剩'c'需1刀共2刀，而最优解是切'a','bac'（bac不是回文）？实际上正确解是切'a','b','a','c'需3刀，但贪心会切'aba'和'c'共2刀，这里贪心更优？注意：原题中'aab'贪心得2刀，动态规划也得2刀，但有些例子贪心会多。关键在于贪心策略并非总是最优，需要动态规划保证全局最优。",
+    "_api_cost": 0.000149,
+    "_source": "flashcard_conversion",
+    "id": 114
+  },
+  {
+    "question": "在高并发抢单场景下，哪种方案能有效保证数据一致性并防止超卖？",
+    "topic": "系统设计",
+    "options": [
+      "使用Redis分布式锁（SET NX EX）配合数据库乐观锁（版本号）",
+      "仅使用Redis分布式锁（SET NX EX）",
+      "仅使用数据库乐观锁（版本号）",
+      "使用MySQL表锁防止并发"
+    ],
+    "correct": 0,
+    "explanation": "Redis分布式锁可以防止多个请求同时操作，而乐观锁（版本号）在数据库层面确保数据更新时的版本一致性，两者结合能有效防止超卖。仅使用Redis锁可能因数据库操作非原子性导致超卖；仅使用乐观锁在高并发下锁争用严重；MySQL表锁性能差且不适合高并发。",
+    "_api_cost": 0.000114,
+    "_source": "flashcard_conversion",
+    "id": 115
+  },
+  {
+    "question": "在使用Redisson实现分布式锁时，锁定的对象通常是什么？",
+    "topic": "系统设计",
+    "options": [
+      "数据库中的一条记录",
+      "业务层面的一个Key（如订单ID）",
+      "具体的用户实体对象",
+      "一个随机生成的UUID"
+    ],
+    "correct": 1,
+    "explanation": "Redisson分布式锁锁定的是业务层面的Key（如订单ID），代表共享资源，而非数据库记录或用户实体。",
+    "_api_cost": 9e-05,
+    "_source": "flashcard_conversion",
+    "id": 116
+  },
+  {
+    "question": "在高并发订单系统中，关于订单ID的生成策略，以下哪项描述是正确的？",
+    "topic": "系统设计",
+    "options": [
+      "预生成策略将ID生成与业务解耦，可以显著减少数据库压力，适合极高并发场景。",
+      "实时生成策略（如雪花算法）在高并发下性能优于预生成策略，且无需管理ID池。",
+      "预生成策略无需考虑ID的唯一性和顺序性，因此实现更简单。",
+      "实时生成策略通常需要额外维护一个ID池，增加了系统复杂度。"
+    ],
+    "correct": 0,
+    "explanation": "预生成策略提前生成一批ID存入缓存，业务时直接取用，减少了数据库的写入压力，适合极高并发场景。实时生成策略（如雪花算法）在高并发下可能成为瓶颈，且预生成策略需要管理ID池，复杂度较高。因此选项A正确。",
+    "_api_cost": 0.000119,
+    "_source": "flashcard_conversion",
+    "id": 117
+  },
+  {
+    "question": "如果系统A使用Redis分布式锁保护数据库资源，而系统B直接连接数据库绕过该锁，以下哪项描述正确？",
+    "topic": "系统设计",
+    "options": [
+      "系统B的并发访问仍受Redis锁保护，因为锁在数据库层面生效。",
+      "系统B的访问会破坏锁机制，导致并发问题，因为未使用统一锁机制。",
+      "系统B必须使用相同的Redis锁才能访问数据库，否则数据库会拒绝连接。",
+      "系统B可以安全访问，因为分布式锁会自动同步到所有客户端。"
+    ],
+    "correct": 1,
+    "explanation": "分布式锁只对使用同一锁机制的客户端有效。系统B直接连接数据库，绕过了Redis锁，因此不受锁保护，可能导致并发问题。解决方法是所有系统必须通过统一锁机制（如数据库悲观锁或乐观锁）访问资源。",
+    "_api_cost": 0.000115,
+    "_source": "flashcard_conversion",
+    "id": 118
+  },
+  {
+    "question": "在分布式消息系统中，死信队列的主要作用是什么？",
+    "topic": "系统设计",
+    "options": [
+      "存储所有消息的备份，防止数据丢失",
+      "隔离处理失败的消息，避免阻塞主队列，并提供重试和审计机制",
+      "加速消息传递，提高系统吞吐量",
+      "作为消息的临时缓冲区，缓解系统压力"
+    ],
+    "correct": 1,
+    "explanation": "死信队列用于存储处理失败的消息（如消费失败、过期、队列满被拒绝），隔离异常消息防止阻塞主队列，同时支持重试和审计，帮助定位问题。",
+    "_api_cost": 0.0001,
+    "_source": "flashcard_conversion",
+    "id": 119
+  },
+  {
+    "question": "根据Claude Code的学习经验，以下哪项是其核心设计理念？",
+    "topic": "项目经验",
+    "options": [
+      "使用RAG进行代码检索，提高召回率",
+      "强调精确匹配和上下文感知，避免检索噪声",
+      "依赖大规模预训练模型直接生成代码，无需检索",
+      "采用端到端的神经网络进行代码理解"
+    ],
+    "correct": 1,
+    "explanation": "Claude Code的核心经验之一是使用grep等命令行工具进行代码检索，强调精确匹配和上下文感知，避免RAG可能引入的检索噪声，因此选项B正确。",
+    "_api_cost": 9.9e-05,
+    "_source": "flashcard_conversion",
+    "id": 120
+  },
+  {
+    "question": "MySQL InnoDB存储引擎使用哪种数据结构作为索引？",
+    "topic": "数据库",
+    "options": [
+      "B树",
+      "B+树",
+      "哈希表",
+      "红黑树"
+    ],
+    "correct": 1,
+    "explanation": "MySQL InnoDB使用B+树作为索引结构。B+树的非叶子节点只存储键值，所有数据都在叶子节点，且叶子节点通过链表连接，适合范围查询和顺序访问，因此比B树更适合数据库索引。",
+    "_api_cost": 9.1e-05,
+    "_source": "flashcard_conversion",
+    "id": 121
+  },
+  {
+    "question": "在AI编程工具中，哪种工具最适合用于自动化脚本化任务？",
+    "topic": "项目经验",
+    "options": [
+      "GitHub Copilot",
+      "Cursor",
+      "Claude Code",
+      "ChatGPT/Claude"
+    ],
+    "correct": 2,
+    "explanation": "根据flashcard，Claude Code适合脚本化任务，而其他工具分别适合代码补全、复杂重构和对话式辅助。",
+    "_api_cost": 8.4e-05,
+    "_source": "flashcard_conversion",
+    "id": 122
+  },
+  {
+    "question": "在C++中，关于指针和引用的描述，哪一项是正确的？",
+    "topic": "C++基础",
+    "options": [
+      "引用在声明时必须初始化，且之后可以改变所引用的对象",
+      "指针可以为nullptr，而引用不能为null",
+      "引用和指针在底层实现上完全不同，引用不占用内存空间",
+      "指针支持算术运算，而引用也支持算术运算"
+    ],
+    "correct": 1,
+    "explanation": "指针可以存储空地址（nullptr），而引用必须绑定到一个有效的对象，不能为null。选项A错误，因为引用初始化后不能改变所引用的对象；选项C错误，因为引用底层通常也是通过指针实现的；选项D错误，因为引用不支持算术运算。",
+    "_api_cost": 0.000108,
+    "_source": "flashcard_conversion",
+    "id": 123
+  },
+  {
+    "question": "C++中，关于虚函数表(vtable)和虚指针(vptr)的机制，以下说法正确的是？",
+    "topic": "C++基础",
+    "options": [
+      "每个对象都有一个独立的虚函数表，用于存储该对象的所有虚函数地址",
+      "在构造函数中调用虚函数，可以实现多态行为",
+      "通过基类指针调用虚函数时，通过vptr找到vtable，再根据虚函数在表中的偏移找到实际函数地址",
+      "如果基类没有虚函数，则派生类也无法拥有虚函数表"
+    ],
+    "correct": 2,
+    "explanation": "虚函数表是类级别的，每个类一个，对象通过vptr指向所属类的vtable。构造函数中调用虚函数不会发生多态，因为派生类尚未构造完成。基类没有虚函数时，派生类仍可定义虚函数，从而有自己的虚函数表。选项C正确描述了虚函数调用的机制。",
+    "_api_cost": 0.000122,
+    "_source": "flashcard_conversion",
+    "id": 124
+  },
+  {
+    "question": "关于RAII和智能指针，以下哪个说法是正确的？",
+    "topic": "C++基础",
+    "options": [
+      "RAII是指资源在析构时获取，构造时释放。",
+      "unique_ptr支持拷贝语义，可以多个指针指向同一资源。",
+      "shared_ptr使用引用计数管理资源，当引用计数为0时释放资源。",
+      "weak_ptr会增加引用计数，常用于延长资源生命周期。"
+    ],
+    "correct": 2,
+    "explanation": "RAII是资源在构造时获取、析构时释放，A错误；unique_ptr独占所有权，不可拷贝，B错误；shared_ptr通过引用计数管理共享资源，计数为0时释放，C正确；weak_ptr不增加引用计数，用于打破循环引用，D错误。",
+    "_api_cost": 0.00011,
+    "_source": "flashcard_conversion",
+    "id": 125
+  },
+  {
+    "question": "关于C++移动语义，下列哪项描述是正确的？",
+    "topic": "C++基础",
+    "options": [
+      "std::move将右值引用转换为左值，以便进行拷贝操作。",
+      "移动构造函数通常需要声明为noexcept，以便在容器扩容时优先使用移动而非拷贝。",
+      "右值引用T&&可以绑定任何类型的对象，包括左值和右值。",
+      "移动语义通过深拷贝实现资源所有权的转移。"
+    ],
+    "correct": 1,
+    "explanation": "移动语义的核心是转移资源所有权，避免深拷贝。std::move将左值转为右值引用，配合移动构造函数使用。右值引用只能绑定临时对象或将亡值，不能绑定左值。移动构造函数通常应声明为noexcept，这样在容器（如std::vector）扩容时，如果移动构造函数是noexcept的，则会优先使用移动而非拷贝，提高效率。选项B正确。",
+    "_api_cost": 0.000121,
+    "_source": "flashcard_conversion",
+    "id": 126
+  },
+  {
+    "question": "下列关于进程与线程的描述中，哪一项是正确的？",
+    "topic": "操作系统",
+    "options": [
+      "进程是CPU调度的基本单位，线程是资源分配的基本单位",
+      "线程切换需要切换页表、刷新TLB，开销大于进程切换",
+      "进程拥有独立的地址空间，线程共享所属进程的地址空间",
+      "协程切换需要内核参与，开销与线程切换相当"
+    ],
+    "correct": 2,
+    "explanation": "进程是资源分配的基本单位，拥有独立地址空间；线程是CPU调度的基本单位，共享进程的地址空间，因此选项C正确。选项A将两者定义颠倒；选项B错误，因为线程切换开销小于进程切换；选项D错误，协程切换在用户态进行，无需内核参与，开销更小。",
+    "_api_cost": 0.000112,
+    "_source": "flashcard_conversion",
+    "id": 127
+  },
+  {
+    "question": "Python中，@decorator1 在 @decorator2 上方的装饰器语法等价于？",
+    "topic": "Python基础",
+    "options": [
+      "target = decorator2(decorator1(target))",
+      "target = decorator1(decorator2(target))",
+      "decorator1和decorator2同时应用于target",
+      "decorator2先执行，decorator1后执行"
+    ],
+    "correct": 1,
+    "explanation": "@decorator1\n@decorator2\ndef target(): pass 等价于 target = decorator1(decorator2(target))。装饰器从下往上包装，但从上往下执行。",
+    "_source": "web_search"
+  },
+  {
+    "question": "CPython中，对CPU密集型任务使用threading多线程为什么不能显著提升性能？",
+    "topic": "Python基础",
+    "options": [
+      "线程调度开销太大",
+      "GIL阻止了真正的并行执行",
+      "Python线程不支持并发",
+      "CPU核心间缓存一致性问题"
+    ],
+    "correct": 1,
+    "explanation": "GIL(全局解释器锁)是CPython的互斥锁，同一时刻只有一个线程执行Python字节码。CPU密集任务用multiprocessing多进程(每个进程独立GIL)，IO密集可用threading(IO时释放GIL)。",
+    "_source": "web_search"
+  },
+  {
+    "question": "在Python中调用async def函数但不加await会怎样？",
+    "topic": "Python基础",
+    "options": [
+      "同步执行并阻塞",
+      "Python抛出SyntaxError",
+      "返回一个coroutine对象但不执行",
+      "事件循环自动立即调度它"
+    ],
+    "correct": 2,
+    "explanation": "调用async def函数创建一个coroutine对象，内部代码仅在await或被事件循环管理时才执行。必须用asyncio.run()或await来执行协程。",
+    "_source": "web_search"
+  },
+  {
+    "question": "l1=[1,2,3,[4]]; l2=copy.deepcopy(l1); l1[3][0]=90; print(l2)输出什么？",
+    "topic": "Python基础",
+    "options": [
+      "[1, 2, 3, [90]]",
+      "报错",
+      "[1, 2, 3, [4]]",
+      "[1, 2, 3, [90]]然后[1, 2, 3, [90]]"
+    ],
+    "correct": 2,
+    "explanation": "deepcopy()创建完全独立的副本包括嵌套对象。修改l1[3][0]不影响l2。浅拷贝copy.copy()则嵌套对象仍引用原对象。",
+    "_source": "web_search"
+  },
+  {
+    "question": "以下多继承中，class child(mother, father): pass（mother→object, father→grandpa→object），child.mro()会返回什么？",
+    "topic": "Python基础",
+    "options": [
+      "[child, father, grandpa, mother, object]",
+      "[child, mother, father, grandpa, object]",
+      "[child, mother, object, father, grandpa, object]",
+      "TypeError: 无法创建一致的MRO"
+    ],
+    "correct": 3,
+    "explanation": "当mother继承object而father继承grandpa→object时，C3线性化算法无法创建一致的MRO(father必须在grandpa前，但mother也是object的直接子类)，Python会抛出TypeError。",
+    "_source": "web_search"
+  },
+  {
+    "question": "自定义装饰器中@functools.wraps(func)的主要目的是什么？",
+    "topic": "Python基础",
+    "options": [
+      "缓存结果加速执行",
+      "允许wrapper接收任意参数",
+      "保留原函数的__name__、__doc__等元信息",
+      "自动处理装饰函数中的异常"
+    ],
+    "correct": 2,
+    "explanation": "不用@wraps时，被装饰函数的__name__会变成'wrapper'。wraps复制原函数的__name__、__doc__、__module__等元数据到wrapper函数。",
+    "_source": "web_search"
+  },
+  {
+    "question": "实现with语句上下文管理器，类必须实现哪两个方法？",
+    "topic": "Python基础",
+    "options": [
+      "__enter__和__exit__",
+      "__open__和__close__",
+      "__init__和__del__",
+      "__start__和__stop__"
+    ],
+    "correct": 0,
+    "explanation": "上下文管理器协议:__enter__在with块开始时调用(返回资源对象)，__exit__(exc_type,exc_val,exc_tb)在结束时调用(即使发生异常也会执行清理)。",
+    "_source": "web_search"
+  },
+  {
+    "question": "class D1 : public Base，Base有virtual f1()和f2()，D1只override f1()，D1的vtable中存什么？",
+    "topic": "C++基础",
+    "options": [
+      "Base::f1()和Base::f2()",
+      "D1::f1()和Base::f2()",
+      "Base::f1()和D1::f2()",
+      "D1::f1()和D1::f2()"
+    ],
+    "correct": 1,
+    "explanation": "被override的虚函数替换vtable中对应槽位，未override的保留基类函数指针。D1对象通过vptr→vtable调用时f1()走D1版本，f2()走Base版本。",
+    "_source": "web_search"
+  },
+  {
+    "question": "关于std::unique_ptr，以下哪项正确？",
+    "topic": "C++基础",
+    "options": [
+      "unique_ptr<T> p2 = p1; 编译通过并转移所有权",
+      "p2 = std::move(p1); 之后p1仍指向管理对象",
+      "p2 = std::move(p1); 之后p1变为nullptr，p2获得所有权",
+      "unique_ptr使用引用计数如shared_ptr"
+    ],
+    "correct": 2,
+    "explanation": "unique_ptr不可拷贝(拷贝构造/赋值被delete)。std::move触发移动语义:移动构造转移所有权并将源指针置nullptr。移动后访问源指针是UB。",
+    "_source": "web_search"
+  },
+  {
+    "question": "std::string t = std::move(s); 之后访问s会怎样？",
+    "topic": "C++基础",
+    "options": [
+      "s仍包含原始字符串值",
+      "s处于'有效但未指定状态'—可以重新赋值但不能读取原值",
+      "s被编译器自动销毁",
+      "访问s抛出运行时异常"
+    ],
+    "correct": 1,
+    "explanation": "移动后，源对象处于'valid but unspecified state'。可以赋新值或调用无前置条件的方法(如.clear())，但其值未指定，不应依赖。可安全析构或重新赋值。",
+    "_source": "web_search"
+  },
+  {
+    "question": "RAII(Resource Acquisition Is Initialization)最准确的描述是？",
+    "topic": "C++基础",
+    "options": [
+      "资源在每个构造函数中手动分配和释放",
+      "资源生命周期绑定对象生命周期:构造函数获取，析构函数释放",
+      "所有资源必须用new在堆上分配",
+      "构造函数中不能抛异常"
+    ],
+    "correct": 1,
+    "explanation": "RAII将资源管理绑定到对象生命周期。构造函数获取资源，析构函数释放。C++保证异常导致的栈展开过程中析构函数被调用，RAII是实现异常安全的基础。",
+    "_source": "web_search"
+  },
+  {
+    "question": "const std::vector<int> v = {1,2,3}; 以下哪个操作合法？",
+    "topic": "C++基础",
+    "options": [
+      "v[0] = 5;",
+      "v.push_back(4);",
+      "int x = v[0];",
+      "v.clear();"
+    ],
+    "correct": 2,
+    "explanation": "const对象只能调用const成员函数。operator[]有const和non-const两个重载，调用const版本返回const引用，只能读不能写。push_back和clear是非const函数。",
+    "_source": "web_search"
+  },
+  {
+    "question": "std::vector中，哪个操作会使所有已有迭代器失效？",
+    "topic": "C++基础",
+    "options": [
+      "vec[0] = 5",
+      "vec.front()",
+      "vec.push_back(42)当size()==capacity()时",
+      "vec.size()"
+    ],
+    "correct": 2,
+    "explanation": "扩容时分配新内存块→移动所有元素→释放旧内存→所有迭代器/指针/引用失效。erase()使删除位置及之后的迭代器失效。其他操作不改变内存布局。",
+    "_source": "web_search"
+  },
+  {
+    "question": "int& f(){int x=42; return x;} 然后 int& r=f(); cout<<r; 会输出什么？",
+    "topic": "C++基础",
+    "options": [
+      "42",
+      "0",
+      "编译错误",
+      "未定义行为(悬空引用)"
+    ],
+    "correct": 3,
+    "explanation": "返回局部变量的引用创建悬空引用。f()返回后x被销毁，r引用已释放的栈内存。读取r是未定义行为，可能打印垃圾、崩溃、或(误导性地)打印42。",
+    "_source": "web_search"
+  },
+  {
+    "question": "物理内存满时，缺页中断会触发什么操作？",
+    "topic": "操作系统",
+    "options": [
+      "进程被立即终止",
+      "OS选择牺牲页→脏页写回磁盘→加载请求页",
+      "请求页放入队列等待而不加载",
+      "虚拟内存被禁用，直接使用物理地址"
+    ],
+    "correct": 1,
+    "explanation": "没有空闲页框时，OS用页面置换算法(如LRU/Clock)选牺牲页。脏页(被修改过)先写回swap区，然后将请求页从磁盘加载到释放的页框，更新页表。",
+    "_source": "web_search"
+  },
+  {
+    "question": "同一进程的线程之间，以下哪个资源是不共享的？",
+    "topic": "操作系统",
+    "options": [
+      "全局变量",
+      "堆内存",
+      "栈",
+      "打开的文件描述符"
+    ],
+    "correct": 2,
+    "explanation": "线程共享代码段、全局数据、堆、OS资源(如文件描述符)。每个线程有自己的栈、程序计数器(PC)和寄存器组。这是线程和进程的关键区别。",
+    "_source": "web_search"
+  },
+  {
+    "question": "死锁发生的四个Coffman条件必须满足几个？",
+    "topic": "操作系统",
+    "options": [
+      "1个",
+      "2个",
+      "3个",
+      "4个全部"
+    ],
+    "correct": 3,
+    "explanation": "四个条件必须同时满足:1)互斥 2)持有并等待 3)不可抢占 4)循环等待。破坏任意一个条件即可预防死锁。如破坏循环等待→资源有序分配。",
+    "_source": "web_search"
+  },
+  {
+    "question": "互斥锁(mutex)和计数信号量(semaphore)的关键区别？",
+    "topic": "操作系统",
+    "options": [
+      "mutex只能用在一个线程，semaphore可用于任意数量",
+      "mutex有所有权(只能由加锁者解锁)，semaphore无所有权",
+      "mutex始终比semaphore慢",
+      "semaphore是二值的，mutex可计数"
+    ],
+    "correct": 1,
+    "explanation": "mutex有所有权语义(只有加锁的线程才能解锁)，semaphore没有所有权(任何线程都可signal/post)。mutex通常用于互斥，semaphore用于同步和资源计数。",
+    "_source": "web_search"
+  },
+  {
+    "question": "为什么同进程线程切换比进程切换开销小？",
+    "topic": "操作系统",
+    "options": [
+      "线程不需要保存寄存器",
+      "线程共享地址空间，无需刷新TLB或重载MMU",
+      "线程始终由硬件调度",
+      "进程上下文切换在用户态完成"
+    ],
+    "correct": 1,
+    "explanation": "进程切换需要保存/恢复内存映射(页表、MMU寄存器)并刷新TLB。线程切换只需保存/恢复CPU寄存器(PC/SP/通用寄存器)，因为线程共享地址空间。",
+    "_source": "web_search"
+  },
+  {
+    "question": "系统处于安全状态意味着什么？",
+    "topic": "操作系统",
+    "options": [
+      "死锁当前正在发生",
+      "死锁将来一定发生",
+      "不存在死锁(存在某个顺序让所有进程完成)",
+      "不需要死锁预防"
+    ],
+    "correct": 2,
+    "explanation": "安全状态=存在一个进程序列，按此序列每个进程在请求最大资源时都能完成(不导致死锁)。不安全状态≠死锁，只意味着死锁可能发生但不是必然发生。",
+    "_source": "web_search"
+  },
+  {
+    "question": "虚拟内存中的thrashing(颠簸)是什么意思？",
+    "topic": "操作系统",
+    "options": [
+      "CPU同时执行太多线程",
+      "系统花在页面换入换出上的时间多于执行进程的时间",
+      "进程进入无限循环消耗CPU",
+      "磁盘IO比内存访问快导致瓶颈"
+    ],
+    "correct": 1,
+    "explanation": "颠簸发生时机:活跃进程的工作集总和超过可用物理内存→持续缺页→系统大部分时间在换页→CPU利用率急剧下降。解决方案:减少多道程序度或增加物理内存。",
+    "_source": "web_search"
+  },
+  {
+    "question": "银行转账从A账户扣100到B账户，哪个ACID属性保证扣款和入账要么都成功要么都回滚？",
+    "topic": "数据库",
+    "options": [
+      "隔离性(Isolation)",
+      "原子性(Atomicity)",
+      "持久性(Durability)",
+      "一致性(Consistency)"
+    ],
+    "correct": 1,
+    "explanation": "原子性保证事务是不可分割的最小单元，所有操作要么全部成功要么全部回滚。一致性保证数据完整性约束，隔离性保证并发事务不相互干扰，持久性保证已提交的更改永久保存。",
+    "_source": "web_search"
+  },
+  {
+    "question": "在哪个隔离级别下，脏读、不可重复读和幻读全部被防止？",
+    "topic": "数据库",
+    "options": [
+      "Read Committed",
+      "Repeatable Read",
+      "Serializable",
+      "Read Uncommitted"
+    ],
+    "correct": 2,
+    "explanation": "Serializable是最严格的隔离级别，防止所有并发异常。Read Committed只防脏读。Repeatable Read防脏读和不可重复读但在标准SQL下可能允许幻读(MySQL InnoDB通过间隙锁额外防止幻读)。",
+    "_source": "web_search"
+  },
+  {
+    "question": "事务A更新一行但未提交，事务B读取该行，然后A回滚。这叫什么异常？",
+    "topic": "数据库",
+    "options": [
+      "不可重复读",
+      "幻读",
+      "脏读",
+      "丢失更新"
+    ],
+    "correct": 2,
+    "explanation": "脏读:一个事务读取了另一个未提交事务修改的数据。如果该事务回滚，所读数据从未真正存在过(脏数据)。Read Committed及以上隔离级别防止脏读。",
+    "_source": "web_search"
+  },
+  {
+    "question": "一张表最多能有几个聚簇索引？",
+    "topic": "数据库",
+    "options": [
+      "0个",
+      "1个",
+      "2个",
+      "没有限制"
+    ],
+    "correct": 1,
+    "explanation": "聚簇索引决定了数据行的物理排列顺序。数据只能有一种物理顺序，因此最多一个聚簇索引。非聚簇索引(二级索引)可以有多个，存储键值+行指针(主键)。",
+    "_source": "web_search"
+  },
+  {
+    "question": "B+树中，数据指针(指向实际记录)存储在哪里？",
+    "topic": "数据库",
+    "options": [
+      "所有节点(内部和叶子)",
+      "仅根节点",
+      "仅叶子节点",
+      "仅内部节点"
+    ],
+    "correct": 2,
+    "explanation": "B+树数据指针仅存在叶子节点。内部节点只存键值和子节点指针→内部节点更紧凑(扇出更大)→树更矮。叶子节点通过双向链表连接→高效范围扫描。",
+    "_source": "web_search"
+  },
+  {
+    "question": "哪个JOIN只返回两个表中匹配的行？",
+    "topic": "数据库",
+    "options": [
+      "LEFT JOIN",
+      "RIGHT JOIN",
+      "INNER JOIN",
+      "FULL OUTER JOIN"
+    ],
+    "correct": 2,
+    "explanation": "INNER JOIN只返回两表join条件匹配的行。LEFT JOIN返回左表所有行+右表匹配行(无匹配则NULL)，RIGHT JOIN相反，FULL OUTER JOIN返回两表所有行。",
+    "_source": "web_search"
+  },
+  {
+    "question": "防御SQL注入最有效的方式是？",
+    "topic": "数据库",
+    "options": [
+      "转义用户输入中的单引号",
+      "使用参数化查询/预编译语句",
+      "过滤用户输入中的DROP、SELECT等关键词",
+      "只使用存储过程"
+    ],
+    "correct": 1,
+    "explanation": "参数化查询(Prepared Statements)将SQL代码和数据分离，用户输入无法被解释为SQL代码。关键词黑名单容易被绕过，引号转义脆弱，不带参数的存储过程同样有注入风险。",
+    "_source": "web_search"
+  },
+  {
+    "question": "一致性哈希在分布式系统中的主要优势是什么？",
+    "topic": "系统设计",
+    "options": [
+      "比SHA-256更快的哈希计算",
+      "增删节点时最小化需要重新映射的key数量",
+      "保证数据在所有节点间均匀分布",
+      "加密缓存数据以确保安全"
+    ],
+    "correct": 1,
+    "explanation": "一致性哈希将节点和key放在哈希环上。增删节点时只有相邻区域的数据需要重新映射(约K/N个key)，而不是像hash(key)%N那样全部重新映射。",
+    "_source": "web_search"
+  },
+  {
+    "question": "后端服务器处理能力不同且请求处理时间差异大时，最适合用哪种负载均衡算法？",
+    "topic": "系统设计",
+    "options": [
+      "轮询(Round Robin)",
+      "IP哈希",
+      "最少连接(Least Connections)",
+      "随机"
+    ],
+    "correct": 2,
+    "explanation": "最少连接算法将新请求发送到当前活跃连接数最少的服务器，动态适应不同负载和请求时长。轮询无视当前负载，IP哈希保证同一用户始终到同一服务器。",
+    "_source": "web_search"
+  },
+  {
+    "question": "LRU缓存淘汰策略会移除哪个条目？",
+    "topic": "系统设计",
+    "options": [
+      "使用频率最低的",
+      "最早进入缓存的",
+      "最近最少被访问的",
+      "TTL到期的"
+    ],
+    "correct": 2,
+    "explanation": "LRU(Least Recently Used)追踪访问时间，淘汰最近一次访问最久远的条目。适用于时间局部性强的场景(刚访问的数据很可能再次被访问)。",
+    "_source": "web_search"
+  },
+  {
+    "question": "令牌桶算法中，当桶为空且有请求到达时会发生什么？",
+    "topic": "系统设计",
+    "options": [
+      "请求排队等待后续处理",
+      "请求被拒绝返回HTTP 429",
+      "立即按需生成新令牌",
+      "桶容量自动增加"
+    ],
+    "correct": 1,
+    "explanation": "令牌桶以恒定速率补充令牌，桶有最大容量。空桶时请求无法消耗令牌→被拒绝。令牌桶允许突发流量(最多消耗桶内积攒的所有令牌)同时限制长期平均速率。",
+    "_source": "web_search"
+  },
+  {
+    "question": "固定窗口(Fixed Window)限流算法的主要缺点是什么？",
+    "topic": "系统设计",
+    "options": [
+      "需要分布式数据库协调",
+      "内存消耗过大",
+      "窗口边界的突发流量(边缘效应)",
+      "无法按用户限流"
+    ],
+    "correct": 2,
+    "explanation": "用户可以在窗口末尾和下一个窗口开头分别发送满额请求，短时间内(如2秒内)实际QPS可达限额的2倍。滑动窗口(Sliding Window)算法解决了这个问题。",
+    "_source": "web_search"
+  },
+  {
+    "question": "Raft共识算法中，Leader必须定期发送心跳来防止什么？",
+    "topic": "系统设计",
+    "options": [
+      "Follower数据丢失",
+      "Follower触发选举超时(发起新一轮选举)",
+      "网络分区",
+      "日志损坏"
+    ],
+    "correct": 1,
+    "explanation": "Raft中Leader通过定期AppendEntries RPC(心跳)维持权威。Follower在随机选举超时内未收到心跳→转为Candidate→发起选举。心跳间隔通常远小于选举超时(如150ms vs 300ms)。",
+    "_source": "web_search"
+  },
+  {
+    "question": "Belady异常指的是什么现象？",
+    "topic": "系统设计",
+    "options": [
+      "LRU在所有负载下都优于LFU",
+      "增加缓存容量有时反而增加缺页率(使用FIFO替换策略时)",
+      "LFU淘汰忽略时间局部性",
+      "大缓存下随机淘汰始终优于LRU"
+    ],
+    "correct": 1,
+    "explanation": "Belady异常:增加缓存/页框数反而导致更多缺页/缓存缺失。发生在FIFO替换策略(及其他非栈算法)中。LRU和LFU是栈算法→不会出现Belady异常(大小N+1的缓存始终包含大小N缓存的超集)。",
+    "_source": "web_search"
+  }
+]

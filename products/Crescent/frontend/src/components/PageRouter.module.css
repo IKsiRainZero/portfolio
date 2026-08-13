@@ -1,0 +1,31 @@
+.page {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.backBtn {
+  position: fixed;
+  top: 48px;
+  left: 20px;
+  z-index: 100;
+  font-size: 12px;
+  color: var(--cr-text2);
+  background: var(--cr-surface2);
+  border: 1px solid var(--cr-border-hv);
+  border-radius: var(--cr-radius);
+  padding: 5px 14px;
+  cursor: pointer;
+  font-family: inherit;
+  backdrop-filter: blur(8px);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  transition: all var(--cr-dur-fast) var(--cr-ease);
+}
+.backBtn:hover {
+  color: var(--cr-text1);
+  border-color: var(--cr-accent);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+}

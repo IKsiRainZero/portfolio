@@ -1,0 +1,83 @@
+.block {
+  padding: 0;
+}
+
+.header {
+  display: flex; align-items: center; gap: var(--cr-space-sm);
+  margin-bottom: var(--cr-space-lg);
+}
+.title {
+  font-size: 22px; font-weight: 600; color: var(--cr-text1);
+  letter-spacing: -0.02em;
+}
+.badge {
+  font-size: 9px; font-weight: 600; padding: 2px 8px;
+  border-radius: var(--cr-radius-sm);
+  background: var(--cr-green-soft); color: var(--cr-green);
+  letter-spacing: 0.04em; text-transform: uppercase;
+}
+.badgePending { background: var(--cr-accent-soft); color: var(--cr-accent); }
+.badgeEmpty    { background: transparent; color: var(--cr-text3); border: 1px solid var(--cr-border); }
+
+.timeline {
+  display: flex; flex-direction: column;
+}
+
+.phase {
+  display: flex; gap: var(--cr-space-md);
+}
+.phaseMarker {
+  display: flex; flex-direction: column; align-items: center;
+  width: 32px; flex-shrink: 0; padding-top: 2px;
+}
+.phaseNum {
+  width: 28px; height: 28px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--cr-mono); font-size: 12px; font-weight: 600;
+  background: var(--cr-accent-soft); color: var(--cr-accent);
+  border: 1.5px solid rgba(212,140,64,0.25);
+  flex-shrink: 0;
+}
+.phaseLine {
+  width: 1px; flex: 1; min-height: 24px;
+  background: var(--cr-border-hv);
+  margin: 4px 0;
+}
+
+.phaseBody {
+  flex: 1; min-width: 0;
+  padding-bottom: var(--cr-space-xl);
+}
+.phase:last-child .phaseBody { padding-bottom: 0; }
+
+.phaseHead {
+  display: flex; align-items: baseline; gap: var(--cr-space-sm);
+  margin-bottom: var(--cr-space-sm);
+}
+.phaseTitle {
+  font-size: 16px; font-weight: 600; color: var(--cr-text1);
+}
+.phaseMeta {
+  font-size: 11px; color: var(--cr-text3);
+}
+
+.modules {
+  display: flex; flex-wrap: wrap; gap: 6px;
+  margin-bottom: var(--cr-space-sm);
+}
+.module {
+  font-size: 11px; padding: 3px 10px; border-radius: var(--cr-radius-sm);
+  background: var(--cr-surface2); color: var(--cr-text2);
+}
+
+.phaseOutcome {
+  font-size: 13px; color: var(--cr-text2); line-height: 1.6;
+}
+.outcomeLabel {
+  font-size: 10px; color: var(--cr-text3);
+  text-transform: uppercase; letter-spacing: 0.05em;
+}
+
+.empty {
+  font-size: 13px; color: var(--cr-text3); font-style: italic;
+}

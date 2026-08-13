@@ -1,0 +1,204 @@
+/* course-card.css — 结构化课程卡样式（教室+办公室共用） */
+
+.course-card {
+  background: #fdfcf7;
+  border: 1px solid rgba(160, 130, 100, 0.2);
+  border-radius: 6px;
+  overflow: hidden;
+  font-size: 13px;
+  line-height: 1.7;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+  margin: 8px 0;
+}
+
+.course-card-header {
+  padding: 14px 18px 10px;
+  border-bottom: 1px solid rgba(160, 130, 100, 0.15);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.course-card-header .course-icon {
+  font-size: 20px;
+  line-height: 1;
+}
+
+.course-card-header .course-title {
+  font-size: 15px;
+  font-weight: 650;
+  color: #3d2b14;
+  font-family: Georgia, "Times New Roman", "Songti SC", serif;
+  flex: 1;
+}
+
+.course-card-body {
+  padding: 0 18px;
+}
+
+.course-section {
+  padding: 12px 0;
+  border-bottom: 1px solid rgba(160, 130, 100, 0.08);
+}
+
+.course-section:last-child {
+  border-bottom: none;
+}
+
+.course-section-heading {
+  font-size: 14px;
+  font-weight: 600;
+  color: #3d2b14;
+  margin-bottom: 6px;
+  font-family: Georgia, "Times New Roman", "Songti SC", serif;
+}
+
+.course-section-body {
+  color: #3d2b14;
+  font-size: 13px;
+}
+
+.course-section-body p { margin: 6px 0; }
+.course-section-body ul, .course-section-body ol { padding-left: 18px; margin: 6px 0; }
+
+.course-section-chart {
+  margin: 10px 0;
+  padding: 12px;
+  background: rgba(248, 245, 238, 0.6);
+  border-radius: 4px;
+  border: 1px solid rgba(160, 130, 100, 0.1);
+  overflow-x: auto;
+}
+
+.course-section-examples {
+  margin: 8px 0;
+}
+
+.course-example {
+  margin: 6px 0;
+  padding: 8px 12px;
+  background: rgba(248, 245, 238, 0.4);
+  border-left: 3px solid rgba(79, 110, 246, 0.25);
+  border-radius: 0 4px 4px 0;
+}
+
+.course-example .example-q {
+  font-weight: 500;
+  color: #3d2b14;
+  margin-bottom: 4px;
+}
+
+.course-example .example-a {
+  color: rgba(61, 43, 20, 0.65);
+  font-size: 12px;
+}
+
+/* Collapse */
+.course-card.collapsed .course-section:nth-child(n+3) {
+  display: none;
+}
+
+.course-card-expand {
+  text-align: center;
+  padding: 8px 18px 12px;
+  border-top: 1px solid rgba(160, 130, 100, 0.08);
+}
+
+.course-card-expand button {
+  background: none;
+  border: 1px solid rgba(160, 130, 100, 0.25);
+  padding: 4px 16px;
+  border-radius: 3px;
+  font-size: 11px;
+  cursor: pointer;
+  color: rgba(61, 43, 20, 0.5);
+  font-family: inherit;
+  transition: all 0.15s;
+}
+
+.course-card-expand button:hover {
+  border-color: rgba(160, 130, 100, 0.5);
+  color: #3d2b14;
+}
+
+/* Footer */
+.course-card-footer {
+  padding: 10px 18px;
+  border-top: 1px solid rgba(160, 130, 100, 0.15);
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  font-size: 11px;
+}
+
+.course-card-footer .course-refs {
+  flex: 1;
+  color: rgba(61, 43, 20, 0.5);
+  font-style: italic;
+  min-width: 120px;
+}
+
+.course-card-footer button {
+  background: none;
+  border: 1px solid rgba(160, 130, 100, 0.2);
+  padding: 5px 12px;
+  border-radius: 3px;
+  font-size: 11px;
+  cursor: pointer;
+  font-family: inherit;
+  transition: all 0.15s;
+  white-space: nowrap;
+}
+
+.course-card-footer .btn-open-office {
+  color: #4f6ef6;
+  border-color: rgba(79, 110, 246, 0.25);
+}
+
+.course-card-footer .btn-open-office:hover {
+  background: rgba(79, 110, 246, 0.06);
+  border-color: #4f6ef6;
+}
+
+.course-card-footer .btn-save-kb {
+  color: rgba(61, 43, 20, 0.5);
+}
+
+.course-card-footer .btn-save-kb:hover {
+  border-color: rgba(160, 130, 100, 0.5);
+  color: #3d2b14;
+}
+
+/* Quiz section */
+.course-card-quiz {
+  margin-top: 4px;
+  padding: 10px 14px;
+  background: rgba(79, 110, 246, 0.03);
+  border-radius: 4px;
+  border: 1px solid rgba(79, 110, 246, 0.1);
+}
+
+.course-card-quiz .quiz-label {
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: rgba(79, 110, 246, 0.6);
+  margin-bottom: 6px;
+  font-weight: 600;
+}
+
+.course-card-quiz .quiz-item {
+  font-size: 12px;
+  color: #3d2b14;
+  margin: 4px 0;
+  padding-left: 12px;
+}
+
+/* Office preview mode — always expanded, editable */
+.course-card.office-preview .course-section {
+  cursor: default;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .course-card { transition: none; }
+}

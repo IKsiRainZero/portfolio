@@ -1,0 +1,92 @@
+/* 3D Scene — perspective + orbital ring */
+.scene {
+  position: absolute;
+  inset: 0;
+  perspective: 1000px;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.ring {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  transform-style: preserve-3d;
+  animation: orbit 28s linear infinite;
+}
+
+.cardWrapper {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 220px;
+  height: 130px;
+  margin-left: -110px;
+  margin-top: -65px;
+  transform-style: preserve-3d;
+  pointer-events: auto;
+}
+
+.card {
+  width: 100%;
+  height: 100%;
+  border-radius: var(--cr-radius-lg);
+  padding: var(--cr-space-md) var(--cr-space-lg);
+  background: rgba(242, 237, 229, 0.82);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  box-shadow:
+    0 4px 24px rgba(0, 0, 0, 0.04),
+    0 1px 4px rgba(0, 0, 0, 0.03);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 4px;
+  transition: box-shadow 0.3s ease, background 0.3s ease;
+  cursor: default;
+  backface-visibility: hidden;
+}
+
+.card:hover {
+  background: rgba(242, 237, 229, 0.95);
+  box-shadow:
+    0 8px 32px rgba(0, 0, 0, 0.08),
+    0 2px 8px rgba(0, 0, 0, 0.05),
+    0 0 0 1px var(--sat-color, var(--cr-accent));
+}
+
+.cardStatus {
+  font-family: var(--cr-mono);
+  font-size: 9px;
+  font-weight: 600;
+  color: var(--sat-color, var(--cr-accent));
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.cardTitle {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--cr-text1);
+  letter-spacing: -0.01em;
+  line-height: 1.3;
+}
+
+.cardDesc {
+  font-size: 11px;
+  color: var(--cr-text2);
+  line-height: 1.5;
+}
+
+@keyframes orbit {
+  from { transform: rotateY(0deg); }
+  to   { transform: rotateY(360deg); }
+}
+
+/* Pause orbit on hover over any card */
+.ring:has(.card:hover) {
+  animation-play-state: paused;
+}

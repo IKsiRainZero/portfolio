@@ -1,0 +1,13 @@
+.wrap { overflow-x: auto; }
+.svg { width: 100%; height: auto; display: block; }
+
+.rootNode { fill: var(--cr-surface2); stroke: var(--cr-accent); stroke-width: 1.5; }
+.catNode { fill: var(--cr-surface2); stroke: var(--cr-border-hv); stroke-width: 1.5; cursor: pointer; }
+.skillNode { fill: var(--cr-surface1); stroke: var(--cr-border); stroke-width: 1; cursor: pointer; }
+
+.line { stroke-width: 1.5; fill: none; stroke-linecap: round; }
+.matchHint { font-size: 9px; fill: var(--cr-accent); font-family: var(--cr-mono); }
+
+.nodeText { font-size: 11px; fill: var(--cr-text1); font-family: var(--cr-mono); font-weight: 600; }
+.catText { font-size: 10px; fill: var(--cr-text1); font-family: var(--cr-mono); font-weight: 500; }
+.skillText { font-size: 10px; fill: var(--cr-text2); font-family: var(--cr-mono); }

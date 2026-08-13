@@ -1,0 +1,441 @@
+{
+  "meta": {
+    "domain": "frontend-interview",
+    "display_name": "前端开发实习面试",
+    "description": "Web前端与小程序开发实习面试核心知识，覆盖Vue3/React/小程序/TypeScript/工程化",
+    "version": 1,
+    "created": "2026-06-04"
+  },
+  "sections": [
+    {
+      "id": "vue3",
+      "title": "Vue 3 核心",
+      "items": [
+        {
+          "id": "vue-1",
+          "type": "qa",
+          "question": "Vue 3 Composition API 和 Options API 的区别？为什么推荐 Composition API？",
+          "answer": "Options API：按选项类型组织（data/methods/computed/watch），逻辑分散在不同选项中。\nComposition API：按功能逻辑组织（setup() 中把相关逻辑写在一起），逻辑聚合、可复用。\n\n推荐原因：\n1. 更好的逻辑复用 — 通过自定义 hooks（useXxx）抽离逻辑\n2. 更好的类型推导 — TypeScript 支持更自然\n3. 更好的 tree-shaking — 未用到的 API 打包时被移除\n4. 代码组织更清晰 — 同一功能的数据、计算、方法放在一起\n\n面试要点：能说出「逻辑聚合 vs 选项分散」就够了。",
+          "tags": ["Vue3", "Composition API", "核心"],
+          "difficulty": 2
+        },
+        {
+          "id": "vue-2",
+          "type": "qa",
+          "question": "Vue 3 响应式原理：ref 和 reactive 的区别？",
+          "answer": "ref：包装基本类型（string/number/boolean），通过 .value 访问和修改。内部用 getter/setter（Object.defineProperty 或 Proxy）。\nreactive：包装对象/数组，直接访问属性，深层响应式。内部用 Proxy 代理整个对象。\n\n关键区别：\n1. ref 可包装任意类型，reactive 只能包装对象\n2. ref 需要 .value，reactive 不需要\n3. ref 重新赋值仍保持响应式，reactive 重新赋值会丢失响应式\n4. ref 解构后仍响应式（配合 toRefs），reactive 解构后丢失响应式\n\n面试建议：说「ref 通过 .value 保持引用追踪，reactive 用 Proxy 代理对象」即可。",
+          "tags": ["Vue3", "响应式", "ref", "reactive"],
+          "difficulty": 2
+        },
+        {
+          "id": "vue-3",
+          "type": "qa",
+          "question": "Vue 3 的 watch 和 watchEffect 有什么区别？",
+          "answer": "watch：显式指定监听源，惰性执行（不立即运行），可获取 oldValue 和 newValue，适合需要比较新旧值的场景。\n\nwatchEffect：自动追踪内部使用的响应式依赖，立即执行一次，无法获取旧值，适合不需要对比的副作用。\n\n代码对比：\nwatch(() => state.count, (newVal, oldVal) => {\n  console.log(`从 ${oldVal} 变到 ${newVal}`);\n});\n\nwatchEffect(() => {\n  console.log(`当前是 ${state.count}`); // 自动追踪 state.count\n  // 立即执行，state.count 变化时重新执行\n});\n\n选择建议：需要新旧值对比用 watch，否则用 watchEffect 更简洁。",
+          "tags": ["Vue3", "watch", "watchEffect"],
+          "difficulty": 2
+        },
+        {
+          "id": "vue-4",
+          "type": "qa",
+          "question": "Vue 3 组件通信有哪些方式？",
+          "answer": "1. props / emits — 父传子(props)、子传父(emits)，最基础\n2. provide / inject — 祖先向后代传递，适合深层嵌套（主题、语言）\n3. v-model — 语法糖，本质是 props + emit('update:xxx')\n4. Pinia（推荐）/ Vuex — 全局状态管理，跨组件共享状态\n5. ref / expose — 父组件通过 ref 获取子组件暴露的方法\n6. 事件总线（不推荐）— Vue 3 已移除 $on/$off，用 mitt 替代\n\n常见考察：父传子 props → 子传父 emits → 深层嵌套 provide/inject → 复杂状态 Pinia。这四层递进能说清就过关。",
+          "tags": ["Vue3", "组件通信", "props", "Pinia"],
+          "difficulty": 2
+        },
+        {
+          "id": "vue-5",
+          "type": "qa",
+          "question": "Vue 3 的生命周期钩子有哪些？",
+          "answer": "setup() 替代了 beforeCreate 和 created。\n\n常用钩子：\nonMounted — DOM 挂载完成，可操作 DOM、发请求\nonUpdated — DOM 更新后\nonUnmounted — 组件销毁前，清理定时器/事件监听\n\n不常用：onBeforeMount、onBeforeUpdate\n\n对比 Vue 2：\n- beforeCreate/created → setup()\n- mounted → onMounted\n- beforeUnmount → onBeforeUnmount (Vue2 是 beforeDestroy)\n\n面试建议：记住三个常用钩子和 setup 替代 beforeCreate/created 就行。",
+          "tags": ["Vue3", "生命周期", "onMounted"],
+          "difficulty": 1
+        },
+        {
+          "id": "vue-6",
+          "type": "qa",
+          "question": "什么是虚拟 DOM？为什么 Vue/React 用它？",
+          "answer": "虚拟 DOM：用 JS 对象模拟真实 DOM 的轻量级表示。\n\n工作流：\n1. 状态变化 → 生成新的虚拟 DOM 树\n2. diff 算法比较新旧两棵树\n3. 只更新变化的节点到真实 DOM\n\n为什么用它：\n1. 批量更新 — 多次状态变化一次性更新 DOM\n2. 最小化 DOM 操作 — diff 找出变化再 patch，DOM 操作很贵\n3. 跨平台 — 虚拟 DOM 不绑定浏览器，可渲染到小程序(iOS/Android)原生\n\n关键认知：虚拟 DOM 不是绝对快于直接操作 DOM，但它让开发者不用关心 DOM 优化细节，框架帮你做。",
+          "tags": ["Vue3", "React", "虚拟DOM", "diff"],
+          "difficulty": 2
+        },
+        {
+          "id": "vue-7",
+          "type": "qa",
+          "question": "Vue 中 v-if 和 v-show 的区别？什么时候用哪个？",
+          "answer": "v-if：条件为 false 时不渲染 DOM（DOM 不存在），切换开销大，初始化可能更省。\nv-show：始终渲染 DOM，通过 display:none 隐藏，初始渲染开销固定，切换开销小。\n\n选择：频繁切换用 v-show（标签页切换），条件很少改变用 v-if（权限控制、一次性判断）。\n\n面试亮点：v-if 优先级高于 v-for，所以不推荐同时使用。需要对列表做条件过滤时，应先用 computed 过滤数据。",
+          "tags": ["Vue3", "v-if", "v-show", "指令"],
+          "difficulty": 1
+        }
+      ]
+    },
+    {
+      "id": "react",
+      "title": "React 核心",
+      "items": [
+        {
+          "id": "react-1",
+          "type": "qa",
+          "question": "React 函数组件 vs 类组件？为什么现在都用函数组件？",
+          "answer": "类组件：用 class 定义，有生命周期（componentDidMount 等）、this.state、this.setState。\n函数组件：纯函数 + Hooks（useState/useEffect 等），没有 this 绑定问题。\n\n函数组件胜出的原因：\n1. 更简洁 — 同样功能代码少 30-50%\n2. Hooks 更好的逻辑复用 — 自定义 Hook 比 HOC/render props 更直观\n3. 没有 this 困扰 — 不需要 bind，没有 this.state 心智负担\n4. 更好的 tree-shaking\n5. React 官方推荐方向\n\n类组件仍需了解：维护老项目可能遇到，但新代码全用函数组件 + Hooks。",
+          "tags": ["React", "Hooks", "函数组件"],
+          "difficulty": 2
+        },
+        {
+          "id": "react-2",
+          "type": "qa",
+          "question": "React Hooks 核心：useState 和 useEffect 怎么用？",
+          "answer": "useState：管理组件内的状态变量。\nconst [count, setCount] = useState(0);\n// setCount(count + 1) — 触发重渲染\n注意：setState 是异步的，多次调用 React 会批量更新。\n\nuseEffect：处理副作用（数据请求、DOM 操作、订阅）。\nuseEffect(() => {\n  fetchData();          // 副作用\n  return () => cleanup(); // 清理函数（可选）\n}, [dependency]);        // 依赖数组\n\n依赖数组含义：\n- [] — 只在挂载时运行一次（≈ componentDidMount）\n- [count] — count 变化时重新运行\n- 不传 — 每次渲染都运行（很少用）\n\n常见面试题：为什么 useEffect 里 setInterval 要用函数式更新？因为闭包陷阱。",
+          "tags": ["React", "Hooks", "useState", "useEffect"],
+          "difficulty": 2
+        },
+        {
+          "id": "react-3",
+          "type": "qa",
+          "question": "React 的 key 有什么用？为什么不能用 index 当 key？",
+          "answer": "key 帮助 React diff 算法识别哪些元素变化了。唯一且稳定的 key 让 React 精确追踪每个元素。\n\n为什么不能用 index：\n列表 [A, B, C] → 删除 A → 变成 [B, C]\n用 index 0 当 key：React 认为 key=0 的元素内容从 A 变成 B（更新），而不是删除 A、B 从 index=1 移到 0。这会破坏组件状态、导致不必要的 DOM 更新。\n\n正确做法：用数据自身的唯一 ID（数据库 ID）。\n\n面试要点：说清「key 帮助 diff + index 导致状态错位」即可。",
+          "tags": ["React", "key", "diff"],
+          "difficulty": 1
+        },
+        {
+          "id": "react-4",
+          "type": "qa",
+          "question": "React 中 useMemo 和 useCallback 的作用？什么时候才需要？",
+          "answer": "useMemo：缓存计算结果，依赖不变时跳过重新计算。\nconst sortedList = useMemo(() => list.sort(), [list]);\n\nuseCallback：缓存函数引用，依赖不变时返回同一个函数。\nconst handleClick = useCallback(() => { doSomething(id); }, [id]);\n\n什么时候需要：\n1. 计算量大的操作（复杂的 filter/sort/循环）\n2. 传递给子组件的回调，且子组件用了 React.memo\n3. 作为其他 Hook 的依赖\n\n⚠️ 不要到处加 — 简单计算和普通函数无需 useMemo/useCallback，反而增加内存开销和代码复杂度。只在性能瓶颈处使用。",
+          "tags": ["React", "useMemo", "useCallback", "性能优化"],
+          "difficulty": 3
+        },
+        {
+          "id": "react-5",
+          "type": "qa",
+          "question": "React 状态管理：Context vs Redux vs Zustand？",
+          "answer": "Context：React 内置，适合低频更新的全局状态（主题、语言、用户信息）。不适合高频更新，因为 Context 变化会触发所有消费者重渲染。\n\nRedux：老牌方案，单向数据流、时间旅行调试、中间件丰富。但模板代码多，学习曲线陡。适合大型复杂项目。\n\nZustand（推荐面试提一下）：轻量级（<1KB），API 极简，不需要 Provider 包裹，支持 TypeScript。中大型项目的主流选择。\n\n选择建议：简单全局状态(主题/用户)用 Context，复杂业务状态用 Zustand/Pinia，老项目可能用 Redux。",
+          "tags": ["React", "状态管理", "Context", "Redux", "Zustand"],
+          "difficulty": 2
+        }
+      ]
+    },
+    {
+      "id": "miniprogram",
+      "title": "微信小程序",
+      "items": [
+        {
+          "id": "mp-1",
+          "type": "qa",
+          "question": "微信小程序的架构是怎样的？双线程模型是什么？",
+          "answer": "小程序采用双线程模型：\n\n1. 渲染层（WebView 线程）— 负责 WXML 渲染、WXSS 样式。每个页面一个 WebView。\n2. 逻辑层（JSCore 线程）— 运行 JS 代码（Page/Component 逻辑、API 调用）。\n\n两层通过 Native（微信客户端）中转通信：\n逻辑层 → Native → 渲染层（setData）\n渲染层 → Native → 逻辑层（事件绑定）\n\n为什么这样设计：\n- 安全：不允许直接操作 DOM，防止 XSS 攻击\n- 管控：微信可以审核和限制 JS 能力\n- 性能：逻辑层与渲染层分离，避免 JS 阻塞渲染\n\n面试关键：说出「双线程 + Native 中转 + 不能直接操作 DOM」即可。",
+          "tags": ["微信小程序", "架构", "双线程"],
+          "difficulty": 2
+        },
+        {
+          "id": "mp-2",
+          "type": "qa",
+          "question": "小程序 setData 的注意事项？如何优化？",
+          "answer": "setData 将数据从逻辑层传到渲染层，是性能优化的关键。\n\n注意事项：\n1. 数据量限制 — 单次不超过 1MB（256KB 更安全）\n2. 频率限制 — 每秒调用不超过 20 次\n3. 不要频繁 setData — 每次都会触发 diff 和渲染\n4. 不要 setData 未使用的数据 — 传输和渲染都有开销\n\n优化：\n1. 只传变化的数据 — setData({ 'list[0].name': newName }) 而非 setData({ list })\n2. 合并 setData — 把多次 setData 合并为一次\n3. 用纯数据字段（pureDataPattern）— 不参与渲染的数据不要 setData\n4. 分页加载 — 不要一次性 setData 大列表\n\n面试亮点：能说出「只传变化字段 + 合并调用」。",
+          "tags": ["微信小程序", "setData", "性能优化"],
+          "difficulty": 2
+        },
+        {
+          "id": "mp-3",
+          "type": "qa",
+          "question": "小程序页面生命周期有哪些？",
+          "answer": "onLoad — 页面加载（只一次），接收页面参数 options\nonShow — 页面显示（每次进入都会触发）\nonReady — 页面渲染完成（只一次）\nonHide — 页面隐藏（切到后台/跳转其他页面）\nonUnload — 页面卸载（redirectTo/navigateBack）\n\n常用场景：\n- onLoad：获取页面参数，初始化数据\n- onShow：刷新列表（从详情页返回时更新数据）\n- onHide：暂停音视频播放\n- onUnload：清理定时器\n\n与 Vue 对比：onLoad ≈ onMounted，onShow 没有直接的 Vue 生命周期对应（keep-alive 的 activated 类似）。",
+          "tags": ["微信小程序", "生命周期"],
+          "difficulty": 1
+        },
+        {
+          "id": "mp-4",
+          "type": "qa",
+          "question": "小程序组件间如何通信？",
+          "answer": "1. 父传子 — properties 属性\n2. 子传父 — triggerEvent（类似 Vue 的 emit）\n3. 兄弟组件 — 通过共同父组件中转\n4. 跨页面/全局 — getApp().globalData 或引入事件总线\n5. 页面间传参 — url 参数（navigateTo 的 query）\n\n与 Vue 对比：\nproperties ≈ props\ntriggerEvent ≈ emit\nglobalData ≈ provide/inject 或 Pinia\n\n面试提示：基础通信 properties + triggerEvent 能说清就过关。",
+          "tags": ["微信小程序", "组件通信"],
+          "difficulty": 1
+        },
+        {
+          "id": "mp-5",
+          "type": "qa",
+          "question": "小程序开发中 uniapp 和 Taro 是什么？为什么用它们？",
+          "answer": "uniapp 和 Taro 都是跨端框架，一套代码编译到多个平台（微信小程序/H5/App/支付宝小程序等）。\n\nuniapp（DCloud）：用 Vue 语法开发，生态完善（uni-ui 组件库、uniCloud 云开发），适合 Vue 技术栈团队。\n\nTaro（京东开源）：支持 React/Vue/Nerv 语法，社区活跃，编译更接近原生。\n\n为什么用：\n1. 一套代码多端发布 — 省人力和维护成本\n2. 用熟悉的框架（Vue/React）写小程序\n3. 第三方生态 — 插件市场有大量现成组件\n\n局限：复杂的原生功能仍需平台特定代码（条件编译），性能不如纯原生。\n\n面试要点：能说清「跨端编译 + Vue/React 语法写小程序」。",
+          "tags": ["微信小程序", "uniapp", "Taro", "跨端"],
+          "difficulty": 2
+        }
+      ]
+    },
+    {
+      "id": "typescript",
+      "title": "TypeScript",
+      "items": [
+        {
+          "id": "ts-1",
+          "type": "qa",
+          "question": "TypeScript 的核心好处是什么？为什么前端项目要用 TS？",
+          "answer": "TypeScript = JavaScript + 类型系统。\n\n核心好处：\n1. 编译时发现错误 — 拼写错误、参数类型错误在写代码时就暴露，不用等到运行时\n2. 更好的 IDE 体验 — 代码补全、跳转、重构更准确\n3. 自文档化 — 类型定义就是最好的文档，不需要额外写 JSDoc\n4. 重构信心 — 改了接口定义，所有使用处编译报错，不会遗漏\n5. 团队协作 — 接口定义是团队成员间的契约\n\n面试亮点：\n- 「把运行时 bug 提前到编译时发现」\n- 「interface 是前后端之间的契约」\n- 「Props 类型定义 = 组件说明书」",
+          "tags": ["TypeScript", "类型系统", "基础"],
+          "difficulty": 1
+        },
+        {
+          "id": "ts-2",
+          "type": "qa",
+          "question": "TypeScript 中 interface 和 type 的区别？",
+          "answer": "相同点：都能定义对象形状，大部分场景可以互换。\n\n区别：\n1. interface 可以声明合并（同名 interface 自动合并），type 不能\n2. type 可以定义联合类型（type Status = 'idle' | 'loading' | 'error'），interface 不能\n3. type 可以定义元组（type Pair = [string, number]），interface 不擅长\n4. extends 语法不同：interface extends interface；type 用交叉类型 &\n5. interface 只能描述对象，type 可以描述原始类型别名\n\n实用建议：优先用 interface（更符合面向对象、可扩展），需要联合类型/元组时用 type。\n\n面试要点：说出「interface 可合并 + type 可联合」这两点核心差异即可。",
+          "tags": ["TypeScript", "interface", "type"],
+          "difficulty": 2
+        },
+        {
+          "id": "ts-3",
+          "type": "qa",
+          "question": "泛型（Generics）是什么？举个例子。",
+          "answer": "泛型：让函数/类/接口适用于多种类型，同时保持类型安全。\n\n不用泛型（类型不安全）：\nfunction identity(arg: any): any { return arg; }\n// 返回 any 丢失了类型信息\n\n用泛型（类型安全）：\nfunction identity<T>(arg: T): T { return arg; }\nconst result = identity<string>('hello'); // result 是 string 类型\n\n常见场景：\n// API 响应类型\ninterface ApiResponse<T> {\n  code: number;\n  data: T;\n}\nconst user: ApiResponse<User> = await fetchUser();\n// user.data 自动推导为 User 类型\n\n// 约束泛型\nfunction getLength<T extends { length: number }>(arg: T): number {\n  return arg.length; // 确保 arg 有 length 属性\n}",
+          "tags": ["TypeScript", "泛型", "Generics"],
+          "difficulty": 2
+        },
+        {
+          "id": "ts-4",
+          "type": "qa",
+          "question": "TypeScript 的常用工具类型有哪些？",
+          "answer": "Partial<T> — 所有属性变为可选。表单编辑时常用。\ninterface User { name: string; age: number; }\ntype PartialUser = Partial<User>; // { name?: string; age?: number; }\n\nRequired<T> — 所有属性变为必填\nPick<T, K> — 从 T 中选取指定属性。\ntype UserPreview = Pick<User, 'name'>; // { name: string; }\n\nOmit<T, K> — 从 T 中排除指定属性。\ntype UserWithoutAge = Omit<User, 'age'>; // { name: string; }\n\nRecord<K, V> — 构造对象类型。\ntype UserMap = Record<string, User>; // { [key: string]: User }\n\nExclude / Extract — 联合类型的排除和提取\nReturnType<T> — 获取函数返回类型\n\n面试建议：记住 Partial、Pick、Omit、Record 这四个最常用。",
+          "tags": ["TypeScript", "工具类型", "Utility Types"],
+          "difficulty": 2
+        },
+        {
+          "id": "ts-5",
+          "type": "qa",
+          "question": "Vue 3 + TypeScript 中如何定义组件的 Props 类型？",
+          "answer": "1. 用 defineProps + 泛型（推荐，简洁）：\n<script setup lang=\"ts\">\ninterface Props {\n  title: string;\n  count?: number;\n  items: string[];\n}\nconst props = defineProps<Props>();\n</script>\n\n2. 带默认值：\nconst props = withDefaults(defineProps<Props>(), {\n  count: 0,\n  items: () => [],\n});\n\n3. defineEmits 也用 TS：\nconst emit = defineEmits<{\n  (e: 'update', value: string): void;\n  (e: 'delete', id: number): void;\n}>();\n\n面试要点：defineProps<Props>() 一行搞定，知道 withDefaults 设默认值。",
+          "tags": ["TypeScript", "Vue3", "defineProps"],
+          "difficulty": 2
+        }
+      ]
+    },
+    {
+      "id": "html-css-js",
+      "title": "HTML5 / CSS3 / JavaScript 基础",
+      "items": [
+        {
+          "id": "web-1",
+          "type": "qa",
+          "question": "HTML5 新增了哪些重要特性？",
+          "answer": "语义化标签：<header> <nav> <main> <article> <section> <aside> <footer> — 替代 <div class=\"header\">\n\n表单增强：<input type=\"email/date/number/range\">、placeholder、required、pattern 属性\n\n多媒体：<video> <audio> — 无需 Flash 插件\n\n图形：<canvas> — 2D/3D 绘图；<svg> — 矢量图形\n\nAPI：\n- localStorage/sessionStorage — 本地存储\n- Geolocation — 地理位置\n- WebSocket — 实时通信\n- History API — SPA 路由\n\n存储相关：localStorage 永久存储（~5MB），sessionStorage 会话级别（关标签页即清除），都是同源策略限制。",
+          "tags": ["HTML5", "语义化", "localStorage"],
+          "difficulty": 1
+        },
+        {
+          "id": "web-2",
+          "type": "qa",
+          "question": "CSS 盒模型是什么？box-sizing 的作用？",
+          "answer": "盒模型：每个元素都是一个矩形盒子。\n从内到外：content（内容） → padding（内边距） → border（边框） → margin（外边距）\n\n标准盒模型（content-box）：width = content 宽度\nIE 盒模型（border-box）：width = content + padding + border\n\nbox-sizing: border-box 让 width 包含 padding 和 border，布局计算更直观。\n\n实践：几乎所有项目都会全局设置：\n*, *::before, *::after {\n  box-sizing: border-box;\n}\n\n面试要点：能画出四层结构并解释 border-box 的好处即可。",
+          "tags": ["CSS", "盒模型", "box-sizing"],
+          "difficulty": 1
+        },
+        {
+          "id": "web-3",
+          "type": "qa",
+          "question": "Flexbox 布局的核心属性？常用的布局模式？",
+          "answer": "容器属性：\ndisplay: flex;\nflex-direction: row | column;          // 主轴方向\njustify-content: center | space-between | space-around;  // 主轴对齐\nalign-items: center | stretch;         // 交叉轴对齐\nflex-wrap: wrap;                       // 换行\ngap: 16px;                             // 间距\n\n子项属性：\nflex: 1; // flex-grow flex-shrink flex-basis 的简写\n\n常用模式：\n// 水平居中\n{ display: flex; justify-content: center; align-items: center; }\n// 两端对齐\n{ display: flex; justify-content: space-between; }\n// 等分三列\n.item { flex: 1; }\n\n面试提示：flex: 1 表示「占据剩余空间」，是面试常问。",
+          "tags": ["CSS", "Flexbox", "布局"],
+          "difficulty": 1
+        },
+        {
+          "id": "web-4",
+          "type": "qa",
+          "question": "Grid 布局和 Flexbox 的区别？什么时候用哪个？",
+          "answer": "Flexbox：一维布局（行或列），内容驱动，适合组件内部布局。\nGrid：二维布局（行和列同时），布局驱动，适合页面整体布局。\n\n用 Flexbox：导航栏、卡片内部、按钮组、表单行\n用 Grid：页面整体（header/main/sidebar/footer）、商品列表、仪表盘\n\n简单判断：\n- 只需要管一行/一列 → Flexbox\n- 需要同时管行和列 → Grid\n\n其实两者常常混用：外层 Grid 做页面布局，内层 Flexbox 做组件布局。\n\n面试关键：Flexbox = 一维，Grid = 二维。",
+          "tags": ["CSS", "Grid", "Flexbox", "布局"],
+          "difficulty": 2
+        },
+        {
+          "id": "web-5",
+          "type": "qa",
+          "question": "CSS 响应式设计怎么做？rem/vw 的区别？",
+          "answer": "核心三要素：\n1. 弹性布局（Flexbox/Grid）\n2. 相对单位（rem/vw/vh/%）替代固定 px\n3. 媒体查询（@media）做断点适配\n\n单位对比：\nrem = 根元素 (html) 的 font-size。浏览器默认 16px = 1rem。\n  修改 html { font-size: 62.5% } → 1rem = 10px（计算方便）\n  好处：全局缩放，用于字体、间距\n\nvw/vh = 视口宽/高的 1%\n  100vw = 整个视口宽度\n  好处：随屏幕尺寸自动缩放，用于全屏布局、大标题\n\n百分比 % = 相对父元素的百分比\n\n常用方案：\n@media (max-width: 768px) { /* 移动端 */ }\n@media (min-width: 769px) and (max-width: 1024px) { /* 平板 */ }\n@media (min-width: 1025px) { /* 桌面 */ }\n\n移动端加 viewport meta 标签：\n<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">",
+          "tags": ["CSS", "响应式", "rem", "媒体查询"],
+          "difficulty": 2
+        },
+        {
+          "id": "web-6",
+          "type": "qa",
+          "question": "JavaScript 闭包是什么？什么场景用？",
+          "answer": "闭包：函数能访问其外部作用域中的变量，即使外部函数已执行完毕。\n\nfunction createCounter() {\n  let count = 0; // 这个变量被闭包「记住」\n  return function() {\n    count++;    // 访问外部函数的 count\n    return count;\n  };\n}\nconst counter = createCounter();\ncounter(); // 1\ncounter(); // 2 — count 保留在内存中\n\n实际使用场景：\n1. 数据私有化 — 模拟私有变量\n2. 防抖节流 — setTimeout 回调访问外部 timer 变量\n3. 回调函数 — 事件处理函数访问外部数据\n4. 柯里化 — 分步传参\n\n面试陷阱：闭包可能导致内存泄漏，不需要时要清理引用。循环中 var 的经典闭包问题用 let 解决。",
+          "tags": ["JavaScript", "闭包", "作用域"],
+          "difficulty": 2
+        },
+        {
+          "id": "web-7",
+          "type": "qa",
+          "question": "JavaScript 的 this 指向规则？箭头函数的 this？",
+          "answer": "this 指向取决于调用方式（非严格模式）：\n\n1. 普通函数调用 — this → window（严格模式 undefined）\n2. 方法调用 — this → 调用该方法的对象\n3. 构造函数 (new) — this → 新创建的对象\n4. call/apply/bind — this → 指定的对象\n5. 箭头函数 — this → 定义时外层作用域的 this（不能改变）\n\n箭头函数和普通函数的关键区别：\n- 箭头函数没有自己的 this，沿用外层\n- 箭头函数不能做构造函数（没有 prototype）\n- 箭头函数没有 arguments 对象\n\nVue/React 中的体现：\n- methods 里的方法 Vue 自动绑定 this；箭头函数会导致 this 不是组件实例\n- React 类组件中 constructor 需要 .bind(this)，函数组件 + Hooks 没有 this 问题\n\n面试关键：箭头函数 this 是「定义时所在作用域的 this」，不是调用时的。",
+          "tags": ["JavaScript", "this", "箭头函数"],
+          "difficulty": 2
+        },
+        {
+          "id": "web-8",
+          "type": "qa",
+          "question": "Promise 和 async/await 的使用场景？错误处理？",
+          "answer": "Promise：解决回调地狱。.then() 链式处理异步结果，.catch() 统一捕获错误。\n\nasync/await：Promise 的语法糖，让异步代码像同步代码一样写。\nasync function fetchUser() {\n  try {\n    const user = await api.getUser();\n    const orders = await api.getOrders(user.id);\n    return { user, orders };\n  } catch (error) {\n    console.error('获取数据失败:', error);\n    throw error; // 或返回兜底数据\n  }\n}\n\n错误处理：\n- async/await 用 try/catch\n- Promise 用 .catch()\n- 全局兜底：window.addEventListener('unhandledrejection')\n\n并发请求：\n// 并行（无依赖）\nconst [user, config] = await Promise.all([getUser(), getConfig()]);\n// 顺序（有依赖）\nconst user = await getUser();\nconst detail = await getUserDetail(user.id);\n\n常见坑：await 之后的代码才等待，之前的不等。",
+          "tags": ["JavaScript", "Promise", "async/await", "异步"],
+          "difficulty": 2
+        },
+        {
+          "id": "web-9",
+          "type": "qa",
+          "question": "ES6+ 常用的新特性有哪些？",
+          "answer": "1. let/const — 块级作用域，替代 var\n2. 箭头函数 — this 沿用外层，更简洁\n3. 模板字符串 — `Hello ${name}`\n4. 解构赋值 — const { name, age } = user; const [first, ...rest] = arr;\n5. 展开运算符 — const merged = { ...obj1, ...obj2 };\n6. Promise — 异步编程\n7. 模块化 — import/export\n8. class — 语法糖，本质是原型链\n9. 可选链 — user?.address?.city （安全访问深层属性）\n10. 空值合并 — value ?? '默认值' （只在 null/undefined 时用默认值，与 || 不同）\n11. Array 方法 — find, findIndex, includes, flat, flatMap\n12. Object 方法 — Object.entries, Object.values, Object.fromEntries\n\n面试建议：重点掌握 1-8 + 可选链/空值合并，其他知道有就行。",
+          "tags": ["JavaScript", "ES6", "基础"],
+          "difficulty": 1
+        },
+        {
+          "id": "web-10",
+          "type": "qa",
+          "question": "跨域是什么？前端如何解决跨域问题？",
+          "answer": "跨域：浏览器的同源策略阻止一个域名的 JS 访问另一个域名的资源。\n\n同源 = 协议 + 域名 + 端口号都相同。\n\n前端解决方案：\n1. CORS（后端配置）— 服务器设置 Access-Control-Allow-Origin 响应头，最常见\n2. 代理（开发环境）— webpack/vite devServer proxy 转发，本地开发转发 /api 到后端\n3. JSONP（过时）— 利用 <script> 标签不受同源限制，只支持 GET\n4. postMessage — 不同窗口/iframe 间通信\n\nVue CLI 的 vue.config.js 代理配置：\nmodule.exports = {\n  devServer: {\n    proxy: {\n      '/api': { target: 'http://localhost:8080', changeOrigin: true }\n    }\n  }\n}\n\n面试要点：CORS 是标准方案，开发代理是日常用的。",
+          "tags": ["JavaScript", "跨域", "CORS", "同源策略"],
+          "difficulty": 2
+        }
+      ]
+    },
+    {
+      "id": "component-lib",
+      "title": "组件库 (Element UI / Vant / Ant Design)",
+      "items": [
+        {
+          "id": "lib-1",
+          "type": "qa",
+          "question": "Element Plus 和 Ant Design Vue 对比？选型考虑什么？",
+          "answer": "Element Plus：Vue 3 版本（原 Element UI 是 Vue 2），国内最流行的 Vue 组件库。风格偏简洁商务。组件覆盖企业后台常用需求（表格/表单/弹窗/导航）。\n\nAnt Design Vue：Ant Design 的 Vue 实现，风格偏专业精细，组件更丰富。国际化更好，英文项目更友好。\n\n选型考虑：\n1. 项目风格 — 后台管理还是 C 端\n2. 团队熟悉度 — 大家用过哪个\n3. 定制需求 — 主题定制能力（两者都支持 CSS 变量/less 变量）\n4. 社区活跃度 — Element Plus Star 更多，中文社区更活跃\n5. 按需引入 — 两者都支持 tree-shaking，不要全量引入\n\n面试要点：知道 Element Plus 是 Vue 3，Ant Design 有 Vue 版。不用深究差异。",
+          "tags": ["组件库", "Element Plus", "Ant Design"],
+          "difficulty": 1
+        },
+        {
+          "id": "lib-2",
+          "type": "qa",
+          "question": "Vant 是什么？适合什么场景？",
+          "answer": "Vant：有赞开源，专注移动端的 Vue 组件库。\n\n特点：\n- 移动端优先 — 组件针对触屏交互优化\n- 轻量 — 按需引入，体积小\n- 组件全面 — 覆盖电商常用（商品卡片、SKU 选择、地址编辑）\n- 主题定制 — CSS 变量一键换肤\n- 支持小程序 — @vant/weapp 用于微信小程序\n\n适合场景：H5 移动端页面、微信内嵌网页、电商项目、小程序。\n\nNode: Vant 4 支持 Vue 3，Vant 2 对应 Vue 2。\n\n面试要点：说出「移动端 + Vue + 有赞」三要素。",
+          "tags": ["组件库", "Vant", "移动端"],
+          "difficulty": 1
+        },
+        {
+          "id": "lib-3",
+          "type": "qa",
+          "question": "使用组件库时如何做样式定制和覆盖？",
+          "answer": "1. CSS 变量（最推荐）— 组件库提供的设计令牌：\n:root {\n  --el-color-primary: #1890ff;\n  --el-border-radius-base: 4px;\n}\n\n2. 深度选择器（Vue scoped 穿透）：\n:deep(.el-input__inner) {\n  border-radius: 8px;\n}\n\n3. 全局覆盖（不推荐，影响全局）：\n在非 scoped 的样式文件中覆盖\n\n4. 组件库提供的主题定制：\nElement Plus: 用 SCSS 变量 + el.setConfig\nAnt Design: ConfigProvider 全局配置 + token\n\n最佳实践：能用 CSS 变量就不写 :deep()，能 :deep() 就不全局覆盖。\n\n面试要点：知道 CSS 变量是最干净的定制方式。",
+          "tags": ["组件库", "样式定制", "CSS变量"],
+          "difficulty": 2
+        },
+        {
+          "id": "lib-4",
+          "type": "qa",
+          "question": "Element Plus 表单常用的组件和校验规则？",
+          "answer": "核心组件：\n<el-form :model=\"form\" :rules=\"rules\" ref=\"formRef\">\n  <el-form-item label=\"用户名\" prop=\"username\">\n    <el-input v-model=\"form.username\" />\n  </el-form-item>\n  <el-form-item>\n    <el-button @click=\"submitForm\">提交</el-button>\n  </el-form-item>\n</el-form>\n\n校验规则：\nconst rules = {\n  username: [\n    { required: true, message: '请输入用户名', trigger: 'blur' },\n    { min: 3, max: 20, message: '长度在 3 到 20 个字符', trigger: 'blur' },\n  ],\n  email: [\n    { required: true, message: '请输入邮箱' },\n    { type: 'email', message: '请输入正确的邮箱格式' },\n  ],\n};\n\n提交前手动校验：\nconst submitForm = async () => {\n  const valid = await formRef.value.validate();\n  if (valid) { /* 提交 */ }\n};\n\n面试关键是知道 :model, :rules, prop, validate() 四要素。",
+          "tags": ["组件库", "Element Plus", "表单", "校验"],
+          "difficulty": 2
+        }
+      ]
+    },
+    {
+      "id": "engineering",
+      "title": "前端工程化",
+      "items": [
+        {
+          "id": "eng-1",
+          "type": "qa",
+          "question": "Vite 和 Webpack 的区别？为什么 Vite 更快？",
+          "answer": "Webpack：基于 bundle 的构建工具。打包所有模块成一个或多个 bundle 再启动。开发时仍需先打包。\n\nVite：基于 ESM（ES Modules）的开发服务器。\n\nVite 为什么快：\n1. 开发时不打包 — 利用浏览器原生 ES Module 导入，按需编译\n2. esbuild 预构建 — 用 Go 写的 esbuild 处理依赖预打包（比 JS 快 10-100 倍）\n3. HMR 极快 — 只更新变化的模块，与模块总数无关\n4. 生产打包用 Rollup — 成熟的打包方案\n\n简单类：\n- Webpack = 先把整本书抄完再给你看\n- Vite = 你需要哪页我给你翻到哪页\n\n面试要点：说「开发按需编译 + esbuild 预构建」两个核心。",
+          "tags": ["工程化", "Vite", "Webpack", "构建工具"],
+          "difficulty": 2
+        },
+        {
+          "id": "eng-2",
+          "type": "qa",
+          "question": "如何处理前端项目中的环境变量？",
+          "answer": "Vite 环境变量：\n.env — 所有环境共享\n.env.development — 开发环境（vite dev）\n.env.production — 生产环境（vite build）\n\n变量命名规则：必须以 VITE_ 开头\nVITE_API_BASE_URL=https://api.example.com\n\n代码中使用：\nimport.meta.env.VITE_API_BASE_URL\n\n重要：不要在前端环境变量中放 API Key！前缀 VITE_ 的变量会打包到代码中，所有用户可见。\n\n.gitignore 中加 .env（.env.example 可以提交作为模板）。",
+          "tags": ["工程化", "环境变量", "Vite"],
+          "difficulty": 1
+        },
+        {
+          "id": "eng-3",
+          "type": "qa",
+          "question": "Git 常用工作流？分支管理策略？",
+          "answer": "常用操作：\ngit status / git add . / git commit -m \"...\" / git push / git pull\ngit branch feature-xxx / git checkout feature-xxx / git merge main\n\n分支策略（推荐）：\n- main/master — 生产分支，只通过 PR 合入\n- develop — 开发分支\n- feature/xxx — 功能分支（从 develop 切出，合回 develop）\n- fix/xxx — 修复分支\n- hotfix/xxx — 紧急修复（从 main 切出，合回 main 和 develop）\n\n协作流程：\n1. 从 develop 切 feature 分支\n2. 开发 + 自测\n3. 提交 PR/MR\n4. Code Review\n5. 合入 develop\n\n面试不需要背具体命令，重点是理解「分支隔离 + PR + Review」的协作流程。",
+          "tags": ["工程化", "Git", "分支管理"],
+          "difficulty": 1
+        },
+        {
+          "id": "eng-4",
+          "type": "qa",
+          "question": "ESLint + Prettier 的作用？如何在项目中配置？",
+          "answer": "ESLint：代码质量检查（未使用变量、禁止 console、语法错误）。保证代码不出低级错误。\n\nPrettier：代码格式化（缩进、引号、分号、换行）。保证团队代码风格统一。\n\n为什么两个都装：ESLint 管「对不对」，Prettier 管「好不好看」。\n\n常用配置（Vue3 项目）：\n// .eslintrc.cjs\nmodule.exports = {\n  extends: [\n    'plugin:vue/vue3-recommended',\n    '@vue/eslint-config-typescript',\n    '@vue/eslint-config-prettier'\n  ]\n};\n\n配合 VS Code 保存自动修复：\n// .vscode/settings.json\n{ \"editor.codeActionsOnSave\": { \"source.fixAll.eslint\": true } }\n\n还可配合 husky + lint-staged 在 git commit 时自动检查和修复。",
+          "tags": ["工程化", "ESLint", "Prettier", "代码规范"],
+          "difficulty": 1
+        },
+        {
+          "id": "eng-5",
+          "type": "qa",
+          "question": "什么是组件封装？如何设计高复用的组件？",
+          "answer": "组件封装 = 把 UI + 逻辑打包为独立单元，对外暴露接口（props/events/slots）。\n\n设计高复用组件的原则：\n1. 单一职责 — 一个组件只做一件事（按钮就是按钮，不要既按钮又弹窗）\n2. props 驱动 — 通过 props 控制行为，不依赖全局状态\n3. 合理的默认值 — 不传 props 也能正常展示\n4. slots 扩展 — 允许使用者在特定位置插入自定义内容\n5. v-model 双向绑定 — 表单组件用 v-model 对外通信\n6. 事件向上 — 用 emit 通知父组件，不越级修改数据\n\n好的组件接口：\n<MyButton\n  type=\"primary\"\n  :loading=\"isLoading\"\n  @click=\"handleSubmit\"\n>\n  <template #icon><Icon /> </template>\n  提交\n</MyButton>\n\n面试关键：props 向下、events 向上、slots 扩展。这三句话概括了组件设计核心。",
+          "tags": ["工程化", "组件设计", "封装"],
+          "difficulty": 2
+        }
+      ]
+    },
+    {
+      "id": "performance",
+      "title": "前端性能优化",
+      "items": [
+        {
+          "id": "perf-1",
+          "type": "qa",
+          "question": "前端性能优化的常用方式有哪些？",
+          "answer": "加载优化：\n1. 代码分割 — 路由懒加载，不用的代码不加载\n2. Tree Shaking — 打包时去掉没用到的代码\n3. 图片优化 — WebP 格式、懒加载（loading=\"lazy\"）、CDN\n4. 资源压缩 — Gzip/Brotli 压缩\n5. 缓存策略 — HTTP 缓存头、Service Worker\n6. 按需引入 — 组件库只引入用到的组件\n\n运行优化：\n1. 虚拟列表 — 长列表只渲染可见区域（vxe-table / vue-virtual-scroller）\n2. 防抖节流 — 高频事件（scroll/resize/input）控制频率\n3. 减少重排重绘 — 批量 DOM 操作、使用 transform 代替 left/top\n4. computed/watch 合理使用 — 避免不必要的计算\n\n首屏优化：\n1. 骨架屏/loading — 提升感知性能\n2. 预加载关键资源 — <link rel=\"preload\">\n3. SSR/预渲染 — 服务端直出 HTML\n\n面试不要全背，挑 3-4 个结合实际场景说明。",
+          "tags": ["性能优化", "懒加载", "代码分割"],
+          "difficulty": 2
+        },
+        {
+          "id": "perf-2",
+          "type": "qa",
+          "question": "什么是防抖和节流？分别用在什么场景？",
+          "answer": "防抖 (debounce)：连续触发只执行最后一次。等 N 秒内无新触发才执行。\n场景：搜索框输入（等用户打完再请求）、窗口 resize 结束、按钮防重复提交。\n\n节流 (throttle)：固定时间间隔内只执行一次。每 N 秒最多执行一次。\n场景：滚动加载更多、鼠标移动跟踪、页面埋点。\n\n简单区分：\n- 防抖 = 「等你停下来再说」— 最后一次为准\n- 节流 = 「我按节奏来」— 规律执行\n\n代码要点（面试可能让手写）：\nfunction debounce(fn, delay) {\n  let timer;\n  return function(...args) {\n    clearTimeout(timer);\n    timer = setTimeout(() => fn.apply(this, args), delay);\n  };\n}",
+          "tags": ["性能优化", "防抖", "节流"],
+          "difficulty": 2
+        },
+        {
+          "id": "perf-3",
+          "type": "qa",
+          "question": "Vue/React 中如何做路由懒加载？",
+          "answer": "Vue Router 懒加载：\nconst routes = [\n  {\n    path: '/dashboard',\n    component: () => import('@/views/Dashboard.vue')\n  },\n  {\n    path: '/settings',\n    component: () => import('@/views/Settings.vue')\n  }\n];\n\nReact Router 懒加载（React.lazy）：\nconst Dashboard = React.lazy(() => import('./Dashboard'));\n<Suspense fallback={<Loading />}>\n  <Dashboard />\n</Suspense>\n\n原理：\nimport() 返回 Promise，构建工具（Vite/Webpack）将动态导入的模块拆成独立 chunk。路由切换时才加载对应 chunk。\n\n面试要点：知道 import() 是魔法关键词，构建工具会自动分割。",
+          "tags": ["性能优化", "路由懒加载", "代码分割"],
+          "difficulty": 1
+        }
+      ]
+    },
+    {
+      "id": "network",
+      "title": "网络基础",
+      "items": [
+        {
+          "id": "net-1",
+          "type": "qa",
+          "question": "HTTP 常见状态码有哪些？",
+          "answer": "2xx 成功：200 OK（成功）、201 Created（创建成功）\n3xx 重定向：301 永久重定向、302 临时重定向、304 Not Modified（缓存）\n4xx 客户端错误：400 请求参数错误、401 未授权（需登录）、403 禁止访问（无权限）、404 资源不存在\n5xx 服务端错误：500 服务器内部错误、502 网关错误、503 服务不可用\n\n常见面试追问：\n- 301 vs 302：301 永久(浏览器缓存重定向)，302 临时(每次询问)\n- 403 vs 401：401 没登录，403 登录了但没权限\n- 304：请求头 If-None-Match 匹配，服务端返回 304 让浏览器用缓存\n\n面试快速记忆：「2 成 3 跳 4 错 5 崩」。",
+          "tags": ["HTTP", "状态码", "网络"],
+          "difficulty": 1
+        },
+        {
+          "id": "net-2",
+          "type": "qa",
+          "question": "从输入 URL 到页面渲染完成发生了什么？",
+          "answer": "这是经典面试题，考察网络和浏览器基础。分步回答：\n\n1. DNS 解析：域名 → IP 地址（浏览器缓存 → OS 缓存 → 路由器缓存 → DNS 服务器）\n2. TCP 连接：三次握手建立连接\n3. TLS 握手（HTTPS）：证书校验、密钥协商\n4. 发送 HTTP 请求：请求行 + 请求头 + 请求体\n5. 服务器处理并返回响应\n6. 浏览器解析 HTML → 构建 DOM 树\n7. 解析 CSS → 构建 CSSOM 树\n8. DOM + CSSOM → Render 树（Layout 布局）\n9. 绘制（Paint）→ 合成（Composite）→ 显示\n\n关键优化点：\n- DNS 预解析 <link rel=\"dns-prefetch\">\n- CSS 放 head（避免 FOUC），JS 放 body 底部或用 defer\n- 减少重排重绘\n\n面试不用背全部，能说出 DNS→TCP→HTTP→解析→渲染这条主线足够。",
+          "tags": ["HTTP", "浏览器", "渲染"],
+          "difficulty": 2
+        },
+        {
+          "id": "net-3",
+          "type": "qa",
+          "question": "localStorage、sessionStorage、Cookie 的区别？",
+          "answer": "| 特性 | localStorage | sessionStorage | Cookie |\n|------|-------------|---------------|--------|\n| 容量 | ~5MB | ~5MB | ~4KB |\n| 有效期 | 永久（手动删除）| 标签页关闭即删 | 可设置过期时间 |\n| 作用域 | 同源所有标签页 | 仅当前标签页 | 同源，可设 path |\n| 随请求发送 | 不发送 | 不发送 | 自动发送（Cookie 头）|\n| API | getItem/setItem | getItem/setItem | document.cookie |\n\n使用场景：\ntoken — 一般存 localStorage 或 cookie（HttpOnly Cookie 更安全）\n表单草稿 — sessionStorage（关页面就没了，保护隐私）\n用户偏好 — localStorage（主题、语言）\n跟踪/鉴权 — Cookie（服务端可设置 HttpOnly）\n\n面试要点：说清容量、有效期、是否随请求发送三点差异。",
+          "tags": ["浏览器", "存储", "localStorage", "Cookie"],
+          "difficulty": 1
+        }
+      ]
+    }
+  ]
+}

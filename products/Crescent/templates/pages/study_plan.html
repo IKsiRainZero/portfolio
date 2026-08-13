@@ -1,0 +1,754 @@
+{% extends "base.html" %}
+{% block title %}学习计划{% endblock %}
+{% block body_class %}page-study-plan{% endblock %}
+{% block head %}
+<style>
+/* ── Clean background ── */
+.page-study-plan { position: relative; }
+.page-study-plan::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background: linear-gradient(180deg, #faf8f5 0%, #f3efe8 50%, #ece6db 100%);
+}
+#planParticles {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.plan-wrap { max-width: 960px; margin: 0 auto; position: relative; z-index: 1; padding: 8px 16px; }
+
+/* ── Header ── */
+.plan-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+.plan-header h2 {
+  font-size: 22px;
+  font-weight: 650;
+  color: #3d2b14;
+  letter-spacing: .02em;
+}
+.plan-actions { display: flex; gap: 6px; flex-wrap: wrap; }
+.plan-actions .btn {
+  border-radius: 4px;
+  font-size: 12px;
+  padding: 6px 14px;
+}
+
+/* ── Progress bar ── */
+.progress-mini { margin-bottom: 18px; }
+.progress-mini .prog-label {
+  font-size: 11px;
+  color: rgba(61,43,20,.6);
+  margin-bottom: 4px;
+  display: flex;
+  justify-content: space-between;
+  font-weight: 500;
+}
+.progress-mini .progress-bar {
+  background: rgba(0,0,0,.08);
+  border-radius: 3px;
+  height: 6px;
+}
+.progress-mini .progress-fill {
+  background: #6b8b5c;
+  border-radius: 3px;
+  height: 6px;
+  transition: width .4s ease;
+}
+
+/* ── Chat panel (collapsible) ── */
+.plan-chat {
+  margin-bottom: 18px;
+  border-radius: 10px;
+  background: rgba(255,255,255,.55);
+  border: 1px solid rgba(0,0,0,.06);
+  box-shadow: 0 2px 8px rgba(0,0,0,.04);
+  overflow: hidden;
+}
+.plan-chat-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 14px;
+  background: rgba(61,43,20,.04);
+  cursor: pointer;
+  user-select: none;
+  font-size: 12px;
+  font-weight: 600;
+  color: #5d3a1a;
+  border-bottom: 1px solid rgba(0,0,0,.04);
+}
+.plan-chat-header .toggle-icon { font-size: 10px; transition: transform .2s; }
+.plan-chat.collapsed .plan-chat-header { border-bottom: none; }
+.plan-chat.collapsed .plan-chat-header .toggle-icon { transform: rotate(-90deg); }
+.plan-chat.collapsed .plan-chat-body { display: none; }
+
+.plan-chat-body { max-height: 360px; overflow-y: auto; }
+.plan-chat-msgs { padding: 12px 14px; display: flex; flex-direction: column; gap: 10px; }
+.plan-chat-msg {
+  max-width: 88%;
+  padding: 8px 12px;
+  border-radius: 10px;
+  font-size: 13px;
+  line-height: 1.6;
+  animation: msgIn .2s ease;
+}
+@keyframes msgIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+.plan-chat-msg.teacher {
+  align-self: flex-start;
+  background: #f5f0e6;
+  border-bottom-left-radius: 2px;
+  color: #3d2b14;
+}
+.plan-chat-msg.user {
+  align-self: flex-end;
+  background: #e8dcc8;
+  border-bottom-right-radius: 2px;
+  color: #3d2b14;
+}
+.plan-chat-msg .meta {
+  font-size: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: .05em;
+  margin-bottom: 2px;
+  opacity: .5;
+}
+
+.plan-chat-input-row {
+  display: flex;
+  gap: 6px;
+  padding: 8px 14px;
+  border-top: 1px solid rgba(0,0,0,.04);
+  background: rgba(61,43,20,.02);
+}
+.plan-chat-input-row textarea {
+  flex: 1;
+  resize: none;
+  border: 1px solid rgba(0,0,0,.1);
+  border-radius: 8px;
+  padding: 7px 10px;
+  font-size: 13px;
+  font-family: inherit;
+  line-height: 1.5;
+  color: #3d2b14;
+  background: rgba(255,255,255,.7);
+  outline: none;
+  rows: 1;
+}
+.plan-chat-input-row textarea:focus { border-color: #b8956a; }
+.plan-chat-input-row .btn { border-radius: 6px; font-size: 12px; padding: 6px 12px; flex-shrink: 0; }
+
+/* ── Sticky notes ── */
+.plan-card {
+  background: #fdf9e0;
+  border: none;
+  border-radius: 2px 2px 8px 2px;
+  padding: 22px 24px 20px;
+  margin-bottom: 16px;
+  position: relative;
+  box-shadow:
+    1px 2px 4px rgba(0,0,0,.08),
+    2px 4px 8px rgba(0,0,0,.04);
+  transform: rotate(-0.3deg);
+  max-width: 800px;
+}
+.plan-card::before {
+  content: '';
+  position: absolute;
+  top: -6px;
+  left: 50%;
+  width: 14px;
+  height: 14px;
+  background: radial-gradient(circle at 40% 35%, #e85d5d 0%, #b33030 100%);
+  border-radius: 50%;
+  box-shadow: 1px 2px 3px rgba(0,0,0,.25);
+  z-index: 1;
+  transform: translateX(-50%);
+}
+.plan-card::after {
+  content: '';
+  position: absolute;
+  top: -6px;
+  left: calc(50% + 2px);
+  width: 4px;
+  height: 4px;
+  background: rgba(255,255,255,.5);
+  border-radius: 50%;
+  z-index: 2;
+}
+.plan-card:nth-child(even) {
+  background: #f0f4fb;
+  transform: rotate(0.4deg);
+  border-radius: 2px 2px 2px 8px;
+}
+.plan-card:nth-child(even)::before {
+  background: radial-gradient(circle at 40% 35%, #5b9bd5 0%, #2e5f8a 100%);
+}
+.plan-card h3 {
+  font-size: 14px;
+  font-weight: 650;
+  margin-bottom: 10px;
+  padding-bottom: 6px;
+  border-bottom: 1px dashed rgba(0,0,0,.08);
+  color: #3d2b14;
+}
+
+.plan-render {
+  font-size: 13px;
+  line-height: 1.8;
+  white-space: pre-line;
+  color: #3d2b14;
+}
+.plan-render h3, .plan-render h4 {
+  font-weight: 600;
+  margin: 12px 0 4px;
+  color: #5d3a1a;
+}
+.plan-render ul { padding-left: 20px; margin: 4px 0; }
+.plan-render li { margin: 2px 0; }
+
+.plan-textarea {
+  width: 100%;
+  min-height: 300px;
+  padding: 16px;
+  border: 1px dashed rgba(0,0,0,.12);
+  border-radius: 6px;
+  font-size: 13px;
+  font-family: inherit;
+  line-height: 1.8;
+  resize: vertical;
+  color: #3d2b14;
+  background: rgba(255,255,255,.35);
+}
+.plan-textarea:focus {
+  outline: none;
+  border-color: #b8956a;
+  box-shadow: 0 0 0 3px rgba(184,149,106,.12);
+}
+
+/* ── Task checklist ── */
+.task-checklist { list-style: none; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 10px; }
+.task-checklist li {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  padding: 12px 14px;
+  font-size: 13px;
+  background: #fef9c3;
+  border-radius: 2px 2px 6px 2px;
+  box-shadow: 1px 2px 3px rgba(0,0,0,.06);
+  transform: rotate(-0.8deg);
+  transition: all .2s;
+  position: relative;
+}
+.task-checklist li:nth-child(3n+2) { background: #fce4ec; transform: rotate(0.5deg); }
+.task-checklist li:nth-child(3n+3) { background: #e3f2fd; transform: rotate(-0.4deg); }
+.task-checklist li:hover { transform: rotate(0deg) scale(1.02); box-shadow: 2px 4px 8px rgba(0,0,0,.1); z-index: 1; }
+.task-checklist li.done {
+  opacity: .45;
+  text-decoration: line-through;
+}
+.task-checklist li.done .task-text { text-decoration: line-through; color: var(--text3); }
+.task-checklist input[type="checkbox"] {
+  margin-top: 2px;
+  flex-shrink: 0;
+  accent-color: #6b8b5c;
+  transform: scale(1.1);
+}
+.task-text { flex: 1; line-height: 1.5; color: #3d2b14; }
+
+.empty-plan {
+  text-align: center;
+  padding: 80px 20px;
+  color: rgba(61,43,20,.5);
+}
+.empty-plan p { font-size: 14px; margin-bottom: 18px; }
+.empty-plan .btn { border-radius: 4px; }
+
+.generating {
+  text-align: center;
+  padding: 60px 20px;
+  color: rgba(61,43,20,.5);
+}
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="page-study-plan">
+<canvas id="planParticles"></canvas>
+<div class="plan-wrap">
+  <div class="plan-header">
+    <h2>学习计划</h2>
+    <div class="plan-actions">
+      <button class="btn btn-sm btn-primary" id="btnGenerate" onclick="StudyPlan.generate()">生成计划</button>
+      <button class="btn btn-sm" id="btnEdit" onclick="StudyPlan.toggleEdit()" style="display:none">编辑</button>
+      <button class="btn btn-sm" id="btnSave" onclick="StudyPlan.save()" style="display:none">保存</button>
+      <button class="btn btn-sm" id="btnDownload" onclick="StudyPlan.download()" style="display:none">下载</button>
+      <button class="btn btn-sm btn-ghost" id="btnClear" onclick="StudyPlan.clear()" style="display:none;color:#dc2626">清空</button>
+    </div>
+  </div>
+
+  <!-- Progress -->
+  <div class="progress-mini" id="planProgress" style="display:none">
+    <div class="prog-label"><span>执行进度</span><span id="planProgressText">0/0</span></div>
+    <div class="progress-bar" style="height:6px">
+      <div class="progress-fill" id="planProgressFill" style="width:0%;height:6px"></div>
+    </div>
+  </div>
+
+  <!-- Chat panel (collapsible, shown during conversation) -->
+  <div class="plan-chat" id="planChat" style="display:none">
+    <div class="plan-chat-header" onclick="StudyPlan.toggleChat()">
+      <span>&#128172; 与老师对话</span>
+      <span class="toggle-icon">&#9660;</span>
+    </div>
+    <div class="plan-chat-body">
+      <div class="plan-chat-msgs" id="planChatMsgs"></div>
+      <div class="plan-chat-input-row">
+        <textarea id="planChatInput" placeholder="回复老师..."
+          rows="1"
+          onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();StudyPlan.sendMsg();}"></textarea>
+        <button class="btn btn-primary btn-sm" id="planSendBtn" onclick="StudyPlan.sendMsg()">发送</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Plan display area -->
+  <div id="planContent">
+    <div class="empty-plan" id="planEmpty">
+      <p>还没有学习计划。</p>
+      <button class="btn btn-primary" onclick="StudyPlan.generate()">让老师帮你制定一份</button>
+    </div>
+  </div>
+
+  <!-- Edit mode (hidden by default) -->
+  <div id="planEditArea" style="display:none">
+    <textarea class="plan-textarea" id="planEditor" placeholder="在此编辑你的学习计划..."></textarea>
+  </div>
+
+  <!-- Task checklist -->
+  <div class="plan-card" id="planTasks" style="display:none">
+    <h3>任务清单</h3>
+    <ul class="task-checklist" id="taskList"></ul>
+  </div>
+</div>
+
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+var StudyPlan = {
+  _editing: false,
+  _planText: '',
+  _tasks: [],
+  _chatCollapsed: false,
+  _chatSessionId: 'study_plan_gen',
+  _eventSource: null,
+  _streamingEl: null,
+  _streamingBuf: '',
+  _sending: false,
+
+  load: function() {
+    try {
+      var saved = JSON.parse(localStorage.getItem('study_plan') || 'null');
+      if (saved && saved.text) {
+        this._planText = saved.text;
+        this._tasks = saved.tasks || [];
+        this.render();
+      }
+    } catch(e) {}
+  },
+
+  render: function() {
+    if (!this._planText) {
+      document.getElementById('planContent').innerHTML =
+        '<div class="empty-plan" id="planEmpty">' +
+        '<p>还没有学习计划。</p>' +
+        '<button class="btn btn-primary" onclick="StudyPlan.generate()">让老师帮你制定一份</button></div>';
+      document.getElementById('planEditArea').style.display = 'none';
+      document.getElementById('planTasks').style.display = 'none';
+      document.getElementById('planProgress').style.display = 'none';
+      this._showButtons(false);
+      return;
+    }
+
+    this._showButtons(true);
+    document.getElementById('planContent').innerHTML =
+      '<div class="plan-card"><h3>计划内容</h3>' +
+      '<div class="plan-render" id="planRender">' + App.renderMarkdown(this._planText) + '</div></div>';
+
+    document.getElementById('planEditArea').style.display = this._editing ? '' : 'none';
+    if (this._editing) {
+      document.getElementById('planEditor').value = this._planText;
+    }
+
+    this.renderTasks();
+  },
+
+  _showButtons: function(show) {
+    var ids = ['btnEdit', 'btnSave', 'btnDownload', 'btnClear'];
+    ids.forEach(function(id) {
+      var el = document.getElementById(id);
+      if (el) el.style.display = show ? '' : 'none';
+    });
+  },
+
+  // ── Chat panel ──
+  toggleChat: function() {
+    this._chatCollapsed = !this._chatCollapsed;
+    var panel = document.getElementById('planChat');
+    if (this._chatCollapsed) {
+      panel.classList.add('collapsed');
+    } else {
+      panel.classList.remove('collapsed');
+    }
+  },
+
+  _addChatMsg: function(role, content) {
+    var msgs = document.getElementById('planChatMsgs');
+    var div = document.createElement('div');
+    div.className = 'plan-chat-msg ' + role;
+    var label = role === 'teacher' ? '老师' : '你';
+    div.innerHTML = '<div class="meta">' + label + '</div>' + App.renderMarkdown(content);
+    msgs.appendChild(div);
+    msgs.scrollTop = msgs.scrollHeight;
+  },
+
+  _addChatThinking: function(msg) {
+    var msgs = document.getElementById('planChatMsgs');
+    // Remove previous thinking bubble
+    var prev = msgs.querySelector('.plan-chat-msg.thinking');
+    if (msg === null) {
+      if (prev) prev.remove();
+      return;
+    }
+    if (!prev) {
+      prev = document.createElement('div');
+      prev.className = 'plan-chat-msg teacher thinking';
+      prev.style.opacity = '0.55';
+      prev.style.fontStyle = 'italic';
+      msgs.appendChild(prev);
+    }
+    prev.textContent = msg;
+    msgs.scrollTop = msgs.scrollHeight;
+  },
+
+  _showChat: function() {
+    document.getElementById('planChat').style.display = '';
+    if (this._chatCollapsed) this.toggleChat(); // ensure open
+  },
+
+  // ── Generate (starts conversation) ──
+  generate: function() {
+    if (!App.serverOnline || !App.apiConfigured) {
+      alert('请先配置 API Key 并确保服务器在线。');
+      return;
+    }
+    if (this._sending) return;
+
+    // Clear previous plan data
+    this._planText = '';
+    this._tasks = [];
+    document.getElementById('planContent').innerHTML = '';
+    document.getElementById('planEditArea').style.display = 'none';
+    document.getElementById('planTasks').style.display = 'none';
+    document.getElementById('planProgress').style.display = 'none';
+    this._showButtons(false);
+
+    this._showChat();
+    document.getElementById('planChatMsgs').innerHTML = '';
+    this._streamingEl = null;
+    this._streamingBuf = '';
+
+    var msg = '请帮我制定一份个性化的学习计划。先了解我的学习情况（薄弱点、可用时间、目标），再生成分阶段的学习计划。每个阶段要有清晰的目标和可执行的任务，最后用"## 任务清单"章节列出具体的每日/每周任务（用 - [ ] checkbox 格式）。';
+
+    this._startSSE(msg);
+  },
+
+  // ── Send follow-up message ──
+  sendMsg: function() {
+    if (this._sending) return;
+    var input = document.getElementById('planChatInput');
+    var msg = input.value.trim();
+    if (!msg) return;
+
+    this._addChatMsg('user', msg);
+    input.value = '';
+    this._startSSE(msg);
+  },
+
+  _startSSE: function(msg) {
+    var self = this;
+    this._sending = true;
+    var btn = document.getElementById('planSendBtn');
+    btn.textContent = '停止';
+    btn.onclick = function() { self._stopSSE(); };
+    btn.classList.add('btn-stop');
+
+    this._addChatThinking('老师在思考...');
+
+    var url = App.serverUrl + '/api/agent/chat/stream?message=' + encodeURIComponent(msg) +
+      '&session_id=' + encodeURIComponent(this._chatSessionId) + '&persona=teacher';
+
+    this._eventSource = new EventSource(url);
+
+    this._eventSource.onmessage = function(e) {
+      var data = JSON.parse(e.data);
+
+      if (data.type === 'thought') {
+        // ignore, use action/observation for feedback
+      } else if (data.type === 'action') {
+        self._addChatThinking('正在' + (data.tool || '处理') + '...');
+      } else if (data.type === 'observation') {
+        self._addChatThinking('资料整理中...');
+      } else if (data.type === 'token') {
+        self._addChatThinking(null);
+        var msgs = document.getElementById('planChatMsgs');
+        if (!self._streamingEl) {
+          self._streamingEl = document.createElement('div');
+          self._streamingEl.className = 'plan-chat-msg teacher';
+          self._streamingEl.innerHTML = '<div class="meta">老师</div>';
+          msgs.appendChild(self._streamingEl);
+          self._streamingBuf = '';
+        }
+        self._streamingBuf += data.content;
+        self._streamingEl.innerHTML = '<div class="meta">老师</div>' + App.renderMarkdown(self._streamingBuf);
+        msgs.scrollTop = msgs.scrollHeight;
+      } else if (data.type === 'final') {
+        self._addChatThinking(null);
+        self._streamingEl = null;
+        self._streamingBuf = '';
+        self._resetSendBtn();
+
+        var reply = data.reply || '';
+        // Check if this looks like a study plan (has phases, tasks, or checklist)
+        var isPlan = /##\s*(任务清单|阶段|学习计划|学习路径|推荐学习)/.test(reply) ||
+                     /-\s*\[\s*\]/.test(reply) ||
+                     /第[一二三四五\d]+[阶段步]/.test(reply);
+
+        if (isPlan) {
+          self._planText = reply;
+          self._tasks = self._extractTasks(reply);
+          self.save();
+          self.render();
+          // Collapse chat to reveal plan
+          if (!self._chatCollapsed) self.toggleChat();
+        }
+        // If not a plan yet, teacher is still asking questions — leave chat open for follow-up
+      } else if (data.type === 'error') {
+        self._addChatThinking(null);
+        self._streamingEl = null;
+        self._streamingBuf = '';
+        self._resetSendBtn();
+        self._addChatMsg('teacher', '抱歉，出错了: ' + (data.content || '未知错误'));
+      } else if (data.type === 'cancelled') {
+        self._addChatThinking(null);
+        self._streamingEl = null;
+        self._streamingBuf = '';
+        self._resetSendBtn();
+        self._addChatMsg('teacher', '*(已中断)*');
+      }
+    };
+
+    this._eventSource.onerror = function() {
+      self._addChatThinking(null);
+      self._resetSendBtn();
+      if (self._eventSource) {
+        self._eventSource.close();
+        self._eventSource = null;
+      }
+    };
+  },
+
+  _stopSSE: function() {
+    if (this._eventSource) {
+      fetch(App.serverUrl + '/api/agent/chat/cancel', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({session_id: this._chatSessionId})
+      }).catch(function(){});
+      this._eventSource.close();
+      this._eventSource = null;
+    }
+    this._addChatThinking(null);
+    this._resetSendBtn();
+  },
+
+  _resetSendBtn: function() {
+    this._sending = false;
+    var btn = document.getElementById('planSendBtn');
+    btn.textContent = '发送';
+    btn.onclick = function() { StudyPlan.sendMsg(); };
+    btn.classList.remove('btn-stop');
+  },
+
+  // ── Task extraction ──
+  _extractTasks: function(text) {
+    var tasks = [];
+    var sectionMatch = text.match(/##\s*任务清单\s*\n([\s\S]*?)(?=\n##\s|\n---\s*\n|$)/);
+    var section = sectionMatch ? sectionMatch[1] : text;
+    var lines = section.split('\n');
+    lines.forEach(function(line) {
+      var m = line.match(/^\s*[-*]\s*\[\s*\]\s*(.+)/);
+      if (!m) return;
+      var content = m[1].replace(/\*\*(.+?)\*\*/g, '$1').replace(/\[([^\]]+)\]\([^)]+\)/g, '$1').trim();
+      if (!content || content.length < 4 || content.length > 200) return;
+      tasks.push({ text: content, done: false });
+    });
+    return tasks.slice(0, 20);
+  },
+
+  renderTasks: function() {
+    var self = this;
+    if (!this._tasks.length) {
+      document.getElementById('planTasks').style.display = 'none';
+      document.getElementById('planProgress').style.display = 'none';
+      return;
+    }
+    document.getElementById('planTasks').style.display = '';
+    document.getElementById('planProgress').style.display = '';
+
+    var done = this._tasks.filter(function(t) { return t.done; }).length;
+    var pct = this._tasks.length > 0 ? done / this._tasks.length * 100 : 0;
+    document.getElementById('planProgressText').textContent = done + '/' + this._tasks.length;
+    document.getElementById('planProgressFill').style.width = pct + '%';
+
+    document.getElementById('taskList').innerHTML = this._tasks.map(function(t, i) {
+      return '<li class="' + (t.done ? 'done' : '') + '">' +
+        '<input type="checkbox" ' + (t.done ? 'checked' : '') + ' onchange="StudyPlan.toggleTask(' + i + ')">' +
+        '<span class="task-text">' + App.escapeHtml(t.text) + '</span>' +
+      '</li>';
+    }).join('');
+  },
+
+  toggleTask: function(idx) {
+    this._tasks[idx].done = !this._tasks[idx].done;
+    this.save();
+    this.renderTasks();
+  },
+
+  // ── Edit ──
+  toggleEdit: function() {
+    this._editing = !this._editing;
+    if (this._editing) {
+      document.getElementById('planEditor').value = this._planText;
+      document.getElementById('planEditArea').style.display = '';
+      document.getElementById('btnEdit').textContent = '预览';
+    } else {
+      this._planText = document.getElementById('planEditor').value;
+      this._tasks = this._extractTasks(this._planText);
+      document.getElementById('planEditArea').style.display = 'none';
+      this.save();
+      this.render();
+      document.getElementById('btnEdit').textContent = '编辑';
+    }
+  },
+
+  save: function() {
+    try {
+      localStorage.setItem('study_plan', JSON.stringify({
+        text: this._planText,
+        tasks: this._tasks,
+        updated: new Date().toISOString()
+      }));
+    } catch(e) {}
+  },
+
+  download: function() {
+    if (!this._planText) return;
+    var blob = new Blob([this._planText], { type: 'text/markdown;charset=utf-8' });
+    var url = URL.createObjectURL(blob);
+    var a = document.createElement('a');
+    a.href = url;
+    a.download = 'study-plan-' + new Date().toISOString().slice(0, 10) + '.md';
+    a.click();
+    URL.revokeObjectURL(url);
+  },
+
+  clear: function() {
+    if (!confirm('确定清空学习计划？此操作不可撤销。')) return;
+    this._planText = '';
+    this._tasks = [];
+    this._editing = false;
+    localStorage.removeItem('study_plan');
+    document.getElementById('planEditArea').style.display = 'none';
+    document.getElementById('planEditor').value = '';
+    document.getElementById('btnEdit').textContent = '编辑';
+    this.render();
+    // Also clear chat
+    document.getElementById('planChat').style.display = 'none';
+    document.getElementById('planChatMsgs').innerHTML = '';
+  },
+
+  // ── Particles ──
+  _initParticles: function() {
+    var canvas = document.getElementById('planParticles');
+    if (!canvas) return;
+    var ctx = canvas.getContext('2d');
+    var w, h, particles = [];
+    var PARTICLE_COUNT = 50;
+
+    function resize() {
+      w = canvas.width = window.innerWidth;
+      h = canvas.height = window.innerHeight;
+    }
+    resize();
+    window.addEventListener('resize', resize);
+
+    for (var i = 0; i < PARTICLE_COUNT; i++) {
+      particles.push({
+        x: Math.random() * w,
+        y: Math.random() * h,
+        size: 4 + Math.random() * 8,
+        speed: 0.15 + Math.random() * 0.4,
+        opacity: 0.03 + Math.random() * 0.06,
+        drift: (Math.random() - 0.5) * 0.3,
+        rotation: Math.random() * Math.PI * 2,
+        rotSpeed: (Math.random() - 0.5) * 0.005,
+      });
+    }
+
+    function draw() {
+      ctx.clearRect(0, 0, w, h);
+      for (var i = 0; i < particles.length; i++) {
+        var p = particles[i];
+        p.y -= p.speed;
+        p.x += p.drift;
+        p.rotation += p.rotSpeed;
+        if (p.y < -20) { p.y = h + 20; p.x = Math.random() * w; }
+        if (p.x < -20) p.x = w + 20;
+        if (p.x > w + 20) p.x = -20;
+
+        ctx.save();
+        ctx.translate(p.x, p.y);
+        ctx.rotate(p.rotation);
+        ctx.fillStyle = 'rgba(180,160,130,' + p.opacity + ')';
+        ctx.fillRect(-p.size / 2, -p.size / 2, p.size, p.size * 0.7);
+        ctx.restore();
+      }
+      requestAnimationFrame(draw);
+    }
+    draw();
+  },
+
+  init: function() {
+    this._initParticles();
+    this.load();
+  },
+};
+
+App.ready(function() { StudyPlan.init(); });
+</script>
+{% endblock %}

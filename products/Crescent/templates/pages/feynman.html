@@ -1,0 +1,95 @@
+{% extends "base.html" %}
+{% block title %}费曼教练{% endblock %}
+{% block body_class %}page-feynman{% endblock %}
+{% block page_title %}费曼教练{% endblock %}
+{% block head %}
+<style class="page-style">
+/* ── Study lamp glow ── Feynman technique: teach to learn ── */
+.page-feynman { position: relative; }
+.page-feynman::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background:
+    radial-gradient(ellipse at 30% 30%, rgba(240,220,180,0.25) 0%, transparent 55%),
+    radial-gradient(ellipse at 70% 20%, rgba(210,195,155,0.18) 0%, transparent 45%),
+    radial-gradient(ellipse at 50% 70%, rgba(225,210,175,0.15) 0%, transparent 50%),
+    linear-gradient(175deg, #f8f4ed 0%, #efe7d8 100%);
+}
+</style>
+{% endblock %}
+{% block content %}
+<div class="page-feynman">
+<div id="feynmanContent">
+  <div class="card" style="margin-bottom:12px">
+    <div class="card-header">费曼学习法 — "如果你不能简单地解释，你就没有真正理解"</div>
+    <p style="font-size:12px;color:var(--text2);margin:0">
+      选一个概念，用最简单的话解释它——就像在教一个完全不懂的人。AI 会检查你的解释是否简单、完整、清晰。
+      每次收到反馈后修改你的解释，直到你能用12岁小孩也能听懂的话说清楚。
+    </p>
+  </div>
+
+  <!-- Concept Pick -->
+  <div class="card" style="margin-bottom:12px">
+    <div style="display:flex;gap:8px;align-items:flex-end;flex-wrap:wrap">
+      <div style="flex:1;min-width:200px">
+        <label style="font-size:11px;color:var(--text2);display:block;margin-bottom:4px">选择概念</label>
+        <select id="feynmanConcept" style="width:100%;padding:8px;border:1px solid var(--border);border-radius:6px;font-size:13px">
+          <option value="">-- 从知识库选择 --</option>
+        </select>
+      </div>
+      <div style="flex:1;min-width:200px">
+        <label style="font-size:11px;color:var(--text2);display:block;margin-bottom:4px">或手动输入</label>
+        <input id="feynmanCustomConcept" placeholder="输入概念名称..."
+          style="width:100%;padding:8px;border:1px solid var(--border);border-radius:6px;font-size:13px">
+      </div>
+      <button class="btn btn-primary" id="btnStartFeynman" onclick="FeynmanCoach.startCheck()">开始费曼检查</button>
+    </div>
+  </div>
+
+  <!-- Explanation input -->
+  <div class="card" id="feynmanInputArea" style="margin-bottom:12px">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px">
+      <label style="font-size:11px;color:var(--text2);font-weight:600">用你自己的话解释这个概念</label>
+      <span style="font-size:10px;color:var(--text2)" id="feynmanAttemptCount"></span>
+    </div>
+    <textarea id="feynmanExplanation" placeholder="试着解释这个概念——想象你在给一个12岁的孩子讲解..."
+      style="width:100%;height:140px;font-size:13px;padding:12px;border:1px solid var(--border);border-radius:8px;resize:vertical;font-family:inherit"></textarea>
+    <div style="display:flex;gap:8px;margin-top:8px">
+      <button class="btn btn-primary" id="btnSubmitFeynman" onclick="FeynmanCoach.submitExplanation()">提交检查</button>
+      <button class="btn" onclick="FeynmanCoach.reset()">换一个概念</button>
+    </div>
+    <div id="feynmanFeedback" style="margin-top:10px"></div>
+  </div>
+
+  <!-- Result panel (hidden initially) -->
+  <div id="feynmanResult" style="display:none">
+    <div class="card feedback-info" id="feynmanResultBody" style="margin-bottom:12px;white-space:pre-line;font-size:12px"></div>
+
+    <!-- Revision area -->
+    <div class="card" style="margin-bottom:12px;background:#fffbeb;border:1px solid #fcd34d">
+      <div style="font-size:11px;color:#92400e;font-weight:600;margin-bottom:6px">第2轮：根据反馈修改你的解释</div>
+      <textarea id="feynmanRevision" placeholder="根据AI的反馈，重新写一遍你的解释..."
+        style="width:100%;height:120px;font-size:13px;padding:12px;border:1px solid var(--border);border-radius:8px;resize:vertical;font-family:inherit"></textarea>
+      <div style="display:flex;gap:8px;margin-top:8px">
+        <button class="btn btn-primary" onclick="FeynmanCoach.submitRevision()">提交修改</button>
+      </div>
+      <div id="feynmanRevisionFeedback" style="margin-top:10px"></div>
+    </div>
+  </div>
+
+  <!-- History -->
+  <div id="feynmanHistory" style="margin-top:12px"></div>
+</div>
+
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="/static/js/modules/feynman-coach.js"></script>
+<script>
+App.ready(function() { FeynmanCoach.init(); });
+</script>
+{% endblock %}

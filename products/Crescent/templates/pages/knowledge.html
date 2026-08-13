@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+{% block title %}知识库{% endblock %}
+{% block body_class %}page-knowledge{% endblock %}
+{% block page_title %}知识库{% endblock %}
+{% block head %}
+<style class="page-style">
+/* ── Library shelves glow — warm amber book-spine metaphor ── */
+.page-knowledge { position: relative; }
+.page-knowledge::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background:
+    radial-gradient(ellipse at 20% 35%, rgba(200,165,110,0.18) 0%, transparent 50%),
+    radial-gradient(ellipse at 75% 30%, rgba(185,150,105,0.14) 0%, transparent 45%),
+    radial-gradient(ellipse at 50% 80%, rgba(210,175,125,0.12) 0%, transparent 45%),
+    linear-gradient(170deg, #f6f1e5 0%, #ede2c8 100%);
+}
+</style>
+{% endblock %}
+{% block content %}
+<div class="page-knowledge">
+<div style="margin-bottom:12px;display:flex;gap:12px;align-items:center;flex-wrap:wrap">
+  <select id="domainSelect" onchange="loadKnowledgeSet(this.value)">
+    <option value="">选择领域...</option>
+  </select>
+  <input type="text" id="knowledgeSearch" placeholder="本地筛选..." style="flex:0 0 180px;padding:6px 10px;border:1px solid var(--border);border-radius:6px;font-size:12px" oninput="filterKnowledge()">
+</div>
+
+<!-- Reading progress -->
+<div id="readingProgress" style="display:none;margin-bottom:12px">
+  <div style="display:flex;align-items:center;justify-content:space-between;font-size:10px;color:var(--text2);margin-bottom:3px">
+    <span>阅读进度</span><span id="readingProgressText">0/0</span>
+  </div>
+  <div class="progress-bar" style="height:4px"><div class="progress-fill" id="readingProgressFill" style="width:0%;height:4px"></div></div>
+</div>
+
+<!-- Agent 智能检索 -->
+<div class="card" style="margin-bottom:16px;background:var(--accent-subtle)">
+  <div class="card-header">AI 智能检索</div>
+  <div style="display:flex;gap:8px">
+    <input type="text" id="agentSearchInput" placeholder="用自然语言提问，AI 搜索知识库回答..."
+      style="flex:1;padding:8px 12px;border:1px solid var(--border);border-radius:8px;font-size:13px"
+      onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();knowledgeAgentSearch();}">
+    <button class="btn btn-primary" onclick="knowledgeAgentSearch()" id="btnAgentSearch">搜索</button>
+  </div>
+  <div id="agentSearchResult" style="margin-top:10px;font-size:13px"></div>
+</div>
+
+<div id="knowledgeContent">
+  <div class="empty-state"><h3>选择一个知识领域</h3><p>浏览 Python 基础、金融概念等结构化知识</p></div>
+</div>
+
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="/static/js/modules/knowledge-browse.js"></script>
+{% endblock %}

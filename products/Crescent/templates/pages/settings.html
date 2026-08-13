@@ -1,0 +1,495 @@
+{% extends "base.html" %}
+{% block title %}设置{% endblock %}
+{% block body_class %}page-settings{% endblock %}
+{% block page_title %}设置{% endblock %}
+
+{% block head %}
+<style>
+/* ── Warm workshop bench background ── */
+.page-settings { position: relative; }
+.page-settings::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background: linear-gradient(180deg, #faf8f5 0%, #f3efe8 50%, #ece6db 100%);
+}
+
+.settings-wrap {
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 24px 20px 40px;
+  position: relative;
+  z-index: 1;
+}
+
+/* ── Section heading ── */
+.settings-section {
+  margin-bottom: 18px;
+}
+.settings-section h3 {
+  font-size: 12px;
+  font-weight: 650;
+  margin: 0 0 12px 0;
+  padding-bottom: 8px;
+  border-bottom: 1px solid #e7e3da;
+  color: #5d3a1a;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+}
+
+/* ── Shared card ── */
+.setting-card {
+  background: #fff;
+  border: 1px solid #e7e3da;
+  border-radius: 5px;
+  padding: 18px 22px;
+  margin-bottom: 16px;
+  box-shadow: 0 1px 3px rgba(0,0,0,.03);
+}
+
+/* ── Template row ── */
+.template-row {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 18px;
+}
+@media (max-width: 600px) { .template-row { flex-wrap: wrap; } }
+.template-btn {
+  flex: 1;
+  min-width: 0;
+  padding: 12px 10px 10px;
+  border: 1px solid #ddd8cd;
+  border-radius: 5px;
+  background: #fdfcf9;
+  font-size: 13px;
+  font-weight: 550;
+  cursor: pointer;
+  text-align: center;
+  transition: all .15s;
+  font-family: inherit;
+  color: #5d4a32;
+  box-shadow: 0 1px 0 rgba(0,0,0,.04);
+}
+.template-btn:hover {
+  border-color: #c8b898;
+  background: #fefdfb;
+  box-shadow: 0 2px 4px rgba(0,0,0,.06);
+}
+.template-btn.active {
+  border-color: #b8956a;
+  background: #fdf7ef;
+  color: #6b4d28;
+  font-weight: 650;
+  box-shadow: inset 0 1px 2px rgba(0,0,0,.04);
+}
+.template-desc {
+  font-size: 11px;
+  color: rgba(61,43,20,.4);
+  margin-top: 3px;
+  font-weight: 400;
+}
+
+/* ── Control rows ── */
+.control-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 0;
+  border-bottom: 1px solid #f3efe8;
+}
+.control-row:last-child { border-bottom: none; }
+.control-label {
+  width: 150px;
+  font-size: 13px;
+  font-weight: 500;
+  flex-shrink: 0;
+  color: #3d2b14;
+}
+.control-input {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.control-input input,
+.control-input select {
+  width: 80px;
+  padding: 6px 10px;
+  border: 1px solid #ddd8cd;
+  border-radius: 4px;
+  font-size: 13px;
+  text-align: center;
+  font-family: inherit;
+  background: #fdfcf9;
+  color: #3d2b14;
+}
+.control-input input:focus,
+.control-input select:focus {
+  outline: none;
+  border-color: #b8956a;
+  box-shadow: 0 0 0 3px rgba(184,149,106,.1);
+}
+.control-input input:disabled,
+.control-input select:disabled {
+  background: #f5f2eb;
+  color: #bfb8a8;
+}
+.unlimited-check {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 12px;
+  color: rgba(61,43,20,.45);
+  white-space: nowrap;
+}
+.unlimited-check input[type="checkbox"] {
+  width: auto;
+  accent-color: #d97706;
+}
+.control-warning {
+  font-size: 11px;
+  color: #d97706;
+  margin-top: 4px;
+  display: none;
+  padding-left: 162px;
+}
+.control-warning.show { display: block; }
+
+/* ── Daily count ── */
+.daily-count {
+  display: inline-block;
+  padding: 4px 12px;
+  background: #f5f2eb;
+  border-radius: 12px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #3d2b14;
+}
+
+/* ── System status grid ── */
+.status-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  font-size: 12px;
+}
+@media (max-width: 500px) { .status-grid { grid-template-columns: 1fr; } }
+.status-grid .sg-label { color: rgba(61,43,20,.45); }
+.status-grid .sg-value { color: #3d2b14; font-weight: 500; }
+
+/* ── Toast ── */
+#settingsMsg {
+  margin-bottom: 10px;
+  min-height: 20px;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+/* ── API key input ── */
+.api-key-row {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+.api-key-row input {
+  flex: 1;
+  padding: 8px 12px;
+  border: 1px solid #ddd8cd;
+  border-radius: 5px;
+  font-size: 13px;
+  font-family: inherit;
+  background: #fdfcf9;
+}
+.api-key-row input:focus {
+  outline: none;
+  border-color: #b8956a;
+  box-shadow: 0 0 0 3px rgba(184,149,106,.1);
+}
+
+/* ── Data / Cache section ── */
+.btn-row {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.btn-danger {
+  background: #fee2e2;
+  color: #991b1b;
+  border: 1px solid #fca5a5;
+}
+.btn-danger:hover {
+  background: #fecaca;
+}
+
+/* ── Disclaimer ── */
+.disclaimer {
+  font-size: 11px;
+  color: rgba(61,43,20,.3);
+  text-align: center;
+  padding: 16px 0;
+  border-top: 1px solid #e7e3da;
+  margin-top: 8px;
+}
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="page-settings">
+<div class="settings-wrap">
+
+<div id="settingsMsg"></div>
+
+<!-- 1. System Status -->
+<div class="setting-card settings-section">
+  <h3>系统状态</h3>
+  <div class="status-grid">
+    <div><span class="sg-label">服务器:</span> <span class="sg-value" id="serverStatus" style="color:var(--red)">离线</span></div>
+    <div><span class="sg-label">AI 状态:</span> <span class="sg-value" id="apiStatus">检测中...</span></div>
+    <div><span class="sg-label">地址:</span> <span class="sg-value" id="serverUrl">-</span></div>
+    <div><span class="sg-label">活跃模型:</span> <span class="sg-value" id="activeModel">-</span></div>
+  </div>
+</div>
+
+<!-- 2. AI Interface Config -->
+<div class="setting-card settings-section">
+  <h3>AI 接口配置</h3>
+  <p style="font-size:12px;color:rgba(61,43,20,.45);margin-bottom:10px">
+    支持任何 OpenAI-compatible 接口。内置预设：DeepSeek / OpenAI / Ollama 本地 / 自定义。Key 保存在服务器端。
+  </p>
+  <div class="api-key-row">
+    <input type="password" id="apiKeyInput" placeholder="输入 API Key (sk-... 或 ollama 留空)">
+    <button class="btn btn-primary" onclick="SettingsPage.saveKey()" style="flex-shrink:0">保存 Key</button>
+  </div>
+  <div style="font-size:11px;color:rgba(61,43,20,.35)">
+    当前活跃: <strong id="currentProvider" style="color:#3d2b14">-</strong> / <strong id="currentModel" style="color:#3d2b14">-</strong>
+    — <a href="#" onclick="App.openModelModal();return false" style="color:#b8956a">管理模型列表</a>
+  </div>
+</div>
+
+<!-- 3. Usage Controls -->
+<div class="setting-card settings-section">
+  <h3>用量控制</h3>
+
+  <div class="template-row" id="templateRow">
+    <button class="template-btn" data-template="light">
+      轻量<div class="template-desc">演示/测试用 · 保守限制</div>
+    </button>
+    <button class="template-btn active" data-template="moderate">
+      中度<div class="template-desc">日常使用 · 均衡</div>
+    </button>
+    <button class="template-btn" data-template="heavy">
+      重度<div class="template-desc">深度使用 · 宽松</div>
+    </button>
+    <button class="template-btn" data-template="custom">
+      自定义<div class="template-desc">手动逐项调整</div>
+    </button>
+  </div>
+
+  <div class="control-row">
+    <div class="control-label">Agent 最大步数</div>
+    <div class="control-input">
+      <select id="cfg_agent_max_iterations">
+        <option value="1">1</option><option value="2">2</option><option value="3">3</option>
+        <option value="4">4</option><option value="5">5</option><option value="6">6</option>
+        <option value="8">8</option><option value="10">10</option>
+        <option value="15">15</option><option value="20">20</option>
+      </select>
+      <label class="unlimited-check">
+        <input type="checkbox" id="cfg_agent_max_iterations_unlimited" onchange="SettingsPage.toggleUnlimited('agent_max_iterations')"> 不限
+      </label>
+    </div>
+  </div>
+  <div class="control-warning" id="warn_agent_max_iterations">
+    取消步数上限后，Agent 可能在复杂任务中陷入长循环，导致单次对话耗时数分钟并大量消耗 API 额度。
+  </div>
+
+  <div class="control-row">
+    <div class="control-label">每分钟速率上限</div>
+    <div class="control-input">
+      <select id="cfg_rate_limit_per_minute">
+        <option value="3">3</option><option value="5">5</option><option value="10">10</option>
+        <option value="15">15</option><option value="20">20</option><option value="30">30</option>
+        <option value="60">60</option>
+      </select>
+      <label class="unlimited-check">
+        <input type="checkbox" id="cfg_rate_limit_unlimited" onchange="SettingsPage.toggleUnlimited('rate_limit')"> 不限
+      </label>
+    </div>
+  </div>
+  <div class="control-warning" id="warn_rate_limit">
+    取消速率限制后，短时间大量并发请求可能触发 API 提供商的限流封禁，或产生意料外的高额费用。
+  </div>
+
+  <div class="control-row">
+    <div class="control-label">单次对话轮数上限</div>
+    <div class="control-input">
+      <select id="cfg_max_conversation_rounds">
+        <option value="3">3</option><option value="5">5</option><option value="8">8</option>
+        <option value="10">10</option><option value="15">15</option><option value="20">20</option><option value="30">30</option><option value="50">50</option>
+      </select>
+      <label class="unlimited-check">
+        <input type="checkbox" id="cfg_max_conversation_rounds_unlimited" onchange="SettingsPage.toggleUnlimited('max_conversation_rounds')"> 不限
+      </label>
+    </div>
+  </div>
+  <div class="control-warning" id="warn_max_conversation_rounds">
+    取消轮数上限后，超长对话会累积大量上下文 Token，每次后续请求都携带完整历史，显著增加每次调用的成本。
+  </div>
+
+  <div class="control-row">
+    <div class="control-label">单次会话 Token 上限</div>
+    <div class="control-input">
+      <select id="cfg_session_token_limit">
+        <option value="4000">4K</option><option value="8000">8K</option><option value="16000">16K</option>
+        <option value="30000">30K</option><option value="60000">60K</option><option value="100000">100K</option>
+        <option value="200000">200K</option>
+      </select>
+      <label class="unlimited-check">
+        <input type="checkbox" id="cfg_session_token_limit_unlimited" onchange="SettingsPage.toggleUnlimited('session_token_limit')"> 不限
+      </label>
+    </div>
+  </div>
+  <div class="control-warning" id="warn_session_token_limit">
+    单次会话超过 Token 上限后，Agent 将自动中断并提示用户开启新会话。防止单次对话成本失控。
+  </div>
+
+  <div class="control-row">
+    <div class="control-label">每日 Token 总上限</div>
+    <div class="control-input">
+      <select id="cfg_daily_token_limit">
+        <option value="25000">25K</option><option value="50000">50K</option><option value="100000">100K</option>
+        <option value="200000">200K</option><option value="500000">500K</option><option value="1000000">1M</option>
+      </select>
+      <label class="unlimited-check">
+        <input type="checkbox" id="cfg_daily_token_limit_unlimited" onchange="SettingsPage.toggleUnlimited('daily_token_limit')"> 不限
+      </label>
+    </div>
+  </div>
+  <div class="control-warning" id="warn_daily_token_limit">
+    当日 Token 消耗超过此上限后，所有 Agent 对话将降级为 Mock 种子回复，次日 00:00 自动重置。
+  </div>
+
+  <div class="control-row">
+    <div class="control-label">流式输出</div>
+    <div class="control-input">
+      <select id="cfg_streaming_enabled">
+        <option value="true">开启</option>
+        <option value="false">关闭</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="control-row">
+    <div class="control-label">联网搜索</div>
+    <div class="control-input">
+      <select id="cfg_web_search_enabled">
+        <option value="true">开启</option>
+        <option value="false">关闭</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="control-row">
+    <div class="control-label">今日 API 调用次数</div>
+    <span class="daily-count" id="dailyCallCount">-</span>
+    <span style="font-size:11px;color:rgba(61,43,20,.35)">（只读统计，不设上限）</span>
+  </div>
+
+  <div style="margin-top:14px">
+    <button class="btn btn-primary" onclick="SettingsPage.saveCurrent()">保存设置</button>
+    <span style="font-size:11px;color:rgba(61,43,20,.35);margin-left:8px">模板切换自动保存，手动修改后需点此保存</span>
+  </div>
+</div>
+
+<!-- 每日简报偏好 -->
+<div class="setting-card settings-section">
+  <h3>每日简报偏好</h3>
+  <p style="font-size:12px;color:rgba(61,43,20,.45);margin-bottom:12px">
+    选择你关心的新闻类别，首页"每日简报"将展示对应内容。
+  </p>
+  <div class="control-row">
+    <div class="control-label">启用新闻</div>
+    <div class="control-input">
+      <select id="cfg_news_enabled">
+        <option value="true">开启</option>
+        <option value="false">关闭</option>
+      </select>
+    </div>
+  </div>
+  <div class="control-row">
+    <div class="control-label">新闻类别</div>
+    <div class="control-input" style="flex-wrap:wrap;gap:6px" id="newsCategoryTags">
+      <!-- JS 动态渲染 -->
+    </div>
+  </div>
+  <div class="control-row">
+    <div class="control-label">显示条数</div>
+    <div class="control-input">
+      <select id="cfg_news_count">
+        <option value="3">3</option><option value="5">5</option>
+        <option value="8">8</option><option value="10">10</option>
+      </select>
+    </div>
+  </div>
+</div>
+
+<!-- 数据源 API 配置 -->
+<div class="setting-card settings-section">
+  <h3>数据源 API 配置</h3>
+  <p style="font-size:12px;color:rgba(61,43,20,.45);margin-bottom:12px">
+    为各个数据源配置 API Key。目前支持 NewsAPI，天气/股市等数据源即将上线。Key 保存在服务器端，不会上传第三方。
+  </p>
+  <div class="control-row">
+    <div class="control-label">NewsAPI Key</div>
+    <div class="control-input">
+      <input type="password" id="cfg_news_api_key" placeholder="NewsAPI Key (newsapi.org 注册获取)" style="flex:1;max-width:360px" onchange="SettingsPage._markCustom()">
+      <span id="newsApiKeyStatus" style="font-size:11px;margin-left:8px;color:var(--text3)"></span>
+    </div>
+  </div>
+  <div class="control-row">
+    <div class="control-label">天气 API Key</div>
+    <div class="control-input">
+      <input type="password" id="cfg_weather_api_key" placeholder="即将上线" style="flex:1;max-width:360px" disabled>
+      <span style="font-size:11px;margin-left:8px;color:var(--text3)">待实现</span>
+    </div>
+  </div>
+  <div style="font-size:11px;color:rgba(61,43,20,.35);margin-top:8px">
+    本地文件检索无需 API Key — 将 PDF/Word/Markdown 文件放入 <code>data/user_files/</code> 文件夹即可被系统自动索引。
+  </div>
+</div>
+
+<!-- 4. Data Management -->
+<div class="setting-card settings-section">
+  <h3>数据管理</h3>
+  <p style="font-size:12px;color:rgba(61,43,20,.45);margin-bottom:12px">
+    导出包含学习进度、训练题缓存、面试记录、错题本的完整 JSON 备份。导入可恢复本地缓存数据。
+  </p>
+  <div class="btn-row">
+    <button class="btn btn-primary" onclick="SettingsPage.exportAll()">导出全部数据</button>
+    <button class="btn" onclick="SettingsPage.importData()">导入备份</button>
+  </div>
+</div>
+
+<!-- 5. Cache -->
+<div class="setting-card settings-section">
+  <h3>本地缓存</h3>
+  <p style="font-size:12px;color:rgba(61,43,20,.45);margin-bottom:6px">
+    浏览器 localStorage 缓存了训练题数据、错题本、面试记录和阅读进度，支持离线使用非 AI 功能。
+  </p>
+  <div style="font-size:12px;margin-bottom:8px">总大小: <strong id="cacheSize" style="color:#3d2b14">-</strong></div>
+  <div id="cacheDetails" style="margin-bottom:10px"></div>
+  <button class="btn btn-danger" onclick="SettingsPage.clearCache()">清除全部缓存</button>
+</div>
+
+<div class="disclaimer">
+  以上限制由你自行设定。API 调用费用由你的 API 提供商按量计费，请根据实际用量合理配置。
+</div>
+
+</div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="/static/js/modules/settings.js"></script>
+{% endblock %}

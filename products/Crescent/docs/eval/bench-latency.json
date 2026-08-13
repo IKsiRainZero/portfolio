@@ -1,0 +1,22 @@
+{
+  "benchmark": "/api/eval/summary latency",
+  "timestamp": "2026-06-19T20:55:15.681477",
+  "commit": "dee87422ed33f15283956483cbdd3498b7922aa3",
+  "config": {
+    "rounds": 100,
+    "eval_enabled": true,
+    "eval_shadow_mode": false
+  },
+  "results": {
+    "p50_ms": 12.94,
+    "p95_ms": 16.42,
+    "p99_ms": 17.2,
+    "mean_ms": 13.26,
+    "stdev_ms": 1.65,
+    "min_ms": 10.22,
+    "max_ms": 17.2,
+    "successful": 100,
+    "errors": 0,
+    "p95_pass": true
+  }
+}

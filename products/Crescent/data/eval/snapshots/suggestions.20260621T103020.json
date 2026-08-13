@@ -1,0 +1,19 @@
+{
+  "suggestions": [
+    {
+      "severity": "WARNING",
+      "category": "bug_risk",
+      "title": "Applied unverified test",
+      "description": "test",
+      "target_file": "test.py",
+      "target_type": "module",
+      "target_id": "test_io",
+      "suggestion_id": "20c9be6fc73c",
+      "status": "pending",
+      "created_at": "2026-06-21T10:30:20.710498",
+      "attribution_status": "pending",
+      "chain_hash": "1528279dfeb9d79f"
+    }
+  ],
+  "updated_at": "2026-06-21T10:30:20.710657"
+}

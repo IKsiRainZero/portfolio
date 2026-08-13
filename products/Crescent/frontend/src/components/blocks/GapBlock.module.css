@@ -1,0 +1,76 @@
+.block {
+  padding: 0;
+}
+
+.header {
+  display: flex; align-items: center; gap: var(--cr-space-sm);
+  margin-bottom: var(--cr-space-lg);
+}
+.title {
+  font-size: 22px; font-weight: 600; color: var(--cr-text1);
+  letter-spacing: -0.02em;
+}
+.badge {
+  font-size: 9px; font-weight: 600; padding: 2px 8px;
+  border-radius: var(--cr-radius-sm);
+  background: var(--cr-green-soft); color: var(--cr-green);
+  letter-spacing: 0.04em; text-transform: uppercase;
+}
+.badgePending { background: var(--cr-accent-soft); color: var(--cr-accent); }
+.badgeEmpty    { background: transparent; color: var(--cr-text3); border: 1px solid var(--cr-border); }
+
+.columns {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--cr-space-lg);
+}
+
+.col {
+  background: var(--cr-surface1);
+  border-radius: var(--cr-radius-lg);
+  padding: var(--cr-space-lg);
+}
+
+.colTitle {
+  font-size: 13px; font-weight: 600; margin-bottom: var(--cr-space-md);
+  padding-bottom: var(--cr-space-sm);
+  border-bottom: 1px solid var(--cr-border);
+}
+.colMust { color: var(--cr-red); }
+.colRec  { color: var(--cr-accent); }
+
+.item {
+  padding: var(--cr-space-md);
+  background: var(--cr-surface2);
+  border-radius: var(--cr-radius);
+  margin-bottom: var(--cr-space-sm);
+}
+.item:last-child { margin-bottom: 0; }
+
+.itemHead {
+  display: flex; align-items: center; justify-content: space-between;
+  gap: var(--cr-space-sm); margin-bottom: var(--cr-space-xs);
+}
+.itemName {
+  font-size: 14px; font-weight: 500; color: var(--cr-text1);
+}
+.itemDiff {
+  font-size: 10px; padding: 1px 6px; border-radius: var(--cr-radius-sm);
+  background: rgba(0,0,0,0.03); color: var(--cr-text3);
+  white-space: nowrap;
+}
+.itemReason {
+  font-size: 11px; line-height: 1.5; color: var(--cr-text3);
+  margin-bottom: var(--cr-space-xs);
+}
+.itemHours {
+  font-family: var(--cr-mono); font-size: 10px; color: var(--cr-text2);
+}
+
+.prio_high   { border-left: 2px solid var(--cr-red); }
+.prio_medium { border-left: 2px solid var(--cr-accent); }
+.prio_low    { border-left: 2px solid var(--cr-border); }
+
+.empty {
+  font-size: 13px; color: var(--cr-text3); font-style: italic;
+}

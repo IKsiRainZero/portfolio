@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+{% block title %}简历{% endblock %}
+{% block body_class %}page-resume{% endblock %}
+{% block page_title %}简历{% endblock %}
+{% block head %}
+<link rel="stylesheet" href="/static/css/mascot.css">
+{% endblock %}
+{% block content %}
+<div class="page-resume">
+<div class="no-print" style="margin-bottom:16px;display:flex;gap:8px">
+  <button class="btn btn-primary" onclick="window.print()">打印简历</button>
+  <button class="btn" onclick="reviewResume()">AI 简历审阅</button>
+</div>
+<div id="resumeContainer">
+  <div class="empty-state"><h3>简历数据加载中...</h3></div>
+</div>
+
+<!-- AI Review Result -->
+<div id="reviewResult" style="margin-top:16px"></div>
+
+</div>
+
+<div id="resumeMascotMount" style="position:fixed;right:24px;bottom:120px;z-index:8;"></div>
+{% endblock %}
+
+{% block scripts %}
+<script src="/static/js/modules/resume-view.js"></script>
+<script>
+App.ready(() => ResumeView.init());
+function reviewResume() {
+  var el = document.getElementById('reviewResult');
+  el.innerHTML = '<div class="feedback-box feedback-info" style="font-size:11px">AI 正在审阅简历...</div>';
+  fetch('/api/ai/resume-review', {
+    method: 'POST', headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ job_description: '' })
+  })
+  .then(function(r) { return r.json(); })
+  .then(function(data) {
+    if (data.error) { el.innerHTML = '<div class="feedback-box feedback-wrong" style="font-size:11px">' + App.escapeHtml(data.error) + '</div>'; }
+    else { el.innerHTML = '<div class="card" style="margin-top:8px;font-size:11px;white-space:pre-line">' + App.renderMarkdown(data.reply || '') + '</div>'; }
+  })
+  .catch(function(e) { el.innerHTML = '<div class="feedback-box feedback-wrong" style="font-size:11px">请求失败: ' + e.message + '</div>'; });
+}
+</script>
+<script src="/static/js/modules/mascot.js"></script>
+<script>
+(function() {
+  var resumeMascot = new Mascot({
+    persona: 'interviewer',
+    container: '#resumeMascotMount',
+    defaultPos: 'bottom-right',
+  });
+  window._resumeMascot = resumeMascot;
+  resumeMascot.tryShowGuide('点我诊断简历或开始模拟面试');
+
+  resumeMascot.updateBubbles([
+    { persona: 'interviewer', topic: '简历诊断', insight: '点击我，可以在面试页进行模拟面试，检验你的简历表述', _recency: 'warm', timestamp: Date.now()/1000 - 120 }
+  ]);
+})();
+</script>
+{% endblock %}

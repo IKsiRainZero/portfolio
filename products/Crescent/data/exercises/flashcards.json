@@ -1,0 +1,1911 @@
+[
+  {
+    "concept": "PE(市盈率)",
+    "category": "估值指标",
+    "question": "PE是什么？怎么算？PE=10意味着什么？",
+    "answer": "PE=股价/每股收益=市值/净利润\n\nPE=10=如果利润不变,10年回本。PE越低越便宜。\n不同行业不能比:科技PE高(增长快),银行PE低(增长慢)。\n\n面试:'PE衡量市场愿为每1元利润付多少钱。'"
+  },
+  {
+    "concept": "PB(市净率)",
+    "category": "估值指标",
+    "question": "PB是什么?PB<1意味什么?PE/PB各适合什么行业?",
+    "answer": "PB=股价/每股净资产=市值/净资产\n\nPB<1=股价比清算价还便宜(可能是低估,也可能烂公司)。\nPE适合盈利稳定的成长型(消费/医药)\nPB适合资产密集型(银行/保险/钢铁)"
+  },
+  {
+    "concept": "ROE(净资产收益率)",
+    "category": "估值指标",
+    "question": "ROE是什么？和PB的关系？",
+    "answer": "ROE=净利润/净资产=公司用股东的钱一年赚多少%\n\n关键公式:你的实际收益率=ROE/PB\n例:ROE=20%的公司,PB=5买入->收益4%;PB=2买入->收益10%\n好公司+好价格=好投资"
+  },
+  {
+    "concept": "股票vs债券",
+    "category": "资产类别",
+    "question": "股票和债券的本质区别？",
+    "answer": "股票=当老板(股东),收益来自股价+分红,本金复利增值,高风险\n债券=当债主,固定利息,到期还本金100元,单利,低风险\n\n面试:'股票复利增值,债券单利吃息。'"
+  },
+  {
+    "concept": "风险溢价(股债利差)",
+    "category": "风险管理",
+    "question": "风险溢价是什么?怎么算?有什么用?",
+    "answer": "风险溢价=股票收益率-无风险利率(国债~2.5%~3%)\n\n你买股票比买国债多赚的部分=承担风险的报酬。\n溢价高->股票便宜,该多买;溢价低->股票贵了,该减仓。\n你的温度计本质上在追踪这个逻辑。"
+  },
+  {
+    "concept": "夏普比率",
+    "category": "风险管理",
+    "question": "夏普比率是什么？多少算好？",
+    "answer": "Sharpe=(年化收益-无风险利率)/年化波动率\n\n每冒1单位风险赚多少超额收益。\n>1不错,>2优秀,<0.5不太行。\nA年化20%波动10% vs B年化20%波动30%——A性价比更高。"
+  },
+  {
+    "concept": "最大回撤",
+    "category": "风险管理",
+    "question": "最大回撤是什么？为什么机构比收益率还看重它？",
+    "answer": "最大回撤=(最高净值-最低)/最高\n\n亏50%需赚100%回本!你的策略'净值跌10%强制减仓'就是控回撤。\n回撤10%->需涨11%回本;回撤90%->需涨900%回本。"
+  },
+  {
+    "concept": "Alpha与Beta",
+    "category": "投资组合",
+    "question": "Alpha和Beta分别是什么？你的策略赚哪种？",
+    "answer": "Beta=市场涨1%你跟多少(被动)。Alpha=超越市场部分(主动)。\n\n你的策略:低温->300ETF赚Beta;中温->小盘股赚Alpha;高温->债券保护收益。"
+  },
+  {
+    "concept": "过拟合",
+    "category": "量化陷阱",
+    "question": "量化过拟合是什么？怎么防？",
+    "answer": "过拟合=历史上完美,实盘一塌糊涂——把噪音学进去了。\n防:1.样本外测试 2.参数越少越好(你策略只有温度阈值等少数参数) 3.多时段交叉验证。\n'宁可要粗糙泛化的策略,不要精确到小数点但实盘失效的。'"
+  },
+  {
+    "concept": "市场温度计",
+    "category": "你的策略",
+    "question": "你策略的市场温度计是什么？怎么择时？",
+    "answer": "综合估值/情绪/资金面的0~1分位值。\n温度<10%(冰点)->加仓;10~80%->正常;>90%(过热)->减仓转债券。\n本质:别人恐惧我贪婪,别人贪婪我恐惧——巴菲特的量化版。"
+  },
+  {
+    "concept": "Sobel算子",
+    "category": "边缘检测",
+    "question": "Sobel算子的两个3×3核是什么？核心思想？",
+    "answer": "Gx=[[-1,0,1],[-2,0,2],[-1,0,1]] 检测垂直边缘(水平梯度)\nGy=[[-1,-2,-1],[0,0,0],[1,2,1]] 检测水平边缘(垂直梯度)\n\n核心思想:在差分中嵌入平滑——中间行列权重±2靠近中心贡献大,同时做平滑和差分。\n梯度幅值=sqrt(Gx²+Gy²),方向=atan2(Gy,Gx)"
+  },
+  {
+    "concept": "梯度计算",
+    "category": "边缘检测",
+    "question": "从Gx和Gy如何得到边缘强度图和方向图？",
+    "answer": "梯度幅值(边缘强度): G=sqrt(Gx²+Gy²)\n近似加速: G≈|Gx|+|Gy| (误差<12%)\n\n梯度方向: θ=atan2(Gy,Gx),取值范围[-180°,180°]\n\nθ=0→水平梯度大→垂直边缘\nθ=90°→垂直梯度大→水平边缘\n\n面试:'梯度向量指向灰度增长最快的方向,垂直于边缘走向'"
+  },
+  {
+    "concept": "高斯平滑",
+    "category": "边缘检测",
+    "question": "Canny第一步为什么要高斯平滑而非均值滤波？",
+    "answer": "高斯核优点:\n1. 中心权重大→平滑的同时保留更多细节\n2. 数学可分离: G(x,y)=G(x)*G(y)→2D卷积可分解为两次1D,计算量从O(k²)降至O(2k)\n3. 傅里叶变换仍是高斯→频率域无振铃现象\n\nσ=1.4 核=5×5是Canny的经典配置。核越大平滑越强但小边缘可能丢失。"
+  },
+  {
+    "concept": "非极大值抑制(NMS)",
+    "category": "边缘检测",
+    "question": "NMS是什么？为什么Canny需要它？怎么做？",
+    "answer": "问题: Sobel输出的边缘通常有几个像素宽(灰度渐变过渡)\n目标: 细化到单像素宽的精确定位\n\n做法:\n1. 量化梯度方向θ→4向(0°/45°/90°/135°)\n2. 沿梯度方向取相邻2个像素\n3. 当前像素 ≥ 两个邻居→保留;否则→置0\n\n结果是只保留梯度方向上的'脊线',粗边缘变单像素宽。"
+  },
+  {
+    "concept": "双阈值与滞后追踪",
+    "category": "边缘检测",
+    "question": "Canny双阈值是什么？滞后追踪如何连接边缘？",
+    "answer": "双阈值:\n- T_high(高阈值): >此值为强边缘,确信保留\n- T_low(低阈值): <此值丢弃\n- 之间: 弱边缘,待定\n典型比: T_low/T_high≈0.4~0.5\n\n滞后追踪:\n用BFS/DFS从每个强边缘出发,沿8邻域搜索弱边缘。\n连通弱边缘'搭车'变强边缘,孤立弱边缘当做噪声丢弃。\n\n面试:'这一步是Canny最核心的创新——用连通性把真边缘的弱片段连起来,同时过滤噪声'"
+  },
+  {
+    "concept": "Sobel vs Canny",
+    "category": "边缘检测",
+    "question": "Sobel和Canny各自适用什么场景？核心区别？",
+    "answer": "Sobel:\n- 1步(卷积+幅值),固定核无参数\n- 计算快,可实时,边缘较粗\n- 适合: 实时视频、CNN前处理、快速筛选\n\nCanny:\n- 5步(高斯→梯度→NMS→双阈值→滞后)\n- 3参数(σ,T_high,T_low)需调参\n- 计算量大但边缘精确,单像素宽\n- 适合: 精确分割、医学图像、边缘分析\n\n核心区别: NMS+滞后追踪让Canny从'检测到边缘'升级到'精确定位边缘'"
+  },
+  {
+    "category": "具身智能 / 技能学习",
+    "concept": "EmbodiSkill",
+    "question": "EmbodiSkill如何从失败轨迹中区分两种不同类型的证据？",
+    "answer": "EmbodiSkill通过技能感知反思，将每条轨迹与当前技能关联解释，识别出技能改变证据（表明技能内容需要更新）和执行失误证据（表明智能体未遵循有效指导，需要保留并强调这些指导）。",
+    "id": 1
+  },
+  {
+    "category": "具身智能 / 技能学习",
+    "concept": "技能自我进化",
+    "question": "在ALFWorld实验中，EmbodiSkill相比直接使用GPT-5.2作为智能体取得了怎样的性能提升？",
+    "answer": "EmbodiSkill使冻结的Qwen3.5-27B执行器达到93.28%的任务成功率，比直接使用GPT-5.2（无技能）高出31.58%。",
+    "id": 2
+  },
+  {
+    "category": "智能体技能学习",
+    "concept": "SkillEvolver与传统轨迹蒸馏的区别",
+    "question": "SkillEvolver的优化信号来源与传统轨迹蒸馏（trace-distillation）有何不同？",
+    "answer": "SkillEvolver只在部署所学技能后，根据其他智能体使用该技能时遇到的失败信号进行优化，而不是像传统轨迹蒸馏那样仅依赖探索性轨迹。这使得学习信号更贴近真实使用场景。",
+    "id": 3
+  },
+  {
+    "category": "智能体技能学习",
+    "concept": "SkillEvolver的性能表现",
+    "question": "在SkillsBench的83个任务中，SkillEvolver的准确率是多少？与人工策划技能和无技能基线相比如何？",
+    "answer": "SkillEvolver达到56.8%的准确率，高于人工策划技能的43.6%和无技能基线的29.9%。",
+    "id": 4
+  },
+  {
+    "category": "具身智能",
+    "concept": "EmbodiSkill 框架",
+    "question": "EmbodiSkill 如何区分技能错误和执行失误？",
+    "answer": "EmbodiSkill 通过将每条轨迹与当前技能进行对比：如果轨迹步骤失败且指导与动作一致，则视为执行失误（智能体未能遵循有效指导）；如果步骤失败且指导与动作不一致或指导缺失，则视为技能改变证据（技能内容需要更新）。",
+    "id": 5
+  },
+  {
+    "category": "具身智能",
+    "concept": "技能自我进化",
+    "question": "在具身环境中，技能自我进化面临的主要挑战是什么？",
+    "answer": "主要挑战是任务失败可能源于两种不同原因：技能内容错误（如不正确的行动顺序）和执行失误（智能体未能正确遵循有效指导）。现有方法常将所有失败归因于技能错误，导致粗粒度的技能更新，而 EmbodiSkill 通过区分两者来实现更精准的技能进化。",
+    "id": 6
+  },
+  {
+    "category": "Python基础",
+    "concept": "列表推导式",
+    "question": "如何用一行代码从列表[1,2,3,4]中筛选出大于2的数并乘以3？",
+    "answer": "使用列表推导式：[x*3 for x in [1,2,3,4] if x > 2]，结果为[9, 12]。",
+    "id": 7
+  },
+  {
+    "category": "Python基础",
+    "concept": "列表推导式",
+    "question": "如何用一行代码创建一个包含1到10所有偶数的列表？",
+    "answer": "使用列表推导式：[x for x in range(1, 11) if x % 2 == 0] 或 [x for x in range(2, 11, 2)]",
+    "difficulty": 1,
+    "id": 8
+  },
+  {
+    "category": "具身智能 / 技能学习",
+    "concept": "EmbodiSkill 的训练方式",
+    "question": "EmbodiSkill 是否需要额外的训练数据或模型微调？",
+    "answer": "不需要。EmbodiSkill 是一个训练无关（training-free）的框架，它通过技能感知反思和针对性修订，直接从任务执行轨迹中更新技能，无需额外的训练或微调。",
+    "id": 9
+  },
+  {
+    "category": "具身智能 / 技能学习",
+    "concept": "技能自我进化的挑战",
+    "question": "为什么直接将数字环境中的技能自我进化方法应用到具身环境会有问题？",
+    "answer": "因为在具身环境中，任务执行失败可能不仅源于技能内容错误，还可能源于执行失误（即智能体未能遵循有效指导）。现有方法通常将轨迹转换为粗略的技能更新，无法区分这两种情况，导致错误地修改或丢弃有效技能。",
+    "id": 10
+  },
+  {
+    "category": "智能体技能学习",
+    "concept": "SkillEvolver的优化信号来源",
+    "question": "SkillEvolver的元技能如何获得学习信号来优化领域特定技能？",
+    "answer": "元技能在部署所学技能后，通过观察其他智能体使用该技能时遇到的失败来获得学习信号，而不是仅依赖探索性轨迹。",
+    "id": 11
+  },
+  {
+    "category": "智能体技能学习",
+    "concept": "新鲜智能体过拟合审计",
+    "question": "新鲜智能体过拟合审计（Fresh-Agent Overfit Audit）的主要作用是什么？",
+    "answer": "该审计机制用于控制技能优化迭代，能够捕获可能的泄漏问题以及部署技能特有的失败模式，包括“静默绕过”模式——即技能内容看似有效但在运行时从未被调用。",
+    "id": 12
+  },
+  {
+    "concept": "LangGraph/LangChain框架选型原因",
+    "category": "系统设计",
+    "question": "你的agent架构选用langgraph或langchain的原因是什么？核心考虑了框架的哪些优点？",
+    "answer": "选LangGraph主要因其支持有向图结构，适合复杂多步Agent流程；LangChain提供丰富工具链和LLM集成，降低开发成本。核心优点包括：模块化设计、状态管理、可扩展性、社区活跃、支持多种LLM和工具。",
+    "difficulty": 2,
+    "_source": "interview_experience"
+  },
+  {
+    "concept": "Agent工具链流程节点",
+    "category": "系统设计",
+    "question": "工具链的具体流程主要是哪些节点？",
+    "answer": "典型节点包括：输入解析、意图识别、工具选择、参数填充、工具调用、结果解析、上下文更新、最终回答生成。异常处理节点如超时重试、错误回退也常嵌入。",
+    "difficulty": 2,
+    "_source": "interview_experience"
+  },
+  {
+    "concept": "工具响应慢的异常处理",
+    "category": "系统设计",
+    "question": "工具会不会有响应比较慢的情况？这种异常情况如何处理？",
+    "answer": "会。处理方式：设置超时阈值（如5秒），超时后重试1-2次；若仍失败，降级为缓存结果或返回默认值；记录异常日志；异步调用避免阻塞主流程；对慢工具做限流或熔断。",
+    "difficulty": 2,
+    "_source": "interview_experience"
+  },
+  {
+    "concept": "日志查询优化策略",
+    "category": "系统设计",
+    "question": "日志查询如果时间跨度大或关键词没包括，怎么处理？",
+    "answer": "时间跨度大：使用时间分区索引、预聚合统计、分页查询、限制返回条数。关键词缺失：采用模糊搜索、全文索引（如Elasticsearch）、正则匹配；或提示用户补充关键词，返回相关摘要。",
+    "difficulty": 2,
+    "_source": "interview_experience"
+  },
+  {
+    "concept": "RAG中TopK设置依据",
+    "category": "AI大模型",
+    "question": "RAG里面的TOPK是什么样的？为什么是这个设置？",
+    "answer": "TopK通常设为3-10，取决于语料库大小和任务复杂度。小语料库用3-5避免噪声，大语料库用5-10增加召回。平衡点：太少可能漏相关文档，太多引入无关信息降低生成质量。",
+    "difficulty": 2,
+    "_source": "interview_experience"
+  },
+  {
+    "concept": "Top3与Top5效果对比",
+    "category": "AI大模型",
+    "question": "TOP3、TOP5哪个效果好一点？好在哪里？",
+    "answer": "通常Top5更好，因为提供更多候选，增加召回率，尤其当相关文档分散时。Top3更精确但可能遗漏。好在哪里：Top5在保证精度的同时提升召回，使生成更全面；但需配合重排序过滤噪声。",
+    "difficulty": 2,
+    "_source": "interview_experience"
+  },
+  {
+    "concept": "检索阶段优化方案",
+    "category": "AI大模型",
+    "question": "检索或找回阶段有没有做哪些优化或不同方案的比较？",
+    "answer": "优化包括：混合检索（稀疏+密集）、查询扩展（同义词/改写）、分块策略优化、重排序（Cross-encoder）、索引压缩。方案比较：BM25 vs Dense Retrieval vs 混合，通常混合效果最佳。",
+    "difficulty": 2,
+    "_source": "interview_experience"
+  },
+  {
+    "concept": "混合检索模式与排序占比",
+    "category": "AI大模型",
+    "question": "混合检索设计了哪些检索模式？各自是怎么样的排序或占比？",
+    "answer": "模式：稀疏检索（BM25）和密集检索（向量相似度）。排序：加权融合，如BM25占0.3，向量占0.7；或先密集检索Top100，再BM25重排。占比根据任务调整，语义为主时向量权重高。",
+    "difficulty": 2,
+    "_source": "interview_experience"
+  },
+  {
+    "concept": "RAG评测维度",
+    "category": "AI大模型",
+    "question": "评测主要是评测什么维度(除了语料相关性）？",
+    "answer": "维度包括：答案准确性、完整性、流畅性、忠实度（是否幻觉）、检索召回率、精确率、响应延迟、用户满意度。还可评估鲁棒性（噪声输入）和多样性。",
+    "difficulty": 2,
+    "_source": "interview_experience"
+  },
+  {
+    "concept": "语料库规模与格式",
+    "category": "AI大模型",
+    "question": "语料库大概是怎样的一个大小？涉及哪些文档或格式？",
+    "answer": "规模从几千到百万级文档，常见10万-100万。格式包括PDF、Word、HTML、Markdown、JSON、CSV。文档类型：技术手册、FAQ、报告、代码库、知识图谱等。",
+    "difficulty": 1,
+    "_source": "interview_experience"
+  },
+  {
+    "concept": "企业级RAG项目开发周期",
+    "category": "项目经验",
+    "question": "如果再做一套企业级的类似技术栈项目，大概要花多久？",
+    "answer": "视复杂度：基础版（检索+生成）约2-3个月；含混合检索、重排序、多轮对话约4-6个月；含微调、评测、部署约6-9个月。团队3-5人，需数据准备、模型选型、系统集成。",
+    "difficulty": 2,
+    "_source": "interview_experience"
+  },
+  {
+    "concept": "模型训练项目内容",
+    "category": "AI大模型",
+    "question": "模型训练项目主要做什么内容？",
+    "answer": "包括：数据收集与清洗、预训练/微调（SFT）、奖励模型训练、强化学习（PPO/GRPO）、模型评估与优化。目标提升特定任务性能，如对话、推理、代码生成。",
+    "difficulty": 2,
+    "_source": "interview_experience"
+  },
+  {
+    "concept": "奖励模型使用阶段",
+    "category": "AI大模型",
+    "question": "奖励模型主要在哪个训练阶段用？",
+    "answer": "奖励模型在强化学习阶段（RLHF）使用。先训练奖励模型打分，再通过PPO/GRPO优化策略模型，使生成更符合人类偏好。",
+    "difficulty": 2,
+    "_source": "interview_experience"
+  },
+  {
+    "concept": "PPO与GRPO应用阶段",
+    "category": "AI大模型",
+    "question": "PPO和GRPO是用在哪个阶段？",
+    "answer": "两者均用于强化学习阶段（RLHF）。PPO通过裁剪策略更新稳定训练；GRPO是PPO变体，引入组相对偏好，更高效。用于微调语言模型以对齐人类反馈。",
+    "difficulty": 2,
+    "_source": "interview_experience"
+  },
+  {
+    "concept": "训练阶段提升与指标",
+    "category": "AI大模型",
+    "question": "经过几个训练阶段各都有哪些提升？有没有效果的衡量指标？",
+    "answer": "SFT提升任务遵循能力；奖励模型提升偏好对齐；RLHF提升生成质量和安全性。指标：BLEU、ROUGE、准确率、人类评估、奖励分数、有害内容率。",
+    "difficulty": 2,
+    "_source": "interview_experience"
+  },
+  {
+    "concept": "GQA与KVCache技术",
+    "category": "AI大模型",
+    "question": "对GQA、kvcache这些专业名词哪个印象比较深？可以稍微展开一下。训练过程中都有用到这些技术吗？",
+    "answer": "KVCache印象深：在自回归生成中缓存Key和Value矩阵，避免重复计算，加速推理。GQA（Grouped Query Attention）减少KV头数，降低显存。训练时常用KVCache加速，GQA用于模型架构设计。",
+    "difficulty": 3,
+    "_source": "interview_experience"
+  },
+  {
+    "concept": "最小长度子数组（滑动窗口）",
+    "category": "算法",
+    "question": "手撕：数组中满足其总和大于等于target的长度最小的子数组的长度",
+    "answer": "使用滑动窗口。初始化左右指针left=0，sum=0，minLen=INF。遍历右指针right，累加sum。当sum>=target时，更新minLen=min(minLen, right-left+1)，然后左移left并减对应值，直到sum<target。返回minLen（若未找到返回0）。时间复杂度O(n)。",
+    "difficulty": 2,
+    "_source": "interview_experience"
+  },
+  {
+    "concept": "HashMap与Hashtable区别",
+    "category": "Java基础",
+    "question": "HashMap和Hashtable有什么区别？",
+    "answer": "HashMap线程不安全，允许null键值；Hashtable线程安全（synchronized），不允许null。HashMap效率更高，Hashtable已过时，推荐用ConcurrentHashMap替代。",
+    "difficulty": 1,
+    "_source": "interview_experience"
+  },
+  {
+    "concept": "HashMap底层数据结构",
+    "category": "Java基础",
+    "question": "HashMap底层数据结构是什么？",
+    "answer": "JDK 1.8中，HashMap底层是数组+链表+红黑树。数组存储桶，哈希冲突时用链表，链表长度超过8且数组长度≥64时转为红黑树，提高查询效率。",
+    "difficulty": 2,
+    "_source": "interview_experience"
+  },
+  {
+    "concept": "链表转红黑树条件",
+    "category": "Java基础",
+    "question": "JDK 1.8中HashMap链表何时转为红黑树？",
+    "answer": "当链表长度大于等于8且数组长度大于等于64时，链表转为红黑树。若数组长度小于64，优先扩容数组。",
+    "difficulty": 2,
+    "_source": "interview_experience"
+  },
+  {
+    "concept": "进程、线程、协程区别",
+    "category": "操作系统",
+    "question": "进程、线程、协程有什么区别？",
+    "answer": "进程是资源分配最小单位，线程是CPU调度最小单位，协程是用户态轻量级线程。进程切换开销最大，线程次之，协程最小。协程由程序控制，适合高并发IO场景。",
+    "difficulty": 2,
+    "_source": "interview_experience"
+  },
+  {
+    "concept": "网络编程多线程/协程优于多进程原因",
+    "category": "操作系统",
+    "question": "网络编程为什么多用多线程或协程，而不是多进程？",
+    "answer": "多进程切换开销大、内存隔离导致共享数据复杂；多线程共享内存、切换快；协程更轻量，用户态切换无系统调用，适合高并发IO密集型任务。",
+    "difficulty": 2,
+    "_source": "interview_experience"
+  },
+  {
+    "concept": "进程/线程/协程切换与通信方式",
+    "category": "操作系统",
+    "question": "进程、线程、协程的切换方式和通信方式分别是什么？",
+    "answer": "进程切换依赖内核，通信用管道、消息队列、共享内存等；线程切换由内核或用户态管理，通信通过共享内存、锁；协程切换由程序控制，通信通过通道或共享变量。",
+    "difficulty": 2,
+    "_source": "interview_experience"
+  },
+  {
+    "concept": "线程池工作流程",
+    "category": "操作系统",
+    "question": "线程池的工作流程是怎样的？",
+    "answer": "提交任务时，先判断核心线程是否满，未满则创建新线程；满则加入阻塞队列；队列满则判断最大线程数，未满则创建临时线程；满则执行拒绝策略。",
+    "difficulty": 2,
+    "_source": "interview_experience"
+  },
+  {
+    "concept": "Spring事务实现方式",
+    "category": "框架工具",
+    "question": "Spring事务有哪些实现方式？",
+    "answer": "编程式事务（TransactionTemplate）和声明式事务（@Transactional注解）。声明式事务基于AOP，更常用，支持传播行为和隔离级别配置。",
+    "difficulty": 2,
+    "_source": "interview_experience"
+  },
+  {
+    "concept": "MySQL索引类型",
+    "category": "数据库",
+    "question": "MySQL有哪些索引类型？",
+    "answer": "主键索引、唯一索引、普通索引、全文索引、组合索引。按数据结构分：B+树索引、哈希索引。InnoDB支持B+树和自适应哈希索引。",
+    "difficulty": 1,
+    "_source": "interview_experience"
+  },
+  {
+    "concept": "InnoDB索引数据结构与B+树优势",
+    "category": "数据库",
+    "question": "InnoDB索引为什么用B+树？",
+    "answer": "B+树非叶子节点不存数据，叶子节点形成有序链表，支持范围查询和排序。树高度低（3-4层），磁盘IO少。相比B树，B+树查询更稳定，范围查询更高效。",
+    "difficulty": 2,
+    "_source": "interview_experience"
+  },
+  {
+    "concept": "MySQL三大日志",
+    "category": "数据库",
+    "question": "MySQL三大日志是什么？各有什么作用？",
+    "answer": "binlog（二进制日志，用于主从复制和恢复）、redo log（重做日志，保证事务持久性，崩溃恢复）、undo log（回滚日志，实现事务回滚和MVCC）。",
+    "difficulty": 2,
+    "_source": "interview_experience"
+  },
+  {
+    "concept": "Buffer Pool作用",
+    "category": "数据库",
+    "question": "MySQL缓冲池（Buffer Pool）的作用是什么？",
+    "answer": "缓存数据和索引页，减少磁盘IO。通过LRU算法管理，支持预读和脏页刷新，提高读写性能。",
+    "difficulty": 2,
+    "_source": "interview_experience"
+  },
+  {
+    "concept": "回表查询",
+    "category": "数据库",
+    "question": "什么情况下会发生回表查询？",
+    "answer": "使用非聚簇索引查询时，若查询列不在索引中，需根据主键值到聚簇索引中查找完整行记录，称为回表。可通过覆盖索引避免。",
+    "difficulty": 2,
+    "_source": "interview_experience"
+  },
+  {
+    "concept": "数据库优化常见方法",
+    "category": "数据库",
+    "question": "项目中做过哪些数据库优化？",
+    "answer": "加索引、优化SQL（避免select *、使用覆盖索引）、分库分表、读写分离、引入缓存（Redis）、使用连接池、慢查询日志分析。",
+    "difficulty": 2,
+    "_source": "interview_experience"
+  },
+  {
+    "concept": "架构上减轻数据库压力",
+    "category": "系统设计",
+    "question": "架构上如何减轻数据库压力？",
+    "answer": "引入Redis缓存热点数据、使用消息队列异步处理、读写分离、分库分表、CDN静态资源、限流降级。",
+    "difficulty": 2,
+    "_source": "interview_experience"
+  },
+  {
+    "concept": "大表深分页优化",
+    "category": "数据库",
+    "question": "千万级大表深分页如何优化？",
+    "answer": "使用子查询先定位主键（如where id > 1000 limit 10）、延迟关联、覆盖索引、禁止大偏移量、使用游标或分段查询。",
+    "difficulty": 3,
+    "_source": "interview_experience"
+  },
+  {
+    "concept": "Redis数据类型",
+    "category": "数据库",
+    "question": "Redis有哪些数据类型？",
+    "answer": "String、List、Set、Zset（有序集合）、Hash、Bitmaps、HyperLogLog、Geospatial、Stream。",
+    "difficulty": 1,
+    "_source": "interview_experience"
+  },
+  {
+    "concept": "Redis分布式锁实现",
+    "category": "数据库",
+    "question": "Redis分布式锁如何实现？",
+    "answer": "使用SET key value NX EX seconds命令，确保原子性。释放时用Lua脚本检查锁持有者，防止误删。也可用Redisson框架。",
+    "difficulty": 2,
+    "_source": "interview_experience"
+  },
+  {
+    "concept": "乐观锁与悲观锁",
+    "category": "数据库",
+    "question": "乐观锁和悲观锁的理解及使用场景？",
+    "answer": "悲观锁认为冲突频繁，先加锁（如synchronized、数据库行锁）；乐观锁认为冲突少，通过版本号或CAS实现。悲观锁适合写多场景，乐观锁适合读多场景。",
+    "difficulty": 2,
+    "_source": "interview_experience"
+  },
+  {
+    "concept": "高并发与数据一致性",
+    "category": "系统设计",
+    "question": "如何同时保证高并发与数据一致性？",
+    "answer": "使用缓存+数据库双写、最终一致性方案（消息队列）、分布式锁控制并发、读写分离、乐观锁重试机制。",
+    "difficulty": 3,
+    "_source": "interview_experience"
+  },
+  {
+    "concept": "项目部署流程",
+    "category": "项目经验",
+    "question": "项目部署流程是怎样的？",
+    "answer": "代码提交到Git，CI/CD流水线自动构建、测试、打包（如Maven），部署到服务器（Docker容器或直接运行），配置Nginx反向代理，监控日志。",
+    "difficulty": 2,
+    "_source": "interview_experience"
+  },
+  {
+    "concept": "Docker与K8s",
+    "category": "项目经验",
+    "question": "接触过Docker和K8s吗？",
+    "answer": "Docker用于容器化部署，隔离环境；K8s用于容器编排，管理集群、自动扩缩容、服务发现。",
+    "difficulty": 2,
+    "_source": "interview_experience"
+  },
+  {
+    "concept": "RAG项目具体工作",
+    "category": "AI大模型",
+    "question": "两段RAG项目具体做了哪些事？",
+    "answer": "文档切分（chunking）、向量化嵌入（Embedding）、构建向量数据库（如FAISS）、检索增强生成（Retrieve+LLM）、优化检索质量（重排序、HyDE）。",
+    "difficulty": 2,
+    "_source": "interview_experience"
+  },
+  {
+    "concept": "低代码平台与工作流",
+    "category": "AI大模型",
+    "question": "用过哪些低代码平台？如何快速搭建工作流？",
+    "answer": "用过Dify、LangFlow。通过拖拽节点（输入、LLM、检索、输出）配置流程，支持自定义API和条件分支，快速搭建RAG或Agent应用。",
+    "difficulty": 2,
+    "_source": "interview_experience"
+  },
+  {
+    "concept": "AI Coding工具理解",
+    "category": "AI大模型",
+    "question": "对AI Coding工具的理解？",
+    "answer": "AI Coding工具（如GitHub Copilot、Cursor）基于大模型，辅助代码生成、补全、重构，提升效率。但需人工审查，不能完全替代程序员。",
+    "difficulty": 2,
+    "_source": "interview_experience"
+  },
+  {
+    "concept": "AI时代程序员发展方向",
+    "category": "AI大模型",
+    "question": "AI时代程序员未来发展方向？",
+    "answer": "转向AI应用开发、模型微调、系统架构设计；提升业务理解和问题分解能力；掌握AI工具，聚焦创造性工作。",
+    "difficulty": 2,
+    "_source": "interview_experience"
+  },
+  {
+    "concept": "AdamW优化器的手撕实现",
+    "category": "深度学习",
+    "question": "请手撕AdamW优化器的更新公式和伪代码。",
+    "answer": "AdamW在Adam基础上引入权重衰减解耦。伪代码：初始化m=0,v=0,beta1=0.9,beta2=0.999,eps=1e-8,lambda=0.01。每步：g=grad, m=beta1*m+(1-beta1)*g, v=beta2*v+(1-beta2)*g^2, m_hat=m/(1-beta1^t), v_hat=v/(1-beta2^t), param -= lr*(m_hat/(sqrt(v_hat)+eps) + lambda*param)。关键：权重衰减直接加在更新上，不参与动量计算。",
+    "difficulty": 3,
+    "_source": "interview_experience"
+  },
+  {
+    "concept": "无重复字母的最长子串（滑动窗口）",
+    "category": "算法",
+    "question": "请手撕无重复字母的最长子串（LeetCode 3）。",
+    "answer": "滑动窗口+哈希表。维护左右指针l=0，遍历右指针r，用字典记录字符最后出现位置。若s[r]在字典中且索引>=l，则l=dict[s[r]]+1。更新dict[s[r]]=r，最大长度=max(max_len, r-l+1)。时间复杂度O(n)，空间O(字符集大小)。",
+    "difficulty": 2,
+    "_source": "interview_experience"
+  },
+  {
+    "concept": "海量数据敏感词过滤",
+    "category": "系统设计",
+    "question": "面对海量数据时如何去除敏感词？会遇到哪些问题？如何处理？",
+    "answer": "常用方法：1. 基于Trie树（前缀树）的AC自动机，多模式匹配，时间复杂度O(n)。2. 布隆过滤器快速判断是否含敏感词。3. 分布式处理（如Spark）分片过滤。问题：内存不足（敏感词库大）、性能瓶颈（单机处理慢）、误判（布隆过滤器）。处理：分片+多机并行、使用布隆过滤器+白名单、定期更新敏感词库。",
+    "difficulty": 2,
+    "_source": "interview_experience"
+  },
+  {
+    "concept": "Q-learning和DQN的区别",
+    "category": "强化学习",
+    "question": "请介绍Q-learning和DQN的区别。",
+    "answer": "Q-learning基于表格，适用于离散小状态空间，更新公式：Q(s,a)=Q(s,a)+α[r+γmaxQ(s',a')-Q(s,a)]。DQN用神经网络近似Q函数，解决连续大状态空间问题，引入经验回放（打破相关性）和目标网络（稳定训练）。DQN损失函数：L=(r+γmaxQ_target(s',a')-Q_current(s,a))^2。",
+    "difficulty": 2,
+    "_source": "interview_experience"
+  },
+  {
+    "concept": "GRPO和PPO的区别",
+    "category": "强化学习",
+    "question": "请介绍GRPO和PPO的区别。",
+    "answer": "PPO（Proximal Policy Optimization）通过裁剪目标函数限制策略更新幅度，使用重要性采样和KL散度惩罚。GRPO（Group Relative Policy Optimization）是PPO的变体，引入分组相对优势估计，在组内计算相对优势，减少方差，适合多智能体或大规模参数场景。GRPO更关注组内相对表现，PPO更关注绝对优势。",
+    "difficulty": 3,
+    "_source": "interview_experience"
+  },
+  {
+    "concept": "马尔可夫决策过程（MDP）",
+    "category": "强化学习",
+    "question": "请介绍马尔可夫决策过程。",
+    "answer": "MDP由五元组(S,A,P,R,γ)定义：S状态空间，A动作空间，P状态转移概率P(s'|s,a)，R奖励函数R(s,a)，γ折扣因子。满足马尔可夫性：下一状态只依赖当前状态和动作。目标是找到最优策略π最大化累积折扣奖励E[Σγ^t R_t]。",
+    "difficulty": 2,
+    "_source": "interview_experience"
+  },
+  {
+    "concept": "bf16、fp16和fp32的区别与计算",
+    "category": "深度学习",
+    "question": "请介绍bf16、fp16和fp32的区别，并进行计算。",
+    "answer": "fp32：32位，1符号位+8指数位+23尾数位，精度高。fp16：16位，1符号位+5指数位+10尾数位，范围小易溢出。bf16：16位，1符号位+8指数位+7尾数位，与fp32指数范围相同，精度低但训练稳定。计算：bf16和fp16内存减半，吞吐量翻倍，但需混合精度训练（master weights用fp32）。",
+    "difficulty": 2,
+    "_source": "interview_experience"
+  },
+  {
+    "concept": "LoRA微调细节",
+    "category": "深度学习",
+    "question": "请介绍LoRA微调的细节。",
+    "answer": "LoRA（Low-Rank Adaptation）通过低秩矩阵分解减少可训练参数。对预训练权重W∈R^{d×k}，用两个小矩阵A∈R^{d×r}和B∈R^{r×k}（r<<min(d,k)）近似更新ΔW=BA。训练时只更新A和B，原权重冻结。优点：显存占用小，可切换任务。通常r=8或16，缩放因子alpha控制更新幅度。",
+    "difficulty": 2,
+    "_source": "interview_experience"
+  },
+  {
+    "concept": "量化相关知识",
+    "category": "深度学习",
+    "question": "请介绍模型量化的相关知识。",
+    "answer": "量化将模型参数从高精度（如fp32）映射到低精度（如int8），减少内存和加速推理。常见方法：1. 后训练量化（PTQ）：用校准集计算缩放因子和零点。2. 量化感知训练（QAT）：在训练中模拟量化误差。3. 权重量化（W8A16）和全量化（W8A8）。挑战：精度损失，需处理异常值。",
+    "difficulty": 2,
+    "_source": "interview_experience"
+  },
+  {
+    "concept": "手撕PPO算法",
+    "category": "强化学习",
+    "question": "请手撕PPO算法的核心伪代码。",
+    "answer": "PPO-Clip伪代码：for each iteration: 收集轨迹，计算优势A_t。for K epochs: for each minibatch: 计算ratio=π_θ(a|s)/π_θ_old(a|s)，L_clip=min(ratio*A_t, clip(ratio,1-ε,1+ε)*A_t)，L_total=-L_clip + c1*L_value - c2*H(π)。更新θ。关键：裁剪ratio防止策略更新过大。",
+    "difficulty": 3,
+    "_source": "interview_experience"
+  },
+  {
+    "concept": "马尔可夫决策过程的γ阈值计算",
+    "category": "强化学习",
+    "question": "如何计算马尔可夫决策过程的γ阈值？",
+    "answer": "γ阈值通常指折扣因子γ的临界值，确保累积奖励收敛。对于无穷级数Σγ^t R_t，收敛条件为|γ|<1。若奖励有界|R_t|≤R_max，则累积奖励≤R_max/(1-γ)。实际中γ常取0.9-0.99，γ越大越关注长期奖励。计算时需保证γ<1，否则级数发散。",
+    "difficulty": 2,
+    "_source": "interview_experience"
+  },
+  {
+    "concept": "模型SFT参数量计算及显卡利用率",
+    "category": "深度学习",
+    "question": "如何计算模型SFT的参数量大小及显卡利用率？",
+    "answer": "参数量：以Transformer为例，每层参数=4*d_model^2 + 8*d_model*d_ff（多头注意力+FFN），总参数量=层数*每层参数+embedding参数。显卡利用率：实际吞吐量/理论峰值。理论峰值=显存带宽*计算单元利用率。SFT时需考虑batch size、序列长度、梯度累积等影响。",
+    "difficulty": 3,
+    "_source": "interview_experience"
+  },
+  {
+    "concept": "判断两个链表是否相交（重合链表）",
+    "category": "算法",
+    "question": "如何判断两个链表是否相交？",
+    "answer": "方法1：双指针。分别遍历两链表得到长度差，长链表先走差步，然后同步遍历直到相遇或null。方法2：哈希集合。遍历链表A存节点指针，遍历链表B检查是否在集合中。方法3：双指针循环。pA从headA开始，pB从headB开始，pA到null后转headB，pB到null后转headA，相遇点即交点。时间复杂度O(n+m)，空间O(1)。",
+    "difficulty": 2,
+    "_source": "interview_experience"
+  },
+  {
+    "concept": "全连接层输出子空间接近标准正交基",
+    "category": "深度学习",
+    "question": "如何使得输入向量x经过全连接层后，输出向量y所在子空间基底尽可能接近标准正交基？",
+    "answer": "方法：1. 在损失函数中加入正交正则项，如L_orth=||W^T W - I||_F^2，鼓励权重矩阵列正交。2. 使用谱归一化限制权重矩阵的最大奇异值。3. 训练后对权重矩阵进行QR分解或SVD分解，强制正交化。4. 使用正交初始化（如Orthogonal Initialization）。",
+    "difficulty": 3,
+    "_source": "interview_experience"
+  },
+  {
+    "concept": "强化学习训练大模型与小模型的区别",
+    "category": "强化学习",
+    "question": "使用强化学习训练大模型和小模型相比，需要做出哪些改变？",
+    "answer": "大模型：1. 需分布式训练（模型并行、数据并行）。2. 使用PPO/GRPO等稳定算法，避免策略崩溃。3. 奖励模型需更复杂，避免reward hacking。4. 微调时用LoRA等参数高效方法。小模型：1. 可单卡训练。2. 算法可更简单（如Q-learning）。3. 奖励模型可简化。4. 全参数微调可行。核心：大模型需更关注训练稳定性和资源效率。",
+    "difficulty": 3,
+    "_source": "interview_experience"
+  },
+  {
+    "concept": "MCP与Function Calling的区别",
+    "category": "AI大模型",
+    "question": "请解释MCP和Function Calling的区别。",
+    "answer": "MCP（Model Context Protocol）是一种标准化协议，用于模型与外部工具/数据源交互，强调上下文管理和动态工具发现；Function Calling是模型原生能力，通过预定义函数签名让模型选择调用。MCP更通用、可扩展，适合复杂工具链；Function Calling更轻量、集成简单，适合单一任务。",
+    "difficulty": 2,
+    "_source": "interview_experience"
+  },
+  {
+    "concept": "大模型挑选标准",
+    "category": "AI大模型",
+    "question": "你在项目中如何挑选大模型？",
+    "answer": "主要考虑：任务适配性（如代码生成选CodeLlama）、推理能力（复杂任务选GPT-4/Claude）、上下文长度（长文档选支持128K的模型）、成本与延迟（线上服务选性价比高的API）、开源可控性（私有化部署选Llama/Qwen）。",
+    "difficulty": 2,
+    "_source": "interview_experience"
+  },
+  {
+    "concept": "记忆模块设计思路",
+    "category": "系统设计",
+    "question": "你的记忆模块是怎么设计的？",
+    "answer": "采用分层记忆：短期记忆用缓存存储最近对话上下文；长期记忆用向量数据库（如ChromaDB）存储关键实体和关系，通过语义检索召回；工作记忆用滑动窗口管理当前任务状态。定期压缩和总结历史信息，避免上下文溢出。",
+    "difficulty": 2,
+    "_source": "interview_experience"
+  },
+  {
+    "concept": "关键词抽取与补全方法",
+    "category": "AI大模型",
+    "question": "关键词抽取和补全是怎么做的？",
+    "answer": "关键词抽取：使用预训练NER模型（如BERT-NER）或大模型零样本抽取，结合正则规则过滤。补全：基于知识图谱或同义词库进行上下文感知的补全，或利用大模型生成候选词，通过相似度排序选择最优。",
+    "difficulty": 2,
+    "_source": "interview_experience"
+  },
+  {
+    "concept": "确保答案正确性的方法",
+    "category": "AI大模型",
+    "question": "没有背景知识时，如何确保返回答案正确？",
+    "answer": "采用检索增强生成（RAG），从知识库中检索相关文档作为上下文；设置置信度阈值，低置信度时拒绝回答或引导用户；使用验证模型对答案进行事实核查；引入人类反馈循环（RLHF）持续优化。",
+    "difficulty": 2,
+    "_source": "interview_experience"
+  },
+  {
+    "concept": "项目不可替代性评估",
+    "category": "项目经验",
+    "question": "你觉得你的项目具有不可替代性吗？",
+    "answer": "项目核心价值在于针对特定场景的深度优化和领域知识嵌入，如自定义记忆模块和领域专用关键词抽取。但技术栈本身可复制，不可替代性体现在对业务痛点的理解、数据积累和持续迭代的工程实践。",
+    "difficulty": 1,
+    "_source": "interview_experience"
+  },
+  {
+    "concept": "VibeCoding常用平台与软件",
+    "category": "框架工具",
+    "question": "你用了什么平台和软件进行VibeCoding？",
+    "answer": "常用平台：GitHub Copilot、Cursor、Replit AI；软件：VS Code + Continue插件、Jupyter Notebook + AI扩展。VibeCoding强调快速原型和迭代，利用AI辅助生成代码片段，再手动调整。",
+    "difficulty": 1,
+    "_source": "interview_experience"
+  },
+  {
+    "concept": "RAG知识库构建流程",
+    "category": "AI大模型",
+    "question": "请描述RAG知识库的构建流程，包括文本处理、分块、向量化和存储策略。",
+    "answer": "首先对文本进行清洗和预处理，然后根据token长度分块：小于512 token的存入缓存，大于512 token的存入向量数据库。使用Embedding模型将文本块向量化，存储到向量数据库。检索时，用户查询也向量化，通过计算向量距离（如余弦相似度）找到最相关块，再结合大模型生成答案。",
+    "difficulty": 2,
+    "_source": "interview_experience"
+  },
+  {
+    "concept": "知识蒸馏技术",
+    "category": "AI大模型",
+    "question": "请解释什么是知识蒸馏技术。",
+    "answer": "知识蒸馏是一种模型压缩技术，通过训练一个较小的学生模型来模仿一个较大的教师模型的行为。学生模型学习教师模型的输出概率分布（软标签），从而在保持较高性能的同时减少参数量和计算成本。常用于部署到资源受限的环境。",
+    "difficulty": 2,
+    "_source": "interview_experience"
+  },
+  {
+    "concept": "Skill在AI开发中的含义",
+    "category": "AI大模型",
+    "question": "在AI开发中，Skill是什么？",
+    "answer": "Skill通常指在AI平台（如百度千帆、阿里灵积）中定义的一个可复用的功能模块或API接口，用于执行特定任务，如文本生成、图像识别等。开发者可以通过配置参数和调用接口来集成AI能力，类似于微服务中的函数。",
+    "difficulty": 1,
+    "_source": "interview_experience"
+  },
+  {
+    "concept": "RAG检索的偏差问题",
+    "category": "AI大模型",
+    "question": "用户查询表达多样时，RAG返回的答案会不会出现较大偏差？如何解决？",
+    "answer": "会，因为自然语言查询的歧义性可能导致检索到不相关片段。解决方法包括：使用更精准的Embedding模型、增加查询重写（如用大模型改写用户查询）、结合多轮对话上下文、设置相似度阈值过滤低质量结果，以及使用混合检索（向量+关键词）。",
+    "difficulty": 2,
+    "_source": "interview_experience"
+  },
+  {
+    "concept": "Embedding模型向量化过程",
+    "category": "AI大模型",
+    "question": "给定一段文本，如何将其向量化？请解释过程。",
+    "answer": "使用预训练的Embedding模型（如BERT、Sentence-BERT）。首先将文本分词并转换为token ID，然后输入模型，经过多层Transformer编码，得到每个token的隐层表示。通常取[CLS]标记的输出或对所有token向量求平均，作为整个文本的固定长度向量（如768维）。",
+    "difficulty": 2,
+    "_source": "interview_experience"
+  },
+  {
+    "concept": "Cursor与手动编码的区别",
+    "category": "框架工具",
+    "question": "使用Cursor和自己编码有什么区别？有什么感受？",
+    "answer": "Cursor是AI辅助编程工具，能自动补全代码、生成函数、解释代码等，提高开发效率。自己编码则更注重逻辑设计和调试能力。使用Cursor时需注意验证生成代码的正确性，避免过度依赖；自己编码能加深对底层原理的理解。",
+    "difficulty": 1,
+    "_source": "interview_experience"
+  },
+  {
+    "concept": "RAG流程概述",
+    "category": "AI大模型",
+    "question": "请讲一下项目中RAG（检索增强生成）的流程。",
+    "answer": "RAG流程分为索引和检索生成两阶段。索引阶段：文档切块（Chunking）→向量化（Embedding）→存入向量数据库。检索生成阶段：用户查询→向量化→向量数据库相似度检索（Top-K）→将检索到的相关文本块与原始问题拼接成Prompt→输入LLM生成答案。关键点包括分块策略、Embedding模型选择、检索算法（如余弦相似度）和Prompt模板设计。",
+    "difficulty": 2,
+    "_source": "interview_experience"
+  },
+  {
+    "concept": "Skill编写方法",
+    "category": "系统设计",
+    "question": "请讲讲如何写一个Skill（技能/工具函数）。",
+    "answer": "编写Skill通常遵循以下步骤：1.定义输入参数（Schema），明确类型和描述；2.实现核心逻辑，调用外部API或本地函数；3.返回结构化输出；4.注册到Agent框架中，配置触发条件或描述。关键点：参数校验、错误处理、与LLM的接口对齐（如OpenAI Function Calling格式）。",
+    "difficulty": 2,
+    "_source": "interview_experience"
+  },
+  {
+    "concept": "Hermes与OpenClaw的区别",
+    "category": "系统设计",
+    "question": "Hermes与OpenClaw的区别是什么？与之前的技术产品相比有何不同？",
+    "answer": "Hermes和OpenClaw是两种不同的Agent/工具调用框架。Hermes侧重轻量级、灵活的函数调用，适合快速集成；OpenClaw更强调企业级能力，如权限管理、多步骤工作流编排、日志审计。与之前产品相比，核心区别在于：1.从单一工具调用转向多Agent协作；2.支持动态技能注册和热更新；3.更完善的错误恢复和重试机制。",
+    "difficulty": 2,
+    "_source": "interview_experience"
+  },
+  {
+    "concept": "自建小龙虾（Claw）系统设计",
+    "category": "系统设计",
+    "question": "如果你要自己写一个小龙虾（Claw，即Agent工具调用系统），你该怎么写？",
+    "answer": "我会从零构建一个轻量级Claw系统：1.定义Skill接口规范（输入Schema、输出格式）；2.实现核心调度器，接收LLM的Function Call请求，路由到对应Skill；3.设计注册中心，支持动态添加/移除Skill；4.加入上下文管理，维护多轮对话中的状态；5.实现错误处理与重试逻辑。关键：与LLM的协议对齐（如OpenAI格式），保证扩展性。",
+    "difficulty": 3,
+    "_source": "interview_experience"
+  },
+  {
+    "concept": "企业级Claw与OpenClaw的区别",
+    "category": "系统设计",
+    "question": "你觉得企业级的龙虾（如Qclaw、WorkBuddy）与OpenClaw有哪些区别？",
+    "answer": "企业级Claw（如Qclaw、WorkBuddy）与OpenClaw的主要区别：1.权限与安全：企业版有细粒度RBAC、数据隔离；2.可观测性：完整日志、监控、审计追踪；3.高可用：集群部署、负载均衡、故障转移；4.工作流编排：支持DAG式多步骤任务，而非单次调用；5.集成能力：预置企业系统连接器（如SAP、Salesforce）；6.合规性：满足SOC2、GDPR等标准。",
+    "difficulty": 2,
+    "_source": "interview_experience"
+  },
+  {
+    "concept": "大模型幻觉的常见解决方法",
+    "category": "AI大模型",
+    "question": "大模型幻觉怎么解决？",
+    "answer": "常见方法包括：1）检索增强生成（RAG），通过外部知识库提供事实依据；2）提示工程，如要求模型引用来源或分步推理；3）微调，使用高质量数据纠正错误输出；4）后处理，如一致性检查或置信度过滤。核心是减少模型对训练数据的过度依赖。",
+    "difficulty": 2,
+    "_source": "interview_experience"
+  },
+  {
+    "concept": "RAG中chunking的策略与影响",
+    "category": "AI大模型",
+    "question": "在RAG系统中，chunking是如何实现的？有哪些策略？",
+    "answer": "Chunking将文档切分为小块以便检索。常见策略：固定大小切分（按token数）、语义切分（按句子或段落边界）、递归切分（先按段落再按句子）。关键参数包括chunk大小和重叠量，过小丢失上下文，过大降低检索精度。通常结合embedding模型和任务需求调优。",
+    "difficulty": 2,
+    "_source": "interview_experience"
+  },
+  {
+    "concept": "多轮对话的实现机制",
+    "category": "AI大模型",
+    "question": "多轮对话是如何实现的？",
+    "answer": "多轮对话通过维护对话历史实现。通常将历史消息（用户输入和模型回复）拼接成上下文，作为当前轮的输入。常见做法：使用滑动窗口保留最近N轮，或利用记忆模块（如向量数据库）存储关键信息。模型基于完整上下文生成连贯回复。",
+    "difficulty": 2,
+    "_source": "interview_experience"
+  },
+  {
+    "concept": "Lost in the Middle问题的解决方法",
+    "category": "AI大模型",
+    "question": "如何解决Lost in the Middle问题？",
+    "answer": "Lost in the Middle指模型在长上下文中忽略中间部分信息。解决方法：1）将关键信息放在开头或结尾；2）使用结构化提示，如分块标记；3）采用检索增强，只输入相关片段；4）训练时增加长上下文注意力机制，如位置编码优化。",
+    "difficulty": 2,
+    "_source": "interview_experience"
+  },
+  {
+    "concept": "写好一个Skill的重点",
+    "category": "AI大模型",
+    "question": "你认为写好一个Skill的重点是什么？",
+    "answer": "重点包括：1）清晰的description，让模型理解功能边界；2）渐进式披露，逐步暴露参数而非一次性全给；3）定义明确的输入输出格式；4）处理边界情况，如异常输入；5）提供观测点，便于调试。核心是降低模型误用概率，提升可复用性。",
+    "difficulty": 3,
+    "_source": "interview_experience"
+  },
+  {
+    "concept": "选择embedding模型的评估标准",
+    "category": "AI大模型",
+    "question": "如何选择embedding模型？怎么判断这个模型的优劣？",
+    "answer": "选择标准：1）任务匹配度，如语义相似度或检索任务；2）维度与性能平衡，高维度更精确但计算成本高；3）领域适应性，如通用或专业领域。评估指标：在标准数据集上的Recall@K、MAP、NDCG等；也可通过人工标注相似度判断。常用模型如OpenAI ada-002、BGE、E5等。",
+    "difficulty": 2,
+    "_source": "interview_experience"
+  },
+  {
+    "concept": "父子文档切分策略",
+    "category": "AI大模型",
+    "question": "在RAG系统中，父文档是怎么得到的？",
+    "answer": "父文档是通过对原始长文档进行语义切分得到的较大文本块。通常先按句子或段落切分，然后对句子做embedding并聚类，将语义相近的句子聚为一类，每个类合并成一个父文档。父文档的token数通常控制在512以内，便于后续检索和生成。",
+    "difficulty": 2,
+    "_source": "interview_experience"
+  },
+  {
+    "concept": "语义切分与聚类方法",
+    "category": "AI大模型",
+    "question": "在RAG中，语义切分具体是怎么做的？是按句还是按token？",
+    "answer": "语义切分通常以句子为最小单元。先对每个句子做embedding，然后基于embedding进行聚类（如K-means），将语义相似的句子聚成一组。每组作为一个父文档，token数控制在512以内。如果某组超过512，则进一步拆分。聚类后需记录原始顺序，避免打乱文档逻辑。",
+    "difficulty": 2,
+    "_source": "interview_experience"
+  },
+  {
+    "concept": "聚类后文档顺序恢复",
+    "category": "AI大模型",
+    "question": "聚类之后，怎么区分A和B类，避免打乱原有文档顺序？",
+    "answer": "聚类后，每个句子会保留其原始位置索引。在合并成父文档时，按照原始索引顺序重新排列句子，确保父文档内容保持逻辑连贯。同时，每个父文档会记录其包含的句子范围，以便检索时能定位到原始上下文。",
+    "difficulty": 2,
+    "_source": "interview_experience"
+  },
+  {
+    "concept": "Rerank模型蒸馏数据",
+    "category": "AI大模型",
+    "question": "对Rerank模型进行蒸馏时，训练数据是什么样的？",
+    "answer": "蒸馏数据通常来自教师模型（如千问3 8B）对查询-文档对的排序结果。具体做法是：用教师模型对一批查询和候选文档计算相关性分数，将分数作为软标签。学生模型（更小）学习拟合这些软标签。数据量级通常在数万到数十万条，覆盖不同领域和查询类型。",
+    "difficulty": 3,
+    "_source": "interview_experience"
+  },
+  {
+    "concept": "BERT与GPT架构区别",
+    "category": "AI大模型",
+    "question": "请讲一下BERT和GPT架构的区别。",
+    "answer": "BERT是双向Transformer编码器，使用Masked Language Model预训练，适合理解任务（分类、NER等）。GPT是单向Transformer解码器，使用自回归语言模型预训练，适合生成任务。BERT能看到上下文两侧，GPT只能看左侧。BERT参数量通常较小，GPT更大且支持长文本生成。",
+    "difficulty": 2,
+    "_source": "interview_experience"
+  },
+  {
+    "concept": "Transformer架构流程",
+    "category": "AI大模型",
+    "question": "请大概说一下Transformer的架构，从一句话输入到最终生成，中间发生了哪些事情？",
+    "answer": "输入句子先经过词嵌入和位置编码，进入编码器。编码器由多层自注意力层和前馈网络组成，自注意力计算每个词与其他词的相关性。编码器输出上下文表示。解码器接收编码器输出，通过掩码自注意力和交叉注意力逐步生成下一个词，最终通过softmax输出概率分布。",
+    "difficulty": 2,
+    "_source": "interview_experience"
+  },
+  {
+    "concept": "语义检索与BM25区别",
+    "category": "AI大模型",
+    "question": "基于embedding的语义检索和基于BM25的关键词检索有什么区别？",
+    "answer": "语义检索通过embedding将查询和文档映射到向量空间，计算余弦相似度，能捕捉同义词和语义相似性，但依赖模型质量。BM25基于词频和逆文档频率，匹配精确关键词，速度快但无法处理语义差异。语义检索适合开放域，BM25适合精确匹配场景。",
+    "difficulty": 2,
+    "_source": "interview_experience"
+  },
+  {
+    "concept": "简历中团队项目应明确个人边界，避免写成独立完成",
+    "category": "项目经验",
+    "question": "面试官如何判断简历中的项目是团队合作还是个人独立完成？",
+    "answer": "面试官会关注项目描述中的范围是否合理。如果一条bullet涵盖从模型训练到前端推送的所有内容，且时间跨度短，面试官会怀疑。正确做法是收窄范围，只写自己独立负责的2-3个模块，并写清技术细节和效果，这样更可信。",
+    "difficulty": 1,
+    "_source": "interview_experience"
+  },
+  {
+    "concept": "简历中的数字必须附带baseline和测试条件",
+    "category": "项目经验",
+    "question": "简历中写“召回率提升25.9%”时，面试官会追问什么？",
+    "answer": "面试官会追问：相比什么提升的？怎么测的？测试集是什么？如果回答不上来，数字就从加分项变成减分项。数字必须明确baseline、测试方法和场景，否则可能暴露系统设计弱点或理论值不实。",
+    "difficulty": 2,
+    "_source": "interview_experience"
+  },
+  {
+    "concept": "简历中项目方向应有一致性，主次分明",
+    "category": "项目经验",
+    "question": "简历中两个项目方向不搭（如Agent开发与系统编程）时，如何优化写法？",
+    "answer": "与投递岗位关系不大的项目压缩到三四行，只保留标签信号，细节全砍；主项目展开写，增加篇幅和密度。最好找到两个项目之间的联系，如“系统编程证明C++工程能力，Agent项目体现大模型应用”，使项目互相支撑。",
+    "difficulty": 2,
+    "_source": "interview_experience"
+  },
+  {
+    "concept": "简历bullet应包含做了什么、怎么做和结果三要素",
+    "category": "项目经验",
+    "question": "简历中“构建了完整Agent工作流”这类描述有什么问题？如何改进？",
+    "answer": "问题在于只说了做了什么，没提技术选择和效果。面试官无法判断难点和成果。改进：一条bullet应包含三件事——做了什么（如构建意图理解模块）+ 怎么做的（如基于BERT微调）+ 解决了什么问题（如时延从1.4s降至360ms）。",
+    "difficulty": 2,
+    "_source": "interview_experience"
+  },
+  {
+    "concept": "简历自测方法：每条bullet应能撑住面试官连续三个追问",
+    "category": "项目经验",
+    "question": "如何自测简历中的bullet是否合格？",
+    "answer": "把每一条bullet单独拿出来，问自己：如果面试官对这句话感兴趣，连续追问三个问题（如技术选型、实现细节、效果对比），我能不能全部答上来？答得上来的留，答不上来的要么删要么补完细节再写。",
+    "difficulty": 1,
+    "_source": "interview_experience"
+  },
+  {
+    "concept": "Headless组件库封装与双端复用",
+    "category": "项目经验",
+    "question": "如何实现PC和移动端双端复用的组件库？",
+    "answer": "采用Monorepo架构，分PC/Mobile/Core三个包。逻辑抽离为核心包，UI层通过Context注入，PC和移动端各自通过工厂函数传入UI生成组件。核心包处理状态和交互逻辑，UI层负责渲染，实现跨平台复用。",
+    "difficulty": 2,
+    "_source": "interview_experience"
+  },
+  {
+    "concept": "非受控组件中文输入截断问题",
+    "category": "框架工具",
+    "question": "Select组件中非受控组件导致中文输入被截断的原因和解决方案是什么？",
+    "answer": "底层Ark UI使用非受控组件+ref强制更新，在中文输入法组合输入时，每次onChange触发强制更新会打断输入法状态，导致截断。解决方案是阅读源码复刻状态流转逻辑，重写为受控组件版本，由React管理输入状态。",
+    "difficulty": 3,
+    "_source": "interview_experience"
+  },
+  {
+    "concept": "MCP（Model Context Protocol）架构",
+    "category": "AI大模型",
+    "question": "如果让你从零实现一个MCP，应该包含哪些部分？",
+    "answer": "选择STDIO或SSE架构，定义Tools（如查文档、调接口等），实现业务逻辑，通过tools/call暴露能力。也可做Prompt增强。MCP是扩展AI的'手脚'帮它执行操作，与Skill（体系化文档只教AI怎么做）不同。",
+    "difficulty": 2,
+    "_source": "interview_experience"
+  },
+  {
+    "concept": "React Fiber架构核心原理",
+    "category": "框架工具",
+    "question": "请简述React Fiber架构的核心机制。",
+    "answer": "Fiber双缓冲（Current/WIP交替）、时间片轮转（默认5ms）、可中断渲染（高优打断低优）、Commit不可打断、Hook挂载在Fiber链表上故不能写在条件分支里。",
+    "difficulty": 2,
+    "_source": "interview_experience"
+  },
+  {
+    "concept": "并发控制函数保证返回顺序",
+    "category": "系统设计",
+    "question": "如何实现一个并发控制函数，100个请求最多同时6个，并保证返回顺序？",
+    "answer": "使用队列管理请求，维护一个并发计数器。每次从队列取出最多6个请求执行，每个请求完成后检查队列并启动下一个。使用Promise和索引记录每个请求的位置，在最终结果数组中按索引填充，保证返回顺序与输入一致。",
+    "difficulty": 3,
+    "_source": "interview_experience"
+  },
+  {
+    "concept": "回文串最少分割次数贪心陷阱",
+    "category": "系统设计",
+    "question": "回文串最少分割次数问题为什么不能用贪心算法？",
+    "answer": "贪心算法找最长回文串直接跳并不正确，因为局部最优（切最长回文）不一定导致全局最少分割。例如'aab'，贪心切'aa'后剩'b'需1刀，但正确解是切'a','a','b'需2刀。标准解法是动态规划。",
+    "difficulty": 3,
+    "_source": "interview_experience"
+  },
+  {
+    "concept": "AI开发工具账号获取与订阅",
+    "category": "工具框架",
+    "question": "关于Cursor IDE的使用，您是通过官方渠道自行注册，还是通过其他途径获取的账号？目前订阅的是哪个版本？",
+    "answer": "应强调通过官方渠道注册并订阅正版，如Pro版或Business版。这体现了合规意识和对开发者生态的支持。非官方途径存在安全风险和法律问题，面试中应避免提及。",
+    "difficulty": 1,
+    "_source": "interview_experience"
+  },
+  {
+    "concept": "AI工具的地区限制解决方案",
+    "category": "工具框架",
+    "question": "在涉及地区限制时，你采取什么方式来保障AI开发工具的顺畅访问？",
+    "answer": "通常使用合规的VPN或代理服务，确保网络环境符合工具服务条款。同时，可考虑使用国内替代品如Trae、通义灵码等。核心是遵守法律法规，避免使用非法翻墙工具。",
+    "difficulty": 1,
+    "_source": "interview_experience"
+  },
+  {
+    "concept": "Trae编码模式选择：手动指定模型 vs Auto模式",
+    "category": "工具框架",
+    "question": "使用Trae进行编码时，你倾向于手动指定特定的底层大模型，还是直接使用系统默认的“Auto”模式？背后的考量是什么？",
+    "answer": "倾向于手动指定模型。Auto模式虽便捷，但可能选错模型导致代码质量差。手动指定可根据任务选择最优模型：复杂逻辑用Claude-3.5-Sonnet，简单任务用GPT-4o-mini以节省成本。",
+    "difficulty": 2,
+    "_source": "interview_experience"
+  },
+  {
+    "concept": "AI从需求到UI设计再到代码生成的完整流程",
+    "category": "工具框架",
+    "question": "你在使用AI工具时，有用它做前端界面的设计到实现吗？从需求到UI设计最后到代码生成的过程是怎样的？",
+    "answer": "有。流程：1) 用自然语言描述需求给AI，生成UI草图或组件描述；2) AI根据描述生成HTML/CSS/React代码；3) 手动调整样式和交互逻辑。AI擅长生成基础框架，但复杂动画和响应式布局需人工优化。",
+    "difficulty": 2,
+    "_source": "interview_experience"
+  },
+  {
+    "concept": "AI编码工具的局限性及突破方法",
+    "category": "工具框架",
+    "question": "在使用AI集成开发工具或直接调用API实现业务功能时，遇到过哪些AI无法直接解决或存在显著局限性的难点？你是如何突破这些瓶颈的？",
+    "answer": "常见局限：1) 复杂业务逻辑理解不足，需人工拆解为子任务；2) 代码风格不一致，需手动重构；3) 依赖库版本冲突，AI无法感知环境。突破方法：将大任务分解为小Prompt，结合单元测试验证，手动调整关键逻辑。",
+    "difficulty": 2,
+    "_source": "interview_experience"
+  },
+  {
+    "concept": "Vibe Coding与SOLO模式的区别与选择",
+    "category": "工具框架",
+    "question": "普通Vibe Coding模式与SOLO模式的核心区别是什么？在实际开发中如何抉择？",
+    "answer": "Vibe Coding是直觉/自然语言驱动，适合快速原型和简单任务，用户逐步引导AI。SOLO是智能体自主规划执行，适合复杂多步骤任务，AI自动拆解并执行。抉择：简单CRUD用Vibe Coding，复杂系统设计用SOLO。",
+    "difficulty": 2,
+    "_source": "interview_experience"
+  },
+  {
+    "concept": "AI聊天框中的/spec和/plan指令",
+    "category": "工具框架",
+    "question": "AI聊天框的提示：输入\"/\"获取更多能力，如\"/spec\",\"/plan\"。你是否了解这两个指令的具体含义？",
+    "answer": "/spec用于生成详细的功能规格说明书，定义输入输出和边界条件。/plan用于生成实现计划，包括步骤分解、技术选型和风险点。实际编码中，/spec用于需求澄清，/plan用于复杂功能的前期规划。",
+    "difficulty": 2,
+    "_source": "interview_experience"
+  },
+  {
+    "concept": "RAG系统核心模块设计",
+    "category": "AI大模型",
+    "question": "如果让你从零设计一个RAG系统，你认为必须包含哪些核心模块？请简述各模块的关键职责。",
+    "answer": "核心模块：1) 文档解析与分块模块：将原始文档切分为语义完整的块；2) 向量化与索引模块：用Embedding模型将文本转为向量，存入向量数据库；3) 检索模块：根据用户查询检索最相关文档块；4) 生成模块：将检索结果与查询拼接，调用LLM生成答案。",
+    "difficulty": 2,
+    "_source": "interview_experience"
+  },
+  {
+    "concept": "Spring AI Alibaba与AgentScope-Java的区别",
+    "category": "工具框架",
+    "question": "Spring AI Alibaba和AgentScope-Java这两个框架有了解吗？知道两者在定位、适用场景及核心能力上的主要区别吗？",
+    "answer": "Spring AI Alibaba是阿里云推出的AI集成框架，定位企业级应用，提供与Spring生态的无缝集成，适合Java微服务架构。AgentScope-Java是面向智能体开发的框架，侧重多Agent协作和任务编排。前者适合传统业务AI化，后者适合复杂Agent系统。",
+    "difficulty": 2,
+    "_source": "interview_experience"
+  },
+  {
+    "concept": "高并发抢单的分布式锁实现",
+    "category": "系统设计",
+    "question": "简单介绍如何解决高并发的抢单，通过什么形式来实现？该方案为何能有效保证数据的一致性？",
+    "answer": "使用Redis分布式锁+乐观锁。流程：1) 用户请求抢单时，尝试获取Redis锁（SET NX EX）；2) 获取锁后查询库存，若充足则扣减并释放锁；3) 数据库使用乐观锁（版本号）防止超卖。保证一致性：Redis锁防止并发请求同时操作，乐观锁防止数据库层面数据冲突。",
+    "difficulty": 3,
+    "_source": "interview_experience"
+  },
+  {
+    "concept": "Redisson分布式锁的锁定对象",
+    "category": "系统设计",
+    "question": "在使用Redisson实现分布式锁时，被锁定的对象究竟是什么？是数据库中的一条记录、业务层面的某个Key，还是具体的用户实体？",
+    "answer": "被锁定的是业务层面的Key，通常是一个字符串，如订单ID或用户ID。这个Key代表一个共享资源，如某个商品的库存记录。锁住Key意味着对该资源的操作是串行的，防止并发修改。不是直接锁数据库记录或用户实体。",
+    "difficulty": 2,
+    "_source": "interview_experience"
+  },
+  {
+    "concept": "订单ID生成时机：预生成 vs 实时生成",
+    "category": "系统设计",
+    "question": "订单ID的生成时机应如何设计？是采用预生成策略，还是在业务流程中实时生成？这两种方式对高并发下的性能有何影响？",
+    "answer": "预生成策略：提前生成一批ID存入缓存，业务时直接取用，减少数据库压力，适合极高并发。实时生成：使用雪花算法或数据库自增，保证唯一性和顺序性，但存在性能瓶颈。预生成性能更好，但需管理ID池；实时生成更简单，但高并发下可能成为瓶颈。",
+    "difficulty": 2,
+    "_source": "interview_experience"
+  },
+  {
+    "concept": "分布式锁的跨系统有效性",
+    "category": "系统设计",
+    "question": "分布式锁的防并发效果是否仅限于当前系统内部？如果引入另一个外部系统直接连接同一数据库，原有的锁机制是否依然有效？为什么？",
+    "answer": "无效。分布式锁只对使用同一锁机制的客户端有效。外部系统直接连接数据库，绕过了Redis锁，会导致并发问题。解决方案：在数据库层面使用悲观锁（SELECT FOR UPDATE）或乐观锁，确保所有系统都通过统一锁机制访问资源。",
+    "difficulty": 3,
+    "_source": "interview_experience"
+  },
+  {
+    "concept": "死信队列在分布式系统中的作用",
+    "category": "系统设计",
+    "question": "死信队列是什么？它在分布式系统中主要承担什么角色，通常应用于哪些异常处理场景？",
+    "answer": "死信队列是消息队列中用于存储处理失败消息的队列。角色：1) 隔离异常消息，防止阻塞主队列；2) 提供重试和审计机制。应用场景：消息消费失败（如业务异常）、消息过期、队列满导致拒绝。通过监控死信队列，可定位问题并手动修复。",
+    "difficulty": 2,
+    "_source": "interview_experience"
+  },
+  {
+    "concept": "ReAct范式：边想边做的Agent基础模式",
+    "category": "AI大模型",
+    "question": "请解释ReAct范式的工作原理和适用场景。",
+    "answer": "ReAct（Reasoning+Acting）是Agent最基础的范式，核心是让大模型在思考与行动间交替。工作流程为：思考当前信息与目标差距→调用工具执行行动→观察结果并注入上下文→重复直到完成。适用于线上排障、信息搜索等过程不确定的任务，优点是简单灵活、可解释性好，缺点是长任务易迷失、效率低成本高。",
+    "difficulty": 2,
+    "_source": "interview_experience"
+  },
+  {
+    "concept": "Plan-and-Execute范式：先规划后执行的Agent模式",
+    "category": "AI大模型",
+    "question": "Plan-and-Execute范式如何解决ReAct的长任务失控问题？",
+    "answer": "Plan-and-Execute通过先全局规划再逐步执行来解决长任务失控。工作流程分两阶段：规划阶段（通常1次）将复杂任务拆解为有序子步骤；执行阶段按计划执行，可结合ReAct处理子步骤不确定性。遇到环境变化时触发重规划。优点是目标感强、效率高、可预测性好，缺点是计划可能过时、灵活性较差。适用于写调研报告、生成长文等结构化长任务。",
+    "difficulty": 2,
+    "_source": "interview_experience"
+  },
+  {
+    "concept": "Reflection范式：自我反思修正的Agent模式",
+    "category": "AI大模型",
+    "question": "Reflection范式如何提升Agent输出质量？",
+    "answer": "Reflection通过生成-反思-修正循环提升输出质量：先根据任务生成初步结果，然后站在第三方视角按预设标准（正确性、完整性等）批判性检查，最后针对问题修改完善。优点是结果质量高、错误率低、能主动纠错，缺点是速度慢、成本高（调用次数2-3倍）、可能陷入无限循环。适用于代码生成、文档写作等对质量要求高的任务。",
+    "difficulty": 2,
+    "_source": "interview_experience"
+  },
+  {
+    "concept": "Multi-Agent范式：多智能体分工协作模式",
+    "category": "AI大模型",
+    "question": "Multi-Agent范式有哪些常见协作模式？各有什么特点？",
+    "answer": "三种常见模式：1）指挥官-工人模式：有中央协调者负责全局决策，工人只执行子任务，如软件开发团队；2）流水线模式：任务分连续线性阶段，前一个输出是后一个输入，无反馈回路，如内容生产流水线；3）圆桌讨论模式：所有Agent平等，通过轮流发言、辩论、投票决策，如战略决策团队。工业实现需考虑共享状态、冲突解决、并行执行等。",
+    "difficulty": 2,
+    "_source": "interview_experience"
+  },
+  {
+    "concept": "Agentic Workflow范式：规则与LLM结合的务实方案",
+    "category": "AI大模型",
+    "question": "为什么生产环境中更倾向于使用Agentic Workflow而非完全自主的Agent？",
+    "answer": "生产环境最看重可控性、稳定性和合规性，完全自主Agent可能调用不该调用的接口、生成不合规话术或做出错误判断。Agentic Workflow用规则控制整体路径，只在关键节点嵌入大模型能力，设置人工审核和兜底机制。优点是流程可控、容易接入企业架构、成本低、稳定性高，缺点是自由度下降。这是目前最务实的落地方向。",
+    "difficulty": 2,
+    "_source": "interview_experience"
+  },
+  {
+    "concept": "Agent范式选择的核心原则：理解Trade-off",
+    "category": "AI大模型",
+    "question": "面试官追问：在项目中如何选择不同的Agent范式？",
+    "answer": "选择核心是理解各范式的Trade-off：ReAct适合过程不确定的探索性任务（如排障），但长任务易失控；Plan-and-Execute适合结构化长任务（如写报告），但灵活性差；Reflection提升质量但成本高；Multi-Agent扩展能力但复杂度剧增；Agentic Workflow保证可控性但自由度下降。工程师应根据任务复杂度、质量要求、成本预算、可控性需求综合权衡，而非背诵名词。",
+    "difficulty": 3,
+    "_source": "interview_experience"
+  },
+  {
+    "concept": "大模型幻觉的解决方法",
+    "category": "AI大模型",
+    "question": "如何解决大模型幻觉？",
+    "answer": "常见方法包括：1. 检索增强生成（RAG），引入外部知识库提供事实依据；2. 微调（Fine-tuning），用领域数据校准模型输出；3. 提示工程（Prompt Engineering），明确约束如“只回答已知信息”；4. 解码策略优化，如降低温度、使用top-k采样；5. 后处理验证，通过外部工具或规则检查输出。",
+    "difficulty": 2,
+    "_source": "interview_experience"
+  },
+  {
+    "concept": "模型微调算法",
+    "category": "AI大模型",
+    "question": "你对模型微调那些算法了解吗？",
+    "answer": "了解常见微调算法：全量微调（Full Fine-tuning）更新所有参数，计算成本高；参数高效微调（PEFT）如LoRA、Adapter，只更新少量参数；LoRA通过低秩矩阵近似权重更新，适配器在层间插入小网络；此外还有Prefix Tuning、Prompt Tuning等。选择取决于资源与任务需求。",
+    "difficulty": 2,
+    "_source": "interview_experience"
+  },
+  {
+    "concept": "Skills在Spring AI中的实现",
+    "category": "框架工具",
+    "question": "项目的skills是怎么实现的？你是怎么写skills的？",
+    "answer": "在Spring AI中，Skills通过定义工具函数实现，使用@Tool注解标记方法，框架自动将方法描述和参数注入给大模型。编写时需明确功能描述、输入输出格式，并注册到AI模型调用链中，使模型能根据用户意图动态调用。",
+    "difficulty": 2,
+    "_source": "interview_experience"
+  },
+  {
+    "concept": "Spring AI Skills与Claude Code的对比",
+    "category": "框架工具",
+    "question": "Spring AI框架的skills调用更像Claude Code还是其他Harness agent？",
+    "answer": "Spring AI的Skills调用更接近Harness agent模式，因为它通过注解和依赖注入将工具函数注册为可调用组件，模型根据描述选择执行。而Claude Code更偏向于直接执行代码命令，如grep检索，两者在工具注册和调用机制上不同。",
+    "difficulty": 2,
+    "_source": "interview_experience"
+  },
+  {
+    "concept": "Claude Code学习经验总结",
+    "category": "项目经验",
+    "question": "你说看过Claude源码，Claude Code学习经验总结？",
+    "answer": "Claude Code的核心经验：1. 使用grep等命令行工具进行代码检索，而非RAG；2. 强调精确匹配和上下文感知，避免检索噪声；3. 通过系统提示和工具调用链实现自动化；4. 学习其模块化设计，将任务分解为原子操作，提升可解释性和可控性。",
+    "difficulty": 2,
+    "_source": "interview_experience"
+  },
+  {
+    "concept": "grep检索与RAG检索的区别",
+    "category": "AI大模型",
+    "question": "Claude Code是给模型用grep检索，没有用RAG检索，这俩有什么区别？为什么没用rag？",
+    "answer": "grep检索基于精确字符串匹配，速度快、无语义偏差，适合代码库等结构化文本；RAG使用向量嵌入进行语义检索，能处理模糊查询但计算成本高。Claude Code未用RAG可能是因为代码检索需要精确性，RAG的语义匹配可能引入不相关结果，且grep更轻量高效。",
+    "difficulty": 2,
+    "_source": "interview_experience"
+  },
+  {
+    "concept": "RAG混合召回",
+    "category": "AI大模型",
+    "question": "讲讲RAG的混合召回",
+    "answer": "混合召回结合多种检索策略，如关键词检索（BM25）和语义检索（向量相似度），通过加权或排序融合结果。优点：关键词检索确保精确匹配，语义检索处理同义词和上下文，互补提升召回率和准确率。常用方法包括线性加权、互惠排名融合（RRF）等。",
+    "difficulty": 2,
+    "_source": "interview_experience"
+  },
+  {
+    "concept": "URL解析过程",
+    "category": "计算机网络",
+    "question": "url解析过程",
+    "answer": "URL解析步骤：1. 浏览器解析协议（如HTTP/HTTPS）；2. 提取域名，通过DNS解析获取IP地址；3. 建立TCP连接（三次握手）；4. 发送HTTP请求；5. 服务器处理并返回响应；6. 浏览器解析渲染页面；7. 关闭连接（四次挥手）。",
+    "difficulty": 1,
+    "_source": "interview_experience"
+  },
+  {
+    "concept": "TCP三次握手与四次挥手",
+    "category": "计算机网络",
+    "question": "tcp三次握手、四次挥手",
+    "answer": "三次握手：1. 客户端发SYN；2. 服务器回复SYN+ACK；3. 客户端发ACK。四次挥手：1. 客户端发FIN；2. 服务器回ACK；3. 服务器发FIN；4. 客户端回ACK。挥手多一次因为服务器可能还有数据要发送。",
+    "difficulty": 1,
+    "_source": "interview_experience"
+  },
+  {
+    "concept": "MySQL B+树数据结构",
+    "category": "数据库",
+    "question": "mysql的数据结构，讲讲B+树",
+    "answer": "MySQL InnoDB使用B+树作为索引结构。特点：所有数据存储在叶子节点，非叶子节点只存键值，叶子节点通过链表连接。优点：树高度低（通常3-4层），减少磁盘I/O；范围查询高效；支持顺序访问。B+树比B树更适合数据库索引。",
+    "difficulty": 2,
+    "_source": "interview_experience"
+  },
+  {
+    "concept": "Spring控制反转与AOP",
+    "category": "框架工具",
+    "question": "Spring的控制反转、AOP",
+    "answer": "控制反转（IoC）：将对象创建和依赖管理交给Spring容器，通过依赖注入（DI）实现，降低耦合。AOP（面向切面编程）：通过切面将横切关注点（如日志、事务）与业务逻辑分离，使用代理模式实现，支持前置、后置、环绕通知等。",
+    "difficulty": 1,
+    "_source": "interview_experience"
+  },
+  {
+    "concept": "AI Coding工具选择",
+    "category": "项目经验",
+    "question": "你平时用什么做ai coding？",
+    "answer": "常用工具包括：GitHub Copilot（代码补全）、Cursor（集成AI的IDE）、Claude Code（命令行自动化）、ChatGPT/Claude（对话式辅助）。选择取决于任务：Copilot适合实时补全，Cursor适合复杂重构，Claude Code适合脚本化任务。",
+    "difficulty": 1,
+    "_source": "interview_experience"
+  },
+  {
+    "concept": "Python装饰器原理",
+    "category": "Python基础",
+    "question": "Python装饰器是什么？怎么实现？",
+    "answer": "装饰器是一个接受函数作参数、返回新函数的可调用对象。本质是语法糖：@decorator def f() 等价于 f = decorator(f)。用于日志、权限校验、缓存、计时等横切关注点。实现时用 @wraps(func) 保留原函数元信息。",
+    "difficulty": 2,
+    "_source": "cs_fundamentals"
+  },
+  {
+    "concept": "Python GIL全局解释器锁",
+    "category": "Python基础",
+    "question": "GIL是什么？对多线程有什么影响？怎么绕过？",
+    "answer": "GIL(Global Interpreter Lock)是CPython的线程安全机制，保证同一时刻只有一个线程执行Python字节码。多线程CPU密集任务无法利用多核；IO密集任务不受影响(IO时释放GIL)。绕过方式：用multiprocessing多进程(Ctrl+D)、用C扩展释放GIL、用PyPy/Jython等替代解释器。Python 3.13引入了可选的无GIL模式。",
+    "difficulty": 2,
+    "_source": "cs_fundamentals"
+  },
+  {
+    "concept": "Python列表与元组区别",
+    "category": "Python基础",
+    "question": "list和tuple的区别？什么时候用哪个？",
+    "answer": "list可变(增删改)，tuple不可变(创建后不能改)。tuple可作dict的key(可哈希)，list不行。tuple内存更小(无扩容机制)，创建更快。用tuple:数据不应被修改时(常量集合、函数多返回值)。用list:需要动态增删元素时。",
+    "difficulty": 1,
+    "_source": "cs_fundamentals"
+  },
+  {
+    "concept": "Python生成器与yield",
+    "category": "Python基础",
+    "question": "生成器是什么？yield怎么用？有什么优势？",
+    "answer": "生成器是惰性求值的迭代器，用yield逐个产出值而非一次性构建整个列表。优势：内存O(1)而非O(n)——处理大文件/无限流时不会爆内存。yield暂停函数执行、保存状态，下次next()从暂停点继续。生成器表达式：(x*2 for x in range(10)) 比列表推导式更省内存。",
+    "difficulty": 2,
+    "_source": "cs_fundamentals"
+  },
+  {
+    "concept": "Python字典底层实现",
+    "category": "Python基础",
+    "question": "dict底层怎么实现的？为什么key必须是可哈希的？",
+    "answer": "Python 3.6+ dict使用紧凑哈希表：一个entries数组存(key,value)对，一个indices数组(稀疏哈希表)存索引。哈希值→indices[hash%size]→entries[index]。key必须可哈希因为要通过hash(key)定位存储位置，不可哈希对象(如list)的哈希值可变，无法稳定查找。",
+    "difficulty": 2,
+    "_source": "cs_fundamentals"
+  },
+  {
+    "concept": "Python深拷贝与浅拷贝",
+    "category": "Python基础",
+    "question": "深拷贝和浅拷贝的区别？怎么实现？",
+    "answer": "浅拷贝copy.copy():只复制对象本身，内部嵌套对象仍是引用(共享)。深拷贝copy.deepcopy():递归复制对象及其所有嵌套对象(完全独立)。list[:]和list.copy()都是浅拷贝。面试常问：修改嵌套对象时浅拷贝会相互影响。",
+    "difficulty": 1,
+    "_source": "cs_fundamentals"
+  },
+  {
+    "concept": "C++指针与引用的区别",
+    "category": "C++基础",
+    "question": "指针和引用的区别是什么？各有什么使用场景？",
+    "answer": "指针:存储地址，可为nullptr，可重新赋值指向别处，有指针运算。引用:变量的别名，必须初始化且不可改为引用其他变量，语法更安全简洁。用引用:函数参数传递(避免拷贝)、返回值。用指针:需要null语义、动态内存管理、迭代器。引用底层也是指针实现的。",
+    "difficulty": 1,
+    "_source": "cs_fundamentals"
+  },
+  {
+    "concept": "C++虚函数与多态",
+    "category": "C++基础",
+    "question": "虚函数怎么实现多态的？虚函数表(vtable)的机制？",
+    "answer": "每个含虚函数的类有一个虚函数表(vtable)，存虚函数地址。每个对象有一个虚指针(vptr)指向其类的vtable。调用虚函数时通过vptr→vtable查找实际函数地址，实现运行时多态。构造函数中虚函数不具多态性(此时派生类还未构造完成)。虚析构函数必须写：delete基类指针时才会正确调用派生类析构。",
+    "difficulty": 2,
+    "_source": "cs_fundamentals"
+  },
+  {
+    "concept": "C++ RAII与智能指针",
+    "category": "C++基础",
+    "question": "RAII是什么？智能指针有哪几种？",
+    "answer": "RAII(Resource Acquisition Is Initialization):资源在构造时获取，析构时释放。利用C++确定性的析构顺序自动管理内存、锁、文件句柄。智能指针:unique_ptr独占所有权(不可拷贝，可移动)；shared_ptr共享所有权(引用计数，为0时释放)；weak_ptr不增加引用计数(打破循环引用)。现代C++应避免使用裸new/delete。",
+    "difficulty": 2,
+    "_source": "cs_fundamentals"
+  },
+  {
+    "concept": "C++移动语义",
+    "category": "C++基础",
+    "question": "移动语义是什么？std::move和右值引用？",
+    "answer": "移动语义:将资源所有权从一个对象转移到另一个对象，避免深拷贝。std::move将左值强制转为右值引用，配合移动构造函数使用。如std::vector的移动构造只复制指针(常量时间)而非全部元素(线性时间)。右值引用T&&只能绑定临时对象/将亡值。noexcept移动构造函数能放入vector等容器后，扩容时自动使用移动而非拷贝。",
+    "difficulty": 2,
+    "_source": "cs_fundamentals"
+  },
+  {
+    "concept": "进程与线程的区别",
+    "category": "操作系统",
+    "question": "进程和线程的本质区别？上下文切换开销差在哪？",
+    "answer": "进程是资源分配的基本单位(独立地址空间、文件描述符)，线程是CPU调度的基本单位(共享进程地址空间、文件、信号处理等)。进程切换:切换页表、刷新TLB、切换内存映射→开销大。线程切换:只需切换寄存器和栈(同一地址空间)→开销小。协程切换更轻量:用户态，只切换执行上下文，不需要内核参与。",
+    "difficulty": 1,
+    "_source": "cs_fundamentals"
+  },
+  {
+    "concept": "死锁的四个必要条件",
+    "category": "操作系统",
+    "question": "死锁的四个必要条件是什么？怎么预防和检测？",
+    "answer": "四个必要条件(缺一不死锁):1)互斥-资源不能共享 2)持有并等待-持有资源还等新资源 3)不可抢占-不能强行抢走已分配资源 4)循环等待-形成资源等待环。预防:破坏任一条件(如一次性申请所有资源破换2、资源排序破换4)。检测:资源分配图找环。银行家算法:预判分配是否导致不安全状态。",
+    "difficulty": 2,
+    "_source": "cs_fundamentals"
+  },
+  {
+    "concept": "虚拟内存与页面置换",
+    "category": "操作系统",
+    "question": "虚拟内存怎么工作的？页面置换算法有哪些？",
+    "answer": "虚拟内存:每个进程有独立虚拟地址空间，通过页表映射到物理内存。缺页时从磁盘换入。优势:隔离性好，可用内存超过物理内存。置换算法:FIFO(先进先出，有Belady异常)→LRU(换最久未用的，最优但硬件开销大)→Clock(近似LRU，用访问位轮转)。Linux用LRU近似+主动回收。",
+    "difficulty": 2,
+    "_source": "cs_fundamentals"
+  },
+  {
+    "concept": "TCP三次握手四次挥手",
+    "category": "计算机网络",
+    "question": "TCP为什么是三次握手而不是两次？四次挥手为什么？",
+    "answer": "三次握手:SYN→SYN+ACK→ACK。必须是三次因为要防止已失效的连接请求突然传到服务端(服务端回复确认建立连接)。两次无法处理历史SYN。四次挥手:FIN→ACK→FIN→ACK，多一次是因为TCP是全双工的，一方关闭只表示自己不再发数据，还可以收数据，需要双方各自关闭。TIME_WAIT=2MSL等待确保最后的ACK到达。",
+    "difficulty": 1,
+    "_source": "cs_fundamentals"
+  },
+  {
+    "concept": "HTTP各版本区别",
+    "category": "计算机网络",
+    "question": "HTTP 1.1/2/3的主要区别？各解决了什么问题？",
+    "answer": "HTTP1.1:持久连接(keep-alive)+管道化(队头阻塞问题仍在)。HTTP2:二进制分帧+多路复用(一个连接并发多个请求，解决队头阻塞)+头部压缩HPACK+服务器推送。HTTP3:基于QUIC(UDP)，0-RTT快速握手，彻底解决TCP层面的队头阻塞(单个丢包不阻塞其他流)，移动网络切换IP不中断连接。",
+    "difficulty": 2,
+    "_source": "cs_fundamentals"
+  },
+  {
+    "concept": "HTTPS与TLS握手",
+    "category": "计算机网络",
+    "question": "HTTPS怎么保证安全？TLS握手流程？",
+    "answer": "HTTPS=HTTP+TLS。TLS握手:1)客户端发ClientHello(支持的加密套件+随机数) 2)服务器回ServerHello(选定套件+随机数+证书) 3)客户端验证证书→用CA公钥解密→确认服务器身份 4)双方用随机数生成会话密钥→对称加密通信。TLS1.3减为1-RTT，去掉RSA密钥交换(不够安全)，只用前向安全的ECDHE。",
+    "difficulty": 2,
+    "_source": "cs_fundamentals"
+  },
+  {
+    "concept": "Transformer自注意力机制",
+    "category": "AI大模型",
+    "question": "Transformer的自注意力(Self-Attention)怎么算的？Q/K/V是什么？",
+    "answer": "Self-Attention:每个token的Q(query)与所有token的K(key)求相似度→Softmax得注意力权重→对V(value)加权求和。Q=Wq·x, K=Wk·x, V=Wv·x(三个可学习投影矩阵)。本质是让每个位置都能直接关注序列中所有其他位置，解决RNN的长程依赖问题。多头注意力:并行做多组QKV→不同子空间捕获不同类型的关系。",
+    "difficulty": 2,
+    "_source": "cs_fundamentals"
+  },
+  {
+    "concept": "RAG检索增强生成原理",
+    "category": "AI大模型",
+    "question": "RAG的完整流程是什么？怎么优化检索质量？",
+    "answer": "RAG(Retrieval-Augmented Generation):1)建索引阶段:文档切分→embedding模型向量化→存入向量数据库 2)查询阶段:用户问题向量化→向量检索Top-K相关文档→拼接为上下文注入prompt→LLM生成答案。优化:混合检索(向量+关键词BM25)、重排序(reranker二次打分)、检索前查询改写(Query Rewriting)、HyDE(先生成假设答案再用其检索)。",
+    "difficulty": 2,
+    "_source": "cs_fundamentals"
+  },
+  {
+    "concept": "LoRA低秩适配微调",
+    "category": "AI大模型",
+    "question": "LoRA微调的原理？为什么有效？参数怎么设？",
+    "answer": "LoRA(Low-Rank Adaptation):冻结预训练权重W，在旁路添加两个低秩矩阵A和B(B·A)，训练时只更新A和B，推理时合并为W'=W+BA。参数量:r×d(如r=8时仅更新原参数的0.1%)。为什么有效:微调时权重更新ΔW本质是低秩的(不需要满秩更新即可适应新任务)。常用r=8~64, α=16~128，对attention的Q、V矩阵加LoRA最有效。",
+    "difficulty": 3,
+    "_source": "cs_fundamentals"
+  },
+  {
+    "concept": "PPO与GRPO强化学习算法",
+    "category": "AI大模型",
+    "question": "PPO和GRPO的区别？各自怎么用在LLM训练中？",
+    "answer": "PPO(Proximal Policy Optimization):通过裁剪(clip)策略更新幅度防止训练不稳定。需一个critic模型(价值网络)估计baseline→需要额外显存。GRPO(Group Relative Policy Optimization):用一组采样输出的平均奖励做baseline→不需要critic模型→更轻量。DeepSeek-R1用GRPO。核心区别:PPO需额外训练价值网络，GRPO省了这步但需要每组多采样。",
+    "difficulty": 3,
+    "_source": "cs_fundamentals"
+  },
+  {
+    "concept": "RLHF人类反馈强化学习",
+    "category": "AI大模型",
+    "question": "RLHF的完整训练流程？每个阶段产出什么？",
+    "answer": "RLHF三阶段:1)SFT(监督微调):用高质量人工标注的问答对微调基座模型→让模型学会对话格式和遵循指令 2)RM(奖励模型训练):对同一prompt生成多个回答，人工排序→训练一个能预测人类偏好的奖励模型(打分器) 3)PPO/GRPO:用奖励模型作reward，强化学习优化策略模型→模型学会生成人类偏好的回答。OpenAI的ChatGPT和Anthropic的Claude都用了这个流程。",
+    "difficulty": 2,
+    "_source": "cs_fundamentals"
+  },
+  {
+    "concept": "Agent架构设计模式",
+    "category": "AI大模型",
+    "question": "LLM Agent的核心架构？工具调用、记忆、规划怎么设计？",
+    "answer": "Agent架构=LLM大脑+工具(Tools/APIs)+记忆(Memory)+规划(Planning)。工具调用:定义函数签名+描述→LLM生成JSON function call→框架解析并执行→结果回传LLM。记忆:短期(对话上下文窗口)、长期(向量数据库+摘要记忆)。规划:ReAct模式(思考→行动→观察循环)、Plan-and-Execute(先规划再执行)、多Agent协作(各司其职，结构化通信)。LangChain重在组件化链式调用，LangGraph重在状态图+条件分支。",
+    "difficulty": 2,
+    "_source": "cs_fundamentals"
+  },
+  {
+    "concept": "大模型评估与幻觉问题",
+    "category": "AI大模型",
+    "question": "怎么评估LLM效果？幻觉(Hallucination)怎么缓解？",
+    "answer": "评估维度:知识准确性(MMLU)、推理能力(GSM8K数学、BBH)、代码能力(HumanEval)、安全性。幻觉缓解:1)检索增强(RAG先查事实再回答) 2)提示约束(要求提供来源/不确定时说不知道) 3)自一致性(Self-Consistency:多次采样取多数) 4)训练阶段降低幻觉(LFPT/事实性激励)。难点:模型过度自信——即使用错误信息也语气笃定。",
+    "difficulty": 2,
+    "_source": "cs_fundamentals"
+  },
+  {
+    "concept": "向量数据库与Embedding",
+    "category": "AI大模型",
+    "question": "Embedding是什么？向量数据库怎么选？",
+    "answer": "Embedding:将文本/图片/音频映射为固定维度的稠密向量，语义相似的向量距离近。常用模型:text-embedding-3(BGE/M3E)。向量数据库:Milvus(分布式/高性能)、FAISS(Meta开源的库/无服务)、ChromaDB(轻量/原型验证)、Pinecone(托管服务)。选型看:规模<100万文档→Chroma/FAISS即可；>1000万→Milvus。检索:ANN(近似最近邻)算法如HNSW。",
+    "difficulty": 2,
+    "_source": "cs_fundamentals"
+  },
+  {
+    "concept": "大模型推理优化技术",
+    "category": "AI大模型",
+    "question": "大模型推理怎么加速？KV Cache、量化、Flash Attention？",
+    "answer": "KV Cache:缓存之前token的K和V矩阵，生成新token时只算当前token的QKV(避免重算历史)→显存换速度。Flash Attention:将attention计算分块(Tiling)在SRAM中完成，避免读写HBM→加速2-4倍且省显存(IO感知优化)。量化:INT8/INT4压缩模型权重(如GPTQ/AWQ/GGUF)→显存减半推理加速。投机采样:用小模型先猜几个token，大模型一次验证→提速2-3倍。",
+    "difficulty": 3,
+    "_source": "cs_fundamentals"
+  },
+  {
+    "concept": "MySQL索引与B+树",
+    "category": "数据库",
+    "question": "MySQL InnoDB为什么用B+树？和B树、哈希索引的区别？",
+    "answer": "B+树:所有数据存叶子节点，非叶节点只存索引→每个节点能存更多key→树更矮→IO次数更少。叶子节点形成有序链表→范围查询只需遍历链表。B树:所有节点都存数据→随机IO多。哈希索引:等值查询O(1)，但无法范围查询和排序。InnoDB主键索引(聚簇):叶子节点存整行数据；二级索引:叶子节点存主键值(需回表查完整行)。",
+    "difficulty": 2,
+    "_source": "cs_fundamentals"
+  },
+  {
+    "concept": "数据库事务与ACID",
+    "category": "数据库",
+    "question": "事务的ACID特性？隔离级别有哪些？",
+    "answer": "ACID:A原子性(undo log回滚/要么全做要么全不做)、C一致性(事务前后数据满足约束)、I隔离性(并发事务互不干扰)、D持久性(redo log/提交后不丢失)。隔离级别(从低到高):读未提交(脏读)、读已提交(RC/不可重复读)、可重复读(RR/MySQL默认/幻读可通过间隙锁解决)、串行化(最高/性能差)。MVCC实现:undo log版本链+ReadView可见性判断。",
+    "difficulty": 2,
+    "_source": "cs_fundamentals"
+  },
+  {
+    "concept": "海量数据处理方法论",
+    "category": "系统设计",
+    "question": "海量数据问题怎么回答？比如100G文件找出现次数最多的URL？",
+    "answer": "标准回答框架:1)估算(100G多大内存→单机装不下→需要分治) 2)分治:用哈希(URL)%N分成N份小文件→每份单机统计→合并结果 3)每份内用HashMap统计频率+最小堆取Top-K 4)外部排序:大数据量排序用归并。关键:先问面试官具体约束(内存限制？单机还是分布式？)，不要直接写代码。还可提到MapReduce/Hadoop思路但不必须。",
+    "difficulty": 2,
+    "_source": "cs_fundamentals"
+  },
+  {
+    "concept": "MHA vs MQA vs GQA 注意力机制",
+    "category": "AI大模型",
+    "question": "MHA、MQA、GQA三者的区别？各有什么优缺点？",
+    "answer": "MHA(多头注意力):每头独立K/V→精度最高但KV Cache大。MQA(多查询注意力):所有头共享一组K/V→KV Cache缩小h倍但精度略降。GQA(分组查询注意力):折中方案，Q分成g组，每组共享K/V→g=1退化MQA,g=h等同于MHA。大模型推理常用GQA(如Llama2-70B用g=8)平衡速度与精度。",
+    "difficulty": 3,
+    "_source": "web_search"
+  },
+  {
+    "concept": "RoPE旋转位置编码",
+    "category": "AI大模型",
+    "question": "RoPE位置编码原理？相比正弦位置编码有什么优势？",
+    "answer": "RoPE(Rotary Position Embedding):通过旋转矩阵将位置信息融入Q、K向量。Q,K乘旋转矩阵后，内积Q^T·K自然携带相对位置信息。优势:1)相对位置编码→外推性好(可处理比训练时更长的序列) 2)不额外增加参数 3)衰减特性→远距离token关注度自然下降。Llama/Qwen/DeepSeek均使用RoPE。",
+    "difficulty": 3,
+    "_source": "web_search"
+  },
+  {
+    "concept": "Attention计算复杂度与KV Cache",
+    "category": "AI大模型",
+    "question": "Attention的计算复杂度？KV Cache怎么加速推理？什么情况下会成为瓶颈？",
+    "answer": "标准Attention复杂度O(L²d)(L序列长度,d维度)。KV Cache:推理时缓存之前token的K、V矩阵，每次只算当前token→避免重复计算。瓶颈:长序列(<32K)KV Cache显存爆炸(如100K tokens,GPT-3级别需~60GB仅存KV)。Flash Attention:分块计算+IO优化，省显存+加速2-4倍。",
+    "difficulty": 3,
+    "_source": "web_search"
+  },
+  {
+    "concept": "LoRA微调原理与参数选择",
+    "category": "AI大模型",
+    "question": "LoRA微调原理？r和alpha怎么选？为什么加在Q和V上？",
+    "answer": "LoRA:冻结预训练权重W，旁路低秩矩阵A·B(秩r)。实际更新ΔW=α/r·B·A。r=8~64(任务越难r越大)，α=16~128(≈学习率)。加在Q和V上最有效(注意力模式最需适应新任务)。参数量:r×d_model×2(如LLaMA-7B,r=8仅更新0.1%参数≈5M)。推理时合并:W'=W+B·A无推理开销。",
+    "difficulty": 3,
+    "_source": "web_search"
+  },
+  {
+    "concept": "DeepSpeed ZeRO三阶段",
+    "category": "AI大模型",
+    "question": "DeepSpeed ZeRO Stage 1/2/3的区别？各解决了什么问题？",
+    "answer": "ZeRO-1:优化器状态分片(Adam的m,v分到各GPU)→显存减少4倍。ZeRO-2:+梯度分片→再减1倍。ZeRO-3:+参数分片→显存与GPU数线性扩展(64卡跑千亿参数)。通信量:Stage3>2>1，但Stage3增加额外通信开销(需allgather收集参数)。实践中Stage1/2最常用，Stage3用于超大规模模型。",
+    "difficulty": 3,
+    "_source": "web_search"
+  },
+  {
+    "concept": "RLHF vs DPO训练方法对比",
+    "category": "AI大模型",
+    "question": "RLHF和DPO的区别？各有什么优缺点？",
+    "answer": "RLHF:需训练奖励模型(RM)+PPO强化学习→三阶段(SFT→RM→PPO)，训练不稳定，需调KL散度惩罚。DPO(Direct Preference Optimization):跳过奖励模型，直接从偏好对数据优化策略→更简单稳定。但DPO对偏好数据质量要求更高(需真实人类偏好，合成数据效果差)，且out-of-distribution泛化不如RLHF。OpenAI用RLHF，部分开源模型用DPO。",
+    "difficulty": 3,
+    "_source": "web_search"
+  },
+  {
+    "concept": "RAG检索增强生成完整流程",
+    "category": "AI大模型",
+    "question": "RAG的完整技术链路？怎么评估和优化检索质量？",
+    "answer": "完整链路:文档加载→文本切分(Chunk策略)→Embedding向量化→存入向量库→用户Query→Query改写/扩展→向量检索Top-K→重排序(Reranker)→拼接Context→LLM生成。优化关键:1)混合检索(向量+BM25关键词)2)Reranker二次精排 3)Chunk size平衡(太小缺上下文/太大引入噪声)4)HyDE(假设答案检索)。评估:检索用Recall/NDCG，生成用Faithfulness/RAGAS。",
+    "difficulty": 2,
+    "_source": "web_search"
+  },
+  {
+    "concept": "LLM Agent核心架构",
+    "category": "AI大模型",
+    "question": "LLM Agent的核心组件？ReAct模式和Function Calling机制？",
+    "answer": "Agent=LLM(大脑)+Tools(工具/API)+Memory(记忆)+Planning(规划)。ReAct模式:Thought→Action→Observation循环(思考→调用工具→观察结果→继续思考)。Function Calling:定义函数JSON Schema→LLM生成调用参数→框架执行→结果回传。记忆:短期(Context Window)+长期(向量库+关键信息摘要)。多Agent:CrewAI/AutoGen各司其职、结构化通信。",
+    "difficulty": 2,
+    "_source": "web_search"
+  },
+  {
+    "concept": "大模型量化技术GPTQ与AWQ",
+    "category": "AI大模型",
+    "question": "模型量化怎么做？GPTQ、AWQ、GGUF的区别？",
+    "answer": "量化:将FP16/BF16权重降到INT8/INT4→显存减半/四分。GPTQ:逐层逐列量化+最优脑手术(OBQ)补偿误差，需校准数据。AWQ:只保护1%重要权重(激活值大的通道)不动→更快更简单。GGUF:CPU推理专用(GGML进化)，llama.cpp加载。选型:GPU服务→GPTQ/AWQ(速度快)，CPU/Mac→GGUF(llama.cpp)，手机→Q4_0/Q4_K_M。",
+    "difficulty": 3,
+    "_source": "web_search"
+  },
+  {
+    "concept": "SFT监督微调数据构建",
+    "category": "AI大模型",
+    "question": "SFT数据怎么构建？数据质量比数量更重要吗？",
+    "answer": "SFT数据构建:1)收集高质量指令-回答对 2)多样性(覆盖不同任务类型)3)格式标准化(多轮对话/Syste Prompt)。LIMA论文证明:1000条高质量SFT数据即可激发LLM大部分指令遵循能力→质量>>数量。数据筛选:去重、长度过滤、难度筛选、语义去重。数据配比:通用任务为主(60%)+专业领域(30%)+安全对齐(10%)。",
+    "difficulty": 2,
+    "_source": "web_search"
+  },
+  {
+    "concept": "Python装饰器面霸级回答",
+    "category": "Python基础",
+    "question": "装饰器原理？带参数装饰器怎么实现？多个装饰器的执行顺序？",
+    "answer": "本质:不修改原函数代码，接受函数返回新函数的高阶函数。@deco def f()等价于f=deco(f)。必须用@functools.wraps保留原函数元信息。带参数:三层嵌套—外参→中装饰→内包装。多装饰器:@a @b @c def f()等价于a(b(c(f)))，即从下往上包装，从上往下执行。常见用途:日志、计时、权限校验、缓存、重试(指数退避)。",
+    "difficulty": 2,
+    "_source": "web_search"
+  },
+  {
+    "concept": "Python GIL深度解析",
+    "category": "Python基础",
+    "question": "GIL是什么？CPU密集和IO密集各用什么方案？Python 3.13有什么变化？",
+    "answer": "GIL是CPython解释器的互斥锁，保证同一时刻只有一个线程执行Python字节码(因为引用计数不是线程安全的)。CPU密集→multiprocessing多进程(每个进程独立GIL)。IO密集→threading多线程(IO时释放GIL)或asyncio协程。Python3.13引入可选--disable-gil构建(free-threaded模式)，但生态库(如NumPy)兼容性仍在过渡期。",
+    "difficulty": 2,
+    "_source": "web_search"
+  },
+  {
+    "concept": "Python asyncio协程原理",
+    "category": "Python基础",
+    "question": "asyncio怎么工作的？async/await是什么？与线程的区别？",
+    "answer": "事件循环(Event Loop)调度所有协程。await挂起当前协程释放控制权给事件循环→执行其他协程→IO完成恢复协程。async def定义协程函数，await等待可等待对象。优势:单线程+协作式调度→无锁无竞态，可处理万级并发连接，内存相比线程减少90%。适用:大量并发IO(Web服务/API调用)；不适用:CPU密集计算。",
+    "difficulty": 2,
+    "_source": "web_search"
+  },
+  {
+    "concept": "Python 生成器与迭代器",
+    "category": "Python基础",
+    "question": "生成器和迭代器的区别？yield和return的区别？yield from怎么用？",
+    "answer": "迭代器:实现__next__()的对象，如iter([])。生成器:含yield的函数→自动实现迭代器协议的惰性求值器。yield暂停+保存状态，下次next()或send()从此恢复；return终止生成器。yield from:委托子生成器，自动处理next/send/throw/close的传递。生成器表达式(x*2 for x in range(10))比列表推导省内存O(1)。",
+    "difficulty": 2,
+    "_source": "web_search"
+  },
+  {
+    "concept": "Python 深拷贝与浅拷贝",
+    "category": "Python基础",
+    "question": "浅拷贝和深拷贝的区别？Python的赋值、copy.copy、copy.deepcopy各做了什么？",
+    "answer": "赋值(b=a):只复制引用，指向同一对象。浅拷贝copy.copy(b=a.copy()):创建新容器对象，但内部元素仍引用原对象(嵌套列表修改会相互影响)。深拷贝copy.deepcopy(b=deepcopy(a)):递归复制所有嵌套对象，完全独立。注意:不可变对象(如int,str,tuple)深拷贝返回原对象本身(Python的interning优化)。",
+    "difficulty": 2,
+    "_source": "web_search"
+  },
+  {
+    "concept": "C++ 虚函数表(vtable)原理",
+    "category": "C++基础",
+    "question": "虚函数表(vtable)是怎么工作的？构造函数里调虚函数会怎样？",
+    "answer": "每个含虚函数的类有一个虚函数表(vtable)，存虚函数地址；每个对象有一个虚指针(vptr)指向其类的vtable。调用虚函数时通过vptr→vtable→查实际函数地址实现动态绑定。构造函数中虚函数不具多态性:构造时vptr逐步初始化，调用的是当前构造层次而非派生类版本(派生类尚未构造完成)。多继承下对象有多个vptr(每个基类一个)。",
+    "difficulty": 2,
+    "_source": "web_search"
+  },
+  {
+    "concept": "C++ 智能指针三种对比",
+    "category": "C++基础",
+    "question": "unique_ptr、shared_ptr、weak_ptr各自的使用场景？shared_ptr的循环引用怎么解决？",
+    "answer": "unique_ptr:独占所有权、不可拷贝只能move→单一拥有者，零开销。shared_ptr:共享所有权、引用计数→多组件共享对象，控制块存强弱两个计数(原子操作保证线程安全)。weak_ptr:不拥有、不增加计数→打破循环引用、缓存观察。循环引用解决:A持有B的shared_ptr/B持有A的shared_ptr→永不释放，将其中一个改为weak_ptr即可。",
+    "difficulty": 2,
+    "_source": "web_search"
+  },
+  {
+    "concept": "C++ 移动语义与右值引用",
+    "category": "C++基础",
+    "question": "右值引用(T&&)是什么？std::move做了什么？为什么移动构造要加noexcept？",
+    "answer": "右值引用(T&&):绑定到临时对象，允许'窃取'其资源(浅拷贝指针+置空原指针)而非深拷贝。std::move:无条件将左值强转为右值(本质static_cast<T&&>)，不移动任何东西，只改变值类别。noexcept:STL容器(如vector)扩容时，若移动构造有noexcept则用移动(高效)，否则退化为拷贝(安全)。move后原对象处于valid but unspecified状态，可析构或重新赋值，不应访问被移走内容。",
+    "difficulty": 2,
+    "_source": "web_search"
+  },
+  {
+    "concept": "C++ new/malloc 区别",
+    "category": "C++基础",
+    "question": "new和malloc的本质区别？各自的失败处理？",
+    "answer": "new:运算符、自动计算sizeof、调用构造函数、返回类型指针、失败抛std::bad_alloc异常、可重载。malloc:C函数、需手动sizeof、不调构造函数、返回void*需强转、失败返回NULL。配套释放:delete(调析构+free)/free(不调析构)。混配(new+free或malloc+delete)是未定义行为。现代C++优先用new/智能指针而非malloc。",
+    "difficulty": 1,
+    "_source": "web_search"
+  },
+  {
+    "concept": "C++ vector扩容机制",
+    "category": "C++基础",
+    "question": "vector扩容机制？为什么是1.5或2倍？扩容后迭代器会怎样？",
+    "answer": "当size()==capacity()时扩容:MSVC用1.5倍、GCC用2倍。步骤:分配新内存→移动/拷贝旧元素→释放旧内存。用2倍:每次扩容提供更多摊销优势(均摊O(1))。用1.5倍:内存复用更好(释放的旧块可能合并成下一次扩容所需)。扩容后所有迭代器、指针、引用全部失效！优化:reserve(n)预分配避免多次扩容。",
+    "difficulty": 2,
+    "_source": "web_search"
+  },
+  {
+    "concept": "C++ RAII资源管理",
+    "category": "C++基础",
+    "question": "RAII是什么？为什么说是C++最重要的惯用法？与异常安全的关系？",
+    "answer": "RAII(Resource Acquisition Is Initialization):在构造函数获取资源(内存/文件/锁)，在析构函数释放资源。利用栈对象退出作用域时析构自动调用的确定性→即使发生异常栈展开也能保证资源不泄漏。这是C++实现异常安全的基础。锁守卫lock_guard、智能指针、文件流fstream都是RAII典范。其他语言(Java的try-with-resources、Python的with)是RAII的后发模仿。",
+    "difficulty": 2,
+    "_source": "web_search"
+  },
+  {
+    "concept": "虚拟内存与页表",
+    "category": "操作系统",
+    "question": "虚拟内存怎么映射到物理内存？TLB是什么？缺页中断怎么处理？",
+    "answer": "虚拟内存通过页表(Page Table)映射到物理内存:虚拟地址→页号+页内偏移→查页表得物理页框号→物理地址。TLB(Translation Lookaside Buffer):页表缓存(硬件)，加速地址转换，未命中时查内存页表。缺页中断:访问的页不在物理内存→硬件触发缺页异常→OS从磁盘换入→更新页表→重试指令。多级页表(如4级)省内存但增加查表次数。",
+    "difficulty": 2,
+    "_source": "web_search"
+  },
+  {
+    "concept": "进程间通信(IPC)方式",
+    "category": "操作系统",
+    "question": "进程间通信有哪些方式？各自适用场景？",
+    "answer": "1)管道(pipe):父子进程、半双工、字节流。2)FIFO(命名管道):无亲缘进程、文件系统可见。3)消息队列:消息为单位、异步、内核持久。4)共享内存:最快(直接映射)、需配合信号量同步。5)信号量:同步互斥(PV操作)。6)Socket:跨网络/本地、全双工。7)信号:异步通知(SIGKILL/SIGTERM)。选择:大数据量→共享内存，跨网络→Socket，简单同步→信号量。",
+    "difficulty": 2,
+    "_source": "web_search"
+  },
+  {
+    "concept": "Linux常用命令面试集",
+    "category": "操作系统",
+    "question": "如何排查CPU/内存/IO问题？top、strace、lsof怎么用？",
+    "answer": "CPU高:top/htop看进程CPU→ps看线程→strace -p PID看系统调用(定位是否死循环/频繁IO)。内存问题:free -h看整体→top排序RES→pmap PID看内存映射→检查是否有内存泄漏(连续观察RES持续增长)。IO高:iostat -x 1看磁盘使用率→iotop定位进程→lsof -p PID看打开的文件(是否反复读写大文件)。网络:netstat -tlnp看监听、ss -s看统计。",
+    "difficulty": 2,
+    "_source": "web_search"
+  },
+  {
+    "concept": "HTTPS与TLS握手全过程",
+    "category": "计算机网络",
+    "question": "HTTPS是怎么保证安全的？TLS1.3握手比1.2少了什么？为什么？",
+    "answer": "HTTPS=HTTP+TLS。安全三要素:加密(对称密匙)、认证(CA证书链)、完整性(MAC)。TLS1.3握手从2-RTT减为1-RTT:1)去掉RSA密钥交换(无前向安全)只保留ECDHE 2)客户端首条消息就带密钥共享参数 3)0-RTT模式支持重连(发送安全数据)。去除非必要算法(静态RSA/RC4/MD5)减少攻击面。",
+    "difficulty": 2,
+    "_source": "web_search"
+  },
+  {
+    "concept": "DNS解析全过程",
+    "category": "计算机网络",
+    "question": "浏览器输入URL后DNS怎么解析的？递归查询和迭代查询的区别？",
+    "answer": "DNS解析流程:1)浏览器缓存→2)OS hosts文件→3)本地DNS服务器(递归)→4)根DNS(.)→5)顶级域DNS(.com)→6)权威DNS→7)返回IP。递归查询:本地DNS替你一层层查(客户端只发一次请求)。迭代查询:每级DNS告诉你下一级地址自己查。实际混合:客户端→递归，本地DNS→根/顶级/权威用迭代。优化:DNS预解析、CDN智能调度、HTTPDNS(防劫持)。",
+    "difficulty": 2,
+    "_source": "web_search"
+  },
+  {
+    "concept": "缓存穿透击穿雪崩三连",
+    "category": "系统设计",
+    "question": "缓存穿透、击穿、雪崩怎么区分？各怎么解决？",
+    "answer": "穿透:查不存在的数据→缓存空值+布隆过滤器。击穿:热点key过期→互斥锁/分布式锁+逻辑过期(永不过期异步刷新)。雪崩:大量key同时过期→过期时间加随机值+多级缓存+限流降级。高并发场景下三者常叠加出现，需分层防御:布隆防穿透→锁防击穿→随机TTL防雪崩→限流兜底。",
+    "difficulty": 2,
+    "_source": "web_search"
+  },
+  {
+    "concept": "分布式锁Redisson实现",
+    "category": "系统设计",
+    "question": "分布式锁怎么实现？Redis主从切换锁丢失怎么办？",
+    "answer": "Redisson看门狗(WatchDog)自动续期:默认锁30s，每10s续到30s→防止业务未执行完锁过期。解决主从锁丢失:1)Redlock算法→向N个独立Redis实例依次加锁，过半成功才算获取 2)ZooKeeper(CP模型)临时顺序节点+Watch机制，强一致性但性能不如Redis。选型:性能优先用Redis，一致性优先用ZK。",
+    "difficulty": 2,
+    "_source": "web_search"
+  },
+  {
+    "concept": "消息队列不丢失消息",
+    "category": "系统设计",
+    "question": "如何保证消息100%不丢失？从生产到消费全链路分析",
+    "answer": "生产端:发送Confirm回执+RocketMQ重试/Kafka acks=all(ISR全部确认)。Broker端:异步刷盘改同步刷盘(牺牲性能换可靠性)+多副本ISR≥2。消费端:关闭自动ACK→手动提交+消费成功后再commit offset+消费失败重试死信队列兜底。三阶段叠加可达到at-least-once，配合幂等消费实现exactly-once语义。",
+    "difficulty": 2,
+    "_source": "web_search"
+  },
+  {
+    "concept": "布隆过滤器原理与应用",
+    "category": "系统设计",
+    "question": "布隆过滤器原理？误判率怎么控制？实际怎么用？",
+    "answer": "原理:多个hash函数映射到bit数组。加入:hash(key)→k个bit位置1。查询:全为1→可能存在(误判)，任一为0→绝对不存在。误判率公式(1-e^(-kn/m))^k，m(bit大小)n(元素数)k(hash数)。应用:缓存穿透防护、URL去重、垃圾邮件过滤。Redis提供Bloom模块，Guava有内存版。误判率1%时空间仅需哈希表的1/10。",
+    "difficulty": 2,
+    "_source": "web_search"
+  },
+  {
+    "concept": "秒杀系统设计全景",
+    "category": "系统设计",
+    "question": "百万QPS秒杀系统怎么设计？从限流到落库的全链路。",
+    "answer": "全链路:Nginx限流(令牌桶/漏桶)→Gateway(Sentinel滑动窗口)→Redis Lua原子扣减库存(防超卖)→Kafka异步削峰→消费者写MySQL。热点隔离:独立Redis集群+Caffeine本地缓存。兜底:限流拒绝多余请求+MQ积压触发动态扩Consumer+熔断自动降级返回已售罄。关键:前端按钮防抖+验证码防刷+网关IP级限流(100QPS)。",
+    "difficulty": 2,
+    "_source": "web_search"
+  },
+  {
+    "concept": "Kafka高吞吐设计",
+    "category": "系统设计",
+    "question": "Kafka为什么吞吐量这么高？零拷贝是什么？",
+    "answer": "四大设计:1)顺序写磁盘(比随机写快100倍，利用OS Page Cache) 2)零拷贝(Zero Copy):sendfile()系统调用→数据从Page Cache直接到网卡，不经过用户态，减少2次CPU拷贝 3)批量压缩:Producer攒批发送，Consumer批量拉取 4)分区并行:多Partition支持水平扩展。单机吞吐可达到百万条/秒。",
+    "difficulty": 2,
+    "_source": "web_search"
+  },
+  {
+    "concept": "分库分表后跨库查询",
+    "category": "系统设计",
+    "question": "分库分表后怎么跨库查询？深分页问题怎么优化？",
+    "answer": "跨库查询:1)基因法将关联ID嵌入分片键(如订单ID含用户ID后4位) 2)ES异构索引聚合多表数据做搜索 3)冗余存储避免频繁跨库。深分页优化:禁止limit+offset大页码→用where id>last_id游标分页(延迟关联)。千万级表:先查主键索引拿ID列表→再回表拿完整行，减少回表次数。",
+    "difficulty": 2,
+    "_source": "web_search"
+  },
+  {
+    "concept": "CAP定理与BASE理论",
+    "category": "系统设计",
+    "question": "CAP定理是什么？BASE理论怎么指导分布式系统设计？",
+    "answer": "CAP:C(一致性)all nodes see same data→A(可用性)every request gets response→P(分区容错)network failures tolerated。分布式系统P必须满足→实为CP vs AP抉择。CP:ZooKeeper/etcd(强一致性牺牲可用性)，AP:Eureka/Cassandra(高可用牺牲强一致性)。BASE:Basically Available(基本可用)+Soft State(软状态/中间态)+Eventually Consistent(最终一致性)→允许短暂不一致，最终达成一致。",
+    "difficulty": 2,
+    "_source": "web_search"
+  },
+  {
+    "concept": "微服务限流熔断降级",
+    "category": "系统设计",
+    "question": "限流、熔断、降级各自的触发条件和解决方案？",
+    "answer": "限流:超过系统容量前主动拒绝→Sentinel(滑动窗口/令牌桶)，Nginx limit_req(漏桶)。熔断:下游服务错误率>阈值(如50%)→快速失败不再调→半开状态试探恢复→全开恢复。降级:系统压力大时关非核心功能(如推荐→默认热门，详情→概要)→有损服务保证核心链路可用。三者关系:限流是预防，熔断是保护下游，降级是弃卒保车。",
+    "difficulty": 2,
+    "_source": "web_search"
+  },
+  {
+    "concept": "全局唯一ID生成方案",
+    "category": "系统设计",
+    "question": "分布式系统怎么生成全局唯一ID？各方案优缺点？",
+    "answer": "Snowflake(雪花算法):1bit符号+41bit毫秒时间戳+10bit机器ID+12bit序列号→趋势递增+高性能(单机4096个/ms)。问题:时钟回拨→解决:1)美团Leaf(DB号段预分配) 2)百度UidGenerator(借用未来时间)。UUID:简单但无序→数据库索引性能差(页分裂)。数据库自增:强依赖单点。选型:需要趋势递增用Snowflake变体，简单的用UUID v7(时间排序)。",
+    "difficulty": 2,
+    "_source": "web_search"
+  },
+  {
+    "concept": "Go GMP调度模型",
+    "category": "Go语言",
+    "question": "Go的GMP调度模型是什么？Goroutine怎么被调度执行的？",
+    "answer": "G(Goroutine协程)+M(Machine/OS线程)+P(Processor逻辑处理器)。P是G和M的桥梁，M必须绑定P才能执行G。调度:本地队列优先→全局队列→work-stealing从其他P偷一半任务。Go1.14+引入信号抢占解决死循环无法调度问题。阻塞时P与当前M解绑重新绑定其他M。关键:用户态调度切换纳秒级、初始栈仅2KB、百万级并发。",
+    "difficulty": 2,
+    "_source": "web_search"
+  },
+  {
+    "concept": "Go Channel底层原理与陷阱",
+    "category": "Go语言",
+    "question": "Go Channel的底层结构？向nil/已关闭channel操作会怎样？",
+    "answer": "底层hchan结构:环形缓冲区buf+sendx/recvx游标+sendq/recvq等待队列+lock互斥锁。CSP模型:'通过通信共享内存'。发送:有等待接收者→直接传递跳过buf。陷阱:向已关闭channel发送→panic、重复关闭→panic、从关闭channel接收→零值(需v,ok判断)、nil channel上收发→永久阻塞。select随机选择一个就绪case(非优先级)。",
+    "difficulty": 2,
+    "_source": "web_search"
+  },
+  {
+    "concept": "Go GC三色标记与写屏障",
+    "category": "Go语言",
+    "question": "Go的GC怎么工作的？三色标记法和混合写屏障是什么？",
+    "answer": "Go1.8+使用三色标记法+混合写屏障，无分代、不整理、并发标记清扫。三色:白色(未访问/GC后回收)、灰色(已访问引用待扫描)、黑色(已访问且引用全扫描)。流程:SweepTermination(STW)→Mark(并发)→MarkTermination(STW)→GCoff(并发清扫)。写屏障解决并发标记时对象消失问题(黑引白+灰到白被删)。触发:GOGC默认100%堆翻倍、2分钟超时、手动runtime.GC()。调优:sync.Pool复用对象减少GC压力。",
+    "difficulty": 2,
+    "_source": "web_search"
+  },
+  {
+    "concept": "Go defer执行顺序与陷阱",
+    "category": "Go语言",
+    "question": "Go defer的执行顺序？return和defer谁先执行？defer中的变量什么时候求值？",
+    "answer": "defer按LIFO(后进先出)顺序执行。return语句分两步:1)设置返回值 2)执行RET指令。defer在步骤1和2之间执行→可修改命名返回值。defer语句的参数在defer声明时就求值(不是执行时)。如defer fmt.Println(i++)中i在defer注册时就确定。常见陷阱:循环中的defer累积到函数结束才执行→可能导致资源耗尽(用func()包裹解决)。recover只在defer函数中有效。",
+    "difficulty": 2,
+    "_source": "web_search"
+  },
+  {
+    "concept": "MySQL B+树索引底层原理",
+    "category": "数据库",
+    "question": "MySQL InnoDB为什么用B+树不用B树/Hash/红黑树？3层B+树能存多少数据？",
+    "answer": "B+树优势:1)数据仅存叶子节点→每次查询IO次数稳定(3层≈3次IO) 2)叶子节点双向链表→范围查询高效 3)矮胖结构→3层存2000万行(假设16KB页+bigint主键)。对比:B树数据分散所有节点→查询不稳定、Hash不支持范围查询、红黑树高度20+层→IO次数多。InnoDB页大小16KB,每页可存约1170个索引项(非叶子),叶子页存约16条行记录。",
+    "difficulty": 2,
+    "_source": "web_search"
+  },
+  {
+    "concept": "MySQL聚簇索引与回表",
+    "category": "数据库",
+    "question": "聚簇索引和非聚簇索引的区别？什么是回表？覆盖索引怎么避免回表？",
+    "answer": "聚簇索引:叶子节点存完整行数据→一张表只能有一个(InnoDB即主键索引)。非聚簇索引(二级索引):叶子节点存主键值→需通过主键再去聚簇索引查完整行→这个过程叫回表(多一次IO)。覆盖索引:查询字段全部在索引中，直接从二级索引返回，避免回表。如INDEX(a,b,c)查询SELECT a,b,c WHERE a=1→Using index(覆盖)。",
+    "difficulty": 2,
+    "_source": "web_search"
+  },
+  {
+    "concept": "MySQL最左前缀与索引失效",
+    "category": "数据库",
+    "question": "联合索引(a,b,c)的最左前缀原则？8种索引失效场景？",
+    "answer": "最左前缀:从索引最左列开始匹配，不能跳过中间列。WHERE a=1 AND c=3只用a(c失效)。8种失效:1)LIKE '%X'左模糊 2)索引列上用函数YEAR(col) 3)隐式类型转换varchar=数字 4)OR中有非索引列 5)!=或<>或NOT IN 6)IS NULL/IS NOT NULL(视分布) 7)违反最左前缀 8)范围查询右边列失效(WHERE a>1 AND b=2,索引(a,b)中b失效)。使用EXPLAIN查看key和type字段诊断。",
+    "difficulty": 2,
+    "_source": "web_search"
+  },
+  {
+    "concept": "MySQL索引下推ICP",
+    "category": "数据库",
+    "question": "MySQL索引下推(ICP)是什么？怎么减少回表次数？",
+    "answer": "ICP(Index Condition Pushdown,MySQL5.6+):存储引擎在索引遍历时直接用索引列过滤数据，减少回表次数。例:INDEX(name,age),WHERE name LIKE '张%' AND age=20→无ICP时先回表取所有'张%'再过滤age;有ICP时在索引中直接用age=20过滤，只回表符合条件的行。效果:回表次数从全量→仅匹配量，显著减少IO。EXPLAIN的Extra列显示Using index condition。",
+    "difficulty": 2,
+    "_source": "web_search"
+  },
+  {
+    "concept": "MySQL MVCC多版本并发控制",
+    "category": "数据库",
+    "question": "MVCC怎么实现？快照读和当前读的区别？ReadView是什么？",
+    "answer": "MVCC通过DB_TRX_ID(事务ID)+DB_ROLL_PTR(回滚指针)+Undo Log+ReadView实现。快照读(普通SELECT):读事务开始时的版本→通过ReadView判断可见性(trx_id<min_trx_id可见,>max_trx_id不可见)。当前读(SELECT...FOR UPDATE/UPDATE/DELETE):读最新版本+加锁。RR隔离级别下每个事务第一次快照读创建ReadView,RC下每次快照读都创建。MVCC避免读写冲突，实现高并发。",
+    "difficulty": 2,
+    "_source": "web_search"
+  },
+  {
+    "concept": "MySQL两阶段提交与崩溃恢复",
+    "category": "数据库",
+    "question": "两阶段提交是什么？redo log和binlog怎么保证一致性？",
+    "answer": "两阶段提交保证redo log(崩溃恢复)和binlog(主从复制)一致:1)Prepare阶段:写redo log置为prepare状态 2)Commit阶段:写binlog→redo log标记commit。崩溃恢复:Prepare状态的redo log→检查对应binlog是否存在→有则提交、无则回滚。为什么需要两阶段:先写redo再写binlog→binlog缺失主从不一致;先写binlog再写redo→崩溃丢数据。",
+    "difficulty": 2,
+    "_source": "web_search"
+  },
+  {
+    "concept": "Redis ZSet跳表实现",
+    "category": "数据库",
+    "question": "Redis ZSet底层怎么实现的？跳表(SkipList)为什么不用红黑树或B+树？",
+    "answer": "ZSet=跳表(范围查询)+哈希表(成员→分值O(1))。跳表:多层索引链表，第i层节点以概率p(通常0.25)晋升到i+1层→期望O(log n)查找。对比:红黑树实现复杂、范围查询需中序遍历不如跳表顺序遍历高效;B+树节点内存开销更大、更新需页分裂合并更复杂。跳表优势:实现简单(对比红黑树旋转)、范围查询高效(顺序遍历第1层)、内存局部性优于红黑树。",
+    "difficulty": 2,
+    "_source": "web_search"
+  },
+  {
+    "concept": "Redis持久化RDB vs AOF vs 混合",
+    "category": "数据库",
+    "question": "RDB、AOF、混合持久化的区别？各适合什么场景？各自的优缺点？",
+    "answer": "RDB:定时快照(fork子进程写全量数据)→恢复快但可能丢失几分钟数据。AOF:记录每条写命令→数据安全(最多丢1秒)但文件大恢复慢。AOF重写:压缩冗余命令(如多次INCR合并为SET)。混合持久化(Redis4.0+):RDB全量+AOF增量→兼顾恢复速度和数据安全。配置:appendonly yes + aof-use-rdb-preamble yes。生产建议:混合持久化+AOF everysec刷盘策略。",
+    "difficulty": 2,
+    "_source": "web_search"
+  },
+  {
+    "concept": "Redis缓存数据库一致性策略",
+    "category": "数据库",
+    "question": "怎么保证Redis缓存和MySQL数据一致？Cache Aside和延迟双删？",
+    "answer": "Cache Aside(最常用):先更新数据库→再删除缓存(非更新缓存，避免并发写导致脏数据)。延迟双删:删除缓存→更新DB→延迟(如1秒)→再删除缓存(防止读请求在更新DB期间把旧数据写回缓存)。Canal+MQ方案:监听MySQL binlog→MQ异步通知→更新/删除缓存→最终一致。分布式锁方案:读写都加锁→强一致但性能低。选择:一般场景Cache Aside足够，强一致场景用Canal。",
+    "difficulty": 2,
+    "_source": "web_search"
+  },
+  {
+    "concept": "Redis过期删除与内存淘汰",
+    "category": "数据库",
+    "question": "Redis过期key怎么删除？内存满了的8种淘汰策略怎么选？",
+    "answer": "过期删除:惰性删除(访问时检查)+定期删除(100ms抽查一批，超过25%过期则继续)。内存淘汰8种:noeviction(不淘汰报错,默认)、allkeys-lru(淘汰LRU,推荐)、allkeys-lfu(淘汰最少使用,推荐热点场景)、volatile-lru/lfu/random/ttl(仅淘汰设TTL的key)。LRU近似实现(采样N个淘汰其中最旧的,非精确LRU)。LFU:Morris计数器(对数增长),适合热点/非热点区分明显的场景。",
+    "difficulty": 2,
+    "_source": "web_search"
+  },
+  {
+    "concept": "LayerNorm vs BatchNorm 详细对比",
+    "category": "AI大模型",
+    "question": "Transformer为什么用LayerNorm不用BatchNorm？Pre-LN和Post-LN的区别？",
+    "answer": "LayerNorm按每个样本的特征维度归一化，BatchNorm按每个特征跨batch归一化。NLP/Transformer用LN原因:1)序列长度不一→BN的统计量不稳定(小batch时方差大) 2)LN保留样本内token间可比性 3)推理时LN无batch依赖。Post-LN(原始Transformer):LN在残差后→训练不稳定需warmup。Pre-LN(现代):LN在残差前→训练稳定，无需warmup，主流模型(GPT/Llama)都用。",
+    "difficulty": 2,
+    "_source": "web_search"
+  },
+  {
+    "concept": "ResNet残差连接与梯度消失",
+    "category": "AI大模型",
+    "question": "ResNet的残差连接为什么能训练深层网络？数学原理？",
+    "answer": "残差连接:F(x)+x(跳跃连接)。数学上梯度∂L/∂x=∂L/∂F·(∂F/∂x+1)，+1确保梯度不会因链式乘法趋近于0→缓解梯度消失。本质:网络学习残差F(x)=H(x)-x而非直接学习H(x)→当最优映射接近恒等时残差趋近0，网络可自动调整深度。没有残差连接时，深层网络出现退化(层数越多训练误差反而增高)。ResNet使152层网络可训练，启发了Transformer的残差设计。",
+    "difficulty": 2,
+    "_source": "web_search"
+  },
+  {
+    "concept": "1x1卷积的作用与应用",
+    "category": "AI大模型",
+    "question": "1×1卷积有什么用？在网络设计中怎么用？",
+    "answer": "1×1卷积三大作用:1)降维/升维(通道数变换)→减少参数量(如ResNet Bottleneck用1×1压缩4倍再恢复) 2)跨通道信息融合→学习通道间线性组合 3)增加非线性→1×1卷积+ReLU在不改变空间尺寸下增强表达能力。典型应用:Inception中用1×1先降维减少大卷积核计算量;ResNet Bottleneck:1×1降维→3×3卷积→1×1升维。与全连接层等价(对空间维度每个位置独立做通道全连接)。",
+    "difficulty": 2,
+    "_source": "web_search"
+  },
+  {
+    "concept": "DeepSeek MoE混合专家架构",
+    "category": "AI大模型",
+    "question": "DeepSeek-V3的MoE架构怎么做的？无辅助损失的负载均衡怎么实现？",
+    "answer": "DeepSeek-V3:671B总参数(MoE)，每个token激活37B参数。MoE:多个专家FFN+门控路由，每个token选top-k专家计算。负载均衡创新:不用传统辅助损失(auxiliary loss)→引入偏置项动态调整(biased routing):专家负载高时降低偏置、负载低时提高偏置→自然均衡。Multi-Token Prediction:同时预测当前和下一个token→提高训练效率。训练成本低(约$5.6M/H800集群)，推理高效。",
+    "difficulty": 2,
+    "_source": "web_search"
+  },
+  {
+    "concept": "GRPO群体相对策略优化",
+    "category": "AI大模型",
+    "question": "GRPO是什么？和PPO有什么区别？为什么DeepSeek用GRPO？",
+    "answer": "GRPO(Group Relative Policy Optimization):不需要Critic(价值)网络→省一半显存。做法:对同一prompt生成G个回答→用奖励模型评分→组内归一化(减均值除标准差)→用相对优势更新策略。vs PPO:PPO需要4个模型(Actor+Critic+Ref+RM)→GRPO只需3个(Actor+Ref+RM)，且Critic训练不稳定。DeepSeek-R1用GRPO→降低训练成本、提高稳定性。关键:KL散度直接加在损失函数中防止策略偏离太远。",
+    "difficulty": 3,
+    "_source": "web_search"
+  },
+  {
+    "concept": "Vision Transformer vs CNN 归纳偏置对比",
+    "category": "AI大模型",
+    "question": "ViT和CNN在归纳偏置上有什么不同？ViT为什么需要更多数据？",
+    "answer": "CNN归纳偏置(内置先验):1)平移不变性(卷积共享权重) 2)局部性(卷积核只关注邻近像素)。ViT缺少这些偏置→需要从数据中学习空间关系→所以需要更多数据(ImageNet-21K或JFT-300M预训练)。CNN在小数据集上优势:有效率先验(ViT需3亿+图片才能超越CNN)。解决方案:Swin Transformer引入窗口注意力(局部性)+层级结构(多尺度)→结合两者优势。",
+    "difficulty": 2,
+    "_source": "web_search"
+  }
+]

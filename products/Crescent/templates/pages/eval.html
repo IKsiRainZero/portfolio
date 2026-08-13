@@ -1,0 +1,432 @@
+{% extends "base.html" %}
+{% block title %}评估系统{% endblock %}
+{% block body_class %}page-eval{% endblock %}
+{% block page_title %}评估仪表盘{% endblock %}
+
+{% block head %}
+<meta name="admin-token" content="{{ admin_token }}">
+<style>
+/* ── Eval semantic tokens ── */
+:root {
+  --success: #10b981;
+  --warning: #f59e0b;
+  --danger: #ef4444;
+  --bg2: #fafaf9;
+}
+
+/* ── Tab navigation ── */
+.eval-tabs {
+  display: flex; gap: 4px;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 20px;
+}
+.eval-tab {
+  padding: 10px 20px;
+  border: none; background: none;
+  font-size: 13px; font-weight: 500;
+  color: var(--text2); cursor: pointer;
+  border-bottom: 2px solid transparent;
+  transition: all .15s;
+  font-family: inherit;
+}
+.eval-tab:hover { color: var(--text); }
+.eval-tab.active {
+  color: var(--accent);
+  border-bottom-color: var(--accent);
+}
+
+/* ── Panels ── */
+.eval-panel { min-height: 400px; }
+
+/* ── Alert banner ── */
+.alert-banner {
+  padding: 10px 16px; border-radius: var(--radius-sm);
+  font-size: 13px; margin-bottom: 16px;
+}
+.alert-ok {
+  background: var(--green-bg); color: var(--green);
+  border: 1px solid var(--green-border);
+}
+.alert-warn {
+  background: var(--yellow-bg); color: var(--yellow-text);
+  border: 1px solid var(--yellow-border);
+}
+.alert-item {
+  padding: 6px 0; border-bottom: 1px solid var(--border-light);
+}
+.alert-item:last-child { border-bottom: none; }
+.alert-critical .alert-severity {
+  display: inline-block; background: var(--danger); color: #fff;
+  padding: 1px 6px; border-radius: 3px; font-size: 10px; font-weight: 600;
+  margin-right: 6px;
+}
+.alert-severity {
+  display: inline-block; background: var(--warning); color: #fff;
+  padding: 1px 6px; border-radius: 3px; font-size: 10px; font-weight: 600;
+  margin-right: 6px;
+}
+
+/* ── Overview grid ── */
+.overview-grid {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: 16px; margin-bottom: 16px;
+}
+.total-score-card {
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  min-height: 240px;
+}
+.total-score-card .label {
+  font-size: 13px; color: var(--text2); margin-bottom: 8px;
+}
+.total-score-card .value {
+  font-size: 56px; font-weight: 700; line-height: 1;
+}
+.total-score-card .unit {
+  font-size: 13px; color: var(--text2); margin-top: 4px;
+}
+
+/* ── Charts ── */
+.chart-container {
+  position: relative; width: 100%; height: 240px; overflow: hidden;
+}
+.chart-container.radar {
+  height: 280px;
+}
+/* 禁止 canvas 无限扩展 */
+canvas { max-height: 100%; }
+
+/* ── Score cards grid ── */
+.score-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 16px;
+}
+
+/* ── Score card ── */
+.score-card {
+  display: flex; gap: 16px; align-items: flex-start;
+  background: var(--surface); border: 1px solid var(--border-light);
+  border-radius: var(--radius); padding: 20px;
+  box-shadow: var(--shadow-sm);
+}
+.score-gauge { flex-shrink: 0; }
+.score-card-body h3 {
+  font-size: 14px; font-weight: 600; margin: 0 0 4px 0;
+}
+.score-card-body blockquote {
+  margin: 8px 0 0 0;
+}
+
+/* ── Suggestion filters ── */
+.suggestion-filters {
+  display: flex; gap: 8px; margin-bottom: 12px;
+}
+.suggestion-filters select {
+  padding: 6px 10px; border: 1px solid var(--border);
+  border-radius: var(--radius-sm); font-size: 12px;
+  background: var(--surface); color: var(--text);
+  font-family: inherit;
+}
+
+/* ── Suggestions ── */
+.suggestion-item {
+  padding: 12px 16px; border: 1px solid var(--border-light);
+  border-radius: var(--radius-sm); margin-bottom: 8px;
+  background: var(--surface);
+}
+.suggestion-header {
+  display: flex; align-items: center; gap: 6px;
+  font-size: 13px; margin-bottom: 4px;
+}
+
+/* ── Badges ── */
+.badge {
+  display: inline-block;
+  padding: 2px 8px; border-radius: 10px;
+  font-size: 11px; font-weight: 500;
+  background: var(--bg); color: var(--text2);
+}
+
+/* ── Agent metrics ── */
+.agent-metrics { display: flex; gap: 16px; margin-bottom: 24px; }
+.agent-card {
+  flex: 1; padding: 16px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius); text-align: center;
+}
+
+/* ── Trace list ── */
+.trace-item {
+  padding: 10px 14px; border: 1px solid var(--border-light);
+  border-radius: var(--radius-sm); margin-bottom: 6px;
+  cursor: pointer; transition: background .15s;
+}
+.trace-item:hover { background: var(--bg); }
+.trace-detail {
+  margin-top: 4px; margin-bottom: 8px;
+}
+
+/* ── Span node ── */
+.span-node {
+  padding: 3px 0;
+  font-size: 13px; font-family: var(--font-mono);
+}
+
+/* ── Empty state ── */
+.empty-state {
+  text-align: center; padding: 48px 24px;
+}
+
+/* ── Loading skeleton ── */
+.loading-skeleton {
+  text-align: center; padding: 48px 24px; color: var(--text3);
+}
+
+/* ── Semantic text ── */
+.text-success { color: var(--success); }
+.text-danger { color: var(--danger); }
+
+/* ── Shadow mode banner ── */
+.shadow-banner {
+  background: var(--accent-light); color: var(--accent);
+  padding: 8px 16px; border-radius: var(--radius-sm);
+  font-size: 12px; margin-bottom: 16px; text-align: center;
+  border: 1px solid rgba(79,110,246,.15);
+}
+
+/* ── Footer bar ── */
+.eval-footer {
+  display: flex; justify-content: space-between; align-items: center;
+  margin-top: 20px; padding-top: 12px;
+  border-top: 1px solid var(--border-light);
+  font-size: 12px; color: var(--text3);
+}
+
+/* ── Meta panel ── */
+.meta-card {
+  padding: 16px; border: 1px solid var(--border);
+  border-radius: var(--radius); margin-bottom: 16px;
+}
+
+/* ── Responsive ── */
+@media (max-width: 768px) {
+  .overview-grid { grid-template-columns: 1fr; }
+  .score-cards-grid { grid-template-columns: 1fr; }
+}
+
+/* ── Dashboard grid — data/metrics workbench ── */
+.page-eval { position: relative; }
+.page-eval::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background-color: #fafafb;
+  background-image:
+    linear-gradient(rgba(100,120,160,0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(100,120,160,0.03) 1px, transparent 1px);
+  background-size: 32px 32px;
+}
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="page-eval">
+<div class="eval-container">
+
+  <!-- Back link -->
+  <div style="margin-bottom:16px">
+    <a href="/construction" style="font-size:13px;color:var(--text2);text-decoration:none;display:inline-flex;align-items:center;gap:4px">
+      <span style="font-size:16px">&larr;</span> 返回施工页
+    </a>
+  </div>
+
+  <!-- Shadow mode banner with runtime toggle -->
+  <div id="eval-shadow-banner" class="shadow-banner" style="display:none">
+    &#9888; 评估系统运行在<b>影子模式</b> — 写操作已禁用，数据仅用于验证不对外暴露。
+    <span style="margin-left:12px;display:inline-flex;align-items:center;gap:6px">
+      <label for="shadow-toggle-check" style="cursor:pointer;font-size:12px;user-select:none">切换为活跃模式</label>
+      <input type="checkbox" id="shadow-toggle-check" onchange="EvalMain.toggleShadowMode(this.checked)" style="cursor:pointer;accent-color:var(--accent)">
+    </span>
+  </div>
+  <div id="eval-active-banner" class="shadow-banner" style="display:none;background:var(--green-bg);color:var(--green);border:1px solid var(--green-border)">
+    &#10003; 评估系统运行在<b>活跃模式</b> — 写操作已启用，评分数据正在产生。
+    <span style="margin-left:12px">
+      <label for="shadow-toggle-check-active" style="cursor:pointer;font-size:12px;user-select:none">切换为影子模式</label>
+      <input type="checkbox" id="shadow-toggle-check-active" checked onchange="EvalMain.toggleShadowMode(!this.checked)" style="cursor:pointer;accent-color:var(--accent)">
+    </span>
+  </div>
+
+  <!-- Tab navigation -->
+  <nav class="eval-tabs">
+    <button class="eval-tab active" data-tab="overview">总览</button>
+    <button class="eval-tab" data-tab="details">模块详情</button>
+    <button class="eval-tab" data-tab="agent">Agent 追踪</button>
+    <button class="eval-tab" data-tab="meta">元评估</button>
+  </nav>
+
+  <!-- Self-referencing indicator -->
+  <div id="eval-self-ref" style="font-size:12px;color:var(--text2);padding:8px 0;border-bottom:1px solid var(--border-light);margin-bottom:16px;display:none">
+    <span id="self-ref-health"></span> · <span id="self-ref-pending"></span> · <span id="self-ref-freshness"></span>
+  </div>
+
+  <!-- ── Panel: Overview ── -->
+  <div class="eval-panel" data-panel="overview" id="panel-overview">
+    <div id="eval-alerts"></div>
+    <!-- M3: 创新信号区 (探测卡) — 蓝色信息条，与告警红色横幅视觉分离 -->
+    <div id="eval-probes" style="display:none;margin-bottom:16px">
+      <div class="card" style="border-left:4px solid var(--accent);background:var(--blue-bg, #eff6ff)">
+        <h3 style="margin:0 0 8px 0;font-size:14px;font-weight:600">🔍 创新信号</h3>
+        <div id="probe-cards-list"></div>
+      </div>
+    </div>
+    <div class="card">
+      <h3 style="margin:0 0 8px 0;font-size:13px;font-weight:600">评分数趋势</h3>
+      <div class="chart-container" id="trend-chart-container">
+        <div id="trend-empty-msg" style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;color:var(--text3);font-size:13px;text-align:center;line-height:1.8">
+          <div style="font-weight:600;color:var(--text);margin-bottom:4px">趋势线需要评分数据积累</div>
+          <div>评估守护进程 (daemon) 每小时自动采集一次评分数据</div>
+          <div style="font-size:12px;color:var(--text3)">评估守护进程随服务器自动启动，每小时采集一次评分数据</div>
+          <div style="font-size:12px;color:var(--text3);margin-top:4px">服务器运行时间越长，趋势线数据越丰富</div>
+        </div>
+        <canvas id="chart-trend"></canvas>
+      </div>
+    </div>
+    <div class="overview-grid">
+      <div class="card total-score-card">
+        <div class="label">综合评分</div>
+        <div class="value" id="total-score-value">--</div>
+        <div class="unit">/ 100</div>
+        <div id="eval-formula" style="font-size:11px;color:var(--text3);margin-top:6px;font-family:var(--font-mono);cursor:help"></div>
+        <div class="freshness" id="eval-freshness" style="font-size:12px;color:var(--text2);margin-top:8px">数据更新于 --</div>
+      </div>
+      <div class="card" id="score-breakdown-card">
+        <h3 style="margin:0 0 12px 0;font-size:13px;font-weight:600">评分明细</h3>
+        <div id="score-breakdown-list" style="font-size:12px;color:var(--text2)">加载中...</div>
+      </div>
+    </div>
+    <div class="card">
+      <h3 style="margin:0 0 8px 0;font-size:13px;font-weight:600">最近变更标注</h3>
+      <div id="annotations-list"><span style="color:var(--text3)">加载中...</span></div>
+    </div>
+    <div id="eval-errors"></div>
+    <div class="eval-footer">
+      <span id="eval-updated-at">上次更新: --</span>
+      <span>Powered by Eval Engine</span>
+    </div>
+  </div>
+
+  <!-- ── Slide-out panel (建议详情) ── -->
+  <div id="eval-slideout" style="display:none;position:fixed;top:0;right:0;width:320px;height:100vh;background:var(--surface);border-left:1px solid var(--border);z-index:1000;overflow-y:auto;box-shadow:-4px 0 20px rgba(0,0,0,.1)"></div>
+  <div id="eval-slideout-mask" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.3);z-index:999" onclick="EvalSlideOut.close()"></div>
+
+  <!-- ── Panel: Module Details ── -->
+  <div class="eval-panel" data-panel="details" id="panel-details" style="display:none"></div>
+
+  <!-- ── Panel: Agent Traces ── -->
+  <div class="eval-panel" data-panel="agent" id="panel-agent" style="display:none"></div>
+
+  <!-- ── Panel: Meta Evaluation ── -->
+  <div class="eval-panel" data-panel="meta" id="panel-meta" style="display:none"></div>
+
+</div>
+
+<!-- ── UI Templates (secure-by-default: cloneNode + textContent) ── -->
+
+<template id="tpl-alert-item">
+  <div class="alert-item">
+    <span class="alert-severity"></span>
+    <span class="alert-message"></span>
+  </div>
+</template>
+
+<template id="tpl-score-card">
+  <div class="score-card">
+    <div class="score-gauge" style="position:relative;width:120px;height:120px">
+      <canvas width="120" height="120"></canvas>
+      <div class="score-gauge-value" style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-size:24px;font-weight:700"></div>
+    </div>
+    <div class="score-card-body">
+      <h3></h3>
+      <span class="score-delta" style="font-size:14px;display:none"></span>
+      <canvas class="spark-canvas" width="100" height="30" style="margin-top:8px;display:none"></canvas>
+      <blockquote style="margin-top:8px;font-size:12px;color:var(--text2);border-left:3px solid var(--accent);padding-left:8px;display:none"></blockquote>
+      <!-- M3: L2 折叠 — 子指标分解 + 关联建议 (回答"为什么") -->
+      <details class="score-l2" style="margin-top:10px;display:none">
+        <summary style="cursor:pointer;font-size:13px;color:var(--accent)">为什么？</summary>
+        <div class="score-l2-body" style="padding:8px 0;font-size:13px;color:var(--text2)"></div>
+      </details>
+      <!-- M3: L3 折叠 — 参照系 + 计算说明 + 决策问题 (回答"意味着什么") -->
+      <details class="score-l3" style="margin-top:6px;display:none">
+        <summary style="cursor:pointer;font-size:13px;color:var(--accent)">这意味着什么？</summary>
+        <div class="score-l3-body" style="padding:8px 0;font-size:13px;color:var(--text2)"></div>
+      </details>
+    </div>
+  </div>
+</template>
+
+<template id="tpl-suggestion-item">
+  <div class="suggestion-item">
+    <div class="suggestion-header">
+      <span class="sug-attr-icon"></span>
+      <strong class="sug-title"></strong>
+      <span class="badge sug-severity" style="margin-left:8px"></span>
+    </div>
+    <div class="sug-attributed" style="color:var(--success);font-size:13px;display:none"></div>
+    <div class="sug-unattributable" style="color:var(--warning);font-size:13px;display:none"></div>
+    <div class="sug-failed" style="color:var(--danger);font-size:13px;display:none"></div>
+    <div class="sug-meta" style="font-size:12px;color:var(--text2)"></div>
+  </div>
+</template>
+
+<template id="tpl-span-node">
+  <div class="span-node" style="font-size:13px;font-family:monospace">
+    <span class="span-icon"></span>
+    <span class="span-body"></span>
+    <span class="span-orphan-tag" style="color:#9ca3af;font-size:11px;display:none"></span>
+  </div>
+</template>
+
+<template id="tpl-empty-state">
+  <div class="empty-state" style="text-align:center;padding:48px 24px">
+    <div style="font-size:48px;margin-bottom:16px">&#128201;</div>
+    <p class="empty-reason" style="color:var(--text2);font-size:15px"></p>
+    <p class="empty-action" style="font-size:13px;color:var(--text2);display:none"></p>
+  </div>
+</template>
+
+<div style="font-size:11px;color:var(--text2);text-align:center;padding:16px 0;border-top:1px solid var(--border-light);margin-top:32px">
+  本页面交互行为（点击、展开、切换面板）已匿名记录，用于优化评估系统。不追踪任何个人身份信息。
+</div>
+
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<script src="/static/js/modules/eval-api.js"></script>
+<script src="/static/js/modules/eval-charts.js"></script>
+<script src="/static/js/modules/eval-ui.js"></script>
+<script src="/static/js/modules/eval-slideout.js"></script>
+<script src="/static/js/modules/eval-main.js"></script>
+<script>
+(function() {
+  EvalAPI.fetchSummary().then(function(data) {
+    var shadowBanner = document.getElementById('eval-shadow-banner');
+    var activeBanner = document.getElementById('eval-active-banner');
+    if (data && data.system_mode === 'shadow') {
+      if (shadowBanner) shadowBanner.style.display = '';
+      if (activeBanner) activeBanner.style.display = 'none';
+    } else {
+      if (shadowBanner) shadowBanner.style.display = 'none';
+      if (activeBanner) activeBanner.style.display = '';
+    }
+  }).catch(function() {});
+
+  EvalMain.init();
+})();
+</script>
+{% endblock %}

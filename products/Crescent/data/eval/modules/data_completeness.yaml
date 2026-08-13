@@ -1,0 +1,12 @@
+module: data_completeness
+config_ids:
+  - data_completeness
+decision_surface:
+  - question: "Trace 覆盖率是否满足业务完整性要求？"
+    metrics:
+      - data_completeness
+    decision: "当完整度低于阈值时，审查 missing spans 的类型分布，决定是否需要为业务模块增加 span 记录"
+  - question: "缺失的 span 类型是否集中在某个业务模块？"
+    metrics:
+      - data_completeness
+    decision: "如果特定模块频繁缺失 span，为该模块增加 emit_event() 接入"

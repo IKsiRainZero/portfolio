@@ -1,0 +1,56 @@
+.block {
+  padding: 0;
+  /* No background, no border — just content on the page */
+}
+
+.header {
+  display: flex; align-items: center; gap: var(--cr-space-sm);
+  margin-bottom: var(--cr-space-lg);
+}
+.title {
+  font-size: 22px; font-weight: 600; color: var(--cr-text1);
+  letter-spacing: -0.02em;
+}
+.badge {
+  font-size: 9px; font-weight: 600; padding: 2px 8px;
+  border-radius: var(--cr-radius-sm);
+  background: var(--cr-green-soft); color: var(--cr-green);
+  letter-spacing: 0.04em; text-transform: uppercase;
+}
+.badgePending { background: var(--cr-accent-soft); color: var(--cr-accent); }
+.badgeEmpty    { background: transparent; color: var(--cr-text3); border: 1px solid var(--cr-border); }
+
+.summary {
+  font-size: 15px; line-height: 1.8; color: var(--cr-text2);
+  margin-bottom: var(--cr-space-lg);
+  max-width: 640px;
+}
+.meta {
+  display: flex; gap: var(--cr-space-xl);
+  margin-bottom: var(--cr-space-lg);
+}
+.metaItem { display: flex; align-items: baseline; gap: 6px; }
+.metaLabel { font-size: 10px; color: var(--cr-text3); text-transform: uppercase; letter-spacing: 0.06em; }
+.metaVal   { font-size: 14px; color: var(--cr-text1); font-family: var(--cr-mono); font-weight: 500; }
+
+.tags {
+  display: flex; flex-wrap: wrap; gap: 6px;
+}
+.tag {
+  display: inline-flex; align-items: center; gap: 5px;
+  padding: 4px 12px; border-radius: var(--cr-radius-sm);
+  font-size: 12px; font-weight: 500;
+  background: var(--cr-surface2); color: var(--cr-text2);
+}
+.tagCat {
+  font-size: 9px; font-weight: 600; text-transform: uppercase;
+  letter-spacing: 0.06em; padding: 1px 4px; border-radius: 2px;
+}
+.catLang .tagCat { background: rgba(212,140,64,0.15); color: var(--cr-accent); }
+.catFw   .tagCat { background: rgba(105,165,103,0.15); color: var(--cr-green); }
+.catTool .tagCat { background: rgba(148,163,184,0.15); color: #94A3B8; }
+.catSoft .tagCat { background: rgba(200,168,85,0.15); color: var(--cr-yellow); }
+
+.empty {
+  font-size: 13px; color: var(--cr-text3); font-style: italic;
+}

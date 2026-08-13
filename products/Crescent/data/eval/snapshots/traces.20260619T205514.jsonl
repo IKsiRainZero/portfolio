@@ -1,0 +1,120 @@
+{"trace_id": "0c7219c396b3", "timestamp": "2026-06-19T20:55:14", "name": "/api/eval/summary", "kind": "http_request", "status": "running", "metadata": {"method": "GET", "path": "/api/eval/summary"}, "span_count": 0}
+{"trace_id": "0c7219c396b3", "timestamp": "2026-06-19T20:55:14", "event": "trace_end", "duration_ms": 44, "span_count": 0, "status_code": 200, "error": false}
+{"trace_id": "93705be82fbe", "timestamp": "2026-06-19T20:55:14", "name": "/api/eval/summary", "kind": "http_request", "status": "running", "metadata": {"method": "GET", "path": "/api/eval/summary"}, "span_count": 0}
+{"trace_id": "93705be82fbe", "timestamp": "2026-06-19T20:55:14", "event": "trace_end", "duration_ms": 7, "span_count": 0, "status_code": 200, "error": false}
+{"trace_id": "b073ffae0867", "timestamp": "2026-06-19T20:55:14", "name": "/api/eval/summary", "kind": "http_request", "status": "running", "metadata": {"method": "GET", "path": "/api/eval/summary"}, "span_count": 0}
+{"trace_id": "b073ffae0867", "timestamp": "2026-06-19T20:55:14", "event": "trace_end", "duration_ms": 10, "span_count": 0, "status_code": 200, "error": false}
+{"trace_id": "2ab829a35d83", "timestamp": "2026-06-19T20:55:14", "name": "/api/eval/summary", "kind": "http_request", "status": "running", "metadata": {"method": "GET", "path": "/api/eval/summary"}, "span_count": 0}
+{"trace_id": "2ab829a35d83", "timestamp": "2026-06-19T20:55:14", "event": "trace_end", "duration_ms": 9, "span_count": 0, "status_code": 200, "error": false}
+{"trace_id": "634348bfa113", "timestamp": "2026-06-19T20:55:14", "name": "/api/eval/summary", "kind": "http_request", "status": "running", "metadata": {"method": "GET", "path": "/api/eval/summary"}, "span_count": 0}
+{"trace_id": "634348bfa113", "timestamp": "2026-06-19T20:55:14", "event": "trace_end", "duration_ms": 6, "span_count": 0, "status_code": 200, "error": false}
+{"trace_id": "8dca449e9abd", "timestamp": "2026-06-19T20:55:14", "name": "/api/eval/summary", "kind": "http_request", "status": "running", "metadata": {"method": "GET", "path": "/api/eval/summary"}, "span_count": 0}
+{"trace_id": "8dca449e9abd", "timestamp": "2026-06-19T20:55:14", "event": "trace_end", "duration_ms": 8, "span_count": 0, "status_code": 200, "error": false}
+{"trace_id": "eb6695d6d68a", "timestamp": "2026-06-19T20:55:14", "name": "/api/eval/summary", "kind": "http_request", "status": "running", "metadata": {"method": "GET", "path": "/api/eval/summary"}, "span_count": 0}
+{"trace_id": "eb6695d6d68a", "timestamp": "2026-06-19T20:55:14", "event": "trace_end", "duration_ms": 9, "span_count": 0, "status_code": 200, "error": false}
+{"trace_id": "b365720f335b", "timestamp": "2026-06-19T20:55:14", "name": "/api/eval/summary", "kind": "http_request", "status": "running", "metadata": {"method": "GET", "path": "/api/eval/summary"}, "span_count": 0}
+{"trace_id": "b365720f335b", "timestamp": "2026-06-19T20:55:14", "event": "trace_end", "duration_ms": 9, "span_count": 0, "status_code": 200, "error": false}
+{"trace_id": "9a47c4468b93", "timestamp": "2026-06-19T20:55:14", "name": "/api/eval/summary", "kind": "http_request", "status": "running", "metadata": {"method": "GET", "path": "/api/eval/summary"}, "span_count": 0}
+{"trace_id": "9a47c4468b93", "timestamp": "2026-06-19T20:55:14", "event": "trace_end", "duration_ms": 10, "span_count": 0, "status_code": 200, "error": false}
+{"trace_id": "04c3e9c4a4cc", "timestamp": "2026-06-19T20:55:14", "name": "/api/eval/summary", "kind": "http_request", "status": "running", "metadata": {"method": "GET", "path": "/api/eval/summary"}, "span_count": 0}
+{"trace_id": "04c3e9c4a4cc", "timestamp": "2026-06-19T20:55:14", "event": "trace_end", "duration_ms": 11, "span_count": 0, "status_code": 200, "error": false}
+{"trace_id": "25e820f088e5", "timestamp": "2026-06-19T20:55:14", "name": "/api/eval/summary", "kind": "http_request", "status": "running", "metadata": {"method": "GET", "path": "/api/eval/summary"}, "span_count": 0}
+{"trace_id": "25e820f088e5", "timestamp": "2026-06-19T20:55:14", "event": "trace_end", "duration_ms": 10, "span_count": 0, "status_code": 200, "error": false}
+{"trace_id": "fdaa2797dae9", "timestamp": "2026-06-19T20:55:14", "name": "/api/eval/summary", "kind": "http_request", "status": "running", "metadata": {"method": "GET", "path": "/api/eval/summary"}, "span_count": 0}
+{"trace_id": "fdaa2797dae9", "timestamp": "2026-06-19T20:55:14", "event": "trace_end", "duration_ms": 9, "span_count": 0, "status_code": 200, "error": false}
+{"trace_id": "0f6fec3bcb94", "timestamp": "2026-06-19T20:55:14", "name": "/api/eval/summary", "kind": "http_request", "status": "running", "metadata": {"method": "GET", "path": "/api/eval/summary"}, "span_count": 0}
+{"trace_id": "0f6fec3bcb94", "timestamp": "2026-06-19T20:55:14", "event": "trace_end", "duration_ms": 10, "span_count": 0, "status_code": 200, "error": false}
+{"trace_id": "49338635587b", "timestamp": "2026-06-19T20:55:14", "name": "/api/eval/summary", "kind": "http_request", "status": "running", "metadata": {"method": "GET", "path": "/api/eval/summary"}, "span_count": 0}
+{"trace_id": "49338635587b", "timestamp": "2026-06-19T20:55:14", "event": "trace_end", "duration_ms": 9, "span_count": 0, "status_code": 200, "error": false}
+{"trace_id": "6345b0dcae0d", "timestamp": "2026-06-19T20:55:14", "name": "/api/eval/summary", "kind": "http_request", "status": "running", "metadata": {"method": "GET", "path": "/api/eval/summary"}, "span_count": 0}
+{"trace_id": "6345b0dcae0d", "timestamp": "2026-06-19T20:55:14", "event": "trace_end", "duration_ms": 9, "span_count": 0, "status_code": 200, "error": false}
+{"trace_id": "eae5b659af1e", "timestamp": "2026-06-19T20:55:14", "name": "/api/eval/summary", "kind": "http_request", "status": "running", "metadata": {"method": "GET", "path": "/api/eval/summary"}, "span_count": 0}
+{"trace_id": "eae5b659af1e", "timestamp": "2026-06-19T20:55:14", "event": "trace_end", "duration_ms": 12, "span_count": 0, "status_code": 200, "error": false}
+{"trace_id": "31b37f1201eb", "timestamp": "2026-06-19T20:55:14", "name": "/api/eval/summary", "kind": "http_request", "status": "running", "metadata": {"method": "GET", "path": "/api/eval/summary"}, "span_count": 0}
+{"trace_id": "31b37f1201eb", "timestamp": "2026-06-19T20:55:14", "event": "trace_end", "duration_ms": 10, "span_count": 0, "status_code": 200, "error": false}
+{"trace_id": "24d92e08cc82", "timestamp": "2026-06-19T20:55:14", "name": "/api/eval/summary", "kind": "http_request", "status": "running", "metadata": {"method": "GET", "path": "/api/eval/summary"}, "span_count": 0}
+{"trace_id": "24d92e08cc82", "timestamp": "2026-06-19T20:55:14", "event": "trace_end", "duration_ms": 10, "span_count": 0, "status_code": 200, "error": false}
+{"trace_id": "bbf21ba0730a", "timestamp": "2026-06-19T20:55:14", "name": "/api/eval/summary", "kind": "http_request", "status": "running", "metadata": {"method": "GET", "path": "/api/eval/summary"}, "span_count": 0}
+{"trace_id": "bbf21ba0730a", "timestamp": "2026-06-19T20:55:14", "event": "trace_end", "duration_ms": 9, "span_count": 0, "status_code": 200, "error": false}
+{"trace_id": "102166e7ccdb", "timestamp": "2026-06-19T20:55:14", "name": "/api/eval/summary", "kind": "http_request", "status": "running", "metadata": {"method": "GET", "path": "/api/eval/summary"}, "span_count": 0}
+{"trace_id": "102166e7ccdb", "timestamp": "2026-06-19T20:55:14", "event": "trace_end", "duration_ms": 10, "span_count": 0, "status_code": 200, "error": false}
+{"trace_id": "5003a4343eaa", "timestamp": "2026-06-19T20:55:14", "name": "/api/eval/summary", "kind": "http_request", "status": "running", "metadata": {"method": "GET", "path": "/api/eval/summary"}, "span_count": 0}
+{"trace_id": "5003a4343eaa", "timestamp": "2026-06-19T20:55:14", "event": "trace_end", "duration_ms": 9, "span_count": 0, "status_code": 200, "error": false}
+{"trace_id": "37f0759d0b9d", "timestamp": "2026-06-19T20:55:14", "name": "/api/eval/summary", "kind": "http_request", "status": "running", "metadata": {"method": "GET", "path": "/api/eval/summary"}, "span_count": 0}
+{"trace_id": "37f0759d0b9d", "timestamp": "2026-06-19T20:55:14", "event": "trace_end", "duration_ms": 9, "span_count": 0, "status_code": 200, "error": false}
+{"trace_id": "3e48fa37f07d", "timestamp": "2026-06-19T20:55:14", "name": "/api/eval/summary", "kind": "http_request", "status": "running", "metadata": {"method": "GET", "path": "/api/eval/summary"}, "span_count": 0}
+{"trace_id": "3e48fa37f07d", "timestamp": "2026-06-19T20:55:14", "event": "trace_end", "duration_ms": 11, "span_count": 0, "status_code": 200, "error": false}
+{"trace_id": "7243d65867d6", "timestamp": "2026-06-19T20:55:14", "name": "/api/eval/summary", "kind": "http_request", "status": "running", "metadata": {"method": "GET", "path": "/api/eval/summary"}, "span_count": 0}
+{"trace_id": "7243d65867d6", "timestamp": "2026-06-19T20:55:14", "event": "trace_end", "duration_ms": 8, "span_count": 0, "status_code": 200, "error": false}
+{"trace_id": "e08a33496564", "timestamp": "2026-06-19T20:55:14", "name": "/api/eval/summary", "kind": "http_request", "status": "running", "metadata": {"method": "GET", "path": "/api/eval/summary"}, "span_count": 0}
+{"trace_id": "e08a33496564", "timestamp": "2026-06-19T20:55:14", "event": "trace_end", "duration_ms": 10, "span_count": 0, "status_code": 200, "error": false}
+{"trace_id": "c5559a4ba517", "timestamp": "2026-06-19T20:55:14", "name": "/api/eval/summary", "kind": "http_request", "status": "running", "metadata": {"method": "GET", "path": "/api/eval/summary"}, "span_count": 0}
+{"trace_id": "c5559a4ba517", "timestamp": "2026-06-19T20:55:14", "event": "trace_end", "duration_ms": 10, "span_count": 0, "status_code": 200, "error": false}
+{"trace_id": "0810043a65c4", "timestamp": "2026-06-19T20:55:14", "name": "/api/eval/summary", "kind": "http_request", "status": "running", "metadata": {"method": "GET", "path": "/api/eval/summary"}, "span_count": 0}
+{"trace_id": "0810043a65c4", "timestamp": "2026-06-19T20:55:14", "event": "trace_end", "duration_ms": 9, "span_count": 0, "status_code": 200, "error": false}
+{"trace_id": "32129e03790e", "timestamp": "2026-06-19T20:55:14", "name": "/api/eval/summary", "kind": "http_request", "status": "running", "metadata": {"method": "GET", "path": "/api/eval/summary"}, "span_count": 0}
+{"trace_id": "32129e03790e", "timestamp": "2026-06-19T20:55:14", "event": "trace_end", "duration_ms": 7, "span_count": 0, "status_code": 200, "error": false}
+{"trace_id": "24b7f9741448", "timestamp": "2026-06-19T20:55:14", "name": "/api/eval/summary", "kind": "http_request", "status": "running", "metadata": {"method": "GET", "path": "/api/eval/summary"}, "span_count": 0}
+{"trace_id": "24b7f9741448", "timestamp": "2026-06-19T20:55:14", "event": "trace_end", "duration_ms": 10, "span_count": 0, "status_code": 200, "error": false}
+{"trace_id": "008086d5b4b3", "timestamp": "2026-06-19T20:55:14", "name": "/api/eval/summary", "kind": "http_request", "status": "running", "metadata": {"method": "GET", "path": "/api/eval/summary"}, "span_count": 0}
+{"trace_id": "008086d5b4b3", "timestamp": "2026-06-19T20:55:14", "event": "trace_end", "duration_ms": 11, "span_count": 0, "status_code": 200, "error": false}
+{"trace_id": "53b9dc43a2f3", "timestamp": "2026-06-19T20:55:14", "name": "/api/eval/summary", "kind": "http_request", "status": "running", "metadata": {"method": "GET", "path": "/api/eval/summary"}, "span_count": 0}
+{"trace_id": "53b9dc43a2f3", "timestamp": "2026-06-19T20:55:14", "event": "trace_end", "duration_ms": 8, "span_count": 0, "status_code": 200, "error": false}
+{"trace_id": "27c50dec68da", "timestamp": "2026-06-19T20:55:14", "name": "/api/eval/summary", "kind": "http_request", "status": "running", "metadata": {"method": "GET", "path": "/api/eval/summary"}, "span_count": 0}
+{"trace_id": "27c50dec68da", "timestamp": "2026-06-19T20:55:14", "event": "trace_end", "duration_ms": 11, "span_count": 0, "status_code": 200, "error": false}
+{"trace_id": "fc32b6a96c0a", "timestamp": "2026-06-19T20:55:14", "name": "/api/eval/summary", "kind": "http_request", "status": "running", "metadata": {"method": "GET", "path": "/api/eval/summary"}, "span_count": 0}
+{"trace_id": "fc32b6a96c0a", "timestamp": "2026-06-19T20:55:14", "event": "trace_end", "duration_ms": 10, "span_count": 0, "status_code": 200, "error": false}
+{"trace_id": "3a8a46c545b9", "timestamp": "2026-06-19T20:55:14", "name": "/api/eval/summary", "kind": "http_request", "status": "running", "metadata": {"method": "GET", "path": "/api/eval/summary"}, "span_count": 0}
+{"trace_id": "3a8a46c545b9", "timestamp": "2026-06-19T20:55:14", "event": "trace_end", "duration_ms": 13, "span_count": 0, "status_code": 200, "error": false}
+{"trace_id": "07d9197f493d", "timestamp": "2026-06-19T20:55:14", "name": "/api/eval/summary", "kind": "http_request", "status": "running", "metadata": {"method": "GET", "path": "/api/eval/summary"}, "span_count": 0}
+{"trace_id": "07d9197f493d", "timestamp": "2026-06-19T20:55:14", "event": "trace_end", "duration_ms": 12, "span_count": 0, "status_code": 200, "error": false}
+{"trace_id": "52c0dcc72364", "timestamp": "2026-06-19T20:55:14", "name": "/api/eval/summary", "kind": "http_request", "status": "running", "metadata": {"method": "GET", "path": "/api/eval/summary"}, "span_count": 0}
+{"trace_id": "52c0dcc72364", "timestamp": "2026-06-19T20:55:14", "event": "trace_end", "duration_ms": 11, "span_count": 0, "status_code": 200, "error": false}
+{"trace_id": "7f69bbdc5a97", "timestamp": "2026-06-19T20:55:14", "name": "/api/eval/summary", "kind": "http_request", "status": "running", "metadata": {"method": "GET", "path": "/api/eval/summary"}, "span_count": 0}
+{"trace_id": "7f69bbdc5a97", "timestamp": "2026-06-19T20:55:14", "event": "trace_end", "duration_ms": 8, "span_count": 0, "status_code": 200, "error": false}
+{"trace_id": "6c7eddd8ca6b", "timestamp": "2026-06-19T20:55:14", "name": "/api/eval/summary", "kind": "http_request", "status": "running", "metadata": {"method": "GET", "path": "/api/eval/summary"}, "span_count": 0}
+{"trace_id": "6c7eddd8ca6b", "timestamp": "2026-06-19T20:55:14", "event": "trace_end", "duration_ms": 8, "span_count": 0, "status_code": 200, "error": false}
+{"trace_id": "880527103102", "timestamp": "2026-06-19T20:55:14", "name": "/api/eval/summary", "kind": "http_request", "status": "running", "metadata": {"method": "GET", "path": "/api/eval/summary"}, "span_count": 0}
+{"trace_id": "880527103102", "timestamp": "2026-06-19T20:55:14", "event": "trace_end", "duration_ms": 10, "span_count": 0, "status_code": 200, "error": false}
+{"trace_id": "8d8af906abc9", "timestamp": "2026-06-19T20:55:14", "name": "/api/eval/summary", "kind": "http_request", "status": "running", "metadata": {"method": "GET", "path": "/api/eval/summary"}, "span_count": 0}
+{"trace_id": "8d8af906abc9", "timestamp": "2026-06-19T20:55:14", "event": "trace_end", "duration_ms": 8, "span_count": 0, "status_code": 200, "error": false}
+{"trace_id": "6e02a5aa2865", "timestamp": "2026-06-19T20:55:14", "name": "/api/eval/summary", "kind": "http_request", "status": "running", "metadata": {"method": "GET", "path": "/api/eval/summary"}, "span_count": 0}
+{"trace_id": "6e02a5aa2865", "timestamp": "2026-06-19T20:55:14", "event": "trace_end", "duration_ms": 8, "span_count": 0, "status_code": 200, "error": false}
+{"trace_id": "b07c8be57b3e", "timestamp": "2026-06-19T20:55:14", "name": "/api/eval/summary", "kind": "http_request", "status": "running", "metadata": {"method": "GET", "path": "/api/eval/summary"}, "span_count": 0}
+{"trace_id": "b07c8be57b3e", "timestamp": "2026-06-19T20:55:14", "event": "trace_end", "duration_ms": 10, "span_count": 0, "status_code": 200, "error": false}
+{"trace_id": "ebd9ef9d055a", "timestamp": "2026-06-19T20:55:14", "name": "/api/eval/summary", "kind": "http_request", "status": "running", "metadata": {"method": "GET", "path": "/api/eval/summary"}, "span_count": 0}
+{"trace_id": "ebd9ef9d055a", "timestamp": "2026-06-19T20:55:14", "event": "trace_end", "duration_ms": 8, "span_count": 0, "status_code": 200, "error": false}
+{"trace_id": "3e4ba2eff945", "timestamp": "2026-06-19T20:55:14", "name": "/api/eval/summary", "kind": "http_request", "status": "running", "metadata": {"method": "GET", "path": "/api/eval/summary"}, "span_count": 0}
+{"trace_id": "3e4ba2eff945", "timestamp": "2026-06-19T20:55:14", "event": "trace_end", "duration_ms": 8, "span_count": 0, "status_code": 200, "error": false}
+{"trace_id": "2def03538ac7", "timestamp": "2026-06-19T20:55:14", "name": "/api/eval/summary", "kind": "http_request", "status": "running", "metadata": {"method": "GET", "path": "/api/eval/summary"}, "span_count": 0}
+{"trace_id": "2def03538ac7", "timestamp": "2026-06-19T20:55:14", "event": "trace_end", "duration_ms": 8, "span_count": 0, "status_code": 200, "error": false}
+{"trace_id": "d55270191bab", "timestamp": "2026-06-19T20:55:14", "name": "/api/eval/summary", "kind": "http_request", "status": "running", "metadata": {"method": "GET", "path": "/api/eval/summary"}, "span_count": 0}
+{"trace_id": "d55270191bab", "timestamp": "2026-06-19T20:55:14", "event": "trace_end", "duration_ms": 10, "span_count": 0, "status_code": 200, "error": false}
+{"trace_id": "45b0d96f3ec8", "timestamp": "2026-06-19T20:55:14", "name": "/api/eval/summary", "kind": "http_request", "status": "running", "metadata": {"method": "GET", "path": "/api/eval/summary"}, "span_count": 0}
+{"trace_id": "45b0d96f3ec8", "timestamp": "2026-06-19T20:55:14", "event": "trace_end", "duration_ms": 10, "span_count": 0, "status_code": 200, "error": false}
+{"trace_id": "970fb2ce9b0f", "timestamp": "2026-06-19T20:55:14", "name": "/api/eval/summary", "kind": "http_request", "status": "running", "metadata": {"method": "GET", "path": "/api/eval/summary"}, "span_count": 0}
+{"trace_id": "970fb2ce9b0f", "timestamp": "2026-06-19T20:55:14", "event": "trace_end", "duration_ms": 8, "span_count": 0, "status_code": 200, "error": false}
+{"trace_id": "269ef027027b", "timestamp": "2026-06-19T20:55:14", "name": "/api/eval/summary", "kind": "http_request", "status": "running", "metadata": {"method": "GET", "path": "/api/eval/summary"}, "span_count": 0}
+{"trace_id": "269ef027027b", "timestamp": "2026-06-19T20:55:14", "event": "trace_end", "duration_ms": 8, "span_count": 0, "status_code": 200, "error": false}
+{"trace_id": "e7898cfac1c5", "timestamp": "2026-06-19T20:55:14", "name": "/api/eval/summary", "kind": "http_request", "status": "running", "metadata": {"method": "GET", "path": "/api/eval/summary"}, "span_count": 0}
+{"trace_id": "e7898cfac1c5", "timestamp": "2026-06-19T20:55:14", "event": "trace_end", "duration_ms": 10, "span_count": 0, "status_code": 200, "error": false}
+{"trace_id": "85ffbd7ab837", "timestamp": "2026-06-19T20:55:14", "name": "/api/eval/summary", "kind": "http_request", "status": "running", "metadata": {"method": "GET", "path": "/api/eval/summary"}, "span_count": 0}
+{"trace_id": "85ffbd7ab837", "timestamp": "2026-06-19T20:55:14", "event": "trace_end", "duration_ms": 9, "span_count": 0, "status_code": 200, "error": false}
+{"trace_id": "42c9408a235c", "timestamp": "2026-06-19T20:55:14", "name": "/api/eval/summary", "kind": "http_request", "status": "running", "metadata": {"method": "GET", "path": "/api/eval/summary"}, "span_count": 0}
+{"trace_id": "42c9408a235c", "timestamp": "2026-06-19T20:55:14", "event": "trace_end", "duration_ms": 11, "span_count": 0, "status_code": 200, "error": false}
+{"trace_id": "8f5605c7a5a4", "timestamp": "2026-06-19T20:55:14", "name": "/api/eval/summary", "kind": "http_request", "status": "running", "metadata": {"method": "GET", "path": "/api/eval/summary"}, "span_count": 0}
+{"trace_id": "8f5605c7a5a4", "timestamp": "2026-06-19T20:55:14", "event": "trace_end", "duration_ms": 13, "span_count": 0, "status_code": 200, "error": false}
+{"trace_id": "907e87f485a7", "timestamp": "2026-06-19T20:55:14", "name": "/api/eval/summary", "kind": "http_request", "status": "running", "metadata": {"method": "GET", "path": "/api/eval/summary"}, "span_count": 0}
+{"trace_id": "907e87f485a7", "timestamp": "2026-06-19T20:55:14", "event": "trace_end", "duration_ms": 9, "span_count": 0, "status_code": 200, "error": false}
+{"trace_id": "7b7fe218a65e", "timestamp": "2026-06-19T20:55:14", "name": "/api/eval/summary", "kind": "http_request", "status": "running", "metadata": {"method": "GET", "path": "/api/eval/summary"}, "span_count": 0}
+{"trace_id": "7b7fe218a65e", "timestamp": "2026-06-19T20:55:14", "event": "trace_end", "duration_ms": 9, "span_count": 0, "status_code": 200, "error": false}
+{"trace_id": "b1a65bdaaec0", "timestamp": "2026-06-19T20:55:14", "name": "/api/eval/summary", "kind": "http_request", "status": "running", "metadata": {"method": "GET", "path": "/api/eval/summary"}, "span_count": 0}
+{"trace_id": "b1a65bdaaec0", "timestamp": "2026-06-19T20:55:14", "event": "trace_end", "duration_ms": 9, "span_count": 0, "status_code": 200, "error": false}
+{"trace_id": "f61084aff381", "timestamp": "2026-06-19T20:55:14", "name": "/api/eval/summary", "kind": "http_request", "status": "running", "metadata": {"method": "GET", "path": "/api/eval/summary"}, "span_count": 0}
+{"trace_id": "f61084aff381", "timestamp": "2026-06-19T20:55:14", "event": "trace_end", "duration_ms": 10, "span_count": 0, "status_code": 200, "error": false}
+{"trace_id": "c8a78139a0d3", "timestamp": "2026-06-19T20:55:14", "name": "/api/eval/summary", "kind": "http_request", "status": "running", "metadata": {"method": "GET", "path": "/api/eval/summary"}, "span_count": 0}
+{"trace_id": "c8a78139a0d3", "timestamp": "2026-06-19T20:55:14", "event": "trace_end", "duration_ms": 11, "span_count": 0, "status_code": 200, "error": false}
+{"trace_id": "c030e99d3411", "timestamp": "2026-06-19T20:55:14", "name": "/api/eval/summary", "kind": "http_request", "status": "running", "metadata": {"method": "GET", "path": "/api/eval/summary"}, "span_count": 0}
+{"trace_id": "c030e99d3411", "timestamp": "2026-06-19T20:55:14", "event": "trace_end", "duration_ms": 11, "span_count": 0, "status_code": 200, "error": false}
+{"trace_id": "84ed361100e5", "timestamp": "2026-06-19T20:55:14", "name": "/api/eval/summary", "kind": "http_request", "status": "running", "metadata": {"method": "GET", "path": "/api/eval/summary"}, "span_count": 0}
+{"trace_id": "84ed361100e5", "timestamp": "2026-06-19T20:55:14", "event": "trace_end", "duration_ms": 9, "span_count": 0, "status_code": 200, "error": false}

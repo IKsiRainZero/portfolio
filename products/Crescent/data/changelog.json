@@ -1,0 +1,130 @@
+{
+  "meta": {
+    "app": "Portfolio App — 求职备战工作台",
+    "updated": "2026-06-04"
+  },
+  "versions": [
+    {
+      "version": "3.0.0",
+      "date": "2026-06-04",
+      "title": "第三次重大更新 — Agent 实时流式 + RAG 精排 + 课程扩展",
+      "summary": "SSE 流式输出替代「干等」体验、Session TTL 自动管理、BGE Reranker 精排、Chunk Size 自动对比、Agent Thought 阶段捕获、AI 课程体系扩展、更新日志页面。",
+      "docs_refs": [
+        {"file": "optimization-roadmap.md", "section": "Phase 1-5 全部完成"},
+        {"file": "debug-report.md", "section": "Issue #11-#16 解决"},
+        {"file": "dataset-doc.md", "section": "v3.0 ChromaDB 4,015 chunks + Reranker"}
+      ],
+      "metrics": {
+        "rag_hit_rate_5": 0.8000,
+        "rag_mrr": 0.7117,
+        "chroma_chunks": 4015
+      },
+      "sections": [
+        {
+          "icon": "zap",
+          "title": "Agent 系统增强",
+          "items": [
+            {"tag": "new", "text": "SSE 流式输出 — Agent 思考过程实时推送（Thought → Action → Observation）"},
+            {"tag": "new", "text": "Thought 阶段捕获 — 展示 Agent 推理文本（「用户问CNN，先搜知识库…」）"},
+            {"tag": "improved", "text": "Session TTL 自动清理 — 2小时空闲自动回收 + LRU 淘汰，替代 100 硬上限"},
+            {"tag": "new", "text": "Session 列表查询 API — GET /api/agent/sessions"},
+            {"tag": "fixed", "text": "修复 API Key 热更新后 Agent 端点不生效的问题"}
+          ]
+        },
+        {
+          "icon": "search",
+          "title": "RAG 检索优化",
+          "items": [
+            {"tag": "new", "text": "BGE Reranker 精排 — 粗召回 k=20 → cross-encoder 重排 → top-5"},
+            {"tag": "new", "text": "Chunk Size 自动对比脚本 — 300/500/800/1000 一键评测，自动推荐最优参数"},
+            {"tag": "improved", "text": "中文回退 + 混合检索融合权重保持 0.6(向量)/0.4(BM25)"},
+            {"tag": "improved", "text": "Hit Rate@5 76.67% → 80.00%，MRR 0.7000 → 0.7117"}
+          ]
+        },
+        {
+          "icon": "book-open",
+          "title": "知识体系扩展",
+          "items": [
+            {"tag": "new", "text": "AI 课程体系扩展 — 新增前置知识、学习目标、实践练习、相关资源字段"},
+            {"tag": "new", "text": "新增 qa 和 code_example 条目类型"},
+            {"tag": "new", "text": "大型概念细分为子概念（如线性代数→向量/特征值/SVD）"},
+            {"tag": "improved", "text": "知识同步器 _item_to_text() 支持扩展字段和新类型"}
+          ]
+        },
+        {
+          "icon": "layout",
+          "title": "界面更新",
+          "items": [
+            {"tag": "new", "text": "更新日志页面 /changelog — 离线可用的版本历史"},
+            {"tag": "new", "text": "侧边栏版本徽章 — 直接跳转更新日志"},
+            {"tag": "improved", "text": "思考过程展示新增「思考」阶段（💡图标）"},
+            {"tag": "improved", "text": "流式输出实时状态指示（🔧调用中 / 📋完成）"}
+          ]
+        }
+      ]
+    },
+    {
+      "version": "2.0.0",
+      "date": "2026-06-04",
+      "title": "第二次重大更新 — JSON 知识库通道 + 混合检索",
+      "docs_refs": [
+        {"file": "optimization-roadmap.md", "section": "Phase 5 JSON→ChromaDB通道"},
+        {"file": "dataset-doc.md", "section": "v2.0 混合检索评估结果"}
+      ],
+      "metrics": {
+        "rag_hit_rate_5": 0.7667,
+        "rag_mrr": 0.7000,
+        "chroma_chunks": 3887
+      },
+      "sections": [
+        {
+          "icon": "database",
+          "title": "知识库基础设施",
+          "items": [
+            {"tag": "new", "text": "JSON 知识库 → ChromaDB 增量同步（knowledge_sync.py）"},
+            {"tag": "new", "text": "BM25 (jieba 分词) + 向量混合检索，RRF 加权融合"},
+            {"tag": "new", "text": "启动自动检测未向量化 JSON 条目"},
+            {"tag": "new", "text": "编辑检测 — content_hash 校验，自动更新已修改条目"}
+          ]
+        },
+        {
+          "icon": "trending-up",
+          "title": "检索质量提升",
+          "items": [
+            {"tag": "improved", "text": "Hit Rate@5: 76.67% → 80.00%"},
+            {"tag": "improved", "text": "MRR: 0.7000 → 0.7117"},
+            {"tag": "improved", "text": "ChromaDB: 3724 → 3887 chunks"}
+          ]
+        }
+      ]
+    },
+    {
+      "version": "1.0.0",
+      "date": "2026-06-03",
+      "title": "首次发布 — ReAct Agent + RAG 管道",
+      "docs_refs": [
+        {"file": "optimization-roadmap.md", "section": "Phase 1-2 向量库+RAG"},
+        {"file": "dataset-doc.md", "section": "v1.0 基线评估"}
+      ],
+      "metrics": {
+        "rag_hit_rate_5": 0.7667,
+        "rag_mrr": 0.7000,
+        "chroma_chunks": 3724
+      },
+      "sections": [
+        {
+          "icon": "rocket",
+          "title": "核心功能",
+          "items": [
+            {"tag": "new", "text": "LangGraph ReAct Agent（9 个工具）"},
+            {"tag": "new", "text": "ChromaDB 向量知识库（bge-m3, 1024维, cosine空间）"},
+            {"tag": "new", "text": "RAG 检索增强生成（动态阈值 + 英文回退）"},
+            {"tag": "new", "text": "11 Blueprint 模块化后端"},
+            {"tag": "new", "text": "量化评估体系（Hit Rate, MRR, Recall）"},
+            {"tag": "new", "text": "6 页面前端（仪表盘/训练器/知识库/简历/面试/费曼教练）"}
+          ]
+        }
+      ]
+    }
+  ]
+}

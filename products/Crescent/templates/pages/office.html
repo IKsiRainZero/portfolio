@@ -1,0 +1,768 @@
+{% extends "base.html" %}
+{% block title %}老师办公室{% endblock %}
+{% block body_class %}page-office{% endblock %}
+{% block head %}
+<link rel="stylesheet" href="/static/css/mascot.css">
+<link rel="stylesheet" href="/static/css/course-card.css">
+<style>
+/* ── Office: 老师办公室 ── */
+
+/* Main page background — warm paper */
+body.page-office .content {
+  background:
+    linear-gradient(175deg, #f8f4ec 0%, #f4efe5 35%, #f1ebdf 65%, #f6f2ea 100%);
+}
+
+.office-wrap {
+  display: flex;
+  flex-direction: column;
+  height: calc(100vh - 118px);
+  padding-top: 26px;
+  animation: slideInRight 0.3s ease-out;
+}
+
+/* ── Top Bar ── */
+.office-topbar {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 0 24px 14px;
+  border-bottom: 1px solid rgba(160, 130, 100, 0.15);
+  flex-shrink: 0;
+}
+.office-topbar h1 {
+  font-size: 18px;
+  font-weight: 620;
+  color: #3d2b14;
+  margin: 0;
+  flex: 1;
+}
+.office-back {
+  font-size: 13px;
+  padding: 6px 14px;
+  border-radius: 8px;
+  border: 1px solid rgba(160, 130, 100, 0.2);
+  background: rgba(255, 250, 240, 0.6);
+  color: #5c4a30;
+  cursor: pointer;
+  transition: all 0.15s;
+  font-family: inherit;
+}
+.office-back:hover {
+  background: rgba(160, 130, 100, 0.1);
+  border-color: rgba(160, 130, 100, 0.35);
+}
+
+/* ── Three-column Layout ── */
+.office-layout {
+  display: flex;
+  flex: 1;
+  min-height: 0;
+  gap: 0;
+}
+.office-col {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  padding: 16px;
+  overflow-y: auto;
+}
+.office-materials {
+  flex: 25;
+  border-right: 1px solid rgba(160, 130, 100, 0.12);
+  background: rgba(255, 250, 240, 0.35);
+}
+.office-generate {
+  flex: 35;
+  border-right: 1px solid rgba(160, 130, 100, 0.12);
+  background: rgba(255, 252, 248, 0.25);
+}
+.office-preview-col {
+  flex: 40;
+  background: rgba(255, 252, 248, 0.25);
+}
+
+/* ── Panels ── */
+.office-panel {
+  background: rgba(255, 250, 240, 0.55);
+  border: 1px solid rgba(160, 130, 100, 0.12);
+  border-radius: 10px;
+  padding: 14px;
+  margin-bottom: 12px;
+}
+.office-panel-title {
+  font-size: 13px;
+  font-weight: 600;
+  color: #3d2b14;
+  margin-bottom: 8px;
+}
+
+/* ── Knowledge Base Tree ── */
+.kb-tree {
+  font-size: 12px;
+  color: #5c4a30;
+  line-height: 1.6;
+  max-height: 260px;
+  overflow-y: auto;
+}
+.kb-tree .kb-check-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 6px;
+  padding: 5px 6px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.1s;
+}
+.kb-tree .kb-check-item:hover {
+  background: rgba(160, 130, 100, 0.08);
+}
+.kb-tree .kb-check-item input[type="checkbox"] {
+  margin-top: 3px;
+  accent-color: #8b6914;
+  flex-shrink: 0;
+}
+.kb-tree .kb-check-label {
+  flex: 1;
+  min-width: 0;
+}
+.kb-tree .kb-check-label .kb-name {
+  font-weight: 500;
+  color: #3d2b14;
+}
+.kb-tree .kb-check-label .kb-count {
+  font-size: 10px;
+  color: rgba(92, 74, 48, 0.5);
+  margin-left: 4px;
+}
+
+/* ── Selected Sources ── */
+#selectedSourcesList {
+  font-size: 12px;
+  color: #5c4a30;
+}
+#selectedSourcesList .source-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 2px 8px;
+  margin: 2px 4px 2px 0;
+  border-radius: 12px;
+  background: rgba(139, 105, 20, 0.1);
+  border: 1px solid rgba(139, 105, 20, 0.15);
+  font-size: 11px;
+}
+#selectedSourcesList .source-tag button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 13px;
+  color: #8b6914;
+  padding: 0 2px;
+  line-height: 1;
+}
+
+/* ── Generate Button ── */
+.btn-generate {
+  width: 100%;
+  padding: 10px 16px;
+  border: none;
+  border-radius: 8px;
+  background: #3d2b14;
+  color: #fdf6ee;
+  font-size: 14px;
+  font-weight: 500;
+  font-family: inherit;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+.btn-generate:hover {
+  background: #5c4020;
+}
+.btn-generate:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+/* ── Progress ── */
+.office-progress {
+  margin-top: 8px;
+  font-size: 12px;
+  color: #5c4a30;
+  min-height: 20px;
+}
+
+/* ── Preview Area ── */
+.office-preview-body {
+  flex: 1;
+  overflow-y: auto;
+  padding: 0 16px 16px;
+}
+.office-preview-body .output-empty {
+  text-align: center;
+  padding: 60px 20px;
+  color: rgba(92, 74, 48, 0.35);
+}
+.office-preview-body .output-empty .empty-icon {
+  font-size: 36px;
+  margin-bottom: 8px;
+}
+.office-preview-body .output-empty p {
+  font-size: 13px;
+  margin: 0;
+}
+.office-preview-body .pipeline-loading {
+  text-align: center;
+  padding: 40px 20px;
+  color: #5c4a30;
+  font-size: 13px;
+}
+.office-preview-body .ingest-error {
+  text-align: center;
+  padding: 40px 20px;
+  color: #b91c1c;
+  font-size: 13px;
+}
+
+/* ── Course Card overrides for Full Preview ── */
+.office-preview-body .course-card {
+  background: rgba(255, 250, 240, 0.6);
+  border: 1px solid rgba(160, 130, 100, 0.15);
+  border-radius: 10px;
+}
+.office-preview-body .course-card.collapsed .course-card-body {
+  display: block;
+}
+.office-preview-body .course-card .course-card-header {
+  padding: 12px 16px;
+  border-bottom: 1px solid rgba(160, 130, 100, 0.1);
+}
+.office-preview-body .course-card .course-card-body {
+  padding: 0;
+}
+.office-preview-body .course-card .course-card-footer {
+  padding: 10px 16px;
+  border-top: 1px solid rgba(160, 130, 100, 0.1);
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+.office-preview-body .course-card .course-card-footer .btn-open-office {
+  font-size: 12px;
+  padding: 5px 12px;
+  border-radius: 6px;
+  border: 1px solid rgba(61, 43, 20, 0.2);
+  background: #3d2b14;
+  color: #fdf6ee;
+  cursor: pointer;
+  font-family: inherit;
+  transition: background 0.15s;
+}
+.office-preview-body .course-card .course-card-footer .btn-open-office:hover {
+  background: #5c4020;
+}
+.office-preview-body .course-card .course-card-footer .btn-save-kb {
+  font-size: 12px;
+  padding: 5px 12px;
+  border-radius: 6px;
+  border: 1px solid rgba(160, 130, 100, 0.2);
+  background: rgba(255, 250, 240, 0.4);
+  color: #5c4a30;
+  cursor: pointer;
+  font-family: inherit;
+  transition: all 0.15s;
+}
+.office-preview-body .course-card .course-card-footer .btn-save-kb:hover {
+  background: rgba(160, 130, 100, 0.1);
+}
+
+/* ── Responsive ── */
+@media (max-width: 900px) {
+  .office-layout {
+    flex-direction: column;
+  }
+  .office-col {
+    flex: none;
+    max-height: 40vh;
+    border-right: none !important;
+    border-bottom: 1px solid rgba(160, 130, 100, 0.12);
+  }
+  .office-materials {
+    max-height: 30vh;
+  }
+  .office-generate {
+    max-height: auto;
+  }
+  .office-preview-col {
+    flex: 1;
+  }
+}
+
+/* ── Animations ── */
+@keyframes slideOutLeft {
+  from { transform: translateX(0); opacity: 1; }
+  to   { transform: translateX(-30px); opacity: 0; }
+}
+@keyframes slideInRight {
+  from { transform: translateX(30px); opacity: 0; }
+  to   { transform: translateX(0); opacity: 1; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .office-wrap { animation: none; }
+  #mainContent { animation: none !important; }
+  #transition-overlay { animation: none !important; display: none !important; }
+  .course-card { transition: none; }
+}
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="office-wrap">
+  <!-- Top bar -->
+  <div class="office-topbar">
+    <button class="office-back" onclick="Office.goBack()">← 返回教室</button>
+    <h1>🏫 老师办公室</h1>
+    <div id="officeMascotMount" style="position:relative;z-index:9"></div>
+  </div>
+
+  <div class="office-layout">
+    <!-- Column 1: Materials -->
+    <div class="office-col office-materials">
+      <div class="office-panel">
+        <div class="office-panel-title">📂 知识库</div>
+        <div class="kb-tree" id="kbTree">加载中...</div>
+      </div>
+      <div class="office-panel">
+        <div class="office-panel-title">🔍 搜索知识库</div>
+        <div style="display:flex;gap:4px">
+          <input type="text" id="officeWebSearch" placeholder="搜索知识库条目..."
+            style="flex:1;padding:6px 10px;border:1px solid rgba(160,130,100,0.2);border-radius:4px;font-size:12px"
+            onkeydown="if(event.key==='Enter') Office.searchKB()">
+          <button onclick="Office.searchKB()" style="padding:6px 10px;border:1px solid rgba(160,130,100,0.2);border-radius:4px;background:rgba(255,250,240,0.6);cursor:pointer;font-size:12px">搜索</button>
+        </div>
+        <div id="officeSearchResults" style="max-height:150px;overflow-y:auto;margin-top:4px;font-size:11px"></div>
+      </div>
+      <div class="office-panel" id="selectedSourcesPanel" style="display:none">
+        <div class="office-panel-title">📎 已选素材</div>
+        <div id="selectedSourcesList"></div>
+      </div>
+    </div>
+
+    <!-- Column 2: Generation -->
+    <div class="office-col office-generate">
+      <div class="office-panel">
+        <div class="office-panel-title">✍️ 生成讲义</div>
+        <input type="text" id="officeTopic" placeholder="输入课程主题，如：Transformer自注意力机制"
+          style="width:100%;padding:8px 12px;border:1.5px solid rgba(160,130,100,0.25);border-radius:4px;font-size:13px;margin-bottom:8px"
+          onkeydown="if(event.key==='Enter') Office.generate()">
+        <div style="display:flex;gap:6px">
+          <button class="btn-generate" id="officeGenerateBtn" onclick="Office.generate()">
+            生成讲义
+          </button>
+          <button class="ws-toggle on" id="wsToggleBtn" onclick="WebSearchToggle.toggle()" title="联网搜索: 开" style="flex-shrink:0">&#128269;</button>
+        </div>
+        <div class="office-progress" id="officeProgress"></div>
+      </div>
+    </div>
+
+    <!-- Column 3: Preview -->
+    <div class="office-col office-preview-col">
+      <div class="office-panel-title" style="padding:12px 16px 8px">📋 课程预览</div>
+      <div class="office-preview-body" id="officePreview">
+        <div class="output-empty">
+          <div class="empty-icon">📋</div>
+          <p>输入主题，生成结构化讲义</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="/static/js/modules/mascot.js"></script>
+<script src="/static/js/modules/course-card.js"></script>
+<script src="/static/js/modules/web-search-toggle.js"></script>
+<script>
+var Office = {
+  _course: null,
+  _generating: false,
+  _selectedSources: [],
+  _knowledgeSets: [],
+
+  init: function() {
+    WebSearchToggle.init({ btnId: 'wsToggleBtn' });
+    this.loadKnowledgeSets();
+
+    // Restore course from sessionStorage if coming from classroom
+    try {
+      var saved = sessionStorage.getItem('office_course');
+      if (saved) {
+        this._course = JSON.parse(saved);
+        this.renderPreview();
+        sessionStorage.removeItem('office_course');
+      }
+    } catch(e) {}
+
+    // Restore last generated course from history
+    if (!this._course) {
+      try {
+        var history = JSON.parse(sessionStorage.getItem('office_course_history') || '[]');
+        if (history.length > 0) {
+          this._course = history[0].course;
+          this.renderPreview();
+        }
+      } catch(e) {}
+    }
+
+    // Init mascot
+    var officeMascot = new Mascot({
+      persona: 'reviewer',
+      container: '#officeMascotMount',
+      defaultPos: 'top-right',
+    });
+    window._officeMascot = officeMascot;
+    officeMascot.tryShowGuide('点我查看备课状态');
+    officeMascot.startBubbles({interval: 35, duration: 6});
+
+    // 60s polling for cross-agent bubbles
+    setInterval(function() {
+      fetch('/api/agent/bubbles?limit=5&exclude_persona=teacher')
+        .then(function(r) { return r.json(); })
+        .then(function(d) {
+          if (window._officeMascot) window._officeMascot.updateFromPoll(d);
+        })
+        .catch(function() {});
+    }, 60000);
+  },
+
+  loadKnowledgeSets: function() {
+    var self = this;
+    var tree = document.getElementById('kbTree');
+    if (!tree) return;
+
+    fetch('/api/knowledge/sets')
+      .then(function(r) { return r.json(); })
+      .then(function(data) {
+        self._knowledgeSets = data.sets || [];
+        if (!self._knowledgeSets.length) {
+          tree.innerHTML = '<span style="color:rgba(92,74,48,0.4)">暂无可用知识库</span>';
+          return;
+        }
+        var html = '';
+        self._knowledgeSets.forEach(function(s) {
+          html += '<div class="kb-check-item">' +
+            '<input type="checkbox" data-set-id="' + App.escapeHtml(s.id) + '" ' +
+              'onchange="Office.toggleSource(this, \'' + App.escapeHtml(s.id) + '\', \'' + App.escapeHtml(s.display_name || s.id) + '\')">' +
+            '<span class="kb-check-label">' +
+              '<span class="kb-name">' + App.escapeHtml(s.display_name || s.id) + '</span>' +
+              '<span class="kb-count">(' + (s.item_count || 0) + '项)</span>' +
+            '</span>' +
+          '</div>';
+        });
+        tree.innerHTML = html;
+      })
+      .catch(function() {
+        tree.innerHTML = '<span style="color:#b91c1c">加载失败</span>';
+      });
+  },
+
+  toggleSource: function(checkbox, id, name) {
+    if (checkbox.checked) {
+      this._selectedSources.push({ id: id, name: name });
+    } else {
+      this._selectedSources = this._selectedSources.filter(function(s) { return s.id !== id; });
+    }
+    this._renderSelectedSources();
+  },
+
+  _renderSelectedSources: function() {
+    var panel = document.getElementById('selectedSourcesPanel');
+    var list = document.getElementById('selectedSourcesList');
+    if (!panel || !list) return;
+
+    if (!this._selectedSources.length) {
+      panel.style.display = 'none';
+      return;
+    }
+    panel.style.display = 'block';
+    var html = '';
+    this._selectedSources.forEach(function(s) {
+      html += '<span class="source-tag">' +
+        App.escapeHtml(s.name) +
+        '<button onclick="Office.removeSource(\'' + App.escapeHtml(s.id) + '\')">&times;</button>' +
+      '</span>';
+    });
+    list.innerHTML = html;
+  },
+
+  removeSource: function(id) {
+    this._selectedSources = this._selectedSources.filter(function(s) { return s.id !== id; });
+    // Uncheck the corresponding checkbox
+    var cb = document.querySelector('input[data-set-id="' + id + '"]');
+    if (cb) cb.checked = false;
+    this._renderSelectedSources();
+  },
+
+  generate: function() {
+    var topic = document.getElementById('officeTopic').value.trim();
+    if (!topic || this._generating) return;
+    this._generating = true;
+
+    var btn = document.getElementById('officeGenerateBtn');
+    if (btn) { btn.textContent = '停止生成'; btn.classList.add('btn-stop'); btn.onclick = Office.stopGenerate; }
+
+    var preview = document.getElementById('officePreview');
+    preview.innerHTML = '<div class="pipeline-loading">生成中...</div>';
+
+    var progress = document.getElementById('officeProgress');
+    if (window._officeMascot) window._officeMascot.setState('thinking', '老师在备课...');
+
+    var self = this;
+    fetch('/api/agent/generate-course', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        topic: topic,
+        sources: self._selectedSources.map(function(s) { return s.name; }),
+        depth: 'standard'
+      })
+    }).then(function(resp) {
+      self._reader = resp.body.getReader();
+      var decoder = new TextDecoder();
+      var buf = '';
+
+      function read() {
+        self._reader.read().then(function(result) {
+          if (result.done) {
+            self._finishGenerate(btn, progress, preview);
+            return;
+          }
+          buf += decoder.decode(result.value, { stream: true });
+          var lines = buf.split('\n');
+          buf = lines.pop();
+          lines.forEach(function(line) {
+            if (!line.startsWith('data: ')) return;
+            try { var evt = JSON.parse(line.slice(6)); } catch(e) { return; }
+            self._onEvent(evt, progress);
+          });
+          read();
+        }).catch(function(err) {
+          if (err && err.name === 'AbortError') return;  // user cancelled
+          self._finishGenerate(btn, progress, preview);
+          if (progress) progress.textContent = '❌ 连接中断: ' + (err.message || '');
+          preview.innerHTML = '<div class="ingest-error">生成过程连接中断，请重试</div>';
+          if (window._officeMascot) window._officeMascot.setState('done', '');
+        });
+      }
+      read();
+    }).catch(function(e) {
+      preview.innerHTML = '<div class="ingest-error">生成失败: ' + e.message + '</div>';
+      self._finishGenerate(btn, progress, preview);
+    });
+  },
+
+  stopGenerate: function() {
+    if (this._reader) {
+      try { this._reader.cancel(); } catch(e) {}
+      this._reader = null;
+    }
+    this._generating = false;
+    this._resetGenerateBtn();
+    var progress = document.getElementById('officeProgress');
+    if (progress) progress.textContent = '⚠️ 已中断';
+    var preview = document.getElementById('officePreview');
+    if (preview && this._course) {
+      // Keep the partial content if any was generated
+      this.renderPreview();
+    } else if (preview) {
+      preview.innerHTML = '<div class="ingest-error">已中断生成</div>';
+    }
+    if (window._officeMascot) window._officeMascot.setState('done', '');
+  },
+
+  _finishGenerate: function(btn, progress, preview) {
+    this._generating = false;
+    this._reader = null;
+    this._resetGenerateBtn();
+  },
+
+  _resetGenerateBtn: function() {
+    var btn = document.getElementById('officeGenerateBtn');
+    if (btn) { btn.textContent = '生成讲义'; btn.classList.remove('btn-stop'); btn.onclick = Office.generate; }
+  },
+
+  _saveCourseToHistory: function() {
+    if (!this._course) return;
+    try {
+      var history = JSON.parse(sessionStorage.getItem('office_course_history') || '[]');
+      // Dedup by title
+      history = history.filter(function(h) { return h.title !== this._course.title; }.bind(this));
+      history.unshift({
+        title: this._course.title,
+        time: new Date().toISOString(),
+        sections: (this._course.sections || []).map(function(s) { return s.heading || ''; }),
+        course: this._course
+      });
+      if (history.length > 10) history.length = 10;
+      sessionStorage.setItem('office_course_history', JSON.stringify(history));
+    } catch(e) {}
+  },
+
+  _onEvent: function(evt, progressEl) {
+    if (evt.type === 'searching') {
+      if (progressEl) progressEl.textContent = '🔍 ' + evt.message;
+    } else if (evt.type === 'outline') {
+      if (evt.sections) {
+        if (progressEl) progressEl.textContent = '📋 大纲: ' + evt.sections.join(' → ');
+        this._course = {
+          id: 'course_preview',
+          title: document.getElementById('officeTopic').value.trim(),
+          sections: evt.sections.map(function(h) { return { heading: h, body: '生成中...' }; }),
+          sources: [],
+          quiz: [],
+        };
+        this.renderPreview();
+      }
+    } else if (evt.type === 'section') {
+      if (evt.status === 'done') {
+        if (progressEl) progressEl.textContent = '✍️ 已完成: ' + evt.heading;
+        if (this._course && this._course.sections[evt.index]) {
+          this._course.sections[evt.index].body = evt.body;
+          this._course.sections[evt.index].chart = evt.chart || null;
+          this._course.sections[evt.index].examples = evt.examples || [];
+          this._course.sections[evt.index].refs = evt.refs || [];
+          this.renderPreview();
+        }
+      }
+    } else if (evt.type === 'quiz') {
+      if (evt.status === 'done' && evt.items) {
+        if (progressEl) progressEl.textContent = '🧪 生成检验题...';
+        if (this._course) {
+          this._course.quiz = evt.items;
+          this.renderPreview();
+        }
+      }
+    } else if (evt.type === 'final') {
+      this._generating = false;
+      this._resetGenerateBtn();
+      if (progressEl) progressEl.textContent = '✅ 讲义生成完成';
+      if (evt.course) {
+        this._course = evt.course;
+        CourseCard.registerCourse(evt.course);
+        this.renderPreview();
+        this._saveCourseToHistory();
+      }
+      if (window._officeMascot) window._officeMascot.setState('done', '讲义准备好了');
+    } else if (evt.type === 'error') {
+      this._generating = false;
+      this._resetGenerateBtn();
+      if (progressEl) progressEl.textContent = '❌ ' + evt.message;
+      if (window._officeMascot) window._officeMascot.setState('done', '');
+    }
+  },
+
+  renderPreview: function() {
+    var preview = document.getElementById('officePreview');
+    if (!this._course) {
+      preview.innerHTML = '<div class="output-empty"><div class="empty-icon">📋</div><p>输入主题生成讲义</p></div>';
+      return;
+    }
+    CourseCard.render(this._course, preview, { mode: 'full' });
+
+    // Add office-specific action buttons
+    var footer = preview.querySelector('.course-card-footer');
+    if (footer) {
+      // "发送到教室黑板" button
+      var sendBtn = document.createElement('button');
+      sendBtn.className = 'btn-open-office';
+      sendBtn.textContent = '发送到教室黑板';
+      sendBtn.onclick = this.sendToClassroom.bind(this);
+      footer.appendChild(sendBtn);
+
+      // PPT export placeholder (disabled)
+      var pptBtn = document.createElement('button');
+      pptBtn.textContent = '导出PPT素材';
+      pptBtn.style.cssText = 'color:rgba(61,43,20,0.35);border-color:rgba(160,130,100,0.15);cursor:not-allowed';
+      pptBtn.title = '功能开发中';
+      footer.appendChild(pptBtn);
+    }
+  },
+
+  sendToClassroom: function() {
+    if (!this._course) return;
+    var targetSession = sessionStorage.getItem('office_classroom_session') || 'teacher_active';
+    fetch('/api/agent/send-course', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ course: this._course, session_id: targetSession })
+    }).then(function(r) { return r.json(); })
+      .then(function(d) {
+        if (d.ok) {
+          alert('已发送到教室黑板！学生下次提问时老师即可引用此讲义。');
+        } else {
+          alert('发送失败: ' + (d.error || '未知错误'));
+        }
+      })
+      .catch(function() { alert('网络错误'); });
+  },
+
+  searchKB: function() {
+    var self = this;
+    var q = (document.getElementById('officeWebSearch').value || '').trim();
+    var resultsDiv = document.getElementById('officeSearchResults');
+    if (!q || q.length < 2) { resultsDiv.innerHTML = !q ? '' : '<div style="color:#8b7355;padding:4px 6px">输入至少2个字符</div>'; return; }
+    resultsDiv.innerHTML = '<div style="color:#8b7355;padding:4px 6px">搜索中...</div>';
+    fetch('/api/knowledge/search?q=' + encodeURIComponent(q))
+      .then(function(r) { return r.json(); })
+      .then(function(data) {
+        var results = data.results || [];
+        if (!results.length) { resultsDiv.innerHTML = '<div style="color:#8b7355;padding:4px 6px">无匹配条目</div>'; return; }
+        resultsDiv.innerHTML = results.slice(0, 20).map(function(item, i) {
+          var title = item.title || item.id || item.filename || '';
+          var source = item.source || item.filename || '';
+          var itemId = 'kb_' + i + '_' + Date.now();
+          return '<div style="padding:4px 6px;margin:2px 0;border-radius:3px;background:rgba(160,130,100,0.08);font-size:11px;cursor:pointer;display:flex;justify-content:space-between;align-items:center" ' +
+            'data-item="' + App.escapeHtml(JSON.stringify({title: title, source: source, id: itemId})) + '" ' +
+            'onclick="Office.addSearchResult(this)" title="点击添加到素材">' +
+            '<span>' +
+              '<span style="color:#3d2b14">' + App.escapeHtml(title) + '</span>' +
+              (source ? '<span style="color:#8b7355;font-size:10px;margin-left:6px">' + App.escapeHtml(source) + '</span>' : '') +
+            '</span>' +
+            '<span style="color:#8b7355;font-size:10px;opacity:0.5">+ 添加</span>' +
+            '</div>';
+        }).join('');
+      })
+      .catch(function() { resultsDiv.innerHTML = '<div style="color:#b91c1c;padding:4px 6px">搜索失败</div>'; });
+  },
+
+  addSearchResult: function(el) {
+    try {
+      var item = JSON.parse(el.dataset.item);
+      // Check if already added
+      if (this._selectedSources.some(function(s) { return s.id === item.id; })) {
+        el.style.opacity = '0.5';
+        return;
+      }
+      this._selectedSources.push(item);
+      el.style.background = 'rgba(79,110,246,0.12)';
+      el.querySelector('span:last-child').textContent = '✓ 已添加';
+      el.style.cursor = 'default';
+      el.onclick = null;
+      this._renderSelectedSources();
+      var panel = document.getElementById('selectedSourcesPanel');
+      if (panel) panel.style.display = 'block';
+    } catch(e) {}
+  },
+
+  goBack: function() {
+    Router.navigate('/classroom');
+  }
+};
+
+// Init
+App.ready(function() {
+  Office.init();
+});
+</script>
+{% endblock %}

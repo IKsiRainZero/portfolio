@@ -1,0 +1,18 @@
+{
+  "suggestions": [
+    {
+      "severity": "SUGGESTION",
+      "category": "doc",
+      "title": "API test reject",
+      "description": "test",
+      "target_type": "module",
+      "target_id": "api_test_reject",
+      "suggestion_id": "e625d85071f0",
+      "status": "pending",
+      "created_at": "2026-06-21T10:30:18.321440",
+      "attribution_status": "pending",
+      "chain_hash": "7f009d242ffa2e33"
+    }
+  ],
+  "updated_at": "2026-06-21T10:30:18.321641"
+}

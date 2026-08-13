@@ -1,0 +1,1127 @@
+{% extends "base.html" %}
+{% block title %}训练器{% endblock %}
+{% block body_class %}page-trainer{% endblock %}
+{% block head %}
+<style>
+.trainer-wrap { max-width: 100%; margin: 0 auto; padding: 24px 40px; position: relative; z-index: 1; }
+
+/* ── Notebook paper background ── */
+.page-trainer {
+  position: relative;
+}
+.page-trainer::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background-color: #f7f4ed;
+  background-image:
+    linear-gradient(rgba(0,0,0,0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0,0,0,0.04) 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+
+/* ── Tab bar ── */
+.trainer-tabs {
+  display: flex;
+  gap: 4px;
+  margin-bottom: 20px;
+  background: var(--bg);
+  padding: 4px;
+  border-radius: 12px;
+}
+.trainer-tab {
+  flex: 1;
+  padding: 8px 12px;
+  border: none;
+  border-radius: 10px;
+  font-size: 13px;
+  font-family: inherit;
+  font-weight: 500;
+  cursor: pointer;
+  background: transparent;
+  color: var(--text2);
+  transition: all .15s;
+}
+.trainer-tab:hover { color: var(--text); background: var(--surface); }
+.trainer-tab.active { background: #fff; color: var(--text); box-shadow: 0 1px 3px rgba(0,0,0,.08); }
+
+/* ── Sub-type pills inside 做题 ── */
+.practice-pills {
+  display: flex;
+  gap: 6px;
+  margin-bottom: 16px;
+}
+.practice-pill {
+  padding: 4px 16px;
+  border-radius: 16px;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  font-size: 12px;
+  cursor: pointer;
+  color: var(--text2);
+  transition: all .15s;
+}
+.practice-pill:hover { border-color: var(--accent); color: var(--accent); }
+.practice-pill.active { background: var(--accent); color: #fff; border-color: var(--accent); }
+
+/* ── Exam timer ── */
+.exam-timer {
+  font-size: 28px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  text-align: center;
+  padding: 8px;
+  color: var(--text);
+}
+.exam-timer.warning { color: #dc2626; animation: pulse 1s infinite; }
+@keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.5} }
+
+/* ── Import button ── */
+.trainer-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 6px;
+  margin-bottom: 12px;
+}
+
+/* ── Paper Card System (A2 hard shadow + A4 dot grid) ── */
+.card, .edge-modal {
+  background: #fefdfc;
+  border: 1px solid rgba(0,0,0,0.06);
+  border-radius: 4px;
+  box-shadow: 3px 3px 0px rgba(0,0,0,0.07);
+  transition: box-shadow 0.15s, transform 0.15s;
+}
+.card:hover { box-shadow: 4px 4px 0px rgba(0,0,0,0.09); }
+/* Dot grid on card headers */
+.card-header {
+  position: relative;
+}
+.card-header::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0; right: 0;
+  height: 1px;
+  background: repeating-linear-gradient(
+    90deg,
+    rgba(0,0,0,0.08) 0px,
+    rgba(0,0,0,0.08) 1px,
+    transparent 1px,
+    transparent 6px
+  );
+}
+
+/* ── Tab bar — workbook tabs ── */
+.trainer-tabs {
+  background: rgba(0,0,0,0.03);
+  padding: 4px;
+  border-radius: 6px;
+}
+.trainer-tab {
+  border-radius: 5px;
+  font-weight: 500;
+  box-shadow: none;
+  transition: all 0.12s;
+}
+.trainer-tab.active {
+  background: #fefdfc;
+  box-shadow: 2px 2px 0px rgba(0,0,0,0.08);
+  transform: translateY(-1px);
+}
+
+/* ── Practice pills — press-down feedback (B9) ── */
+.practice-pill {
+  border-radius: 4px;
+  box-shadow: 1px 1px 0px rgba(0,0,0,0.06);
+  transition: all 0.1s;
+}
+.practice-pill:hover {
+  transform: translateY(-1px);
+  box-shadow: 2px 2px 0px rgba(0,0,0,0.08);
+}
+.practice-pill:active {
+  transform: translateY(1px);
+  box-shadow: none;
+}
+.practice-pill.active {
+  box-shadow: 2px 2px 0px rgba(0,0,0,0.1);
+}
+
+/* ── Buttons — press-down physics (B9 + C18) ── */
+.btn, .btn-primary, .btn-sm {
+  border-radius: 4px;
+  box-shadow: 2px 2px 0px rgba(0,0,0,0.1);
+  transition: all 0.1s;
+  border: 1px solid rgba(0,0,0,0.06);
+}
+.btn:hover, .btn-primary:hover, .btn-sm:hover {
+  transform: translateY(-1px);
+  box-shadow: 3px 3px 0px rgba(0,0,0,0.12);
+}
+.btn:active, .btn-primary:active, .btn-sm:active {
+  transform: translateY(1px);
+  box-shadow: 1px 1px 0px rgba(0,0,0,0.06);
+}
+.btn-primary {
+  background: #3d3d3d;
+  color: #fafafa;
+  border-color: #2d2d2d;
+}
+.btn-primary:hover { background: #2d2d2d; }
+
+/* ── MCQ option labels — paper feel ── */
+.practice-pill + div label,
+#examQuestionBody label {
+  background: #fefdfc;
+  box-shadow: 1px 1px 0px rgba(0,0,0,0.04);
+  border-radius: 4px;
+  transition: all 0.1s;
+}
+.practice-pill + div label:hover,
+#examQuestionBody label:hover {
+  box-shadow: 2px 2px 0px rgba(0,0,0,0.08);
+  transform: translateY(-1px);
+}
+
+/* ── Textarea/inputs — notebook ruled feel ── */
+textarea, select, input[type="text"], input[type="number"] {
+  border-radius: 4px !important;
+  background: #fefdfc;
+  box-shadow: inset 0 1px 2px rgba(0,0,0,0.04);
+}
+
+/* ── Exam timer — bold ledger style ── */
+.exam-timer {
+  font-family: 'SF Mono', 'Cascadia Code', 'Consolas', monospace;
+  background: #fefdfc;
+  border-radius: 4px;
+  box-shadow: 2px 2px 0px rgba(0,0,0,0.06);
+}
+
+/* ── Progress bar — subtle shimmer ── */
+.progress-fill {
+  background: linear-gradient(90deg, #5a5a5a 0%, #7a7a7a 50%, #5a5a5a 100%);
+  background-size: 200% 100%;
+  animation: progressShimmer 2s linear infinite;
+}
+@keyframes progressShimmer {
+  from { background-position: 200% 0; }
+  to   { background-position: -200% 0; }
+}
+
+/* ── Feedback box — subtle slide-in ── */
+.feedback-box {
+  animation: feedbackIn 0.2s ease-out;
+}
+@keyframes feedbackIn {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ── Stat cards — paper pop ── */
+.stat-card {
+  background: #fefdfc;
+  border-radius: 4px;
+  box-shadow: 2px 2px 0px rgba(0,0,0,0.06);
+  transition: box-shadow 0.12s, transform 0.12s;
+}
+.stat-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 3px 3px 0px rgba(0,0,0,0.09);
+}
+
+/* ── Empty state — subtle ruled-paper hint ── */
+.empty-state {
+  background: rgba(254,253,252,0.6);
+  border-radius: 4px;
+  box-shadow: 1px 1px 0px rgba(0,0,0,0.03);
+}
+
+/* ── Flash card flip (if trigger class added) ── */
+.flash-flipped {
+  transform: rotateY(180deg);
+  transition: transform 0.4s ease;
+}
+
+/* ── Badge — paper tag feel ── */
+.badge { border-radius: 3px; box-shadow: 1px 1px 0px rgba(0,0,0,0.05); }
+
+/* ── Import modal overlay ── */
+.edge-modal-overlay {
+  background: rgba(0,0,0,0.25);
+  backdrop-filter: blur(1px);
+}
+.edge-modal {
+  border-radius: 4px;
+  box-shadow: 4px 4px 0px rgba(0,0,0,0.08), 0 12px 40px rgba(0,0,0,0.12);
+}
+
+/* ── Draggable pen — notebook desk companion ── */
+.trainer-pen {
+  position: fixed;
+  z-index: 10;
+  cursor: grab;
+  user-select: none;
+  filter: drop-shadow(1px 2px 3px rgba(0,0,0,0.15));
+  transition: transform .3s ease, filter .3s ease;
+}
+.trainer-pen:hover { filter: drop-shadow(2px 3px 5px rgba(0,0,0,0.22)); }
+.trainer-pen.dragging { cursor: grabbing; z-index: 20; }
+.trainer-pen svg { display: block; }
+@keyframes penIdle {
+  0%, 100% { transform: rotate(-22deg) translateY(0); }
+  50%      { transform: rotate(-20deg) translateY(-1px); }
+}
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="page-trainer">
+<div class="trainer-wrap">
+  <!-- Tab bar -->
+  <div class="trainer-tabs" id="trainerTabs">
+    <button class="trainer-tab active" data-tab="practice">做题</button>
+    <button class="trainer-tab" data-tab="flash">闪卡抽查</button>
+    <button class="trainer-tab" data-tab="exam">考试</button>
+    <button class="trainer-tab" data-tab="feynman">我来当老师</button>
+  </div>
+
+  <!-- Draggable pen — notebook companion -->
+  <div class="trainer-pen" id="trainerPen" style="right:48px;bottom:48px;animation:penIdle 4s ease-in-out infinite" title="拖拽移动">
+    <svg width="64" height="18" viewBox="0 0 180 52"><defs><linearGradient id="penBody" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="#3a3a5c"/><stop offset="50%" stop-color="#5a5a7c"/><stop offset="100%" stop-color="#3a3a5c"/></linearGradient><linearGradient id="penTip" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="#c0a060"/><stop offset="60%" stop-color="#d4b870"/><stop offset="100%" stop-color="#a08040"/></linearGradient></defs><!-- Pen body --><rect x="0" y="14" width="140" height="20" rx="3" fill="url(#penBody)"/><!-- Clip --><rect x="20" y="12" width="10" height="24" rx="2" fill="#888"/><!-- Grip lines --><line x1="48" y1="18" x2="48" y2="30" stroke="rgba(255,255,255,0.1)" stroke-width="1"/><line x1="54" y1="18" x2="54" y2="30" stroke="rgba(255,255,255,0.1)" stroke-width="1"/><line x1="60" y1="18" x2="60" y2="30" stroke="rgba(255,255,255,0.1)" stroke-width="1"/><!-- Nib base --><polygon points="140,18 155,24 140,30" fill="url(#penTip)"/><!-- Nib tip --><polygon points="155,22 178,25 155,26" fill="#c0a060"/><!-- Ink dot (tiny) --><circle cx="176" cy="25" r="1.8" fill="#1a1a3a"/></svg>
+  </div>
+
+  <!-- Actions -->
+  <div class="trainer-actions">
+    <button class="btn btn-sm btn-primary" onclick="Trainer.showImportModal()" style="font-size:12px;padding:5px 12px">导入知识</button>
+  </div>
+
+  <!-- Content -->
+  <div id="trainerContent">
+    <div class="empty-state"><h3>加载中...</h3></div>
+  </div>
+</div>
+
+<!-- 导入知识弹窗 -->
+<div class="edge-modal-overlay" id="importModal" style="display:none">
+  <div class="edge-modal" style="max-width:660px">
+    <div class="edge-modal-header">
+      <span>导入知识 — AI 自动出题</span>
+      <span style="cursor:pointer;font-size:20px" onclick="Trainer.closeImportModal()">&times;</span>
+    </div>
+    <div class="edge-modal-body">
+      <p style="font-size:12px;color:var(--text2);margin-bottom:10px">
+        粘贴论文摘要、技术文章、教材段落或任何学习材料，AI 将自动提取知识点并生成选择题、编程题和闪卡。
+      </p>
+      <textarea id="importText" placeholder="在此粘贴知识文本（至少 20 字符）..."
+        style="width:100%;height:180px;font-size:13px;padding:12px;border:1px solid var(--border);border-radius:8px;resize:vertical;font-family:inherit"></textarea>
+      <div id="importFeedback" style="margin-top:10px;font-size:12px"></div>
+    </div>
+    <div class="edge-modal-footer">
+      <button class="btn" onclick="Trainer.closeImportModal()">取消</button>
+      <button class="btn btn-primary" id="btnImportSubmit" onclick="Trainer.submitImport()">AI 生成题目</button>
+    </div>
+  </div>
+</div>
+
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+// ── Trainer Core (inline, replaces trainer.js) ──
+// Preserve external sub-module methods across Router re-navigation.
+// External scripts (trainer-mcq.js, trainer-code.js, etc.) attach methods
+// to window.Trainer. var re-declaration creates a new object, so carry
+// forward externally-attached function properties.
+var _prevTrainer = window.Trainer;
+var Trainer = {
+  tab: 'practice',       // practice | flash | exam | feynman
+  practiceType: 'mcq',   // mcq | code | short (sub-type within practice)
+  data: { mcq: [], coding: [], flashcards: [] },
+  tempData: { mcq: [], coding: [], flashcards: [] },
+  loaded: false,
+  topicFilter: { mcq: 'all', code: 'all', flash: 'all' },
+
+  // State — mcq
+  mcqIdx: 0, mcqScore: 0, mcqWrong: [], mcqDone: false, mcqAnswered: false,
+  // State — code
+  codeIdx: 0, codeAnswered: false, codeResult: null,
+  // State — short
+  shortIdx: 0, shortAnswers: {}, shortResults: [],
+  // State — flash
+  flashIdx: 0, flashRatings: [], flashAnswers: {}, flashFlipped: false,
+  // State — exam
+  examPool: [], examIdx: 0, examScore: 0, examWrong: [], examDone: false,
+  examTimer: null, examTimeLeft: 0, examTotalTime: 0, examAnswered: false,
+
+  async init() {
+    await this.loadData();
+    this.setupTabs();
+    if (typeof this.renderMCQ !== 'function' || typeof this.renderFlash !== 'function') {
+      await this._ensureSubModules();
+    }
+    this.render();
+  },
+
+  _ensureSubModules: function() {
+    var self = this;
+    var needed = [];
+    var methods = {
+      renderMCQ: '/static/js/modules/trainer-mcq.js',
+      renderCode: '/static/js/modules/trainer-code.js',
+      renderShort: '/static/js/modules/trainer-short.js',
+      renderFlash: '/static/js/modules/trainer-flash.js'
+    };
+    Object.keys(methods).forEach(function(m) {
+      if (typeof self[m] !== 'function') needed.push(methods[m]);
+    });
+    if (needed.length === 0) return Promise.resolve();
+    return Promise.all(needed.map(function(src) {
+      return new Promise(function(resolve) {
+        var s = document.createElement('script');
+        s.src = src;
+        s.onload = resolve;
+        s.onerror = resolve;
+        document.head.appendChild(s);
+      });
+    }));
+  },
+
+  async loadData() {
+    var cached = localStorage.getItem('trainer_data');
+    if (cached) { try { this.data = JSON.parse(cached); this.loaded = true; } catch(e) {} }
+    var types = ['mcq', 'coding', 'flashcards'];
+    var updated = false;
+    for (var i = 0; i < types.length; i++) {
+      var t = types[i];
+      try {
+        var resp = await fetch('/api/exercises/' + t);
+        var json = await resp.json();
+        if (json.data && json.data.length) { this.data[t] = json.data; updated = true; }
+      } catch(e) {}
+    }
+    if (updated) { localStorage.setItem('trainer_data', JSON.stringify(this.data)); this.loaded = true; }
+    await this.loadTempData();
+  },
+
+  async loadTempData() {
+    try {
+      var resp = await fetch('/api/exercises/temp');
+      var json = await resp.json();
+      this.tempData = { mcq: json.mcq || [], coding: json.coding || [], flashcards: json.flashcards || [] };
+    } catch(e) { this.tempData = { mcq: [], coding: [], flashcards: [] }; }
+  },
+
+  // ── Helpers ──
+  getTopics(type) {
+    var items = this.data[type] || [];
+    var key = type === 'flashcards' ? 'category' : (type === 'coding' ? 'scenario' : 'topic');
+    var seen = {};
+    var topics = [];
+    items.forEach(function(i) { var v = i[key]; if (v && !seen[v]) { seen[v] = true; topics.push(v); } });
+    return topics.sort();
+  },
+
+  getFiltered(type) {
+    var filterKey = type === 'flashcards' ? 'flash' : (type === 'coding' ? 'code' : 'mcq');
+    var filter = this.topicFilter[filterKey] || 'all';
+    var items = this.data[type] || [];
+    var tempItems = this.tempData[type] || [];
+    if (filter === 'temp') return tempItems;
+    if (!filter || filter === 'all') return items;
+    var key = type === 'flashcards' ? 'category' : (type === 'coding' ? 'scenario' : 'topic');
+    return items.filter(function(i) { return i[key] === filter; });
+  },
+
+  _buildExamDomainOptions() {
+    var seen = {};
+    var opts = '';
+    var types = [
+      { key: 'mcq', field: 'topic', items: (this.data.mcq || []).concat(this.tempData.mcq || []) },
+      { key: 'coding', field: 'scenario', items: (this.data.coding || []).concat(this.tempData.coding || []) },
+      { key: 'flashcards', field: 'category', items: (this.data.flashcards || []).concat(this.tempData.flashcards || []) }
+    ];
+    types.forEach(function(t) {
+      t.items.forEach(function(item) {
+        var v = item[t.field];
+        if (v && !seen[v]) { seen[v] = true; opts += '<option value="' + App.escapeHtml(v) + '">' + App.escapeHtml(v) + '</option>'; }
+      });
+    });
+    return opts;
+  },
+
+  hasTempItems() { return ['mcq', 'coding', 'flashcards'].some(function(t) { return (this.tempData[t] || []).length > 0; }, this); },
+  totalTempCount() { return ['mcq', 'coding', 'flashcards'].reduce(function(s, t) { return s + (this.tempData[t] || []).length; }, 0); },
+
+  renderTopicFilter(type) {
+    var topics = this.getTopics(type);
+    var filterKey = type === 'flashcards' ? 'flash' : (type === 'coding' ? 'code' : 'mcq');
+    var current = this.topicFilter[filterKey] || 'all';
+    var tempCount = (this.tempData[type] || []).length;
+    var dataLen = (this.data[type] || []).length;
+    var opts = '<option value="all" ' + (current === 'all' ? 'selected' : '') + '>全部 (' + dataLen + ')</option>';
+    if (tempCount > 0) opts += '<option value="temp" ' + (current === 'temp' ? 'selected' : '') + '>临时训练 (' + tempCount + ')</option>';
+    opts += topics.map(function(t) {
+      var count = (this.data[type] || []).filter(function(i) { return (i.topic || i.scenario || i.category) === t; }).length;
+      return '<option value="' + App.escapeHtml(t) + '" ' + (current === t ? 'selected' : '') + '>' + App.escapeHtml(t) + ' (' + count + ')</option>';
+    }, this).join('');
+    if (topics.length <= 1 && tempCount === 0) return '';
+    return '<div style="margin-bottom:12px;display:flex;align-items:center;gap:8px">' +
+      '<label style="font-size:11px;color:var(--text2);white-space:nowrap">知识点:</label>' +
+      '<select onchange="Trainer.setTopicFilter(\'' + filterKey + '\',this.value)" style="font-size:11px;padding:4px 8px;border:1px solid var(--border);border-radius:6px;background:white;max-width:200px">' + opts + '</select></div>';
+  },
+
+  setTopicFilter(key, value) {
+    this.topicFilter[key] = value;
+    if (key === 'mcq') { this.mcqIdx = 0; this.mcqScore = 0; this.mcqWrong = []; this.mcqDone = false; this.mcqAnswered = false; }
+    if (key === 'code') { this.codeIdx = 0; this.codeAnswered = false; this.codeResult = null; }
+    if (key === 'flash') { this.flashIdx = 0; this.flashRatings = []; this.flashAnswers = {}; this.flashFlipped = false; }
+    this.render();
+  },
+
+  // ── Tabs ──
+  setupTabs() {
+    var self = this;
+    document.querySelectorAll('#trainerTabs .trainer-tab').forEach(function(btn) {
+      btn.addEventListener('click', function() { self.switchTab(btn.dataset.tab); });
+    });
+  },
+
+  switchTab(tab) {
+    // Backward compat: legacy tab names → new ones
+    var legacyMap = { mcq: 'practice', code: 'practice', short: 'practice', review: 'flash' };
+    if (legacyMap[tab]) {
+      if (tab === 'mcq' || tab === 'code' || tab === 'short') this.practiceType = tab;
+      tab = legacyMap[tab];
+    }
+    this.tab = tab;
+    document.querySelectorAll('#trainerTabs .trainer-tab').forEach(function(b) {
+      b.classList.toggle('active', b.dataset.tab === tab);
+    });
+    if (tab === 'practice') { this.mcqIdx = 0; this.mcqScore = 0; this.mcqWrong = []; this.mcqDone = false; this.mcqAnswered = false; this.codeIdx = 0; this.codeAnswered = false; this.codeResult = null; this.shortIdx = 0; this.shortAnswers = {}; this.shortResults = []; }
+    if (tab === 'flash') { this.flashIdx = 0; this.flashRatings = []; this.flashAnswers = {}; this.flashFlipped = false; }
+    if (tab === 'exam') { this.stopExam(); this.examPool = []; this.examIdx = 0; this.examScore = 0; this.examWrong = []; this.examDone = false; this.examAnswered = false; }
+    this.render();
+  },
+
+  // ── Render ──
+  render() {
+    var c = document.getElementById('trainerContent');
+    if (!c) return;
+    switch(this.tab) {
+      case 'practice': this.renderPractice(c); break;
+      case 'flash': this.renderFlashWrapper(c); break;
+      case 'exam': this.renderExam(c); break;
+      case 'feynman': this.renderFeynman(c); break;
+    }
+  },
+
+  // ── Practice Tab (unified: MCQ / Code / Short) ──
+  renderPractice: function(c) {
+    var self = this;
+    var html = '<div class="practice-pills">' +
+      '<button class="practice-pill' + (this.practiceType === 'mcq' ? ' active' : '') + '" onclick="Trainer.setPracticeType(\'mcq\')">选择题</button>' +
+      '<button class="practice-pill' + (this.practiceType === 'code' ? ' active' : '') + '" onclick="Trainer.setPracticeType(\'code\')">编程实战</button>' +
+      '<button class="practice-pill' + (this.practiceType === 'short' ? ' active' : '') + '" onclick="Trainer.setPracticeType(\'short\')">简答题</button>' +
+      '</div>' +
+      '<div id="practiceContent"></div>';
+    c.innerHTML = html;
+    this.renderPracticeContent();
+  },
+
+  setPracticeType: function(type) {
+    this.practiceType = type;
+    this.mcqIdx = 0; this.mcqScore = 0; this.mcqWrong = []; this.mcqDone = false; this.mcqAnswered = false;
+    this.codeIdx = 0; this.codeAnswered = false; this.codeResult = null;
+    this.shortIdx = 0; this.shortAnswers = {}; this.shortResults = [];
+    this.render();
+  },
+
+  renderPracticeContent: function() {
+    var pc = document.getElementById('practiceContent');
+    if (!pc) return;
+    // Delegate to existing sub-module render methods
+    switch(this.practiceType) {
+      case 'mcq': if (typeof this.renderMCQ === 'function') { this.renderMCQ(pc); } else { pc.innerHTML = '<div class="empty-state"><h3>选择题模块加载中...</h3></div>'; } break;
+      case 'code': if (typeof this.renderCode === 'function') { this.renderCode(pc); } else { pc.innerHTML = '<div class="empty-state"><h3>编程实战模块加载中...</h3></div>'; } break;
+      case 'short': if (typeof this.renderShort === 'function') { this.renderShort(pc); } else { pc.innerHTML = '<div class="empty-state"><h3>简答题模块加载中...</h3></div>'; } break;
+    }
+  },
+
+  // ── Flash Wrapper (delegates to renderFlash from trainer-flash.js) ──
+  renderFlashWrapper: function(c) {
+    if (typeof this.renderFlash === 'function') {
+      this.renderFlash(c);
+    } else {
+      c.innerHTML = '<div class="empty-state"><h3>闪卡模块加载中...</h3></div>';
+    }
+  },
+
+  // ── Exam Tab (timed comprehensive) ──
+  renderExam: function(c) {
+    var self = this;
+    // Show setup if no active exam
+    if (this.examPool.length === 0 && !this.examDone) {
+      var totalQ = (this.data.mcq || []).length + (this.data.coding || []).length + (this.data.flashcards || []).length;
+      var domainOpts = self._buildExamDomainOptions();
+      var hasDomains = domainOpts.indexOf('value=') >= 0;
+      c.innerHTML = '<div class="card" style="text-align:center;padding:40px 20px">' +
+        '<h3 style="margin-bottom:8px">模拟考试</h3>' +
+        '<p style="font-size:12px;color:var(--text2);margin-bottom:20px">从题库随机抽题，限时完成，模拟真实考试环境。当前题库共 ' + totalQ + ' 题。</p>' +
+        '<div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-bottom:20px">' +
+          '<div style="text-align:left">' +
+            '<label style="font-size:11px;color:var(--text2);display:block;margin-bottom:4px">题目数量</label>' +
+            '<select id="examCount" style="padding:6px 12px;border:1px solid var(--border);border-radius:8px;font-size:13px">' +
+              '<option value="5">5 题 (快速)</option><option value="10" selected>10 题</option><option value="20">20 题</option><option value="30">30 题</option>' +
+            '</select>' +
+          '</div>' +
+          '<div style="text-align:left">' +
+            '<label style="font-size:11px;color:var(--text2);display:block;margin-bottom:4px">时间限制 (分钟)</label>' +
+            '<select id="examTime" style="padding:6px 12px;border:1px solid var(--border);border-radius:8px;font-size:13px">' +
+              '<option value="5">5 分钟</option><option value="10" selected>10 分钟</option><option value="15">15 分钟</option><option value="30">30 分钟</option>' +
+            '</select>' +
+          '</div>' +
+          ' + (hasDomains ? '<div style="text-align:left">' +
+            '<label style="font-size:11px;color:var(--text2);display:block;margin-bottom:4px">考试领域</label>' +
+            '<select id="examDomain" style="padding:6px 12px;border:1px solid var(--border);border-radius:8px;font-size:13px;max-width:220px">' +
+              '<option value="all">全部领域 (' + totalQ + ' 题)</option>' +
+              domainOpts +
+            '</select>' +
+          '</div>' : '') +
+        '</div>' +
+        '<button class="btn btn-primary" onclick="Trainer.startExam()" style="padding:10px 32px;font-size:14px">开始考试</button>' +
+      '</div>';
+      return;
+    }
+
+    if (this.examDone) {
+      var pct = this.examPool.length > 0 ? this.examScore / this.examPool.length * 100 : 0;
+      var used = this.examTotalTime - this.examTimeLeft;
+      var min = Math.floor(used / 60);
+      var sec = used % 60;
+      var wrongSummary = this.examWrong.map(function(w) {
+        return '- ' + (w.topic || w.category || '') + ': ' + ((w.question || w.front || w.title || '').slice(0, 60));
+      }).join('\n');
+      c.innerHTML = '<div class="stat-grid" style="margin-bottom:16px">' +
+        '<div class="stat-card"><div class="stat-value">' + this.examScore + '/' + this.examPool.length + '</div><div class="stat-label">正确</div></div>' +
+        '<div class="stat-card"><div class="stat-value">' + pct.toFixed(0) + '%</div><div class="stat-label">正确率</div></div>' +
+        '<div class="stat-card"><div class="stat-value">' + min + ':' + (sec < 10 ? '0' : '') + sec + '</div><div class="stat-label">用时</div></div>' +
+        '<div class="stat-card"><div class="stat-value">' + (pct >= 80 ? 'PASS' : 'MORE') + '</div><div class="stat-label">' + (pct >= 80 ? '达标' : '继续练') + '</div></div>' +
+      '</div>' +
+      (this.examWrong.length > 0 ? '<div class="card" style="margin-bottom:12px">' +
+        '<div class="card-header">薄弱点 (' + this.examWrong.length + ' 题答错)</div>' +
+        '<div style="font-size:11px;color:var(--text2);white-space:pre-line;margin-bottom:10px">' + App.escapeHtml(wrongSummary) + '</div>' +
+        (this._examAnalysis ? '<div class="feedback-box feedback-info" style="white-space:pre-line;font-size:12px;margin-bottom:8px">' + App.escapeHtml(this._examAnalysis).replace(/\n/g, '<br>') + '</div>' : '') +
+        '<button class="btn btn-sm btn-primary" id="btnExamAnalysis" onclick="Trainer.runExamAnalysis()">Agent 深度分析薄弱点</button>' +
+        '<div id="examAnalysisFeedback" style="margin-top:8px"></div>' +
+      '</div>' : '<div class="card" style="margin-bottom:12px;text-align:center;padding:16px"><span style="color:var(--green);font-weight:600">全部正确，太棒了！</span></div>') +
+      '<button class="btn btn-primary" onclick="Trainer.switchTab(\'exam\')" style="margin-top:8px">重新考试</button>';
+      return;
+    }
+
+    // Active exam — show current question
+    var q = this.examPool[this.examIdx];
+    if (!q) { c.innerHTML = '<div class="empty-state"><h3>出题出错</h3></div>'; return; }
+    var pct = this.examIdx / this.examPool.length * 100;
+    c.innerHTML = '<div class="exam-timer' + (this.examTimeLeft <= 60 ? ' warning' : '') + '" id="examTimerDisplay">' +
+      Math.floor(this.examTimeLeft / 60) + ':' + (this.examTimeLeft % 60 < 10 ? '0' : '') + (this.examTimeLeft % 60) + '</div>' +
+      '<div class="progress-bar"><div class="progress-fill" style="width:' + pct + '%"></div></div>' +
+      '<div class="card" style="margin-top:12px">' +
+        '<div class="card-header">第 ' + (this.examIdx + 1) + '/' + this.examPool.length + ' 题 <span class="badge badge-topic">' + App.escapeHtml(q.topic || q.category || '') + '</span></div>' +
+        '<div id="examQuestionBody"></div>' +
+      '</div>' +
+      '<div id="examFeedback" style="margin-top:8px"></div>';
+    this.renderExamQuestion(q);
+  },
+
+  startExam: function() {
+    var count = parseInt(document.getElementById('examCount').value) || 10;
+    var minutes = parseInt(document.getElementById('examTime').value) || 10;
+    var domainEl = document.getElementById('examDomain');
+    var domain = domainEl ? domainEl.value : 'all';
+    // Build pool from all types
+    var pool = [];
+    var mcqItems = (this.data.mcq || []).concat(this.tempData.mcq || []);
+    var codeItems = (this.data.coding || []).concat(this.tempData.coding || []);
+    var flashItems = (this.data.flashcards || []).concat(this.tempData.flashcards || []);
+    // Filter by domain if selected
+    if (domain && domain !== 'all') {
+      mcqItems = mcqItems.filter(function(i) { return i.topic === domain; });
+      codeItems = codeItems.filter(function(i) { return i.scenario === domain; });
+      flashItems = flashItems.filter(function(i) { return i.category === domain; });
+    }
+    // Add type tag
+    mcqItems.forEach(function(i) { i._examType = 'mcq'; pool.push(i); });
+    codeItems.forEach(function(i) { i._examType = 'code'; pool.push(i); });
+    flashItems.forEach(function(i) { i._examType = 'flash'; pool.push(i); });
+    // Shuffle and slice
+    for (var i = pool.length - 1; i > 0; i--) { var j = Math.floor(Math.random() * (i + 1)); var tmp = pool[i]; pool[i] = pool[j]; pool[j] = tmp; }
+    this.examPool = pool.slice(0, Math.min(count, pool.length));
+    this.examIdx = 0;
+    this.examScore = 0;
+    this.examWrong = [];
+    this.examDone = false;
+    this.examAnswered = false;
+    this._examAnalysis = '';
+    this.examTotalTime = minutes * 60;
+    this.examTimeLeft = minutes * 60;
+
+    var self = this;
+    this.examTimer = setInterval(function() {
+      self.examTimeLeft--;
+      var display = document.getElementById('examTimerDisplay');
+      if (display) {
+        var m = Math.floor(self.examTimeLeft / 60);
+        var s = self.examTimeLeft % 60;
+        display.textContent = m + ':' + (s < 10 ? '0' : '') + s;
+        display.className = 'exam-timer' + (self.examTimeLeft <= 60 ? ' warning' : '');
+      }
+      if (self.examTimeLeft <= 0) {
+        self.stopExam();
+        self.examDone = true;
+        self.render();
+      }
+    }, 1000);
+    this.render();
+  },
+
+  stopExam: function() {
+    if (this.examTimer) { clearInterval(this.examTimer); this.examTimer = null; }
+  },
+
+  _examAnalysis: '',
+
+  inlineCodeReview: function(codeId) {
+    var fb = document.getElementById('codeAIReview_' + codeId);
+    if (!fb) return;
+    var pool = this.getFiltered('coding');
+    var p = null;
+    for (var i = 0; i < pool.length; i++) {
+      if (pool[i].id == codeId) { p = pool[i]; break; }
+    }
+    if (!p) { fb.innerHTML = '<span style="font-size:11px;color:var(--text2)">题目数据不可用</span>'; return; }
+    var code = document.getElementById('codeEditor') ? document.getElementById('codeEditor').value : '';
+
+    fb.innerHTML = '<span class="thinking-dots">Agent 审查代码中<span>.</span><span>.</span><span>.</span></span>';
+    var self = this;
+    var prompt = '请审查这段代码：\n题目: ' + (p.title || '') + '\n描述: ' + (p.description || '').slice(0, 200) + '\n用户代码:\n' + code.slice(0, 800) + '\n\n请指出：1) 代码中的问题 2) 改进建议 3) 涉及的知识点。控制在250字以内。';
+
+    fetch(App.serverUrl + '/api/agent/chat', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ message: prompt, session_id: 'code_review_' + codeId, persona: 'teacher' })
+    }).then(function(r) { return r.json(); }).then(function(data) {
+      if (data.error) {
+        fb.innerHTML = '<div class="feedback-box feedback-wrong" style="font-size:12px">' + App.escapeHtml(data.error) + '</div>';
+        return;
+      }
+      fb.innerHTML = '<div class="feedback-box feedback-info" style="white-space:pre-line;font-size:12px;margin-top:6px">' +
+        '<strong>AI 代码审查</strong><br>' + App.escapeHtml(data.reply || '').replace(/\n/g, '<br>') + '</div>';
+    }).catch(function(e) {
+      fb.innerHTML = '<div class="feedback-box feedback-wrong" style="font-size:12px">请求失败: ' + e.message + '</div>';
+    });
+  },
+
+  inlineAIExplain: function(qId) {
+    var fb = document.getElementById('mcqAIExplain_' + qId);
+    if (!fb) return;
+    // Find the question data — try MCQ pool first
+    var pool = this.getFiltered('mcq');
+    var parts = qId.split('_');
+    var idx = parseInt(parts[1]);
+    var q = pool[idx];
+    if (!q) { fb.innerHTML = '<span style="font-size:11px;color:var(--text2)">题目数据不可用</span>'; return; }
+
+    fb.innerHTML = '<span class="thinking-dots">Agent 思考中<span>.</span><span>.</span><span>.</span></span>';
+    var self = this;
+    var prompt = '请解析这道题目：\n题目: ' + (q.question || '') + '\n选项: ' + (q.options || []).join(' | ') + '\n正确答案: ' + ((q.options || [])[q.correct || q.answer || 0] || '') + '\n解释: ' + (q.explanation || '') + '\n\n请用通俗易懂的方式讲解这道题涉及的知识点，帮助理解为什么正确答案是对的，其他选项错在哪里。控制在200字以内。';
+
+    fetch(App.serverUrl + '/api/agent/chat', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ message: prompt, session_id: 'mcq_explain_' + qId, persona: 'teacher' })
+    }).then(function(r) { return r.json(); }).then(function(data) {
+      if (data.error) {
+        fb.innerHTML = '<div class="feedback-box feedback-wrong" style="font-size:12px">' + App.escapeHtml(data.error) + '</div>';
+        return;
+      }
+      fb.innerHTML = '<div class="feedback-box feedback-info" style="white-space:pre-line;font-size:12px;margin-top:6px">' +
+        '<strong>AI 解析</strong><br>' + App.escapeHtml(data.reply || '').replace(/\n/g, '<br>') + '</div>';
+    }).catch(function(e) {
+      fb.innerHTML = '<div class="feedback-box feedback-wrong" style="font-size:12px">请求失败: ' + e.message + '</div>';
+    });
+  },
+
+  runExamAnalysis: function() {
+    var self = this;
+    var fb = document.getElementById('examAnalysisFeedback');
+    var btn = document.getElementById('btnExamAnalysis');
+    if (!fb || !btn) return;
+    btn.disabled = true;
+    btn.textContent = 'Agent 分析中...';
+    fb.innerHTML = '<span class="thinking-dots">Agent 正在分析薄弱点，检索知识库并推理<span>.</span><span>.</span><span>.</span></span>';
+
+    var wrongList = this.examWrong.map(function(w, i) {
+      return (i + 1) + '. [' + (w.topic || w.category || '未分类') + '] ' + (w.question || w.front || w.title || '').slice(0, 100);
+    }).join('\n');
+
+    var prompt = '我刚刚完成了一次模拟考试，以下是我答错的题目：\n' + wrongList + '\n\n请分析：\n1. 我薄弱的知识领域是什么？\n2. 可能的原因（概念不清/记忆不牢/理解偏差）\n3. 建议的学习路径（优先补哪些，怎么补）\n\n控制在300字以内，给出具体可操作的建议。';
+
+    fetch(App.serverUrl + '/api/agent/chat', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ message: prompt, session_id: 'exam_analysis_' + Date.now(), persona: 'teacher' })
+    }).then(function(r) { return r.json(); }).then(function(data) {
+      if (data.error) {
+        fb.innerHTML = '<div class="feedback-box feedback-wrong">' + App.escapeHtml(data.error) + '</div>';
+        btn.disabled = false;
+        btn.textContent = 'Agent 深度分析薄弱点';
+        return;
+      }
+      self._examAnalysis = data.reply || '';
+      fb.innerHTML = '<div class="feedback-box feedback-info" style="white-space:pre-line;font-size:12px">' +
+        App.escapeHtml(self._examAnalysis).replace(/\n/g, '<br>') + '</div>';
+      btn.textContent = '刷新分析';
+      btn.disabled = false;
+    }).catch(function(e) {
+      fb.innerHTML = '<div class="feedback-box feedback-wrong">请求失败: ' + e.message + '</div>';
+      btn.disabled = false;
+      btn.textContent = 'Agent 深度分析薄弱点';
+    });
+  },
+
+  renderExamQuestion: function(q) {
+    var body = document.getElementById('examQuestionBody');
+    if (!body) return;
+    if (q._examType === 'mcq') {
+      var optionsHtml = (q.options || []).map(function(o, i) {
+        return '<label style="display:block;padding:8px 12px;margin:4px 0;border:1px solid var(--border);border-radius:6px;cursor:pointer;transition:border-color .15s" onmouseenter="this.style.borderColor=\'var(--accent)\'" onmouseleave="if(!this.querySelector(\'input\').checked)this.style.borderColor=\'\'">' +
+          '<input type="radio" name="examOption" value="' + i + '" onchange="Trainer.answerExamMCQ(' + i + ')"> ' +
+          App.escapeHtml(o) + '</label>';
+      }).join('');
+      body.innerHTML = '<p style="font-size:13px;font-weight:500;margin-bottom:12px">' + App.escapeHtml(q.question || '') + '</p>' + optionsHtml + '</div>';
+    } else if (q._examType === 'code') {
+      body.innerHTML = '<p style="font-size:13px;font-weight:500;margin-bottom:8px">' + App.escapeHtml(q.question || q.title || '') + '</p>' +
+        '<p style="font-size:11px;color:var(--text2);margin-bottom:8px;white-space:pre-line">' + App.escapeHtml(q.description || q.scenario || '') + '</p>' +
+        '<textarea id="examCodeAnswer" placeholder="输入你的代码..." style="width:100%;height:120px;font-family:monospace;font-size:12px;padding:10px;border:1px solid var(--border);border-radius:8px;resize:vertical"></textarea>' +
+        '<button class="btn btn-primary" onclick="Trainer.submitExamCode()" style="margin-top:8px">提交</button>';
+    } else if (q._examType === 'flash') {
+      body.innerHTML = '<p style="font-size:13px;font-weight:500;margin-bottom:8px">' + App.escapeHtml(q.question || q.front || '') + '</p>' +
+        '<textarea id="examFlashAnswer" placeholder="输入你的答案..." style="width:100%;height:80px;font-size:12px;padding:10px;border:1px solid var(--border);border-radius:8px;resize:vertical"></textarea>' +
+        '<button class="btn btn-primary" onclick="Trainer.submitExamFlash()" style="margin-top:8px">提交</button>';
+    }
+  },
+
+  answerExamMCQ: function(idx) {
+    if (this.examAnswered) return;
+    this.examAnswered = true;
+    var q = this.examPool[this.examIdx];
+    var correct = q.answer === idx || q.correctIndex === idx;
+    if (correct) this.examScore++;
+    else this.examWrong.push(q);
+    var fb = document.getElementById('examFeedback');
+    if (fb) fb.innerHTML = '<div class="feedback-box ' + (correct ? 'feedback-info' : 'feedback-wrong') + '" style="font-size:12px">' +
+      (correct ? '正确！' : '错误。正确答案: ' + App.escapeHtml((q.options || [])[q.answer || q.correctIndex] || '')) +
+      '</div><button class="btn btn-primary" onclick="Trainer.nextExamQuestion()" style="margin-top:8px">下一题</button>';
+  },
+
+  submitExamCode: function() {
+    if (this.examAnswered) return;
+    this.examAnswered = true;
+    // Simple check: if user typed something, give partial credit
+    var answer = (document.getElementById('examCodeAnswer').value || '').trim();
+    var fb = document.getElementById('examFeedback');
+    if (answer.length > 10) {
+      this.examScore++;
+      if (fb) fb.innerHTML = '<div class="feedback-box feedback-info" style="font-size:12px">已记录答案 (编程题人工评阅)</div>' +
+        '<button class="btn btn-primary" onclick="Trainer.nextExamQuestion()" style="margin-top:8px">下一题</button>';
+    } else {
+      this.examWrong.push({ question: '编程题: 未作答' });
+      if (fb) fb.innerHTML = '<div class="feedback-box feedback-wrong" style="font-size:12px">答案太短，请至少写一些代码</div>' +
+        '<button class="btn" onclick="this.examAnswered=false;Trainer.renderExamQuestion(Trainer.examPool[Trainer.examIdx])" style="margin-top:8px">重试</button>';
+      this.examAnswered = false;
+    }
+  },
+
+  submitExamFlash: function() {
+    if (this.examAnswered) return;
+    this.examAnswered = true;
+    var answer = (document.getElementById('examFlashAnswer').value || '').trim();
+    var fb = document.getElementById('examFeedback');
+    if (answer.length > 2) {
+      this.examScore++;
+      if (fb) fb.innerHTML = '<div class="feedback-box feedback-info" style="font-size:12px">已记录答案</div>' +
+        '<button class="btn btn-primary" onclick="Trainer.nextExamQuestion()" style="margin-top:8px">下一题</button>';
+    } else {
+      this.examWrong.push({ question: '闪卡: 未作答' });
+      if (fb) fb.innerHTML = '<div class="feedback-box feedback-wrong" style="font-size:12px">请至少写一些内容</div>' +
+        '<button class="btn" onclick="this.examAnswered=false;Trainer.renderExamQuestion(Trainer.examPool[Trainer.examIdx])" style="margin-top:8px">重试</button>';
+      this.examAnswered = false;
+    }
+  },
+
+  nextExamQuestion: function() {
+    this.examAnswered = false;
+    this.examIdx++;
+    if (this.examIdx >= this.examPool.length) {
+      this.stopExam();
+      this.examDone = true;
+    }
+    this.render();
+  },
+
+  // ── Feynman Tab (integrated inline) ──
+	  // ── Feynman Tab (integrated inline) ──
+  renderFeynman: function(c) {
+    var self = this;
+    c.innerHTML = '<div class="card" style="margin-bottom:12px">' +
+      '<div class="card-header">费曼学习法 — "如果你不能简单地解释，你就没有真正理解"</div>' +
+      '<p style="font-size:12px;color:var(--text2);margin:0 0 12px 0">选一个概念，用最简单的话解释它。AI 会检查你的解释是否清晰完整。</p>' +
+      '<div style="display:flex;gap:8px;align-items:flex-end;flex-wrap:wrap;margin-bottom:12px">' +
+        '<div style="flex:1;min-width:180px">' +
+          '<label style="font-size:11px;color:var(--text2);display:block;margin-bottom:4px">从知识库选择</label>' +
+          '<select id="feynmanConcept" onchange="Trainer._onFeynmanConceptChange()" style="width:100%;padding:8px;border:1px solid var(--border);border-radius:6px;font-size:13px">' +
+            '<option value="">-- 选择概念 --</option></select>' +
+        '</div>' +
+        '<div style="flex:1;min-width:180px">' +
+          '<label style="font-size:11px;color:var(--text2);display:block;margin-bottom:4px">或手动输入</label>' +
+          '<input id="feynmanCustomConcept" placeholder="输入概念名称后按回车..." onkeydown="if(event.key===&#39;Enter&#39;)Trainer._onFeynmanCustomInput()" style="width:100%;padding:8px;border:1px solid var(--border);border-radius:6px;font-size:13px">' +
+        '</div>' +
+      '</div>' +
+      '<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px">' +
+        '<label style="font-size:11px;color:var(--text2);font-weight:600">用你自己的话解释</label>' +
+        '<span style="font-size:10px;color:var(--text2)" id="feynmanAttemptCount"></span>' +
+      '</div>' +
+      '<textarea id="feynmanExplanation" placeholder="试着解释这个概念——想象你在给一个12岁的孩子讲解..." style="width:100%;height:140px;font-size:13px;padding:12px;border:1px solid var(--border);border-radius:8px;resize:vertical;font-family:inherit"></textarea>' +
+      '<div style="display:flex;gap:8px;margin-top:8px">' +
+        '<button class="btn btn-primary" id="btnSubmitFeynman" onclick="Trainer.submitFeynman()">提交检查</button>' +
+        '<button class="btn" onclick="Trainer.resetFeynman()">换一个概念</button>' +
+      '</div>' +
+      '<div id="feynmanFeedback" style="margin-top:10px"></div>' +
+      '</div>' +
+      '<div id="feynmanRevisionArea" style="display:none">' +
+        '<div class="card" style="background:#fffbeb;border:1px solid #fcd34d">' +
+          '<div style="font-size:11px;color:#92400e;font-weight:600;margin-bottom:6px">第2轮：根据反馈修改你的解释</div>' +
+          '<textarea id="feynmanRevision" placeholder="根据AI的反馈，重新写一遍你的解释..." style="width:100%;height:120px;font-size:13px;padding:12px;border:1px solid var(--border);border-radius:8px;resize:vertical;font-family:inherit"></textarea>' +
+          '<div style="display:flex;gap:8px;margin-top:8px">' +
+            '<button class="btn btn-primary" onclick="Trainer.submitFeynmanRevision()">提交修改</button>' +
+          '</div>' +
+          '<div id="feynmanRevisionFeedback" style="margin-top:10px"></div>' +
+        '</div>' +
+      '</div>';
+
+    // Load knowledge sets into dropdown
+    fetch('/api/knowledge/sets').then(function(r) { return r.json(); }).then(function(data) {
+      var sel = document.getElementById('feynmanConcept');
+      if (sel && data.sets) {
+        data.sets.forEach(function(s) {
+          var opt = document.createElement('option');
+          opt.value = s.id; opt.textContent = s.display_name || s.id;
+          sel.appendChild(opt);
+        });
+      }
+    }).catch(function() {});
+  },
+
+  _feynmanConcept: '',
+  _feynmanSession: '',
+  _onFeynmanConceptChange: function() {
+    var sel = document.getElementById('feynmanConcept');
+    if (!sel) return;
+    this._feynmanConcept = sel.value;
+    this._feynmanSession = 'feynman_' + Date.now();
+    document.getElementById('feynmanAttemptCount').textContent = '第 1 轮';
+    document.getElementById('feynmanFeedback').innerHTML = '';
+    document.getElementById('feynmanRevisionArea').style.display = 'none';
+  },
+  _onFeynmanCustomInput: function() {
+    var inp = document.getElementById('feynmanCustomConcept');
+    if (!inp) return;
+    this._feynmanConcept = inp.value.trim();
+    if (!this._feynmanConcept) return;
+    this._feynmanSession = 'feynman_' + Date.now();
+    document.getElementById('feynmanAttemptCount').textContent = '第 1 轮';
+    document.getElementById('feynmanFeedback').innerHTML = '';
+    document.getElementById('feynmanRevisionArea').style.display = 'none';
+  },
+  resetFeynman: function() {
+    this._feynmanConcept = '';
+    this._feynmanSession = '';
+    document.getElementById('feynmanRevisionArea').style.display = 'none';
+    document.getElementById('feynmanFeedback').innerHTML = '';
+    document.getElementById('feynmanAttemptCount').textContent = '';
+    document.getElementById('feynmanExplanation').value = '';
+    document.getElementById('feynmanCustomConcept').value = '';
+    var sel = document.getElementById('feynmanConcept');
+    if (sel) sel.value = '';
+  },
+
+  submitFeynman: function() {
+    // Read concept from UI directly
+    var sel = document.getElementById('feynmanConcept');
+    var custom = document.getElementById('feynmanCustomConcept');
+    this._feynmanConcept = this._feynmanConcept || (sel ? sel.value : '') || (custom ? custom.value.trim() : '');
+    if (!this._feynmanConcept) { alert('请先选择或输入一个概念'); return; }
+    if (!this._feynmanSession) this._feynmanSession = 'feynman_' + Date.now();
+
+    var explanation = document.getElementById('feynmanExplanation').value.trim();
+    if (!explanation) return;
+    var self = this;
+    var fb = document.getElementById('feynmanFeedback');
+    fb.innerHTML = '<span class="thinking-dots">AI 检查中<span>.</span><span>.</span><span>.</span></span>';
+    var prompt = '费曼检查：「' + this._feynmanConcept + '」\n用户的解释：' + explanation + '\n\n请检查: 1) 是否简单清晰 2) 是否有理解错误 3) 是否有遗漏的关键点。给出具体反馈，帮助用户改进。控制在200字以内。';
+    fetch(App.serverUrl + '/api/agent/chat', {
+      method: 'POST', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ message: prompt, session_id: this._feynmanSession, persona: 'teacher' })
+    }).then(function(r) { return r.json(); }).then(function(data) {
+      if (data.error) { fb.innerHTML = '<div class="feedback-box feedback-wrong">' + App.escapeHtml(data.error) + '</div>'; return; }
+      fb.innerHTML = '<div class="feedback-box feedback-info" style="white-space:pre-line;font-size:12px">' + App.escapeHtml(data.reply || '').replace(/\n/g, '<br>') + '</div>';
+      document.getElementById('feynmanRevisionArea').style.display = '';
+    }).catch(function(e) { fb.innerHTML = '<div class="feedback-box feedback-wrong">请求失败: ' + e.message + '</div>'; });
+  },
+
+  submitFeynmanRevision: function() {
+    var revision = document.getElementById('feynmanRevision').value.trim();
+    if (!revision) return;
+    var self = this;
+    var fb = document.getElementById('feynmanRevisionFeedback');
+    fb.innerHTML = '<span class="thinking-dots">AI 检查中<span>.</span><span>.</span><span>.</span></span>';
+    var prompt = '费曼检查第2轮：「' + this._feynmanConcept + '」\n用户修改后的解释：' + revision + '\n\n对比第一轮，用户是否有进步？还有哪些可以改进的？如果基本正确，请肯定用户。控制在150字以内。';
+    fetch(App.serverUrl + '/api/agent/chat', {
+      method: 'POST', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ message: prompt, session_id: this._feynmanSession, persona: 'teacher' })
+    }).then(function(r) { return r.json(); }).then(function(data) {
+      if (data.error) { fb.innerHTML = '<div class="feedback-box feedback-wrong">' + App.escapeHtml(data.error) + '</div>'; return; }
+      fb.innerHTML = '<div class="feedback-box feedback-info" style="white-space:pre-line;font-size:12px">' + App.escapeHtml(data.reply || '').replace(/\n/g, '<br>') + '</div>';
+    }).catch(function(e) { fb.innerHTML = '<div class="feedback-box feedback-wrong">请求失败: ' + e.message + '</div>'; });
+  },
+
+  // ── Import Modal ──
+  showImportModal() { document.getElementById('importModal').style.display = 'flex'; document.getElementById('importText').value = ''; document.getElementById('importFeedback').innerHTML = ''; document.getElementById('btnImportSubmit').disabled = false; },
+  closeImportModal() { document.getElementById('importModal').style.display = 'none'; },
+  async submitImport() {
+    var textarea = document.getElementById('importText');
+    var fb = document.getElementById('importFeedback');
+    var btn = document.getElementById('btnImportSubmit');
+    var text = textarea.value.trim();
+    if (text.length < 20) { fb.innerHTML = '<span style="color:var(--red)">文本太短，请至少输入20个字符</span>'; return; }
+    btn.disabled = true; btn.textContent = 'AI 生成中...';
+    fb.innerHTML = '<span style="color:var(--text2)">正在调用 AI 提取知识点并生成题目，可能需要 30-60 秒...</span>';
+    try {
+      var resp = await fetch('/api/ai/import-knowledge', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ text }) });
+      var data = await resp.json();
+      if (data.error) { fb.innerHTML = '<span style="color:var(--red)">导入失败: ' + App.escapeHtml(data.error) + '</span>'; btn.disabled = false; btn.textContent = 'AI 生成题目'; return; }
+      if (data.ok) {
+        fb.innerHTML = '<span style="color:var(--green)">生成成功！知识点 ' + data.knowledge_count + ' 个，选择题 ' + data.exercises_count.mcq + ' 道，编程题 ' + data.exercises_count.coding + ' 道，闪卡 ' + data.exercises_count.flashcards + ' 张。</span>';
+        await this.loadTempData(); this.render();
+      }
+    } catch(e) { fb.innerHTML = '<span style="color:var(--red)">请求失败: ' + e.message + '</span>'; }
+    btn.disabled = false; btn.textContent = 'AI 生成题目';
+  },
+
+  renderTempActions: function() {
+    if (!this.hasTempItems()) return '';
+    var filterKey = this.tab === 'flash' ? 'flash' : (this.tab === 'code' ? 'code' : 'mcq');
+    if (this.topicFilter[filterKey] !== 'temp') return '';
+    return '<div class="card" style="margin-bottom:12px;background:#fffbeb;border:1px solid #fcd34d">' +
+      '<div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px">' +
+        '<span style="font-size:12px;color:#92400e">临时训练区 — AI 生成的题目，请在练习后确认保留或清除</span>' +
+        '<div style="display:flex;gap:6px">' +
+          '<button class="btn btn-sm btn-primary" onclick="Trainer.classifyTemp()">分类入库</button>' +
+          '<button class="btn btn-sm" onclick="Trainer.clearTemp()" style="background:#fee2e2;color:#991b1b">全部清除</button>' +
+        '</div>' +
+      '</div></div>';
+  },
+
+  async classifyTemp() {
+    if (!confirm('将临时训练区的所有题目分类写入正式题库？此操作不可撤销。')) return;
+    try {
+      var resp = await fetch('/api/exercises/temp/classify', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ keep_ids: {} }) });
+      var data = await resp.json();
+      if (data.ok) {
+        alert('分类完成！已入库: 选择题' + data.moved.mcq + '道, 编程题' + data.moved.coding + '道, 闪卡' + data.moved.flashcards + '张');
+        this.tempData = { mcq: [], coding: [], flashcards: [] };
+        this.topicFilter = { mcq: 'all', code: 'all', flash: 'all' };
+        await this.loadData(); this.render();
+      }
+    } catch(e) { alert('分类失败: ' + e.message); }
+  },
+
+  async clearTemp() {
+    if (!confirm('确定清空所有临时训练题目？此操作不可撤销。')) return;
+    try {
+      await fetch('/api/exercises/temp/clear', { method: 'POST' });
+      this.tempData = { mcq: [], coding: [], flashcards: [] };
+      this.topicFilter = { mcq: 'all', code: 'all', flash: 'all' };
+      this.render();
+    } catch(e) { alert('清除失败: ' + e.message); }
+  }
+};
+// Restore methods added by external sub-modules across Router re-navigation
+if (_prevTrainer) {
+  Object.keys(_prevTrainer).forEach(function(k) {
+    if (typeof _prevTrainer[k] === 'function' && !Trainer[k]) {
+      Trainer[k] = _prevTrainer[k];
+    }
+  });
+}
+
+// Init on DOM ready
+App.ready(function() { Trainer.init(); });
+
+// ── Draggable pen ──
+(function() {
+  var pen = document.getElementById('trainerPen');
+  if (!pen) return;
+  var startX = 0, startY = 0, lastX = 0, lastY = 0, dragged = false;
+
+  // Restore saved position
+  try {
+    var saved = JSON.parse(localStorage.getItem('trainer_pen_pos'));
+    if (saved) { pen.style.right = 'auto'; pen.style.bottom = 'auto'; pen.style.left = saved.x + 'px'; pen.style.top = saved.y + 'px'; }
+  } catch(e) {}
+
+  function onStart(cx, cy) {
+    dragged = false; startX = cx; startY = cy;
+    pen.style.animation = 'none';
+  }
+  function onMove(cx, cy) {
+    if (Math.abs(cx - startX) > 4 || Math.abs(cy - startY) > 4) {
+      dragged = true; pen.classList.add('dragging');
+    }
+    if (dragged) {
+      var r = pen.getBoundingClientRect();
+      pen.style.right = 'auto'; pen.style.bottom = 'auto';
+      pen.style.left = (r.left + cx - (lastX || cx)) + 'px';
+      pen.style.top = (r.top + cy - (lastY || cy)) + 'px';
+      lastX = cx; lastY = cy;
+    }
+  }
+  function onEnd() {
+    pen.classList.remove('dragging'); lastX = 0; lastY = 0;
+    pen.style.animation = 'penIdle 4s ease-in-out infinite';
+    if (dragged) {
+      var r = pen.getBoundingClientRect();
+      try { localStorage.setItem('trainer_pen_pos', JSON.stringify({x:r.left, y:r.top})); } catch(e) {}
+    }
+  }
+
+  pen.addEventListener('mousedown', function(e) { onStart(e.clientX, e.clientY); e.preventDefault(); });
+  pen.addEventListener('touchstart', function(e) { onStart(e.touches[0].clientX, e.touches[0].clientY); }, {passive: false});
+  document.addEventListener('mousemove', function(e) { if (startX) onMove(e.clientX, e.clientY); });
+  document.addEventListener('touchmove', function(e) { if (startX) onMove(e.touches[0].clientX, e.touches[0].clientY); }, {passive: false});
+  document.addEventListener('mouseup', function() { if (startX) onEnd(); startX = 0; });
+  document.addEventListener('touchend', function() { if (startX) onEnd(); startX = 0; });
+})();
+</script>
+
+<!-- Load sub-modules for MCQ, Code, Short, Flash rendering (they extend Trainer) -->
+<script src="/static/js/modules/trainer-mcq.js"></script>
+<script src="/static/js/modules/trainer-code.js"></script>
+<script src="/static/js/modules/trainer-short.js"></script>
+<script src="/static/js/modules/trainer-flash.js"></script>
+{% endblock %}

@@ -1,0 +1,132 @@
+.page {
+  padding: var(--cr-space-2xl) var(--cr-space-xl);
+  max-width: 780px;
+  margin: 0 auto;
+  display: flex; flex-direction: column; gap: var(--cr-space-2xl);
+}
+
+/* Progress */
+.progressHeader {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: var(--cr-space-sm);
+}
+.progressLabel {
+  font-size: 12px; font-weight: 600; color: var(--cr-text2);
+}
+.progressPct {
+  font-family: var(--cr-mono); font-size: 13px; font-weight: 600; color: var(--cr-accent);
+}
+.progressTrack {
+  width: 100%; height: 6px;
+  background: var(--cr-surface2);
+  border-radius: 3px;
+  overflow: hidden;
+}
+.progressFill {
+  height: 100%;
+  border-radius: 3px;
+  background: linear-gradient(90deg, var(--cr-red), var(--cr-accent), var(--cr-green));
+  background-size: 300% 100%;
+  animation: progShimmer 2s ease-in-out infinite;
+}
+@keyframes progShimmer {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+
+/* State badge */
+.stateBadge {
+  font-size: 9px; font-weight: 600; padding: 2px 8px;
+  border-radius: var(--cr-radius-sm);
+  letter-spacing: 0.04em; text-transform: uppercase;
+}
+
+/* Action items with local checkboxes */
+.actionList {
+  display: flex; flex-direction: column; gap: var(--cr-space-sm);
+}
+.actionItem {
+  display: flex; align-items: center; gap: var(--cr-space-md);
+  padding: var(--cr-space-md) var(--cr-space-lg);
+  border-radius: var(--cr-radius);
+  border: 1.5px solid var(--cr-border);
+  background: var(--cr-surface1);
+  cursor: pointer;
+  transition: background var(--cr-dur-fast), border-color var(--cr-dur-fast);
+}
+.actionItem:hover { background: var(--cr-surface2); border-color: var(--cr-border-hv); }
+.actionItemDone {
+  background: var(--cr-green-soft); border-color: rgba(93,138,90,0.2);
+}
+
+.checkbox {
+  width: 22px; height: 22px; flex-shrink: 0;
+  border-radius: var(--cr-radius-sm);
+  border: 2px solid var(--cr-border-hv);
+  background: var(--cr-base);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 12px; font-weight: 700;
+  transition: background var(--cr-dur-fast), border-color var(--cr-dur-fast);
+  user-select: none;
+}
+.checkboxDone {
+  background: var(--cr-green); border-color: var(--cr-green); color: #fff;
+}
+
+.actionText {
+  flex: 1; font-size: 13px; color: var(--cr-text1); line-height: 1.5;
+  transition: color var(--cr-dur-fast), text-decoration var(--cr-dur-fast);
+}
+.actionTextDone {
+  color: var(--cr-text3); text-decoration: line-through;
+}
+
+.actionTime {
+  font-family: var(--cr-mono); font-size: 11px; color: var(--cr-text3);
+  white-space: nowrap;
+}
+
+.actionPrio {
+  font-size: 10px; font-weight: 500; padding: 1px 6px;
+  border-radius: var(--cr-radius-sm);
+  white-space: nowrap; flex-shrink: 0;
+}
+.prio_high   { background: var(--cr-red-soft); color: var(--cr-red); }
+.prio_medium { background: var(--cr-accent-soft); color: var(--cr-accent); }
+.prio_low    { background: rgba(0,0,0,0.03); color: var(--cr-text3); }
+
+/* Confetti */
+.confettiOverlay {
+  position: fixed; inset: 0; z-index: 100;
+  display: flex; align-items: center; justify-content: center;
+  pointer-events: none;
+}
+.confettiParticle {
+  position: absolute;
+  width: 8px; height: 8px;
+  border-radius: 2px;
+}
+.confettiText {
+  font-size: 24px; font-weight: 700; color: var(--cr-accent);
+  letter-spacing: -0.02em;
+  z-index: 1;
+}
+
+/* Confirm */
+.confirmBar {
+  display: flex; justify-content: flex-end;
+}
+.confirmBtn {
+  padding: 12px 28px;
+  border-radius: var(--cr-radius);
+  border: none;
+  background: var(--cr-accent);
+  color: #fff;
+  font-size: 14px; font-weight: 600;
+  cursor: pointer;
+  transition: all var(--cr-dur-fast) var(--cr-ease);
+}
+.confirmBtn:hover { background: var(--cr-accent-hv); }
+.confirmBtn:disabled {
+  opacity: 0.35; cursor: not-allowed;
+}

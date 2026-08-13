@@ -1,0 +1,1766 @@
+{
+  "meta": {
+    "domain": "insights",
+    "display_name": "方法论卡片",
+    "description": "从论文和实践中提取的系统设计方法论",
+    "last_updated": "2026-05-31T21:55:51.944805"
+  },
+  "cards": [
+    {
+      "id": "insight_2026-05-31_001",
+      "type": "methodology",
+      "title": "技能感知反思：区分技能缺陷与执行失误的轨迹归因方法",
+      "source": {
+        "arxiv_id": "2605.10332",
+        "title": "EmbodiSkill: Skill-Aware Reflection for Self-Evolving Embodied Agents",
+        "section": "1. Introduction & Figure 1"
+      },
+      "what": "该方法在技能自演化过程中，对每条轨迹进行细粒度归因：将轨迹结果分解为技能内容缺陷（skill-changing evidence）和执行失误（execution-lapse evidence）。只有前者触发技能更新，后者则保留并强化原有有效指导。避免了传统粗粒度更新中因一次执行失败就错误删除有效技能内容的问题。",
+      "applicable_to": [
+        "我们的subagent自进化系统：当subagent执行任务失败时，需区分是策略/知识库条目错误，还是执行过程中的感知/动作失误，从而决定是更新知识库还是保留并强化现有条目",
+        "知识库条目评分：在评估条目有效性时，需考虑执行环境噪声，避免因单次失败而错误降分",
+        "记忆管理：在记忆重放或强化时，需区分记忆内容本身的正确性与执行时的偶然失败"
+      ],
+      "excluded_approaches": [
+        "将整个轨迹简单总结为反馈后粗粒度更新整个技能（coarse skill update）——该方法证明这会导致有效内容被覆盖或错误删除",
+        "仅根据任务成功/失败二元结果来更新技能——忽略了执行失误与技能缺陷的混淆"
+      ],
+      "confidence": 0.92,
+      "quality_score": 9,
+      "created_at": "2026-05-31T21:52:30.622191",
+      "last_used": null,
+      "use_count": 0,
+      "tags": [
+        "技能自演化",
+        "轨迹归因",
+        "执行失误",
+        "技能缺陷",
+        "细粒度反思"
+      ]
+    },
+    {
+      "id": "insight_2026-05-31_002",
+      "type": "methodology",
+      "title": "训练无关的框架设计：无需微调模型即可实现技能自演化",
+      "source": {
+        "arxiv_id": "2605.10332",
+        "title": "EmbodiSkill: Skill-Aware Reflection for Self-Evolving Embodied Agents",
+        "section": "Abstract & 1. Introduction"
+      },
+      "what": "EmbodiSkill是一个training-free框架，不依赖对底层模型（如LLM）进行微调或参数更新。它通过提示工程和反思机制，在推理时动态更新技能知识库。这使得方法轻量、可迁移，且不改变模型本身的能力边界。",
+      "applicable_to": [
+        "我们的系统若使用闭源LLM（如GPT-4）作为subagent，可采用类似training-free方案，通过反思prompt动态更新知识库或策略，避免微调成本",
+        "快速原型验证：在系统早期阶段，用training-free方法测试自进化逻辑，再决定是否引入微调"
+      ],
+      "excluded_approaches": [
+        "依赖模型微调或参数更新的技能演化方法——成本高、不灵活，且对闭源模型不可行"
+      ],
+      "confidence": 0.88,
+      "quality_score": 8,
+      "created_at": "2026-05-31T21:52:30.622191",
+      "last_used": null,
+      "use_count": 0,
+      "tags": [
+        "training-free",
+        "推理时学习",
+        "提示工程",
+        "轻量演化",
+        "闭源模型兼容"
+      ]
+    },
+    {
+      "id": "insight_2026-05-31_003",
+      "type": "methodology",
+      "title": "技能定义与结构化表示：将技能分解为可独立验证的指导单元",
+      "source": {
+        "arxiv_id": "2605.10332",
+        "title": "EmbodiSkill: Skill-Aware Reflection for Self-Evolving Embodied Agents",
+        "section": "1. Introduction"
+      },
+      "what": "论文将技能定义为可持久化、可修订的程序化规范，包含子目标顺序、对象功能、视觉搜索策略、动作前提条件和恢复策略等独立单元。这种结构化表示使得细粒度归因成为可能——可以定位到具体哪条指导导致了成功或失败。",
+      "applicable_to": [
+        "我们的知识库条目设计：将每个条目设计为包含前提、动作、预期结果、恢复策略的结构化单元，便于后续归因和更新",
+        "subagent策略表示：将复杂任务分解为可独立评估的子策略，每个子策略可单独被验证和修正"
+      ],
+      "excluded_approaches": [
+        "将技能表示为单一文本块或模糊的指导——无法进行细粒度归因和精准更新"
+      ],
+      "confidence": 0.85,
+      "quality_score": 8,
+      "created_at": "2026-05-31T21:52:30.622191",
+      "last_used": null,
+      "use_count": 0,
+      "tags": [
+        "技能结构化",
+        "程序化规范",
+        "细粒度表示",
+        "可验证单元",
+        "知识库设计"
+      ]
+    },
+    {
+      "id": "insight_2026-05-31_004",
+      "type": "methodology",
+      "title": "跨环境技能演化评估方法：在多个基准上对比技能演化效果",
+      "source": {
+        "arxiv_id": "2605.10332",
+        "title": "EmbodiSkill: Skill-Aware Reflection for Self-Evolving Embodied Agents",
+        "section": "Abstract & 4. Experiments"
+      },
+      "what": "论文在ALFWorld和EmbodiedBench两个不同复杂度的具身基准上评估方法。关键评估指标是任务成功率，并对比了无技能、静态技能、技能无感知演化三种基线。结果显示EmbodiSkill在ALFWorld上使冻结的Qwen3.5-27B执行器达到93.28%成功率，比直接使用GPT-5.2（无技能）高31.58%。",
+      "applicable_to": [
+        "我们的系统评估设计：在多个不同难度的测试集上评估subagent自进化效果，对比基线应包括无知识库、静态知识库、粗粒度更新知识库",
+        "评估指标选择：以任务成功率为主指标，同时可记录知识库更新次数、错误归因准确率等辅助指标"
+      ],
+      "excluded_approaches": [
+        "仅在单一环境或简单任务上评估——无法体现技能演化在复杂场景下的鲁棒性",
+        "仅对比有无技能，而不对比不同演化策略（如粗粒度vs细粒度）——无法证明方法优势来源"
+      ],
+      "confidence": 0.9,
+      "quality_score": 9,
+      "created_at": "2026-05-31T21:52:30.622191",
+      "last_used": null,
+      "use_count": 0,
+      "tags": [
+        "评估方法论",
+        "多基准测试",
+        "成功率指标",
+        "基线对比",
+        "鲁棒性验证"
+      ]
+    },
+    {
+      "id": "insight_2026-05-31_005",
+      "type": "methodology",
+      "title": "知识混淆机制：创建纯净的自进化评估环境",
+      "source": {
+        "arxiv_id": "2602.04811",
+        "title": "SE-BENCH: Benchmarking Self-Evolution with Knowledge Internalization",
+        "section": "Abstract & Introduction"
+      },
+      "what": "将已知库（如NumPy）的API映射为随机无意义标识符，并重写文档描述为一个'新'包。训练时提供文档，测试时禁止访问，且使用原库视为失败。这样任务在无文档时不可能完成（排除先验知识干扰），有文档时极其简单（隔离推理复杂度干扰），并能测试组合泛化能力。",
+      "applicable_to": [
+        "评估subagent的知识内化能力时，可设计类似混淆任务来隔离先验知识影响",
+        "自进化系统的基准测试设计，确保测试任务能纯净地测量内化而非回忆",
+        "知识库条目评分中，验证agent是否真正内化了新知识而非依赖外部检索"
+      ],
+      "excluded_approaches": [
+        "直接使用真实库的变体（如修改函数名但保留语义）会引入先验知识泄露",
+        "仅依赖复杂任务来测试内化会混淆推理能力与记忆能力"
+      ],
+      "confidence": 0.95,
+      "quality_score": 9,
+      "created_at": "2026-05-31T21:52:57.450772",
+      "last_used": null,
+      "use_count": 0,
+      "tags": [
+        "知识内化",
+        "评估基准",
+        "混淆机制",
+        "先验知识隔离",
+        "组合泛化"
+      ]
+    },
+    {
+      "id": "insight_2026-05-31_006",
+      "type": "methodology",
+      "title": "闭卷训练（Closed-Book Training）优于开卷训练",
+      "source": {
+        "arxiv_id": "2602.04811",
+        "title": "SE-BENCH: Benchmarking Self-Evolution with Knowledge Internalization",
+        "section": "Abstract & Section 3 (findings)"
+      },
+      "what": "在参数更新时移除参考文档（闭卷训练）强制模型将外部逻辑压缩到权重中，显著优于标准SFT（开卷训练）。开卷训练中参考材料的存在抑制了长期记忆保留，导致模型依赖外部信息而非内化知识。",
+      "applicable_to": [
+        "subagent训练时，应设计闭卷阶段强制内化知识库内容",
+        "知识内化模块中，训练策略应避免同时提供外部参考和参数更新",
+        "自进化系统的训练流程：先开卷理解，后闭卷强制内化"
+      ],
+      "excluded_approaches": [
+        "训练时持续提供文档或外部知识库会阻碍知识真正压缩到模型权重中",
+        "仅依赖检索增强（RAG）而不进行闭卷训练无法实现持久内化"
+      ],
+      "confidence": 0.9,
+      "quality_score": 9,
+      "created_at": "2026-05-31T21:52:57.450772",
+      "last_used": null,
+      "use_count": 0,
+      "tags": [
+        "闭卷训练",
+        "知识内化",
+        "SFT策略",
+        "长期记忆",
+        "训练范式"
+      ]
+    },
+    {
+      "id": "insight_2026-05-31_007",
+      "type": "methodology",
+      "title": "RL内化新知识的失败：PPO裁剪与负梯度问题",
+      "source": {
+        "arxiv_id": "2602.04811",
+        "title": "SE-BENCH: Benchmarking Self-Evolution with Knowledge Internalization",
+        "section": "Abstract & Section 3 (RL Gap)"
+      },
+      "what": "标准强化学习（如PPO）无法完全内化新知识，原因有二：PPO的裁剪机制限制了策略更新幅度，导致新知识无法充分融入；负梯度信号（来自错误尝试）会破坏已学到的正确映射，造成知识遗忘。",
+      "applicable_to": [
+        "subagent的RL训练中，需注意PPO裁剪可能阻碍新知识内化",
+        "自进化系统的RL模块设计时，应考虑负梯度对已内化知识的破坏",
+        "评估体系中对RL方法的内化能力应持谨慎态度"
+      ],
+      "excluded_approaches": [
+        "直接使用标准PPO进行知识内化训练效果差",
+        "RL中仅依赖奖励信号而不设计知识保护机制会导致遗忘"
+      ],
+      "confidence": 0.9,
+      "quality_score": 9,
+      "created_at": "2026-05-31T21:52:57.450772",
+      "last_used": null,
+      "use_count": 0,
+      "tags": [
+        "RL内化失败",
+        "PPO裁剪",
+        "负梯度",
+        "知识遗忘",
+        "强化学习局限"
+      ]
+    },
+    {
+      "id": "insight_2026-05-31_008",
+      "type": "methodology",
+      "title": "自博弈（Self-Play）结合SFT可内化新知识，但RL不行",
+      "source": {
+        "arxiv_id": "2602.04811",
+        "title": "SE-BENCH: Benchmarking Self-Evolution with Knowledge Internalization",
+        "section": "Abstract & Section 3 (Self-Play)"
+      },
+      "what": "模型可以通过自博弈生成带噪声的任务，当与SFT结合时能有效内化新知识。但自博弈与RL结合时效果不佳，因为RL的负梯度会破坏自生成数据中的正确模式。这证明自生成数据对SFT有效，但对RL有害。",
+      "applicable_to": [
+        "subagent的自我训练流程：使用自生成任务进行SFT而非RL",
+        "知识内化模块中，可让agent自行构造练习任务并做SFT",
+        "自进化系统的数据生成策略：自博弈数据适合SFT，不适合RL"
+      ],
+      "excluded_approaches": [
+        "自博弈+RL的组合会导致内化失败",
+        "依赖外部专家数据而非自生成数据可能限制自进化能力"
+      ],
+      "confidence": 0.85,
+      "quality_score": 8,
+      "created_at": "2026-05-31T21:52:57.450772",
+      "last_used": null,
+      "use_count": 0,
+      "tags": [
+        "自博弈",
+        "SFT",
+        "RL对比",
+        "自生成数据",
+        "知识内化训练"
+      ]
+    },
+    {
+      "id": "insight_2026-05-31_009",
+      "type": "methodology",
+      "title": "自进化循环必须确保可学习信息单调递增",
+      "source": {
+        "arxiv_id": "2603.02218",
+        "title": "Self-Play Only Evolves When Self-Synthetic Pipeline Ensures Learnable Information Gain",
+        "section": "Abstract & Section 1"
+      },
+      "what": "自进化LLM系统（PROPOSER/SOLVER/VERIFIER三元角色）的可持续进化依赖于自合成数据管道中可学习信息随迭代单调增加，而非简单的自对弈。可学习信息在有界观察者下定义为可被模型捕获的结构化信息，区别于不可学习噪声。",
+      "applicable_to": [
+        "自进化agent系统的迭代训练管道设计",
+        "知识库条目自动生成与质量评估的循环",
+        "subagent能力提升的反馈回路设计"
+      ],
+      "excluded_approaches": [
+        "仅靠奖励塑形（reward shaping）不足以实现持续改进",
+        "PROPOSER生成平凡问题（如恒等函数）导致信息增益为零",
+        "不引入外部真实数据校准VERIFIER会导致自我欺骗和性能崩溃"
+      ],
+      "confidence": 0.9,
+      "quality_score": 9,
+      "created_at": "2026-05-31T21:53:13.134646",
+      "last_used": null,
+      "use_count": 0,
+      "tags": [
+        "自进化",
+        "可学习信息",
+        "三元角色",
+        "数据管道",
+        "信息论"
+      ]
+    },
+    {
+      "id": "insight_2026-05-31_010",
+      "type": "methodology",
+      "title": "非对称共进化：弱-强-弱循环打破角色同质化",
+      "source": {
+        "arxiv_id": "2603.02218",
+        "title": "Self-Play Only Evolves When Self-Synthetic Pipeline Ensures Learnable Information Gain",
+        "section": "Abstract & Section 3.1"
+      },
+      "what": "三元角色（PROPOSER/SOLVER/VERIFIER）之间采用非对称共进化策略：PROPOSER和VERIFIER构成内部环境，与SOLVER形成弱-强-弱循环。即内部环境保持相对弱（生成中等难度任务和反馈），SOLVER逐步变强，然后内部环境再升级，形成持续的信息增益。",
+      "applicable_to": [
+        "subagent能力评估与任务难度动态匹配",
+        "知识库条目生成器与求解器的协同训练",
+        "多agent系统中角色能力差异化设计"
+      ],
+      "excluded_approaches": [
+        "所有角色同步强化会导致信息增益饱和",
+        "PROPOSER和SOLVER同时变强会生成超出当前能力范围的任务"
+      ],
+      "confidence": 0.85,
+      "quality_score": 8,
+      "created_at": "2026-05-31T21:53:13.134646",
+      "last_used": null,
+      "use_count": 0,
+      "tags": [
+        "非对称共进化",
+        "弱-强-弱循环",
+        "角色差异化",
+        "能力匹配"
+      ]
+    },
+    {
+      "id": "insight_2026-05-31_011",
+      "type": "methodology",
+      "title": "容量增长：自适应扩展参数和推理预算以匹配可学习信息增长",
+      "source": {
+        "arxiv_id": "2603.02218",
+        "title": "Self-Play Only Evolves When Self-Synthetic Pipeline Ensures Learnable Information Gain",
+        "section": "Abstract & Section 3.2"
+      },
+      "what": "随着可学习信息量增加，系统需要动态扩展模型参数规模和推理时计算预算，以捕获更复杂的结构。容量增长不是一次性扩大，而是根据信息增益的测量结果自适应调整，避免过拟合或欠拟合。",
+      "applicable_to": [
+        "agent系统在训练过程中动态调整模型规模",
+        "知识内化模块根据信息复杂度选择不同容量的处理管道",
+        "评估体系根据任务难度分配计算资源"
+      ],
+      "excluded_approaches": [
+        "固定容量模型在信息增长时必然饱和",
+        "盲目扩大容量而不考虑信息增益会导致计算浪费"
+      ],
+      "confidence": 0.8,
+      "quality_score": 8,
+      "created_at": "2026-05-31T21:53:13.134646",
+      "last_used": null,
+      "use_count": 0,
+      "tags": [
+        "容量增长",
+        "自适应计算",
+        "模型扩展",
+        "信息复杂度"
+      ]
+    },
+    {
+      "id": "insight_2026-05-31_012",
+      "type": "methodology",
+      "title": "主动信息寻求：引入外部上下文和新任务源防止饱和",
+      "source": {
+        "arxiv_id": "2603.02218",
+        "title": "Self-Play Only Evolves When Self-Synthetic Pipeline Ensures Learnable Information Gain",
+        "section": "Abstract & Section 3.3"
+      },
+      "what": "系统主动从外部环境（如互联网、用户交互、新领域数据）引入新信息源，而不是仅依赖内部生成的数据。这包括引入新任务类型、新知识上下文，以及外部验证信号，以打破内部循环的信息瓶颈。",
+      "applicable_to": [
+        "知识库的主动爬取与外部知识融合策略",
+        "subagent在遇到瓶颈时主动搜索外部解决方案",
+        "评估体系引入外部基准测试防止过拟合"
+      ],
+      "excluded_approaches": [
+        "仅依赖内部生成数据必然导致信息熵衰减",
+        "被动等待外部数据输入不如主动设计信息寻求策略"
+      ],
+      "confidence": 0.9,
+      "quality_score": 9,
+      "created_at": "2026-05-31T21:53:13.134646",
+      "last_used": null,
+      "use_count": 0,
+      "tags": [
+        "主动信息寻求",
+        "外部知识",
+        "信息瓶颈",
+        "数据多样性"
+      ]
+    },
+    {
+      "id": "insight_2026-05-31_013",
+      "type": "methodology",
+      "title": "三元角色视角下的系统设计框架：PROPOSER-SOLVER-VERIFIER",
+      "source": {
+        "arxiv_id": "2603.02218",
+        "title": "Self-Play Only Evolves When Self-Synthetic Pipeline Ensures Learnable Information Gain",
+        "section": "Abstract & Section 1 & Figure 2"
+      },
+      "what": "将自进化LLM系统分解为三个明确角色：PROPOSER（生成任务）、SOLVER（求解任务）、VERIFIER（提供训练信号）。三者构成内部环境，与外部环境交互。系统设计从信息流视角看是：吸收外部信息→转化为内部可学习信息→通过三元角色协作实现信息增益。",
+      "applicable_to": [
+        "agent系统的模块化架构设计（任务生成器、执行器、评估器）",
+        "知识库的自动构建管道（问题生成、答案生成、质量验证）",
+        "自进化评估体系的角色分离设计"
+      ],
+      "excluded_approaches": [
+        "简单组合PROPOSER+SOLVER和SOLVER+VERIFIER（P+S和S+V）不足以实现持续进化",
+        "所有角色由同一模型无差别扮演会导致信息同质化"
+      ],
+      "confidence": 0.95,
+      "quality_score": 9,
+      "created_at": "2026-05-31T21:53:13.134646",
+      "last_used": null,
+      "use_count": 0,
+      "tags": [
+        "三元角色",
+        "系统架构",
+        "信息流",
+        "模块化设计",
+        "自进化框架"
+      ]
+    },
+    {
+      "id": "insight_2026-05-31_014",
+      "type": "methodology",
+      "title": "自引用架构：将任务代理与元代理合并为单一可编辑程序，使改进机制本身也可被改进",
+      "source": {
+        "arxiv_id": "2603.19461",
+        "title": "HyperAgents",
+        "section": "摘要、引言"
+      },
+      "what": "传统自改进系统依赖固定的元代理（meta agent）来修改基础代理，导致改进能力受限于元代理的设计。HyperAgents 将任务代理和元代理合并为一个单一的可编辑程序，使得元级别的修改过程本身也是可编辑的。这实现了元认知自修改（metacognitive self-modification），不仅改进任务解决行为，还改进生成未来改进的机制本身，从而避免无限递归的元层级问题。",
+      "applicable_to": [
+        "自进化系统的架构设计：将自我评估模块和自我修改模块合并为可自修改的单一程序，避免固定元层级瓶颈",
+        "知识内化流程：允许知识库的更新策略（如如何选择新知识、如何合并）本身也被系统学习和改进",
+        "记忆管理：记忆的读写策略（如何时存储、如何检索）可以随系统运行而自我优化"
+      ],
+      "excluded_approaches": [
+        "固定元代理架构：仅让元代理修改基础代理，但元代理本身不可修改（如传统DGM的指令生成步骤是手工固定的）",
+        "添加元-元代理：通过增加更高层级来改进元代理，这只会将问题上移，导致无限递归，不能根本解决限制"
+      ],
+      "confidence": 0.92,
+      "quality_score": 9,
+      "created_at": "2026-05-31T21:53:28.895372",
+      "last_used": null,
+      "use_count": 0,
+      "tags": [
+        "自引用架构",
+        "元认知自修改",
+        "自改进系统",
+        "可编辑程序",
+        "无限递归避免"
+      ]
+    },
+    {
+      "id": "insight_2026-05-31_015",
+      "type": "methodology",
+      "title": "开放领域自改进的评估方法论：跨多个领域（编码、论文评审、机器人奖励设计、奥数评分）验证性能提升",
+      "source": {
+        "arxiv_id": "2603.19461",
+        "title": "HyperAgents",
+        "section": "摘要、实验"
+      },
+      "what": "为了证明自改进方法的通用性，DGM-Hyperagents 在四个截然不同的领域进行测试：编码任务、论文评审、机器人奖励函数设计、奥数级数学评分。每个领域都使用领域特定的评估指标，并对比无自改进基线、无开放探索基线和先前自改进系统（如DGM）。结果显示DGM-H在所有领域均随时间提升性能，并超越基线。",
+      "applicable_to": [
+        "评估体系设计：为自进化系统设计跨领域评估基准，验证改进机制的通用性而非单一任务过拟合",
+        "subagent A/B对比评估：在多个不同任务类型上测试subagent的改进效果，避免单一任务上的虚假提升",
+        "知识内化效果验证：评估知识库更新策略在不同知识领域（如代码、数学、文本）上的泛化能力"
+      ],
+      "excluded_approaches": [
+        "仅在单一领域（如编码）测试自改进，因为编码中任务技能与自修改技能高度对齐，不能代表其他领域",
+        "仅对比无改进基线，而不对比其他自改进系统（如DGM），无法体现新方法的优势"
+      ],
+      "confidence": 0.95,
+      "quality_score": 9,
+      "created_at": "2026-05-31T21:53:28.895372",
+      "last_used": null,
+      "use_count": 0,
+      "tags": [
+        "跨领域评估",
+        "实验方法论",
+        "自改进验证",
+        "通用性测试",
+        "基线对比"
+      ]
+    },
+    {
+      "id": "insight_2026-05-31_016",
+      "type": "methodology",
+      "title": "元级别改进的可迁移性与累积性：元改进（如持久记忆、性能追踪）跨领域迁移并跨运行累积",
+      "source": {
+        "arxiv_id": "2603.19461",
+        "title": "HyperAgents",
+        "section": "摘要、实验结果"
+      },
+      "what": "DGM-Hyperagents 不仅改进了任务性能，还改进了生成新代理的过程本身，例如引入了持久记忆和性能追踪机制。这些元级别的改进被证明可以跨领域迁移（即在一个领域学到的改进策略可用于另一个领域），并且跨多次运行累积（即后续运行可以利用之前运行中发现的改进）。",
+      "applicable_to": [
+        "知识库条目评分：元改进策略（如如何选择高价值知识）可以跨不同知识领域迁移，提高评分效率",
+        "记忆管理：持久记忆机制的设计可以跨任务类型复用，减少重复学习",
+        "自进化系统的长期运行：设计累积性改进机制，使系统在多次运行中持续受益于历史改进"
+      ],
+      "excluded_approaches": [
+        "每次运行独立改进，不利用历史改进成果（导致重复劳动）",
+        "元改进仅针对单一领域设计，无法迁移到其他任务"
+      ],
+      "confidence": 0.88,
+      "quality_score": 8,
+      "created_at": "2026-05-31T21:53:28.895372",
+      "last_used": null,
+      "use_count": 0,
+      "tags": [
+        "元改进迁移",
+        "累积性改进",
+        "持久记忆",
+        "性能追踪",
+        "跨领域泛化"
+      ]
+    },
+    {
+      "id": "insight_2026-05-31_017",
+      "type": "methodology",
+      "title": "安全措施方法论：在自改进实验中采用沙箱、人工监督等安全预防措施",
+      "source": {
+        "arxiv_id": "2603.19461",
+        "title": "HyperAgents",
+        "section": "摘要、讨论"
+      },
+      "what": "所有实验均在安全预防措施下进行，包括沙箱化（sandboxing）和人工监督（human oversight）。论文讨论了自改进系统特有的安全挑战，以及如何在这些系统中定义安全。这为自进化系统的实验设计提供了安全实践参考。",
+      "applicable_to": [
+        "自进化系统的实验部署：在允许系统自我修改代码或策略时，必须设置沙箱环境隔离潜在有害修改",
+        "subagent自动修改：当subagent被允许修改自身行为或知识库时，需要人工审核机制或回滚能力",
+        "评估体系的安全：确保评估指标不会被系统通过不安全的方式操纵"
+      ],
+      "excluded_approaches": [
+        "无安全约束的完全自主自改进（可能导致不可控行为）",
+        "仅依赖事后审查而不进行运行时隔离"
+      ],
+      "confidence": 0.9,
+      "quality_score": 9,
+      "created_at": "2026-05-31T21:53:28.895372",
+      "last_used": null,
+      "use_count": 0,
+      "tags": [
+        "安全措施",
+        "沙箱",
+        "人工监督",
+        "自改进安全",
+        "实验设计"
+      ]
+    },
+    {
+      "id": "insight_2026-05-31_018",
+      "type": "methodology",
+      "title": "利用自对弈中自然产生的中间产物（问题构建路径QCP）作为密集监督信号",
+      "source": {
+        "arxiv_id": "2604.14054",
+        "title": "π-Play: Multi-Agent Self-Play via Privileged Self-Distillation without External Data",
+        "section": "Abstract & Introduction"
+      },
+      "what": "在自对弈框架中，出题者（examiner）生成任务时不仅产生最终问答对(q, o*)，还会自然产生一个中间产物——问题构建路径(QCP, c)，它记录了从答案反向构建问题的多轮交互过程。π-Play将QCP作为特权信息，让教师模型（teacher）利用QCP作为上下文，对学生模型（student）进行密集的token级自蒸馏监督，从而将稀疏奖励的自对弈转化为密集反馈的协同进化。",
+      "applicable_to": [
+        "自进化系统中，agent在生成训练数据时产生的中间推理轨迹（如搜索路径、思考链）可作为特权信息用于监督其他agent",
+        "知识内化模块：agent在自我问答过程中产生的中间步骤可用于构建密集反馈信号，提升学习效率",
+        "评估体系：可以利用agent生成任务时的中间产物来评估其推理质量，而不只依赖最终结果"
+      ],
+      "excluded_approaches": [
+        "传统自对弈仅使用稀疏结果奖励优化学生，忽略了QCP这一有价值的中间信号",
+        "直接使用QCP进行监督微调(SFT)被证明不可行，因为QCP是反向过程，不能直接作为正向推理的监督数据"
+      ],
+      "confidence": 0.9,
+      "quality_score": 9,
+      "created_at": "2026-05-31T21:53:44.847293",
+      "last_used": null,
+      "use_count": 0,
+      "tags": [
+        "自对弈",
+        "自蒸馏",
+        "特权信息",
+        "密集监督",
+        "问题构建路径"
+      ]
+    },
+    {
+      "id": "insight_2026-05-31_019",
+      "type": "methodology",
+      "title": "多agent自进化框架：出题者-教师-学生三体协同进化",
+      "source": {
+        "arxiv_id": "2604.14054",
+        "title": "π-Play: Multi-Agent Self-Play via Privileged Self-Distillation without External Data",
+        "section": "Abstract & Figure 1"
+      },
+      "what": "π-Play提出一个三agent自进化框架：出题者（examiner）生成任务和QCP，教师（teacher）利用QCP作为特权上下文提供密集监督，学生（student）在结果奖励和教师指导的共同作用下优化。所有agent从同一个基础LLM初始化，通过交替优化实现闭环进化。这比传统自对弈（仅出题者-学生）多了一个教师角色，解决了稀疏奖励问题。",
+      "applicable_to": [
+        "自进化系统架构设计：可以引入多个角色（如生成者、评估者、学习者）形成闭环，每个角色利用其他角色产生的中间信息",
+        "subagent协作：不同subagent可以扮演不同角色（如探索者、验证者、学习者），利用特权信息互相促进",
+        "记忆管理：教师角色产生的监督信号可以作为长期记忆存储，用于后续agent的初始化或微调"
+      ],
+      "excluded_approaches": [
+        "传统自对弈只有两个角色（出题者、学生），无法利用中间产物",
+        "依赖外部教师或人类反馈的蒸馏方法被排除，π-Play完全自给自足"
+      ],
+      "confidence": 0.9,
+      "quality_score": 9,
+      "created_at": "2026-05-31T21:53:44.847293",
+      "last_used": null,
+      "use_count": 0,
+      "tags": [
+        "多agent框架",
+        "自进化",
+        "角色分工",
+        "闭环进化",
+        "交替优化"
+      ]
+    },
+    {
+      "id": "insight_2026-05-31_020",
+      "type": "methodology",
+      "title": "自对弈中QCP的生成机制：反向构建问题路径作为特权信息",
+      "source": {
+        "arxiv_id": "2604.14054",
+        "title": "π-Play: Multi-Agent Self-Play via Privileged Self-Distillation without External Data",
+        "section": "Introduction & Figure 2"
+      },
+      "what": "在自对弈的任务生成阶段，出题者通过多轮搜索从答案反向构建问题，这个过程产生的QCP记录了完整的反向推理步骤。QCP本质上是特权信息——学生模型在正向推理时无法获得，但教师模型可以利用它来提供密集的token级监督。这种机制使得自对弈从稀疏奖励学习转变为密集反馈学习，效率提升2-3倍。",
+      "applicable_to": [
+        "知识内化：agent在自我训练时，可以设计反向生成任务（从答案到问题）来产生中间步骤，用于正向推理的监督",
+        "评估体系：QCP可以作为评估agent推理路径质量的参考标准，而不仅是最终答案",
+        "记忆管理：QCP可以作为结构化记忆存储，记录agent如何从已知知识反向构建问题，用于后续检索增强"
+      ],
+      "excluded_approaches": [
+        "不能直接使用QCP作为正向推理的监督数据（SFT），因为它是反向过程",
+        "不能忽略QCP仅使用最终结果，否则会丢失密集监督信号"
+      ],
+      "confidence": 0.85,
+      "quality_score": 8,
+      "created_at": "2026-05-31T21:53:44.847293",
+      "last_used": null,
+      "use_count": 0,
+      "tags": [
+        "反向构建",
+        "特权信息",
+        "密集监督",
+        "任务生成",
+        "推理路径"
+      ]
+    },
+    {
+      "id": "insight_2026-05-31_021",
+      "type": "methodology",
+      "title": "自蒸馏与自对弈的融合：解决稀疏奖励和信用分配问题",
+      "source": {
+        "arxiv_id": "2604.14054",
+        "title": "π-Play: Multi-Agent Self-Play via Privileged Self-Distillation without External Data",
+        "section": "Abstract & Introduction"
+      },
+      "what": "π-Play将自蒸馏（self-distillation）融入自对弈（self-play）框架。自蒸馏使用同规模教师模型，通过特权信息提供token级密集监督，解决信用分配问题；自对弈通过任务生成减少数据依赖。两者结合使得学生模型在结果奖励和教师指导的共同作用下优化，克服了传统自对弈中稀疏奖励和弱信用分配的局限。",
+      "applicable_to": [
+        "自进化系统：可以设计自蒸馏模块，利用同规模agent产生的中间信息作为监督信号，避免依赖外部大模型",
+        "subagent训练：在多个subagent协作时，可以用一个agent的中间输出作为另一个agent的密集反馈",
+        "评估体系：自蒸馏的token级监督可以用于细粒度评估agent的每一步推理质量"
+      ],
+      "excluded_approaches": [
+        "传统自对弈仅依赖稀疏结果奖励，被证明学习效率低",
+        "依赖外部大教师的蒸馏方法被排除，π-Play使用同规模教师",
+        "仅使用SFT或RL的方法被排除，需要两者结合"
+      ],
+      "confidence": 0.9,
+      "quality_score": 9,
+      "created_at": "2026-05-31T21:53:44.847293",
+      "last_used": null,
+      "use_count": 0,
+      "tags": [
+        "自蒸馏",
+        "自对弈",
+        "信用分配",
+        "密集反馈",
+        "协同进化"
+      ]
+    },
+    {
+      "id": "insight_2026-05-31_022",
+      "type": "methodology",
+      "title": "通过可观测性支柱实现自动化进化闭环",
+      "source": {
+        "arxiv_id": "2604.25850",
+        "title": "Agentic Harness Engineering: Observability-Driven Automatic Evolution of Coding-Agent Harnesses",
+        "section": "Abstract, Introduction"
+      },
+      "what": "提出三个可观测性支柱：组件可观测性（每个可编辑组件以文件形式暴露，动作空间显式且可回滚）、经验可观测性（将百万级原始轨迹token蒸馏为分层可钻取的证据语料）、决策可观测性（每次编辑附带自声明预测，后续通过任务级结果验证）。三者将每次编辑转化为可证伪的契约，使进化自动进行而不陷入试错。",
+      "applicable_to": [
+        "我们的系统自动化调优模块：将子agent的提示词、工具、中间件等组件文件化，便于自动编辑和回滚",
+        "知识内化流程：将agent执行轨迹蒸馏为结构化根因分析，供进化agent消费",
+        "评估体系：每次修改附带预测，后续评估验证，形成闭环反馈"
+      ],
+      "excluded_approaches": [
+        "仅优化单一组件（如仅改提示词）的方法被证明不足，需要联合进化所有可编辑组件",
+        "直接使用原始轨迹作为进化输入效果差，需要蒸馏为结构化证据"
+      ],
+      "confidence": 0.9,
+      "quality_score": 9,
+      "created_at": "2026-05-31T21:54:01.250846",
+      "last_used": null,
+      "use_count": 0,
+      "tags": [
+        "可观测性",
+        "自动化进化",
+        "组件解耦",
+        "轨迹蒸馏",
+        "闭环反馈"
+      ]
+    },
+    {
+      "id": "insight_2026-05-31_023",
+      "type": "methodology",
+      "title": "组件解耦与文件级表示实现安全进化",
+      "source": {
+        "arxiv_id": "2604.25850",
+        "title": "Agentic Harness Engineering: Observability-Driven Automatic Evolution of Coding-Agent Harnesses",
+        "section": "Abstract, Section 3"
+      },
+      "what": "将agent的harness解耦为七个可编辑组件类型（提示词、工具、中间件、技能等），每个组件以独立文件形式存在。这样每个失败模式可以清晰映射到单一组件类，编辑动作空间显式且可回滚，避免耦合导致的副作用。",
+      "applicable_to": [
+        "我们的系统模块化设计：将知识库、记忆模块、评估标准等作为独立文件组件，便于单独调优和回滚",
+        "子agent配置管理：每个子agent的配置（提示词、工具集、行为参数）文件化，支持版本控制和自动进化"
+      ],
+      "excluded_approaches": [
+        "紧耦合的harness框架（如将所有配置写在单个大文件中）使编辑容易出错，被排除",
+        "仅优化提示词而不动其他组件的方法效果有限"
+      ],
+      "confidence": 0.85,
+      "quality_score": 8,
+      "created_at": "2026-05-31T21:54:01.250846",
+      "last_used": null,
+      "use_count": 0,
+      "tags": [
+        "组件解耦",
+        "文件级表示",
+        "可回滚",
+        "模块化设计",
+        "安全进化"
+      ]
+    },
+    {
+      "id": "insight_2026-05-31_024",
+      "type": "methodology",
+      "title": "经验蒸馏：从原始轨迹到结构化根因语料",
+      "source": {
+        "arxiv_id": "2604.25850",
+        "title": "Agentic Harness Engineering: Observability-Driven Automatic Evolution of Coding-Agent Harnesses",
+        "section": "Abstract, Section 3"
+      },
+      "what": "将agent执行产生的百万级原始轨迹token蒸馏为分层、可钻取的经验证据语料。不是直接给进化agent原始日志，而是提取结构化根因分析，使进化agent能有效消费。",
+      "applicable_to": [
+        "我们的系统知识内化模块：将agent执行轨迹（如对话历史、工具调用）蒸馏为结构化经验，存入知识库",
+        "评估体系：从轨迹中提取失败模式根因，用于指导后续调优",
+        "记忆管理：将长轨迹压缩为关键事件摘要，减少记忆存储开销"
+      ],
+      "excluded_approaches": [
+        "直接使用原始轨迹作为进化输入被证明无效，因为信息过载且缺乏结构化信号"
+      ],
+      "confidence": 0.9,
+      "quality_score": 9,
+      "created_at": "2026-05-31T21:54:01.250846",
+      "last_used": null,
+      "use_count": 0,
+      "tags": [
+        "轨迹蒸馏",
+        "经验提取",
+        "结构化语料",
+        "根因分析",
+        "信息压缩"
+      ]
+    },
+    {
+      "id": "insight_2026-05-31_025",
+      "type": "methodology",
+      "title": "决策可观测性：每次编辑附带可验证预测",
+      "source": {
+        "arxiv_id": "2604.25850",
+        "title": "Agentic Harness Engineering: Observability-Driven Automatic Evolution of Coding-Agent Harnesses",
+        "section": "Abstract, Section 3"
+      },
+      "what": "每次对harness的编辑都附带一个自声明预测（例如'此修改将减少X类错误'），后续通过下一轮任务级结果验证该预测是否成立。这样每次编辑都成为可证伪的契约，避免盲目试错。",
+      "applicable_to": [
+        "我们的系统自动化调优：每次修改子agent配置时要求附带预测，后续评估验证",
+        "A/B测试：在对比不同方案时，预先声明预期效果，实验后验证",
+        "知识库条目更新：每次修改知识条目时附带预期影响，后续通过任务表现验证"
+      ],
+      "excluded_approaches": [
+        "无预测的随机试错进化被排除，因为难以归因和收敛"
+      ],
+      "confidence": 0.85,
+      "quality_score": 8,
+      "created_at": "2026-05-31T21:54:01.250846",
+      "last_used": null,
+      "use_count": 0,
+      "tags": [
+        "决策可观测性",
+        "可证伪预测",
+        "归因分析",
+        "闭环验证",
+        "避免试错"
+      ]
+    },
+    {
+      "id": "insight_2026-05-31_026",
+      "type": "methodology",
+      "title": "进化后harness的跨模型迁移性验证方法",
+      "source": {
+        "arxiv_id": "2604.25850",
+        "title": "Agentic Harness Engineering: Observability-Driven Automatic Evolution of Coding-Agent Harnesses",
+        "section": "Abstract, Experiments"
+      },
+      "what": "将进化后的harness冻结，直接迁移到其他模型家族（不重新进化），观察性能变化。在Terminal-Bench 2上跨三个不同模型家族获得+5.1到+10.1个百分点的提升，证明进化组件编码了通用工程经验而非基准特定调优。",
+      "applicable_to": [
+        "我们的系统评估方法论：验证调优效果时，应测试跨场景/跨模型迁移性，而非仅看单点提升",
+        "知识内化评估：检查内化的知识是否具有通用性，而非仅适用于特定任务",
+        "子agent配置通用性验证：测试优化后的配置在不同任务或模型上的表现"
+      ],
+      "excluded_approaches": [
+        "仅在单一基准上验证调优效果可能过拟合，需要跨模型/跨任务迁移测试"
+      ],
+      "confidence": 0.9,
+      "quality_score": 9,
+      "created_at": "2026-05-31T21:54:01.250846",
+      "last_used": null,
+      "use_count": 0,
+      "tags": [
+        "跨模型迁移",
+        "通用性验证",
+        "过拟合检测",
+        "评估方法论",
+        "泛化能力"
+      ]
+    },
+    {
+      "id": "insight_2026-05-31_027",
+      "type": "methodology",
+      "title": "无监督自演化技能发现框架：通过多智能体自博弈从上下文中自动提取可复用技能",
+      "source": {
+        "arxiv_id": "2604.27660",
+        "title": "From Context to Skills: Can Language Models Learn from Context Skillfully?",
+        "section": "Abstract & Introduction"
+      },
+      "what": "提出Ctx2Skill框架，通过多智能体自博弈循环（Challenger生成探测任务和评分标准，Reasoner用演化技能集求解，Judge提供二元反馈）自动从上下文中发现、精炼和选择技能。关键创新在于Challenger和Reasoner都通过累积的自然语言技能演化：Proposer和Generator智能体分析失败案例并合成针对性的技能更新，实现无人工标注和外部反馈的自动化技能发现。",
+      "applicable_to": [
+        "知识库条目自动提取与精炼：从长文档中自动生成可复用的推理规则或操作流程",
+        "subagent技能库构建：让subagent在解决特定领域问题时自动积累和更新技能",
+        "自进化评估体系：评估器（Judge）可基于技能集对subagent输出进行更细粒度的反馈"
+      ],
+      "excluded_approaches": [
+        "依赖人工标注构建技能库（成本过高，在长技术文档场景不可行）",
+        "依赖外部执行反馈（如代码运行结果）来评估技能质量（上下文学习任务缺乏此类反馈）",
+        "固定技能集不演化（会导致过拟合或无法适应新上下文）"
+      ],
+      "confidence": 0.9,
+      "quality_score": 9,
+      "created_at": "2026-05-31T21:54:16.627187",
+      "last_used": null,
+      "use_count": 0,
+      "tags": [
+        "自演化",
+        "多智能体自博弈",
+        "技能发现",
+        "上下文学习",
+        "无监督学习"
+      ]
+    },
+    {
+      "id": "insight_2026-05-31_028",
+      "type": "methodology",
+      "title": "跨时间回放机制：防止自博弈中对抗性崩溃和技能过特化",
+      "source": {
+        "arxiv_id": "2604.27660",
+        "title": "From Context to Skills: Can Language Models Learn from Context Skillfully?",
+        "section": "Abstract"
+      },
+      "what": "在自博弈过程中，Challenger可能生成越来越极端的任务，Reasoner积累过特化的技能。跨时间回放机制通过识别在代表性案例上达到最佳平衡的技能集，选择鲁棒且泛化的技能演化路径，防止对抗性崩溃。",
+      "applicable_to": [
+        "subagent训练中的技能选择：避免subagent在对抗性训练中只学会应对特定攻击模式",
+        "知识内化过程中的记忆管理：在持续学习中筛选出泛化能力强的知识片段",
+        "评估体系中的样本平衡：防止评估器因过度关注极端案例而失去对常规案例的判别力"
+      ],
+      "excluded_approaches": [
+        "仅使用最新技能集（会导致过特化）",
+        "简单平均所有历史技能（会引入噪声和过时知识）",
+        "无回放机制的自博弈（容易陷入对抗性崩溃）"
+      ],
+      "confidence": 0.85,
+      "quality_score": 8,
+      "created_at": "2026-05-31T21:54:16.627187",
+      "last_used": null,
+      "use_count": 0,
+      "tags": [
+        "回放机制",
+        "对抗性崩溃",
+        "技能泛化",
+        "自博弈稳定",
+        "记忆管理"
+      ]
+    },
+    {
+      "id": "insight_2026-05-31_029",
+      "type": "methodology",
+      "title": "技能作为演化媒介：Challenger和Reasoner通过共享技能集共同演化",
+      "source": {
+        "arxiv_id": "2604.27660",
+        "title": "From Context to Skills: Can Language Models Learn from Context Skillfully?",
+        "section": "Abstract"
+      },
+      "what": "Ctx2Skill中，Challenger和Reasoner都通过累积的自然语言技能演化：Proposer和Generator智能体分析失败案例，合成针对性的技能更新，分别用于增强Challenger的任务生成能力和Reasoner的解题能力。技能成为两个角色共同演化的媒介，而非仅用于Reasoner。",
+      "applicable_to": [
+        "双智能体对抗训练：让攻击者和防御者共享知识库，共同进化",
+        "知识内化中的双向反馈：评估器（Judge）的反馈不仅用于改进被评估者，也用于改进评估任务生成器",
+        "subagent协作：多个subagent通过共享技能库实现协同进化"
+      ],
+      "excluded_approaches": [
+        "仅让Reasoner演化而Challenger固定（会导致任务难度不匹配）",
+        "技能仅作为Reasoner的辅助（忽略了Challenger也需要演化以生成更有价值的探测任务）"
+      ],
+      "confidence": 0.8,
+      "quality_score": 8,
+      "created_at": "2026-05-31T21:54:16.627187",
+      "last_used": null,
+      "use_count": 0,
+      "tags": [
+        "共享演化",
+        "双智能体",
+        "技能媒介",
+        "对抗训练",
+        "协同进化"
+      ]
+    },
+    {
+      "id": "insight_2026-05-31_030",
+      "type": "methodology",
+      "title": "推理时技能增强：将上下文知识显式提取为自然语言技能并注入推理过程",
+      "source": {
+        "arxiv_id": "2604.27660",
+        "title": "From Context to Skills: Can Language Models Learn from Context Skillfully?",
+        "section": "Introduction"
+      },
+      "what": "在推理时，从上下文中提取规则和过程，编码为可复用的自然语言技能，然后将其注入到语言模型的推理过程中。这种方法已被证明在agent任务（如编码agent）中有效，但之前依赖人工标注或外部反馈。Ctx2Skill将其扩展到无监督场景。",
+      "applicable_to": [
+        "知识库条目作为推理时技能：将知识库中的结构化知识注入subagent的推理链",
+        "动态技能注入：根据当前任务上下文，从技能库中检索最相关的技能并注入prompt",
+        "subagent的上下文学习增强：让subagent在处理长文档时先提取技能再推理"
+      ],
+      "excluded_approaches": [
+        "仅依赖参数化知识（无法处理超出预训练范围的新知识）",
+        "直接使用原始上下文而不提取技能（长上下文会导致注意力分散和推理质量下降）"
+      ],
+      "confidence": 0.9,
+      "quality_score": 9,
+      "created_at": "2026-05-31T21:54:16.627187",
+      "last_used": null,
+      "use_count": 0,
+      "tags": [
+        "推理时增强",
+        "技能注入",
+        "上下文学习",
+        "自然语言技能",
+        "agent"
+      ]
+    },
+    {
+      "id": "insight_2026-05-31_031",
+      "type": "methodology",
+      "title": "基于分组任务流的强化学习训练技能策展策略",
+      "source": {
+        "arxiv_id": "2605.06614",
+        "title": "SkillOS: Learning Skill Curation for Self-Evolving Agents",
+        "section": "1. Introduction & 2. Method"
+      },
+      "what": "SkillOS 将训练实例构建为相关任务组，每组包含多个按技能依赖关系排列的任务。前序任务的轨迹用于更新 SkillRepo（插入/更新/删除技能），后续相关任务则评估这些更新的效果。通过这种方式，将技能策展决策与下游执行反馈关联起来，为强化学习提供密集的学习信号。",
+      "applicable_to": [
+        "自进化系统的训练数据构造：将任务按技能依赖分组，形成长程反馈链",
+        "知识库更新策略学习：在知识内化模块中，用后续任务表现来评估前序知识更新的质量",
+        "subagent 技能库管理：训练一个策展 agent 来管理 subagent 的技能仓库"
+      ],
+      "excluded_approaches": [
+        "单任务或短任务流训练（如 Wang et al., 2025a; Ye et al., 2026）——信号稀疏，无法学习复杂的长程策展策略",
+        "启发式或固定规则策展（如 Qiu et al., 2025; Xu et al., 2025）——缺乏下游性能反馈，无法适应执行器实际需求",
+        "手动策展（如 Anthropic skills repository）——无法规模化"
+      ],
+      "confidence": 0.9,
+      "quality_score": 9,
+      "created_at": "2026-05-31T21:54:34.530195",
+      "last_used": null,
+      "use_count": 0,
+      "tags": [
+        "强化学习训练",
+        "任务分组",
+        "技能策展",
+        "长程反馈",
+        "自进化"
+      ]
+    },
+    {
+      "id": "insight_2026-05-31_032",
+      "type": "methodology",
+      "title": "复合奖励设计以归因下游执行反馈到策展决策",
+      "source": {
+        "arxiv_id": "2605.06614",
+        "title": "SkillOS: Learning Skill Curation for Self-Evolving Agents",
+        "section": "2. Method"
+      },
+      "what": "为了将执行器的下游反馈（任务成功/失败）归因到具体的策展操作（插入/更新/删除），SkillOS 设计了复合奖励函数。该奖励不仅包含任务完成率，还包含技能使用频率、技能仓库结构变化等辅助信号，使训练信号更密集且更直接地与策展动作关联。",
+      "applicable_to": [
+        "知识库条目评分：设计复合奖励来评估知识更新对后续推理任务的影响",
+        "记忆管理模块：用复合信号（记忆检索频率、任务成功率）来训练记忆删除/合并策略",
+        "subagent 评估：在 A/B 对比中，用复合指标（执行效率、错误率、技能复用率）归因到 subagent 的配置变化"
+      ],
+      "excluded_approaches": [
+        "仅使用最终任务成功/失败作为奖励——信号过于稀疏且延迟，难以训练细粒度策展操作",
+        "仅使用技能使用频率作为奖励——可能鼓励冗余技能而非高质量技能"
+      ],
+      "confidence": 0.85,
+      "quality_score": 8,
+      "created_at": "2026-05-31T21:54:34.530195",
+      "last_used": null,
+      "use_count": 0,
+      "tags": [
+        "复合奖励",
+        "归因学习",
+        "强化学习",
+        "技能策展",
+        "反馈信号"
+      ]
+    },
+    {
+      "id": "insight_2026-05-31_033",
+      "type": "methodology",
+      "title": "模块化双智能体架构：冻结执行器 + 可训练策展器",
+      "source": {
+        "arxiv_id": "2605.06614",
+        "title": "SkillOS: Self-Evolving Agents",
+        "section": "1. Introduction & Figure 1"
+      },
+      "what": "SkillOS 采用模块化多智能体框架：一个冻结的 Agent Executor 负责从 SkillRepo 检索并应用技能来完成任务；一个可训练的 Skill Curator 通过函数调用（插入/更新/删除）管理 SkillRepo。执行器不参与训练，策展器通过强化学习从执行反馈中学习策展策略。这种分离使策展策略可跨不同执行器泛化。",
+      "applicable_to": [
+        "自进化系统架构：将知识库管理（策展器）与任务执行（执行器）解耦",
+        "subagent 管理：训练一个独立的策展 subagent 来管理其他 subagent 的技能库",
+        "知识内化模块：将知识提取/更新策略与推理执行分离，便于独立优化和迁移"
+      ],
+      "excluded_approaches": [
+        "端到端训练整个 agent 系统——计算成本高且难以泛化到不同执行器",
+        "让执行器自己管理技能——增加执行器负担且难以学习长程策展策略"
+      ],
+      "confidence": 0.9,
+      "quality_score": 9,
+      "created_at": "2026-05-31T21:54:34.530195",
+      "last_used": null,
+      "use_count": 0,
+      "tags": [
+        "模块化架构",
+        "双智能体",
+        "冻结执行器",
+        "可训练策展器",
+        "泛化性"
+      ]
+    },
+    {
+      "id": "insight_2026-05-31_034",
+      "type": "methodology",
+      "title": "Markdown 格式技能表示与文件 I/O 操作管理",
+      "source": {
+        "arxiv_id": "2605.06614",
+        "title": "SkillOS: Self-Evolving Agents",
+        "section": "1. Introduction & Figure 1(b)"
+      },
+      "what": "技能以 Markdown 文件形式存储，包含名称、描述、工作流、何时不使用、前置约束等结构化字段。策展器通过类似操作系统的文件 I/O 操作（插入、更新、删除）来管理 SkillRepo。这种格式既便于人类阅读和编辑，也便于 LLM 解析和生成，同时支持结构化检索。",
+      "applicable_to": [
+        "知识库条目格式设计：采用 Markdown 结构化模板，包含元数据、使用条件、反例等字段",
+        "记忆管理模块：将记忆条目设计为 Markdown 文件，支持增删改查操作",
+        "技能/知识版本控制：通过文件操作实现版本管理和回滚"
+      ],
+      "excluded_approaches": [
+        "非结构化文本存储——难以检索和精确更新",
+        "数据库模式存储——灵活性差，不易被 LLM 直接操作"
+      ],
+      "confidence": 0.8,
+      "quality_score": 8,
+      "created_at": "2026-05-31T21:54:34.530195",
+      "last_used": null,
+      "use_count": 0,
+      "tags": [
+        "Markdown格式",
+        "技能表示",
+        "文件I/O",
+        "结构化存储",
+        "可操作性"
+      ]
+    },
+    {
+      "id": "insight_2026-05-31_035",
+      "type": "methodology",
+      "title": "技能仓库随时间发展出更丰富的内部结构和元技能",
+      "source": {
+        "arxiv_id": "2605.06614",
+        "title": "SkillOS: Self-Evolving Agents",
+        "section": "4. Analysis"
+      },
+      "what": "实验分析表明，经过 SkillOS 训练的策展器管理的 SkillRepo 会随时间发展出更丰富的内部结构（如技能之间的关联、层次关系）和更高层次的元技能（如通用策略、组合模式）。这证明了技能仓库的自我组织能力，而不仅仅是技能数量的增加。",
+      "applicable_to": [
+        "知识库演化分析：监控知识条目之间的关联度和层次结构变化，作为系统健康度指标",
+        "记忆管理模块：设计机制促进记忆条目之间的自动组织和抽象化",
+        "自进化评估：将知识库结构复杂度作为评估系统进化质量的指标之一"
+      ],
+      "excluded_approaches": [
+        "仅关注技能数量增长——可能导致冗余和噪音",
+        "静态技能库——无法适应新任务领域"
+      ],
+      "confidence": 0.85,
+      "quality_score": 8,
+      "created_at": "2026-05-31T21:54:34.530195",
+      "last_used": null,
+      "use_count": 0,
+      "tags": [
+        "技能仓库演化",
+        "内部结构",
+        "元技能",
+        "自我组织",
+        "知识库健康度"
+      ]
+    },
+    {
+      "id": "insight_2026-05-31_036",
+      "type": "methodology",
+      "title": "在线无重置的持续自我改进框架：在单次运行中交替执行与精炼",
+      "source": {
+        "arxiv_id": "2605.09998",
+        "title": "Continual Harness: Online Adaptation for Self-Improving Foundation Agents",
+        "section": "Abstract & Introduction"
+      },
+      "what": "提出Continual Harness框架，代理在单次连续episode中交替执行环境动作和精炼自身prompt、子代理、技能库和记忆。每F步，Refiner读取近期轨迹中的失败信号，对系统prompt、子代理、技能和记忆执行CRUD编辑。与需要完整episode后重置的prompt优化方法不同，该方法在episode中间更新，无需重启。",
+      "applicable_to": [
+        "我们的自进化系统：在单次任务执行中动态调整agent的prompt和工具集",
+        "知识内化模块：根据轨迹反馈在线更新技能库和记忆，无需重置环境",
+        "评估体系：设计在线评估指标（如按钮成本），替代离线重置评估"
+      ],
+      "excluded_approaches": [
+        "需要episode重置的prompt优化方法（如GEPA）——不适用于持续在线场景",
+        "完全依赖人类循环的精炼——被自动化替代",
+        "固定harness不更新——被证明在长周期任务中效率低下"
+      ],
+      "confidence": 0.9,
+      "quality_score": 9,
+      "created_at": "2026-05-31T21:54:51.653056",
+      "last_used": null,
+      "use_count": 0,
+      "tags": [
+        "在线适应",
+        "无重置学习",
+        "自我改进",
+        "harness精炼",
+        "持续学习"
+      ]
+    },
+    {
+      "id": "insight_2026-05-31_037",
+      "type": "methodology",
+      "title": "人类在环精炼到自动化精炼的迁移：从GPP实验提炼的自我改进信号",
+      "source": {
+        "arxiv_id": "2605.09998",
+        "title": "Continual Harness: Online Adaptation for Self-Improving Foundation Agents",
+        "section": "Introduction & GPP Experiments"
+      },
+      "what": "在Gemini Plays Pokémon (GPP)实验中，人类通过读取轨迹并重写harness，使AI首次完成多个Pokémon游戏。在困难阶段，模型自身开始通过长上下文记忆迭代策略，涌现出自我改进信号。Continual Harness将这一人类在环过程形式化并自动化，用自动化Refiner替代人类，在单次运行中持续优化。",
+      "applicable_to": [
+        "我们的系统：从人类示范中提取自我改进模式，设计自动化Refiner模块",
+        "知识内化：将人类精炼策略编码为可复用的精炼规则或prompt模板",
+        "subagent管理：根据轨迹自动创建/修改子代理的职责和工具"
+      ],
+      "excluded_approaches": [
+        "完全依赖人类在环——成本高且不可扩展",
+        "仅依赖模型内在记忆而不显式精炼harness——在复杂任务中不足"
+      ],
+      "confidence": 0.85,
+      "quality_score": 8,
+      "created_at": "2026-05-31T21:54:51.653056",
+      "last_used": null,
+      "use_count": 0,
+      "tags": [
+        "人类在环",
+        "自动化精炼",
+        "涌现行为",
+        "自我改进信号",
+        "迁移学习"
+      ]
+    },
+    {
+      "id": "insight_2026-05-31_038",
+      "type": "methodology",
+      "title": "模型与harness协同学习：在线过程奖励联合学习循环",
+      "source": {
+        "arxiv_id": "2605.09998",
+        "title": "Continual Harness: Online Adaptation for Self-Improving Foundation Agents",
+        "section": "Abstract & Figure 1"
+      },
+      "what": "在预热阶段后，开源模型的权重与harness状态在在线游戏过程中联合更新。使用前沿模型作为教师，对开源代理的rollouts进行重新标注，然后用于更新模型权重。整个过程无需在训练迭代之间重置环境，实现持续的里程碑进展。",
+      "applicable_to": [
+        "我们的自进化系统：设计模型权重与系统prompt/工具的联合在线更新机制",
+        "评估体系：使用教师模型进行在线奖励标注，替代离线人工标注",
+        "知识内化：将教师模型的知识通过重标注蒸馏到学生模型中"
+      ],
+      "excluded_approaches": [
+        "离线训练后固定模型权重——无法适应在线变化",
+        "仅更新模型权重而不更新harness——忽略系统级优化",
+        "需要环境重置的RL训练——不适用于持续在线场景"
+      ],
+      "confidence": 0.9,
+      "quality_score": 9,
+      "created_at": "2026-05-31T21:54:51.653056",
+      "last_used": null,
+      "use_count": 0,
+      "tags": [
+        "协同学习",
+        "在线训练",
+        "过程奖励",
+        "知识蒸馏",
+        "无重置训练"
+      ]
+    },
+    {
+      "id": "insight_2026-05-31_039",
+      "type": "methodology",
+      "title": "最小接口启动与渐进式能力恢复：从原始界面到专家harness的差距恢复",
+      "source": {
+        "arxiv_id": "2605.09998",
+        "title": "Continual Harness: Self-Improving Foundation Agents",
+        "section": "Abstract & Results"
+      },
+      "what": "系统从最小环境接口（帧观察、ASCII文本地图、按钮输入）开始，无任何策划知识、手工工具或领域脚手架。通过Continual Harness，显著减少按钮成本，并恢复与手工专家harness之间的大部分差距，且能力提升与模型能力相关。",
+      "applicable_to": [
+        "我们的系统：从最小配置启动，通过在线精炼逐步构建领域知识",
+        "知识库条目评分：初始无知识库，通过轨迹精炼自动生成和优化条目",
+        "subagent创建：从无子代理开始，根据任务需求动态创建专用子代理"
+      ],
+      "excluded_approaches": [
+        "预先构建完整领域知识库——成本高且不通用",
+        "手工设计所有工具——不可扩展",
+        "依赖预训练领域特定模型——限制泛化能力"
+      ],
+      "confidence": 0.85,
+      "quality_score": 8,
+      "created_at": "2026-05-31T21:54:51.653056",
+      "last_used": null,
+      "use_count": 0,
+      "tags": [
+        "最小启动",
+        "渐进式构建",
+        "知识自组织",
+        "领域适应",
+        "通用性"
+      ]
+    },
+    {
+      "id": "insight_2026-05-31_040",
+      "type": "methodology",
+      "title": "基于失败信号的在线精炼策略：每F步读取轨迹进行CRUD编辑",
+      "source": {
+        "arxiv_id": "2605.09998",
+        "title": "Continual Harness: Online Adaptation for Self-Improving Foundation Agents",
+        "section": "Introduction & Method"
+      },
+      "what": "Refiner每F步读取近期轨迹，识别失败信号，然后对系统prompt、子代理、技能和记忆执行CRUD（创建、读取、更新、删除）编辑。这种基于失败信号的触发机制避免了不必要的更新，聚焦于真正需要改进的地方。",
+      "applicable_to": [
+        "我们的评估体系：设计基于失败信号的自动评估触发器",
+        "记忆管理：根据失败模式自动更新或删除无效记忆",
+        "知识内化：将失败轨迹转化为改进prompt或技能的信号"
+      ],
+      "excluded_approaches": [
+        "固定频率更新而不考虑失败信号——浪费计算资源",
+        "仅记录失败而不采取结构化编辑——缺乏系统性改进",
+        "完全依赖模型内在反思而不修改harness——效果有限"
+      ],
+      "confidence": 0.8,
+      "quality_score": 8,
+      "created_at": "2026-05-31T21:54:51.653056",
+      "last_used": null,
+      "use_count": 0,
+      "tags": [
+        "失败信号",
+        "CRUD编辑",
+        "在线精炼",
+        "触发机制",
+        "效率优化"
+      ]
+    },
+    {
+      "id": "insight_2026-05-31_041",
+      "type": "methodology",
+      "title": "技能体与执行证据分离：双通道证据驱动的技能更新策略",
+      "source": {
+        "arxiv_id": "2605.10332",
+        "title": "EmbodiSkill: Skill-Aware Reflection for Self-Evolving Embodied Agents",
+        "section": "Abstract & 1. Introduction"
+      },
+      "what": "该方法将轨迹证据分为两类：技能变更证据（skill-changing evidence）用于更新技能内容，执行失误证据（execution-lapse evidence）用于保留并强化有效指导。这种分离确保技能更新只针对真正需要修改的部分，同时通过强调有效指导来防止未来执行失误。",
+      "applicable_to": [
+        "知识库条目更新时，区分'知识本身错误'和'检索/应用错误'，分别采取不同处理策略",
+        "记忆管理模块中，对失败经验的反思应分别处理'记忆内容错误'和'记忆检索/应用错误'",
+        "subagent行为评估中，对策略缺陷和执行失误分别记录和反馈"
+      ],
+      "excluded_approaches": [
+        "将轨迹证据混合使用，导致技能更新模糊不清",
+        "忽略执行失误证据，只关注技能内容修改"
+      ],
+      "confidence": 0.9,
+      "quality_score": 9,
+      "created_at": "2026-05-31T21:55:05.847802",
+      "last_used": null,
+      "use_count": 0,
+      "tags": [
+        "证据分离",
+        "技能更新",
+        "执行失误",
+        "双通道",
+        "知识维护"
+      ]
+    },
+    {
+      "id": "insight_2026-05-31_042",
+      "type": "methodology",
+      "title": "技能定义：可复用、可修订的程序性规范",
+      "source": {
+        "arxiv_id": "2605.10332",
+        "title": "EmbodiSkill: Skill-Aware Reflection for Self-Evolving Embodied Agents",
+        "section": "1. Introduction"
+      },
+      "what": "将技能定义为一种持久且可修订的程序性规范，包含前提条件、子目标排序、物体功能、视觉搜索策略、动作前提条件和恢复策略等。这种结构化定义使得技能可以跨任务执行复用，并且支持细粒度的局部更新。",
+      "applicable_to": [
+        "我们的知识库条目设计应采用结构化格式，包含前提条件、步骤、异常处理等字段，便于局部更新",
+        "subagent的行为规则应定义为可复用的程序性规范，而非单一指令",
+        "记忆管理中的程序性记忆应采用类似结构，支持细粒度修改"
+      ],
+      "excluded_approaches": [
+        "将技能定义为单一文本或简单指令——无法支持细粒度归因和局部更新",
+        "将技能视为不可修改的静态知识"
+      ],
+      "confidence": 0.85,
+      "quality_score": 8,
+      "created_at": "2026-05-31T21:55:05.847802",
+      "last_used": null,
+      "use_count": 0,
+      "tags": [
+        "技能定义",
+        "程序性知识",
+        "结构化规范",
+        "可复用性",
+        "局部更新"
+      ]
+    },
+    {
+      "id": "insight_2026-05-31_043",
+      "type": "methodology",
+      "title": "元技能驱动在线技能学习：通过部署反馈迭代精炼技能",
+      "source": {
+        "arxiv_id": "2605.10500",
+        "title": "SKILLEVOLVER: SKILL LEARNING AS A META-SKILL",
+        "section": "Abstract & Introduction"
+      },
+      "what": "SkillEvolver 使用一个元技能（meta-skill）来驱动标准CLI代理完成技能获取的生命周期：探索少量训练样本、编写可复用领域技能、部署候选技能给下游代理、根据下游代理使用时的失败反馈精炼技能。精炼信号来自部署后其他代理使用技能时遇到的失败，而非仅来自探索轨迹。",
+      "applicable_to": [
+        "我们的subagent技能自动生成与迭代优化：用元技能管理subagent的技能库，根据下游任务执行失败自动调整技能描述和代码",
+        "知识库条目质量提升：将知识库条目视为技能，通过部署后用户反馈（如查询失败）自动精炼条目内容",
+        "评估体系中的自动测试用例生成：元技能根据历史评估失败案例生成新的测试用例"
+      ],
+      "excluded_approaches": [
+        "一次性参数化自生成（无反馈）：模型仅凭预训练知识直接编写技能，效果有时甚至不如无技能基线",
+        "基于轨迹蒸馏的离线方法：需要大量预收集轨迹（如200条/领域），不适合按需、少样本场景",
+        "跨任务强化学习聚合：需要跨任务训练循环，不适合单任务按需部署"
+      ],
+      "confidence": 0.9,
+      "quality_score": 9,
+      "created_at": "2026-05-31T21:55:21.120398",
+      "last_used": null,
+      "use_count": 0,
+      "tags": [
+        "元技能",
+        "在线学习",
+        "技能精炼",
+        "部署反馈",
+        "CLI代理"
+      ]
+    },
+    {
+      "id": "insight_2026-05-31_044",
+      "type": "methodology",
+      "title": "新鲜代理过拟合审计：检测技能沉默绕过和泄漏问题",
+      "source": {
+        "arxiv_id": "2605.10500",
+        "title": "SKILLEVOLVER: SKILL LEARNING AS A META-SKILL",
+        "section": "Abstract"
+      },
+      "what": "提出一种新鲜代理过拟合审计机制，用于检测两种关键失败模式：1) 技能内容看似有效但运行时从未被调用（沉默绕过模式）；2) 技能泄漏（如过度拟合训练数据）。审计通过让一个未参与技能编写的全新代理执行任务来发现这些失败。",
+      "applicable_to": [
+        "subagent行为监控：检测subagent是否实际使用了我们提供的工具/知识库条目，而非忽略它们",
+        "知识库条目有效性验证：验证条目是否被实际查询命中，而非仅存在于库中",
+        "评估体系中的鲁棒性检查：确保评估用例不会因过拟合而失效"
+      ],
+      "excluded_approaches": [
+        "仅依赖作者代理自身评估：无法发现沉默绕过等部署特有的失败模式"
+      ],
+      "confidence": 0.85,
+      "quality_score": 8,
+      "created_at": "2026-05-31T21:55:21.120398",
+      "last_used": null,
+      "use_count": 0,
+      "tags": [
+        "过拟合审计",
+        "沉默绕过",
+        "技能泄漏",
+        "部署验证",
+        "鲁棒性"
+      ]
+    },
+    {
+      "id": "insight_2026-05-31_045",
+      "type": "methodology",
+      "title": "技能作为可移植轻量级工件：更新技能文本和代码而非模型权重",
+      "source": {
+        "arxiv_id": "2605.10500",
+        "title": "SKILLEVOLVER: SKILL LEARNING AS A META-SKILL",
+        "section": "Abstract & Introduction"
+      },
+      "what": "技能被定义为短小的、任务特定的工件，包含自然语言指令、可执行脚本、参考文件、示例和使用约束。学习目标是技能的文本和代码，而非模型权重，因此生成的技能可直接注入任何兼容代理而无需重新训练。元技能本身也是通过相同接口加载的普通技能。",
+      "applicable_to": [
+        "我们的知识库条目设计：将知识库条目设计为轻量级、可移植的工件（含指令、代码片段、示例），支持跨subagent复用",
+        "subagent能力热更新：通过更新技能文件而非重新部署模型来快速调整subagent行为",
+        "多代理协作中的技能共享：不同subagent可通过共享技能工件实现能力传递"
+      ],
+      "excluded_approaches": [
+        "模型微调/参数更新：成本高、不灵活，不适合按需快速迭代"
+      ],
+      "confidence": 0.95,
+      "quality_score": 9,
+      "created_at": "2026-05-31T21:55:21.120398",
+      "last_used": null,
+      "use_count": 0,
+      "tags": [
+        "技能工件",
+        "轻量级",
+        "可移植",
+        "热更新",
+        "无重训练"
+      ]
+    },
+    {
+      "id": "insight_2026-05-31_046",
+      "type": "methodology",
+      "title": "按需领域技能学习：在有限探索预算内完成技能编写与部署",
+      "source": {
+        "arxiv_id": "2605.10500",
+        "title": "SKILLEVOLVER: SKILL LEARNING AS A META-SKILL",
+        "section": "Introduction"
+      },
+      "what": "聚焦于按需、少样本的领域技能学习场景：任务按需到达，每次只有一个新任务，在有限的探索次数（如几次尝试）内完成技能编写、部署、审计和精炼。这与需要大量离线准备的轨迹蒸馏或跨任务强化学习方法形成对比。",
+      "applicable_to": [
+        "我们的系统处理长尾、新出现任务：当用户提出全新领域问题时，系统能在少量交互内自动生成并优化处理该任务的子流程",
+        "知识库冷启动：对新领域，通过少量探索自动生成初始知识库条目",
+        "subagent快速适配新工具/API：在几次调用后自动生成工具使用指南"
+      ],
+      "excluded_approaches": [
+        "需要大量预收集数据的离线方法（如200条轨迹/领域）",
+        "需要跨任务训练循环的强化学习方法"
+      ],
+      "confidence": 0.9,
+      "quality_score": 9,
+      "created_at": "2026-05-31T21:55:21.120398",
+      "last_used": null,
+      "use_count": 0,
+      "tags": [
+        "按需学习",
+        "少样本",
+        "领域技能",
+        "快速适配",
+        "长尾任务"
+      ]
+    },
+    {
+      "id": "insight_2026-05-31_047",
+      "type": "methodology",
+      "title": "In-context Training (ICT) 任务框架：通过双LLM设计实现跨任务自我改进",
+      "source": {
+        "arxiv_id": "2605.20477",
+        "title": "Training Language Agents to Learn from Experience",
+        "section": "Abstract, Introduction, Figure 1"
+      },
+      "what": "ICT是一个评估语言代理跨任务自我改进能力的框架。它采用双LLM设计：一个actor模型与环境交互执行任务，一个reflector模型观察actor的轨迹并生成系统提示（system prompt），旨在改进actor在未来未见任务上的表现。每个回合，reflector基于actor上一批任务的性能生成新提示，actor用新提示处理一批新任务，提示质量在固定保留任务集上评估。reflector通过RL训练，actor保持冻结。",
+      "applicable_to": [
+        "我们的subagent系统：可以用类似双LLM架构，一个agent执行任务，另一个agent（或同一agent的不同角色）生成反思/提示，用于跨任务自我改进",
+        "知识内化模块：将actor在多个任务上的经验蒸馏为可复用的系统提示，替代每次从零开始反思",
+        "评估体系：设计类似ICT的评估循环，用保留任务集量化跨任务泛化能力"
+      ],
+      "excluded_approaches": [
+        "单任务内反复尝试直到成功的自我纠正方法（如Reflexion）——论文指出这种方法无法跨任务迁移知识，且不适用于不可重复的任务场景（如消耗性资源）",
+        "基于人类示例的监督学习——论文明确使用RL直接从经验中学习反思，无需人工标注"
+      ],
+      "confidence": 0.9,
+      "quality_score": 9,
+      "created_at": "2026-05-31T21:55:36.796742",
+      "last_used": null,
+      "use_count": 0,
+      "tags": [
+        "跨任务泛化",
+        "双LLM架构",
+        "系统提示优化",
+        "RL训练",
+        "自我改进"
+      ]
+    },
+    {
+      "id": "insight_2026-05-31_048",
+      "type": "methodology",
+      "title": "RL-based训练管道：从经验中学习生成反思，无需人类示例",
+      "source": {
+        "arxiv_id": "2605.20477",
+        "title": "Training Language Agents to Learn from Experience",
+        "section": "Abstract, Section 3 (Methodology)"
+      },
+      "what": "提出一种基于强化学习的训练管道，用于训练reflector模型直接从actor的交互经验中学习生成有效的系统提示。核心是：reflector生成提示 -> actor用该提示执行一批任务 -> 根据actor在保留任务集上的表现计算奖励 -> 通过RL更新reflector。整个过程无需人类提供的示例或人工标注的反思。",
+      "applicable_to": [
+        "我们的知识内化模块：可以用RL训练一个反思生成器，从agent在多个任务上的表现中学习如何生成改进策略的提示",
+        "自进化系统：替代人工设计反思模板，让系统自动从经验中学习最优反思策略",
+        "评估体系：将actor在保留任务上的表现作为奖励信号，量化反思质量"
+      ],
+      "excluded_approaches": [
+        "监督学习（使用人类标注的反思示例）——论文明确排除，因为目标是让系统自主发现有效反思，而非模仿人类",
+        "单任务内在线学习（如Reflexion）——论文指出其无法跨任务泛化，且效率低"
+      ],
+      "confidence": 0.9,
+      "quality_score": 9,
+      "created_at": "2026-05-31T21:55:36.796742",
+      "last_used": null,
+      "use_count": 0,
+      "tags": [
+        "强化学习",
+        "反思生成",
+        "无监督训练",
+        "奖励设计",
+        "经验蒸馏"
+      ]
+    },
+    {
+      "id": "insight_2026-05-31_049",
+      "type": "methodology",
+      "title": "MetaGym：构建元环境的通用Python库，支持自我改进代理研究",
+      "source": {
+        "arxiv_id": "2605.20477",
+        "title": "Training Language Agents to Learn from Experience",
+        "section": "Abstract, Section 4 (MetaGym)"
+      },
+      "what": "MetaGym是一个通用Python库，用于构建元环境（meta-environments），支持在多个任务族上训练和评估自我改进的语言代理。它封装了任务采样、轨迹收集、提示评估等基础设施，使得研究者可以方便地设计跨任务学习实验。",
+      "applicable_to": [
+        "我们的评估体系：可以借鉴MetaGym的设计思想，构建一个元环境框架，用于系统性地评估subagent在不同任务族上的跨任务泛化能力",
+        "知识内化模块：利用元环境生成多样化的任务批次，用于训练反思生成器",
+        "记忆管理：元环境中的任务族划分可类比于记忆分区，用于测试记忆在不同领域间的迁移效果"
+      ],
+      "excluded_approaches": [
+        "固定任务集评估——论文强调需要跨任务族评估，避免过拟合到特定任务"
+      ],
+      "confidence": 0.85,
+      "quality_score": 8,
+      "created_at": "2026-05-31T21:55:36.796742",
+      "last_used": null,
+      "use_count": 0,
+      "tags": [
+        "元环境",
+        "任务族",
+        "评估框架",
+        "Python库",
+        "跨任务泛化"
+      ]
+    },
+    {
+      "id": "insight_2026-05-31_050",
+      "type": "methodology",
+      "title": "跨基准泛化：在ALFWorld上训练的reflector能泛化到MiniHack等不同环境",
+      "source": {
+        "arxiv_id": "2605.20477",
+        "title": "Training Language Agents to Learn from Experience",
+        "section": "Abstract, Section 5 (Experiments)"
+      },
+      "what": "实验表明，在ALFWorld上训练的reflector不仅在该基准的保留任务族上表现更好，还能泛化到与训练环境显著不同的MiniHack环境。这说明学习到的反思能力具有一定程度的跨领域迁移性，而不仅仅是记忆特定任务的模式。",
+      "applicable_to": [
+        "我们的自进化系统：验证了跨领域泛化的可能性，支持设计一个通用反思生成器，用于不同领域的subagent",
+        "知识内化模块：表明经验蒸馏出的提示可以超越训练领域，适用于我们的多领域知识库",
+        "评估体系：需要设计跨领域评估集，以验证反思的泛化能力"
+      ],
+      "excluded_approaches": [
+        "仅在单一基准上评估——论文强调跨基准测试的重要性，避免高估泛化能力"
+      ],
+      "confidence": 0.85,
+      "quality_score": 8,
+      "created_at": "2026-05-31T21:55:36.796742",
+      "last_used": null,
+      "use_count": 0,
+      "tags": [
+        "跨领域泛化",
+        "迁移学习",
+        "ALFWorld",
+        "MiniHack",
+        "实验验证"
+      ]
+    },
+    {
+      "id": "insight_2026-05-31_051",
+      "type": "methodology",
+      "title": "技能生命周期管理：将技能视为长期演化的资产而非一次性生成物",
+      "source": {
+        "arxiv_id": "2605.27366",
+        "title": "MUSE-Autoskill: Self-Evolving Agents via Skill Creation, Memory, Management, and Evaluation",
+        "section": "Introduction"
+      },
+      "what": "提出技能应经历创建、记忆、管理、评估和精炼五个阶段的统一生命周期。技能在代理推理循环中按需创建，存储相关经验和元数据，在上下文相关时检索，通过单元测试和运行时反馈验证，并随着新证据积累持续精炼。",
+      "applicable_to": [
+        "我们的subagent技能库管理：技能创建后应自动关联执行上下文，而非孤立存储",
+        "知识库条目生命周期：条目应支持创建、使用反馈、评估和自动更新",
+        "自进化机制：技能/知识应作为可测试、可转移的基础设施，跨会话积累经验"
+      ],
+      "excluded_approaches": [
+        "一次性技能生成后不再修改（如Voyager的静态代码库）",
+        "技能创建与执行上下文脱节（creation-usage mismatch）",
+        "无结构化技能级记忆，仅依赖扁平对话历史"
+      ],
+      "confidence": 0.9,
+      "quality_score": 9,
+      "created_at": "2026-05-31T21:55:51.944805",
+      "last_used": null,
+      "use_count": 0,
+      "tags": [
+        "技能生命周期",
+        "自进化代理",
+        "技能管理",
+        "经验积累",
+        "持续精炼"
+      ]
+    },
+    {
+      "id": "insight_2026-05-31_052",
+      "type": "methodology",
+      "title": "技能级记忆：为每个技能积累跨任务经验",
+      "source": {
+        "arxiv_id": "2605.27366",
+        "title": "MUSE-Autoskill: Self-Evolving Agents via Skill Creation, Memory, Management, and Evaluation",
+        "section": "Abstract & Introduction"
+      },
+      "what": "引入技能级记忆（skill-level memory），为每个技能独立存储跨任务的自由形式经验，包括成功/失败案例、使用上下文、性能统计等，使技能在后续调用时能基于历史经验进行适应和优化。",
+      "applicable_to": [
+        "我们的subagent记忆系统：为每个subagent或工具维护独立的经验记忆",
+        "知识库条目评分：基于条目历史使用效果动态调整权重",
+        "评估体系：技能级记忆可作为评估反馈的输入，驱动精炼"
+      ],
+      "excluded_approaches": [
+        "所有技能共享同一全局记忆，无法区分个体经验",
+        "仅依赖当前会话上下文，不跨任务积累"
+      ],
+      "confidence": 0.9,
+      "quality_score": 9,
+      "created_at": "2026-05-31T21:55:51.944805",
+      "last_used": null,
+      "use_count": 0,
+      "tags": [
+        "技能级记忆",
+        "经验积累",
+        "跨任务学习",
+        "记忆管理",
+        "个性化适应"
+      ]
+    },
+    {
+      "id": "insight_2026-05-31_053",
+      "type": "methodology",
+      "title": "单元测试驱动的技能评估与自动精炼",
+      "source": {
+        "arxiv_id": "2605.27366",
+        "title": "MUSE-Autoskill: Self-Evolving Agents via Skill Creation, Memory, Management, and Evaluation",
+        "section": "Abstract & Introduction"
+      },
+      "what": "通过单元测试和运行时执行反馈对技能进行可靠性评估，当测试失败时自动触发精炼流程，形成创建-评估-精炼的闭环，确保技能质量随使用持续提升。",
+      "applicable_to": [
+        "我们的subagent评估体系：对subagent输出进行自动化测试，失败时触发重训练或调整",
+        "知识库条目验证：对条目进行单元测试（如格式、逻辑一致性），失败则标记或自动修正",
+        "自进化机制：将评估反馈作为进化信号，驱动技能/知识迭代"
+      ],
+      "excluded_approaches": [
+        "技能创建后不进行任何验证直接使用",
+        "仅依赖人工评估，无自动化测试闭环",
+        "精炼仅基于用户反馈，缺乏结构化测试"
+      ],
+      "confidence": 0.85,
+      "quality_score": 8,
+      "created_at": "2026-05-31T21:55:51.944805",
+      "last_used": null,
+      "use_count": 0,
+      "tags": [
+        "单元测试",
+        "技能评估",
+        "自动精炼",
+        "质量保证",
+        "闭环反馈"
+      ]
+    },
+    {
+      "id": "insight_2026-05-31_054",
+      "type": "methodology",
+      "title": "结构化上下文管理器：自适应压缩与跨会话状态持久化",
+      "source": {
+        "arxiv_id": "2605.27366",
+        "title": "MUSE-Autoskill: Self-Evolving Agents via Skill Creation, Memory, Management, and Evaluation",
+        "section": "Introduction"
+      },
+      "what": "采用结构化上下文管理器，支持自适应压缩（避免上下文窗口溢出）和跨会话状态持久化，使代理能处理长时任务而不丢失信息或导致上下文爆炸。",
+      "applicable_to": [
+        "我们的subagent上下文管理：长对话或复杂任务中自动压缩历史，保留关键状态",
+        "知识内化：将跨会话的上下文信息内化为结构化记忆，而非扁平文本",
+        "记忆系统：实现短期记忆到长期记忆的转换，支持跨会话状态恢复"
+      ],
+      "excluded_approaches": [
+        "使用扁平对话历史，导致长任务中信息丢失或上下文溢出",
+        "无跨会话状态持久化，每次会话从零开始"
+      ],
+      "confidence": 0.8,
+      "quality_score": 8,
+      "created_at": "2026-05-31T21:55:51.944805",
+      "last_used": null,
+      "use_count": 0,
+      "tags": [
+        "上下文管理",
+        "自适应压缩",
+        "状态持久化",
+        "长时任务",
+        "记忆系统"
+      ]
+    },
+    {
+      "id": "insight_2026-05-31_055",
+      "type": "methodology",
+      "title": "技能创建与执行紧密耦合：内置skill_create工具消除创建-使用脱节",
+      "source": {
+        "arxiv_id": "2605.27366",
+        "title": "MUSE-Autoskill: Self-Evolving Agents via Skill Creation, Memory, Management, and Evaluation",
+        "section": "Introduction"
+      },
+      "what": "在代理运行时循环中内置skill_create工具，使技能创建发生在实际执行上下文中，而非独立生成。这确保新技能能感知当前任务需求、可用工具和环境状态，提高技能的相关性和可用性。",
+      "applicable_to": [
+        "我们的subagent技能生成：在subagent执行任务时按需创建新技能，而非离线预生成",
+        "知识库条目创建：在对话或任务过程中动态创建条目，自动关联上下文",
+        "自进化机制：进化操作应发生在实际使用场景中，而非脱离上下文的抽象优化"
+      ],
+      "excluded_approaches": [
+        "技能创建与执行分离，导致技能与任务上下文不匹配",
+        "离线预生成所有技能，无法适应运行时变化"
+      ],
+      "confidence": 0.85,
+      "quality_score": 8,
+      "created_at": "2026-05-31T21:55:51.944805",
+      "last_used": null,
+      "use_count": 0,
+      "tags": [
+        "技能创建",
+        "运行时耦合",
+        "上下文感知",
+        "按需生成",
+        "任务适配"
+      ]
+    }
+  ]
+}

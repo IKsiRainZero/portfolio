@@ -1,0 +1,93 @@
+{
+  "meta": {
+    "domain": "cs-AI",
+    "display_name": "AI Skill Learning — 两篇论文知识提取",
+    "description": "EmbodiSkill + SkillEvolver 核心概念提取",
+    "version": 2,
+    "created": "2026-05-31"
+  },
+  "sections": [
+    {
+      "id": "ai-imported",
+      "title": "AI 导入",
+      "items": [
+        {
+          "id": "c-1",
+          "type": "concept",
+          "title": "EmbodiSkill",
+          "content": "EmbodiSkill 是一种无需训练的框架，用于具身智能体的技能自我进化，通过技能感知反思和针对性修订，从任务执行轨迹中区分技能错误和执行失误，从而更新技能库并保留有效指导。",
+          "tags": [
+            "具身智能",
+            "技能学习"
+          ]
+        },
+        {
+          "id": "c-2",
+          "type": "concept",
+          "title": "技能自我进化",
+          "content": "技能自我进化是指智能体从自身执行任务产生的轨迹中自动更新和优化技能的过程，以适应不同环境的变化，如布局、物体状态等。",
+          "tags": [
+            "具身智能",
+            "技能学习"
+          ]
+        },
+        {
+          "id": "c-3",
+          "type": "concept",
+          "title": "技能感知反思",
+          "content": "技能感知反思是 EmbodiSkill 的核心机制，它根据当前技能解释每条轨迹，区分技能更改证据（需要更新技能内容）和执行失误证据（需要保留并强调有效指导）。",
+          "tags": [
+            "具身智能",
+            "技能学习"
+          ]
+        },
+        {
+          "id": "c-4",
+          "type": "concept",
+          "title": "ALFWorld 和 EmbodiedBench",
+          "content": "ALFWorld 和 EmbodiedBench 是用于评估具身智能体任务成功率的基准环境。EmbodiSkill 在 ALFWorld 上使冻结的 Qwen3.5-27B 执行器达到 93.28% 的任务成功率，比直接使用 GPT-5.2 高出 31.58%。",
+          "tags": [
+            "具身智能",
+            "评估基准"
+          ]
+        },
+        {
+          "id": "c-5",
+          "type": "concept",
+          "title": "SkillEvolver",
+          "content": "SkillEvolver是一种轻量级、即插即用的在线技能学习解决方案，它通过一个元技能（meta-skill）迭代地编写、部署和优化领域特定技能。其学习目标是技能的文本描述和代码，而非模型权重，因此生成的技能可以直接用于任何智能体而无需重新训练。",
+          "tags": [
+            "智能体技能学习"
+          ]
+        },
+        {
+          "id": "c-6",
+          "type": "concept",
+          "title": "元技能（Meta-Skill）",
+          "content": "元技能本身也是一种技能，它通过与其他智能体相同的接口加载，并负责迭代地生成、部署和优化领域特定技能。它只在部署所学技能后，根据其他智能体使用该技能时遇到的失败进行优化，而不是仅依赖探索性轨迹。",
+          "tags": [
+            "智能体技能学习"
+          ]
+        },
+        {
+          "id": "c-7",
+          "type": "concept",
+          "title": "新鲜智能体过拟合审计（Fresh-Agent Overfit Audit）",
+          "content": "一种用于控制技能优化迭代的审计机制，能够捕获可能的泄漏问题以及部署技能特有的失败模式，包括“静默绕过”模式——即技能内容看似有效但在运行时从未被调用。",
+          "tags": [
+            "智能体技能学习"
+          ]
+        },
+        {
+          "id": "c-8",
+          "type": "concept",
+          "title": "静默绕过模式（Silent-Bypass Mode）",
+          "content": "一种技能失败模式，其中技能内容在表面上看起来是有效的，但在实际运行时从未被智能体调用或执行。",
+          "tags": [
+            "智能体技能学习"
+          ]
+        }
+      ]
+    }
+  ]
+}

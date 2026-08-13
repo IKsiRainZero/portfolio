@@ -1,0 +1,1746 @@
+{% extends "base.html" %}
+{% block title %}知识管道·引入新知{% endblock %}
+{% block body_class %}page-pipeline{% endblock %}
+{% block head %}
+<style>
+/* ══════════════════════════════════════════════════════════════
+   Knowledge Pipeline — 活字印刷工坊
+   Warm paper + wood grain + ink + metal type
+   ══════════════════════════════════════════════════════════════ */
+
+/* ── Body override ── */
+body.page-pipeline { background: #f2ece0; }
+
+/* ── Warm paper background with wood grain ── */
+.page-pipeline { position: relative; }
+.page-pipeline::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background:
+    repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 2px,
+      rgba(180, 150, 110, 0.03) 2px,
+      rgba(180, 150, 110, 0.03) 3px
+    ),
+    repeating-linear-gradient(
+      89deg,
+      transparent,
+      transparent 6px,
+      rgba(160, 130, 90, 0.02) 6px,
+      rgba(160, 130, 90, 0.02) 7px
+    ),
+    radial-gradient(ellipse at 18% 32%, rgba(220, 195, 160, 0.18) 0%, transparent 50%),
+    radial-gradient(ellipse at 72% 18%, rgba(210, 185, 155, 0.14) 0%, transparent 45%),
+    radial-gradient(ellipse at 50% 80%, rgba(200, 175, 145, 0.12) 0%, transparent 40%),
+    radial-gradient(ellipse at 85% 68%, rgba(215, 190, 165, 0.10) 0%, transparent 35%),
+    linear-gradient(170deg, #f5efe4 0%, #ede3d0 35%, #f0e8d8 65%, #f2ece0 100%);
+}
+
+/* Canvas particle layer */
+#pipelineCanvas {
+  position: fixed;
+  inset: 0;
+  width: 100%; height: 100%;
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* ── Content layer ── */
+.pipeline-wrap {
+  position: relative;
+  z-index: 2;
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 20px 16px 40px;
+}
+
+/* ── Back button — refined bookmark tab ── */
+.pipeline-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 8px;
+  margin-left: -12px;
+  font-size: 13px;
+  color: #5c4a2e;
+  text-decoration: none;
+  font-family: Georgia, "Times New Roman", "Songti SC", serif;
+  letter-spacing: 0.03em;
+  padding: 5px 14px 5px 10px;
+  border-radius: 0 4px 4px 0;
+  background: rgba(255, 252, 247, 0.45);
+  border: 1px solid rgba(160, 130, 100, 0.12);
+  border-left: none;
+  transition: all 0.25s ease;
+}
+.pipeline-back::before {
+  content: '';
+  display: inline-block;
+  width: 14px;
+  height: 14px;
+  background: rgba(160, 130, 100, 0.3);
+  mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2'%3E%3Cpath d='M19 12H5M12 19l-7-7 7-7'/%3E%3C/svg%3E");
+  mask-size: contain;
+  mask-repeat: no-repeat;
+  mask-position: center;
+  -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2'%3E%3Cpath d='M19 12H5M12 19l-7-7 7-7'/%3E%3C/svg%3E");
+  -webkit-mask-size: contain;
+  -webkit-mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  transition: all 0.25s ease;
+}
+.pipeline-back:hover {
+  color: #2a1f0e;
+  background: rgba(255, 252, 247, 0.75);
+  border-color: rgba(160, 130, 100, 0.25);
+  padding-left: 14px;
+}
+.pipeline-back:hover::before {
+  background: rgba(100, 75, 35, 0.55);
+  transform: translateX(-2px);
+}
+
+/* ═══════════════════════════════════════════
+   Title area
+   ═══════════════════════════════════════════ */
+.pipeline-header {
+  text-align: center;
+  margin-bottom: 20px;
+  padding: 12px 0 16px;
+  border-bottom: 2px solid rgba(160, 130, 100, 0.2);
+}
+.pipeline-header h1 {
+  font-size: 26px;
+  font-weight: 700;
+  color: #3d2b14;
+  letter-spacing: 0.04em;
+  margin-bottom: 6px;
+  font-family: Georgia, "Times New Roman", "Songti SC", serif;
+}
+.pipeline-header .subtitle {
+  font-size: 13px;
+  color: rgba(61, 43, 20, 0.5);
+  font-style: italic;
+  letter-spacing: 0.03em;
+  font-family: Georgia, "Times New Roman", serif;
+}
+
+/* ═══════════════════════════════════════════
+   Search section — query entry + SVG connector
+   ═══════════════════════════════════════════ */
+.pipeline-search {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 0;
+}
+.pipeline-search .search-row {
+  display: flex;
+  gap: 10px;
+  width: 100%;
+  max-width: 560px;
+}
+.pipeline-search input {
+  flex: 1;
+  padding: 11px 16px;
+  border: 1.5px solid rgba(160, 130, 100, 0.25);
+  border-radius: 4px;
+  background: rgba(255, 252, 247, 0.75);
+  font-size: 14px;
+  color: #3d2b14;
+  outline: none;
+  font-family: Georgia, "Times New Roman", serif;
+  transition: border-color 0.2s;
+}
+.pipeline-search input:focus {
+  border-color: rgba(79, 110, 246, 0.5);
+}
+.pipeline-search input::placeholder {
+  color: rgba(61, 43, 20, 0.3);
+  font-style: italic;
+}
+.pipeline-search button {
+  padding: 11px 24px;
+  background: #3d2b14;
+  color: #f5efe4;
+  border: none;
+  border-radius: 4px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: Georgia, "Times New Roman", serif;
+  letter-spacing: 0.02em;
+  transition: background 0.2s;
+  white-space: nowrap;
+}
+.pipeline-search button:hover { background: #5a3e20; }
+.pipeline-search button:disabled { opacity: 0.5; cursor: not-allowed; }
+
+/* ── SVG connector from search to pipeline ── */
+.pipeline-connector {
+  display: flex;
+  justify-content: center;
+  height: 32px;
+  margin: 0 0 4px;
+}
+.pipeline-connector svg {
+  width: 2px;
+  height: 32px;
+  overflow: visible;
+}
+.pipeline-connector line {
+  stroke: rgba(160, 130, 100, 0.3);
+  stroke-width: 2;
+  stroke-dasharray: 5 3;
+}
+.pipeline-connector .connector-dot {
+  fill: rgba(79, 110, 246, 0.5);
+}
+
+/* ═══════════════════════════════════════════
+   9-node pipeline diagram
+   ═══════════════════════════════════════════ */
+.pipeline-diagram {
+  margin-bottom: 0;
+  overflow-x: auto;
+  padding: 12px 4px;
+  -webkit-overflow-scrolling: touch;
+}
+.pipeline-track {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0;
+  min-width: 1040px;
+  padding: 8px 0;
+}
+
+/* ── Node ── */
+.pipe-node {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+  min-width: 72px;
+  max-width: 88px;
+  padding: 10px 6px 8px;
+  position: relative;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border-radius: 4px;
+  border: 1.5px solid rgba(160, 130, 100, 0.2);
+  background: rgba(255, 252, 247, 0.55);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  box-shadow:
+    0 1px 3px rgba(0,0,0,0.04),
+    inset 0 1px 0 rgba(255,255,255,0.6);
+  animation: nodeBreathe 3s ease-in-out infinite;
+}
+.pipe-node:hover {
+  border-color: rgba(79, 110, 246, 0.35);
+  background: rgba(255, 252, 247, 0.8);
+  box-shadow: 0 2px 12px rgba(79, 110, 246, 0.08);
+}
+.pipe-node:active { transform: scale(0.97); }
+.pipe-node.done {
+  background: #e8f5e9;
+  border-color: #66bb6a;
+}
+.pipe-node.done .node-icon::after {
+  content: '✓';
+  position: absolute;
+  top: -4px;
+  right: -6px;
+  font-size: 12px;
+  color: #43a047;
+  font-weight: bold;
+}
+.pipe-node.active {
+  box-shadow: 0 0 14px rgba(79, 110, 246, 0.35);
+  border-color: #4f6ef6;
+  animation: nodeBreatheFast 1.2s ease-in-out infinite;
+}
+
+.pipe-node .node-icon {
+  font-size: 20px;
+  line-height: 1;
+  display: block;
+}
+.pipe-node .node-label {
+  font-size: 10px;
+  font-weight: 600;
+  color: #3d2b14;
+  letter-spacing: 0.02em;
+  font-family: Georgia, "Times New Roman", "Songti SC", serif;
+  text-align: center;
+  line-height: 1.3;
+}
+.pipe-node .node-health-dot {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  position: absolute;
+  top: 5px; right: 5px;
+  transition: background 0.3s;
+}
+.node-health-dot.healthy { background: #22c55e; }
+.node-health-dot.waiting { background: #d4d4d8; }
+
+@keyframes nodeBreathe {
+  0%, 100% {
+    box-shadow:
+      0 1px 3px rgba(0,0,0,0.04),
+      inset 0 1px 0 rgba(255,255,255,0.6);
+  }
+  50% {
+    box-shadow:
+      0 1px 8px rgba(79, 110, 246, 0.08),
+      0 0 12px rgba(79, 110, 246, 0.04),
+      inset 0 1px 0 rgba(255,255,255,0.6);
+  }
+}
+@keyframes nodeBreatheFast {
+  0%, 100% { box-shadow: 0 0 4px rgba(79, 110, 246, 0.25); }
+  50%      { box-shadow: 0 0 20px rgba(79, 110, 246, 0.5); }
+}
+
+/* ── Edge between nodes ── */
+.pipe-edge {
+  position: relative;
+  width: 36px;
+  height: 2px;
+  flex-shrink: 0;
+  background: repeating-linear-gradient(
+    90deg,
+    rgba(160, 130, 100, 0.25) 0px,
+    rgba(160, 130, 100, 0.25) 5px,
+    transparent 5px,
+    transparent 8px
+  );
+}
+.ink-dot {
+  position: absolute;
+  top: 50%;
+  left: -6px;
+  width: 4px; height: 4px;
+  border-radius: 50%;
+  background: #4f6ef6;
+  transform: translateY(-50%);
+  opacity: 0.7;
+  animation: inkFlow 2.2s ease-in-out infinite;
+}
+.ink-dot:nth-child(2) { animation-delay: 0.55s; left: 3px; }
+.ink-dot:nth-child(3) { animation-delay: 1.1s; left: 12px; }
+
+@keyframes inkFlow {
+  0%   { left: -6px; opacity: 0; }
+  15%  { opacity: 0.7; }
+  85%  { opacity: 0.7; }
+  100% { left: calc(100% + 6px); opacity: 0; }
+}
+
+/* ── Progress text during ingest ── */
+.pipeline-progress {
+  text-align: center;
+  padding: 6px 0;
+  font-size: 12px;
+  color: rgba(61, 43, 20, 0.5);
+  font-family: Georgia, "Times New Roman", serif;
+  font-style: italic;
+  min-height: 20px;
+}
+.pipeline-progress .progress-url {
+  display: block;
+  margin-top: 3px;
+  font-size: 10px;
+  color: rgba(61, 43, 20, 0.3);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 400px;
+  margin-left: auto;
+  margin-right: auto;
+  font-family: "SF Mono", "Fira Code", monospace;
+}
+
+/* ═══════════════════════════════════════════
+   Node detail area
+   ═══════════════════════════════════════════ */
+.node-detail-area {
+  margin: 0 0 20px;
+  min-height: 0;
+}
+.node-detail-card {
+  background: rgba(255, 252, 247, 0.75);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(160, 130, 100, 0.2);
+  border-radius: 4px;
+  padding: 18px 22px;
+  display: none;
+  animation: detailSlideIn 0.3s cubic-bezier(0.0, 0, 0.2, 1);
+  box-shadow: 0 4px 16px rgba(0,0,0,0.04);
+}
+.node-detail-card.visible { display: block; }
+@keyframes detailSlideIn {
+  from { opacity: 0; transform: translateY(-8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.node-detail-card .detail-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+.node-detail-card .detail-icon { font-size: 20px; }
+.node-detail-card .detail-title {
+  font-size: 15px;
+  font-weight: 600;
+  color: #3d2b14;
+  font-family: Georgia, "Times New Roman", "Songti SC", serif;
+}
+.node-detail-card .detail-meta {
+  font-size: 11px;
+  color: rgba(61, 43, 20, 0.5);
+  font-family: "SF Mono", "Fira Code", monospace;
+  margin-left: auto;
+}
+.node-detail-card .detail-body {
+  font-size: 13px;
+  line-height: 1.7;
+  color: #3d2b14;
+  margin-bottom: 14px;
+}
+.node-detail-card .internal-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 8px;
+  margin-bottom: 14px;
+}
+.node-detail-card .internal-card {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  background: rgba(248, 245, 238, 0.7);
+  border: 1px solid rgba(160, 130, 100, 0.1);
+  border-radius: 3px;
+  padding: 10px 12px;
+  transition: border-color 0.2s;
+}
+.node-detail-card .internal-card:hover {
+  border-color: rgba(79, 110, 246, 0.2);
+}
+.node-detail-card .internal-icon {
+  font-size: 16px;
+  line-height: 1;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+.node-detail-card .internal-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.node-detail-card .internal-name {
+  font-size: 11px;
+  font-weight: 600;
+  color: #3d2b14;
+  font-family: Georgia, "Times New Roman", "Songti SC", serif;
+}
+.node-detail-card .internal-desc {
+  font-size: 10px;
+  color: rgba(61, 43, 20, 0.45);
+  line-height: 1.5;
+}
+.node-detail-card .detail-stats-row {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+.node-detail-card .detail-stats-row .detail-stat {
+  flex: 1;
+}
+.node-detail-card .detail-stat {
+  background: rgba(255,255,255,0.5);
+  border-radius: 3px;
+  padding: 10px 14px;
+  border: 1px solid rgba(160, 130, 100, 0.12);
+}
+.node-detail-card .detail-stat .ds-label {
+  font-size: 9px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: rgba(61, 43, 20, 0.5);
+  font-family: "SF Mono", "Fira Code", monospace;
+  margin-bottom: 2px;
+}
+.node-detail-card .detail-stat .ds-value {
+  font-size: 16px;
+  font-weight: 600;
+  color: #3d2b14;
+  font-family: Georgia, "Times New Roman", serif;
+}
+.node-detail-card .detail-close {
+  text-align: right;
+}
+.node-detail-card .detail-close button {
+  background: none;
+  border: 1px solid rgba(160, 130, 100, 0.25);
+  padding: 4px 14px;
+  border-radius: 3px;
+  font-size: 11px;
+  cursor: pointer;
+  color: rgba(61, 43, 20, 0.5);
+  font-family: inherit;
+  transition: all 0.15s;
+}
+.node-detail-card .detail-close button:hover {
+  border-color: rgba(160, 130, 100, 0.5);
+  color: #3d2b14;
+}
+
+/* ═══════════════════════════════════════════
+   Output / Chat area
+   ═══════════════════════════════════════════ */
+.pipeline-output {
+  background: rgba(255, 252, 247, 0.65);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  border: 1px solid rgba(160, 130, 100, 0.18);
+  border-radius: 4px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+  overflow: hidden;
+}
+.pipeline-output .output-header {
+  padding: 12px 18px;
+  border-bottom: 1px solid rgba(160, 130, 100, 0.15);
+  font-size: 13px;
+  font-weight: 600;
+  color: #3d2b14;
+  font-family: Georgia, "Times New Roman", "Songti SC", serif;
+  letter-spacing: 0.02em;
+}
+.pipeline-output .output-messages {
+  min-height: 120px;
+  max-height: 360px;
+  overflow-y: auto;
+  padding: 14px 18px;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(160,130,100,0.2) transparent;
+}
+.pipeline-output .output-messages::-webkit-scrollbar { width: 4px; }
+.pipeline-output .output-messages::-webkit-scrollbar-thumb {
+  background: rgba(160,130,100,0.2);
+  border-radius: 2px;
+}
+.pipeline-output .output-input-row {
+  display: flex;
+  gap: 8px;
+  padding: 12px 18px;
+  border-top: 1px solid rgba(160, 130, 100, 0.12);
+}
+.pipeline-output .output-input-row input {
+  flex: 1;
+  padding: 9px 14px;
+  border: 1.5px solid rgba(160, 130, 100, 0.2);
+  border-radius: 4px;
+  background: rgba(255, 252, 247, 0.6);
+  font-size: 13px;
+  color: #3d2b14;
+  outline: none;
+  font-family: Georgia, "Times New Roman", serif;
+}
+.pipeline-output .output-input-row input:focus {
+  border-color: rgba(79, 110, 246, 0.4);
+}
+.pipeline-output .output-input-row button {
+  padding: 9px 18px;
+  background: #3d2b14;
+  color: #f5efe4;
+  border: none;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: Georgia, "Times New Roman", serif;
+  letter-spacing: 0.02em;
+  transition: background 0.2s;
+  white-space: nowrap;
+}
+.pipeline-output .output-input-row button:hover { background: #5a3e20; }
+.pipeline-output .output-input-row button:disabled { opacity: 0.5; cursor: not-allowed; }
+
+/* ── Preview cards ── */
+.ingest-preview {
+  margin-bottom: 12px;
+}
+.ingest-preview-card {
+  background: rgba(255, 252, 247, 0.6);
+  border: 1px solid rgba(160, 130, 100, 0.15);
+  border-radius: 4px;
+  padding: 12px 16px;
+  margin-bottom: 8px;
+}
+.ingest-preview-card .preview-title {
+  font-size: 12px;
+  font-weight: 600;
+  color: #3d2b14;
+  margin-bottom: 4px;
+}
+.ingest-preview-card .preview-snippet {
+  font-size: 11px;
+  line-height: 1.6;
+  color: rgba(61, 43, 20, 0.6);
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.ingest-preview-card .preview-source {
+  font-size: 10px;
+  color: rgba(61, 43, 20, 0.35);
+  margin-top: 4px;
+  font-family: "SF Mono", "Fira Code", monospace;
+}
+.ingest-preview-card .preview-source a {
+  color: #4f6ef6;
+  text-decoration: none;
+}
+.ingest-preview-card .preview-source a:hover {
+  text-decoration: underline;
+}
+.ingest-preview-card .preview-actions {
+  margin-top: 8px;
+  display: flex;
+  gap: 8px;
+}
+.ingest-preview-card .preview-ask-btn,
+.ingest-preview-card .preview-look-btn {
+  padding: 4px 14px;
+  background: transparent;
+  border: 1px solid rgba(79, 110, 246, 0.3);
+  border-radius: 3px;
+  font-size: 11px;
+  color: #4f6ef6;
+  cursor: pointer;
+  font-family: Georgia, "Times New Roman", serif;
+  transition: all 0.15s;
+}
+.ingest-preview-card .preview-ask-btn:hover,
+.ingest-preview-card .preview-look-btn:hover {
+  background: rgba(79, 110, 246, 0.06);
+  border-color: #4f6ef6;
+}
+
+/* ── Chunk detail modal ── */
+.chunk-detail-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.35);
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: fadeIn 0.2s ease;
+}
+@keyframes fadeIn {
+  from { opacity: 0; } to { opacity: 1; }
+}
+.chunk-detail-modal {
+  background: #f5efe4;
+  border: 1px solid rgba(160, 130, 100, 0.3);
+  border-radius: 6px;
+  max-width: 640px;
+  width: 90vw;
+  max-height: 70vh;
+  overflow-y: auto;
+  padding: 20px 24px;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.12);
+}
+.chunk-detail-modal .chunk-modal-title {
+  font-size: 15px;
+  font-weight: 600;
+  color: #3d2b14;
+  margin-bottom: 4px;
+  font-family: Georgia, "Times New Roman", "Songti SC", serif;
+}
+.chunk-detail-modal .chunk-modal-source {
+  font-size: 10px;
+  color: rgba(61, 43, 20, 0.4);
+  margin-bottom: 14px;
+  font-family: "SF Mono", "Fira Code", monospace;
+}
+.chunk-detail-modal .chunk-modal-source a {
+  color: #4f6ef6;
+  text-decoration: none;
+}
+.chunk-detail-modal .chunk-modal-source a:hover {
+  text-decoration: underline;
+}
+.chunk-detail-modal .chunk-modal-text {
+  font-size: 13px;
+  line-height: 1.8;
+  color: #3d2b14;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+.chunk-detail-modal .chunk-modal-close {
+  margin-top: 14px;
+  text-align: right;
+}
+.chunk-detail-modal .chunk-modal-close button {
+  background: #3d2b14;
+  color: #f5efe4;
+  border: none;
+  border-radius: 4px;
+  padding: 6px 18px;
+  font-size: 12px;
+  cursor: pointer;
+  font-family: Georgia, "Times New Roman", serif;
+}
+
+/* ── Search result cards (review step) ── */
+.search-result-card {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  background: rgba(255, 252, 247, 0.6);
+  border: 1px solid rgba(160, 130, 100, 0.15);
+  border-radius: 4px;
+  padding: 10px 14px;
+  margin-bottom: 6px;
+  transition: border-color 0.2s, background 0.2s;
+}
+.search-result-card:hover {
+  border-color: rgba(79, 110, 246, 0.2);
+}
+.search-result-card.selected {
+  background: rgba(79, 110, 246, 0.04);
+  border-color: rgba(79, 110, 246, 0.3);
+}
+.search-result-card .result-checkbox {
+  flex-shrink: 0;
+  margin-top: 2px;
+  width: 16px; height: 16px;
+  accent-color: #4f6ef6;
+  cursor: pointer;
+}
+.search-result-card .result-info {
+  flex: 1;
+  min-width: 0;
+}
+.search-result-card .result-title {
+  font-size: 13px;
+  font-weight: 600;
+  color: #3d2b14;
+  margin-bottom: 2px;
+  font-family: Georgia, "Times New Roman", "Songti SC", serif;
+  line-height: 1.4;
+}
+.search-result-card .result-url {
+  font-size: 10px;
+  color: #4f6ef6;
+  font-family: "SF Mono", "Fira Code", monospace;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.search-result-card .result-url a {
+  color: inherit;
+  text-decoration: none;
+}
+.search-result-card .result-url a:hover {
+  text-decoration: underline;
+}
+
+/* ── Ingest action bar ── */
+.ingest-action-bar {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 0 4px;
+}
+.ingest-action-bar button {
+  padding: 9px 20px;
+  border-radius: 4px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: Georgia, "Times New Roman", serif;
+  letter-spacing: 0.02em;
+  transition: all 0.2s;
+}
+.ingest-action-bar .btn-ingest {
+  background: #3d2b14;
+  color: #f5efe4;
+  border: none;
+}
+.ingest-action-bar .btn-ingest:hover { background: #5a3e20; }
+.ingest-action-bar .btn-ingest:disabled { opacity: 0.5; cursor: not-allowed; }
+.ingest-action-bar .btn-cancel {
+  background: transparent;
+  color: #dc2626;
+  border: 1px solid rgba(220, 38, 38, 0.3);
+}
+.ingest-action-bar .btn-cancel:hover {
+  background: rgba(220, 38, 38, 0.04);
+  border-color: rgba(220, 38, 38, 0.5);
+}
+
+/* ── Ingest summary ── */
+.ingest-summary {
+  text-align: center;
+  padding: 8px 0 12px;
+  font-size: 13px;
+  color: #3d2b14;
+  font-family: Georgia, "Times New Roman", serif;
+  line-height: 1.8;
+}
+.ingest-summary .summary-count {
+  font-size: 24px;
+  font-weight: 700;
+  color: #3d2b14;
+}
+
+/* ── Output chat messages ── */
+.output-chat-msg {
+  margin-bottom: 10px;
+  padding: 10px 14px;
+  border-radius: 4px;
+}
+.output-chat-msg.user {
+  background: rgba(61, 43, 20, 0.04);
+  border: 1px solid rgba(160, 130, 100, 0.12);
+}
+.output-chat-msg.ai {
+  background: rgba(255, 252, 247, 0.6);
+  border: 1px solid rgba(160, 130, 100, 0.1);
+}
+.output-chat-msg.ai.streaming {
+  border-color: rgba(79, 110, 246, 0.2);
+  animation: chatPulse 2s ease-in-out infinite;
+}
+@keyframes chatPulse {
+  0%, 100% { border-color: rgba(79, 110, 246, 0.15); }
+  50%      { border-color: rgba(79, 110, 246, 0.35); }
+}
+.output-chat-msg .chat-label {
+  font-size: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: rgba(61, 43, 20, 0.4);
+  margin-bottom: 4px;
+  display: block;
+  font-family: "SF Mono", "Fira Code", monospace;
+}
+.output-chat-msg .chat-text {
+  font-size: 13px;
+  line-height: 1.7;
+  color: #3d2b14;
+}
+.ingest-error {
+  text-align: center;
+  padding: 14px;
+  color: #dc2626;
+  font-size: 13px;
+  font-style: italic;
+  font-family: Georgia, "Times New Roman", serif;
+  background: rgba(220, 38, 38, 0.04);
+  border: 1px solid rgba(220, 38, 38, 0.15);
+  border-radius: 4px;
+  margin-bottom: 12px;
+}
+
+/* ── Empty / loading ── */
+.pipeline-loading {
+  text-align: center;
+  padding: 24px 20px;
+  color: rgba(61, 43, 20, 0.4);
+  font-size: 13px;
+  font-style: italic;
+  font-family: Georgia, "Times New Roman", serif;
+}
+.output-empty {
+  text-align: center;
+  padding: 24px 20px;
+  color: rgba(61, 43, 20, 0.35);
+  font-size: 13px;
+  font-family: Georgia, "Times New Roman", serif;
+}
+.output-empty .empty-icon { font-size: 28px; margin-bottom: 6px; }
+
+/* ── prefers-reduced-motion ── */
+@media (prefers-reduced-motion: reduce) {
+  .pipe-node { animation: none !important; }
+  .pipe-node.active { animation: none !important; box-shadow: 0 0 4px rgba(79, 110, 246, 0.25) !important; }
+  .pipe-node.done { box-shadow: none !important; }
+  .ink-dot { animation: none !important; display: none; }
+  #pipelineCanvas { display: none; }
+  .node-detail-card { animation: none !important; }
+  .output-chat-msg.ai.streaming { animation: none !important; }
+}
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="page-pipeline">
+
+  <canvas id="pipelineCanvas" aria-hidden="true"></canvas>
+
+  <div class="pipeline-wrap">
+
+    <!-- Back to home -->
+    <a href="/" class="pipeline-back" onclick="event.preventDefault();Router.navigate('/')">返回同桌</a>
+
+    <!-- Title -->
+    <div class="pipeline-header">
+      <h1>知识如何流向你</h1>
+      <div class="subtitle">从搜索到答案，每一步都看得见</div>
+    </div>
+
+    <!-- Search section -->
+    <div class="pipeline-search">
+      <div class="search-row">
+        <input type="text" id="pipelineQuery" placeholder="输入主题，如：Transformer 自注意力机制" autocomplete="off" />
+        <button id="pipelineSearchBtn" onclick="PipelinePage.startSearch()">搜索</button>
+      </div>
+    </div>
+
+    <!-- SVG connector — search → pipeline -->
+    <div class="pipeline-connector" id="pipelineConnector">
+      <svg viewBox="0 0 2 32" preserveAspectRatio="none">
+        <line x1="1" y1="0" x2="1" y2="32" />
+        <circle class="connector-dot" cx="1" cy="0" r="3" />
+      </svg>
+    </div>
+
+    <!-- Action bar: appear after search, during ingest -->
+    <div class="ingest-action-bar" id="ingestActionBar" style="display:none">
+      <button class="btn-ingest" id="btnStartIngest" onclick="PipelinePage.startIngest()">入库选中(0)</button>
+      <button class="btn-cancel" id="btnCancelIngest" style="display:none" onclick="PipelinePage.cancelIngest()">停止嵌入</button>
+    </div>
+
+    <!-- 9-node pipeline diagram -->
+    <div class="pipeline-diagram">
+      <div class="pipeline-track" id="pipelineTrack">
+        <!-- Nodes rendered by JS -->
+      </div>
+    </div>
+
+    <!-- Progress text (shown during ingest) -->
+    <div class="pipeline-progress" id="pipelineProgress"></div>
+
+    <!-- Node detail expand area -->
+    <div class="node-detail-area" id="nodeDetailArea">
+      <div class="pipeline-loading">点击任意节点查看内部结构</div>
+    </div>
+
+    <!-- Output / preview area -->
+    <div class="pipeline-output" id="pipelineOutput">
+      <div class="output-header">检索结果</div>
+      <div class="output-messages" id="outputMessages">
+        <div class="output-empty">
+          <div class="empty-icon">&#9879;</div>
+          <p>输入主题，看知识管道步步运转</p>
+        </div>
+      </div>
+      <div class="output-input-row" id="outputInputRow">
+        <input type="text" id="outputChatInput" placeholder="在此追问同桌…" autocomplete="off" />
+        <button id="outputChatBtn" onclick="PipelinePage.chatSend()">发送</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+// ═══════════════════════════════════════════════════════════════
+// Knowledge Pipeline Page — 活字印刷工坊
+// ================================================================
+
+(function() {
+  'use strict';
+
+  var reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  // ─── Nine pipeline stages ───
+  var STAGES = [
+    { id: 'search',    label: '联网搜索',  icon: '🌐', desc: '接收查询请求，调度联网工具搜索相关资源' },
+    { id: 'fetch',     label: '爬取转MD',  icon: '📥', desc: '抓取网页内容，转换为Markdown统一格式' },
+    { id: 'structure', label: '结构化',    icon: '📋', desc: '提取层级结构，形成结构化数据文档' },
+    { id: 'clean',     label: '清洗',      icon: '🧹', desc: '去重去噪 + 安全过滤：移除页眉页脚、广告、导航，丢弃低质与过短片段，保障入库内容质量' },
+    { id: 'chunk',     label: '切分',      icon: '✂️', desc: '按语义边界切分为可管理的文本块' },
+    { id: 'embed',     label: '嵌入',      icon: '📦', desc: 'bge-m3模型将文本转为1024维向量' },
+    { id: 'vecdb',     label: '向量库',    icon: '🗄️', desc: 'ChromaDB存储向量，支持余弦相似检索' },
+    { id: 'retrieve',  label: '检索',      icon: '🔍', desc: 'BM25+向量融合RRF，BGE Reranker精排' },
+    { id: 'generate',  label: '生成',      icon: '✨', desc: '基于检索结果+上下文，生成最终回答' }
+  ];
+
+  // ─── Internal structure per stage ───
+  var STAGE_INTERNALS = {
+    'search':     [{icon:'🔍', name:'查询解析', desc:'提取关键词与意图，生成搜索策略'},
+                   {icon:'🌐', name:'cn.bing + 搜狗', desc:'双引擎联网搜索，适配中国网络'},
+                   {icon:'✅', name:'URL验证', desc:'去重、过滤不可达链接'}],
+    'fetch':      [{icon:'📡', name:'HTTP抓取', desc:'requests获取页面HTML内容'},
+                   {icon:'📄', name:'HTML解析', desc:'BeautifulSoup提取正文'},
+                   {icon:'📝', name:'Markdown转换', desc:'markitdown统一为Markdown格式'}],
+    'structure':  [{icon:'📑', name:'标题提取', desc:'识别文档层级结构(H1-H6)'},
+                   {icon:'📋', name:'JSON序列化', desc:'形成结构化数据文档'},
+                   {icon:'🏷️', name:'来源标注', desc:'标记URL与抓取时间戳'}],
+    'clean':      [{icon:'🔬', name:'去重', desc:'相似段落合并去重，避免重复知识'},
+                   {icon:'🧹', name:'去噪', desc:'移除页眉页脚、广告、导航等非内容元素'},
+                   {icon:'🛡️', name:'安全过滤', desc:'过滤过短(<15字)片段，丢弃低质页面(清洗率>70%标记)'},
+                   {icon:'📏', name:'长度校验', desc:'仅保留≥100字符的有效文本块入库'}],
+    'chunk':      [{icon:'🧩', name:'语义边界', desc:'按段落+标题自然分块'},
+                   {icon:'🪟', name:'重叠窗口', desc:'50字符重叠保留上下文'},
+                   {icon:'📏', name:'大小控制', desc:'500字符/chunk上限'}],
+    'embed':      [{icon:'🧮', name:'bge-m3编码', desc:'1024维稠密向量表示'},
+                   {icon:'📦', name:'批处理', desc:'每批10条并行编码提升吞吐'},
+                   {icon:'⚖️', name:'归一化', desc:'L2归一化保证余弦相似度'}],
+    'vecdb':      [{icon:'💾', name:'ChromaDB写入', desc:'upsert向量到collection'},
+                   {icon:'📇', name:'HNSW索引', desc:'构建近似最近邻索引'},
+                   {icon:'🗃️', name:'持久化', desc:'SQLite3落盘保证数据不丢'}],
+    'retrieve':   [{icon:'🔎', name:'BM25检索', desc:'关键词稀疏检索快速召回'},
+                   {icon:'📐', name:'向量检索', desc:'余弦相似度Top K稠密召回'},
+                   {icon:'🔗', name:'RRF融合', desc:'倒数排名融合稀疏+稠密结果'},
+                   {icon:'🎯', name:'BGE Reranker', desc:'Cross-encoder精排最终结果'}],
+    'generate':   [{icon:'🧠', name:'上下文组装', desc:'检索结果+系统提示拼接'},
+                   {icon:'💡', name:'DeepSeek推理', desc:'LLM基于上下文生成答案'},
+                   {icon:'📎', name:'来源标注', desc:'自动标记引用编号对应来源'}]
+  };
+
+  // Map stage id → API stages dict key (null = ingest-only, no status data)
+  var STAGE_API_KEYS = {
+    search: null, fetch: null, structure: null,
+    clean: 'cleaning', chunk: 'chunking', embed: 'embedding',
+    vecdb: 'vector_db', retrieve: 'retrieval', generate: 'generation'
+  };
+
+  var nodeAnimDelays = STAGES.map(function(_, i) { return (i * 0.3).toFixed(1) + 's'; });
+  var pipelineRafId = null;
+
+  // ─── Render pipeline nodes ───
+  function renderPipeline() {
+    var track = document.getElementById('pipelineTrack');
+    if (!track) return;
+    var html = '';
+    STAGES.forEach(function(s, i) {
+      if (i > 0) {
+        html += '<div class="pipe-edge">' +
+          '<div class="ink-dot"></div><div class="ink-dot"></div><div class="ink-dot"></div>' +
+        '</div>';
+      }
+      html += '<div class="pipe-node" data-stage="' + s.id + '" ' +
+        'style="animation-delay:' + nodeAnimDelays[i] + '" ' +
+        'onclick="PipelinePage.expandNode(\'' + s.id + '\')">' +
+        '<span class="node-icon">' + s.icon + '</span>' +
+        '<span class="node-label">' + s.label + '</span>' +
+        '<span class="node-health-dot waiting" id="dot-' + s.id + '"></span>' +
+      '</div>';
+    });
+    track.innerHTML = html;
+  }
+
+  // ─── PipelinePage API ───
+  window.PipelinePage = {
+    _data: null,
+    _initialized: false,
+    _ingesting: false,
+    _streamReader: null,
+    _searchResults: [],
+    _ingestSessionId: '',
+
+    init: function() {
+      if (this._initialized) return;
+      this._initialized = true;
+      renderPipeline();
+      this.fetchStatus();
+      var self = this;
+      var searchInput = document.getElementById('pipelineQuery');
+      if (searchInput) {
+        searchInput.addEventListener('keydown', function(e) {
+          if (e.key === 'Enter') { e.preventDefault(); self.startSearch(); }
+        });
+      }
+      var chatInput = document.getElementById('outputChatInput');
+      if (chatInput) {
+        chatInput.addEventListener('keydown', function(e) {
+          if (e.key === 'Enter') { e.preventDefault(); self.chatSend(); }
+        });
+      }
+    },
+
+    fetchStatus: function() {
+      var self = this;
+      fetch('/api/knowledge/pipeline/status')
+        .then(function(r) {
+          if (!r.ok) throw new Error('API not available');
+          return r.json();
+        })
+        .then(function(data) {
+          self._data = data;
+          self.updateNodeDots(data);
+        })
+        .catch(function() {});
+    },
+
+    updateNodeDots: function(data) {
+      var stagesData = data.stages || {};
+      STAGES.forEach(function(s) {
+        var dot = document.getElementById('dot-' + s.id);
+        if (!dot) return;
+        var apiKey = STAGE_API_KEYS[s.id];
+        if (!apiKey) { dot.className = 'node-health-dot waiting'; return; }
+        var n = stagesData[apiKey] || {};
+        var hasData = n.total_vectors > 0 || n.total_chunks > 0 || n.count > 0 || n.disk_mb > 0;
+        dot.className = 'node-health-dot ' + (hasData ? 'healthy' : 'waiting');
+      });
+    },
+
+    expandNode: function(stageId) {
+      var area = document.getElementById('nodeDetailArea');
+      if (!area) return;
+      var stage = null;
+      for (var i = 0; i < STAGES.length; i++) {
+        if (STAGES[i].id === stageId) { stage = STAGES[i]; break; }
+      }
+      if (!stage) return;
+      var data = this._data;
+      var stagesData = (data && data.stages) || {};
+      var apiKey = STAGE_API_KEYS[stageId];
+      var n = (apiKey && stagesData[apiKey]) ? stagesData[apiKey] : {};
+
+      // Per-stage stat defaults (shown when no API data exists)
+      var defaults = {
+        'search':    {data: '每次搜索约10条结果'},
+        'fetch':     {data: 'HTTP抓取 + markitdown转换'},
+        'structure': {data: '自动标题提取 + JSON序列化'},
+        'clean':     {data: '0'},
+        'chunk':     {data: '0'},
+        'embed':     {data: '0'},
+        'vecdb':     {data: '0 条向量'},
+        'retrieve':  {data: '—'},
+        'generate':  {data: '—'}
+      };
+
+      var vectors;
+      if (n.total_vectors !== undefined) {
+        vectors = n.total_vectors + ' 条向量';
+      } else if (n.total_chunks !== undefined) {
+        vectors = n.total_chunks + ' 个片段';
+      } else if (n.count !== undefined) {
+        vectors = n.count + ' 篇文档';
+      } else {
+        vectors = (defaults[stageId] && defaults[stageId].data) || '—';
+      }
+
+      // For stages with real data, refine the label
+      if (!apiKey && n.total_vectors === undefined && n.total_chunks === undefined && n.count === undefined) {
+        // Keep the default descriptive text
+      } else if (vectors === '0' || vectors === '0 条向量' || vectors === '0 个片段' || vectors === '0 篇文档') {
+        vectors = '暂无数据';
+      }
+
+      var healthLabel;
+      if (vectors !== '—' && vectors !== '暂无数据' && vectors !== (defaults[stageId] && defaults[stageId].data)) {
+        healthLabel = '运行中';
+      } else if (apiKey) {
+        healthLabel = '等待数据';
+      } else {
+        healthLabel = '按需启动';
+      }
+
+      var latency = n.avg_latency_ms !== undefined ? n.avg_latency_ms + ' ms'
+                  : (n.hit_rate_7d !== undefined ? '命中率 ' + Math.round(n.hit_rate_7d * 100) + '%'
+                  : (n.disk_mb !== undefined ? n.disk_mb + ' MB'
+                  : (n.model ? n.model : '按需运行')));
+
+      var internals = STAGE_INTERNALS[stageId] || [];
+      var cardsHtml = '';
+      internals.forEach(function(sub) {
+        cardsHtml +=
+          '<div class="internal-card">' +
+            '<span class="internal-icon">' + sub.icon + '</span>' +
+            '<div class="internal-info">' +
+              '<span class="internal-name">' + sub.name + '</span>' +
+              '<span class="internal-desc">' + sub.desc + '</span>' +
+            '</div>' +
+          '</div>';
+      });
+
+      area.innerHTML =
+        '<div class="node-detail-card visible" id="activeDetail">' +
+          '<div class="detail-header">' +
+            '<span class="detail-icon">' + stage.icon + '</span>' +
+            '<span class="detail-title">' + stage.label + '</span>' +
+            '<span class="detail-meta">' + healthLabel + '</span>' +
+          '</div>' +
+          '<div class="detail-body">' + stage.desc + '</div>' +
+          '<div class="internal-grid">' + cardsHtml + '</div>' +
+          '<div class="detail-stats-row">' +
+            '<div class="detail-stat"><div class="ds-label">处理延迟</div><div class="ds-value">' + latency + '</div></div>' +
+            '<div class="detail-stat"><div class="ds-label">数据量</div><div class="ds-value">' + vectors + '</div></div>' +
+          '</div>' +
+          '<div class="detail-close">' +
+            '<button onclick="PipelinePage.closeDetail()">收起详情</button>' +
+          '</div>' +
+        '</div>';
+    },
+
+    closeDetail: function() {
+      var area = document.getElementById('nodeDetailArea');
+      if (area) area.innerHTML = '<div class="pipeline-loading">点击任意节点查看内部结构</div>';
+    },
+
+    // ═══════════════════════════════════════════════════
+    // Step 1: Search — lightweight, no ingest
+    // ═══════════════════════════════════════════════════
+    startSearch: function() {
+      var query = document.getElementById('pipelineQuery').value.trim();
+      if (!query || query.length < 2) return;
+      if (this._ingesting) return;
+      var self = this;
+
+      var btn = document.getElementById('pipelineSearchBtn');
+      if (btn) { btn.disabled = true; btn.textContent = '搜索中...'; }
+
+      // Reset state
+      this._searchResults = [];
+      this._ingestSessionId = '';
+      document.querySelectorAll('.pipe-node').forEach(function(n) {
+        n.classList.remove('active', 'done');
+      });
+      document.getElementById('ingestActionBar').style.display = 'none';
+      document.getElementById('btnCancelIngest').style.display = 'none';
+      document.getElementById('btnStartIngest').style.display = '';
+
+      var progress = document.getElementById('pipelineProgress');
+      if (progress) progress.textContent = '';
+
+      // Highlight search node
+      var nodes = document.querySelectorAll('.pipe-node');
+      nodes.forEach(function(n, i) { n.classList.toggle('active', i === 0); });
+
+      var msgs = document.getElementById('outputMessages');
+      if (msgs) msgs.innerHTML = '<div class="pipeline-loading">正在搜索...</div>';
+
+      fetch('/api/knowledge/search/web', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({query: query})
+      }).then(function(r) { return r.json(); })
+        .then(function(data) {
+          if (btn) { btn.disabled = false; btn.textContent = '搜索'; }
+          if (data.error) { self._showError(data.error); return; }
+          self._searchResults = (data.results || []).map(function(item) {
+            return {url: item.url, title: item.title, selected: true};
+          });
+          self._showSearchResults();
+        })
+        .catch(function() {
+          if (btn) { btn.disabled = false; btn.textContent = '搜索'; }
+          self._showError('搜索请求失败，请检查网络');
+        });
+    },
+
+    _showSearchResults: function() {
+      var msgs = document.getElementById('outputMessages');
+      if (!msgs) return;
+      var results = this._searchResults;
+      if (!results.length) {
+        msgs.innerHTML = '<div class="output-empty"><div class="empty-icon">&#128269;</div><p>未找到相关结果，试试其他关键词</p></div>';
+        document.getElementById('ingestActionBar').style.display = 'none';
+        return;
+      }
+      var self = this;
+      var html = '<div style="font-size:11px;color:rgba(61,43,20,0.45);margin-bottom:8px;font-family:Georgia,serif;font-style:italic">找到 ' + results.length + ' 个结果，勾选后点击"入库选中"</div>';
+      results.forEach(function(item, i) {
+        html +=
+          '<div class="search-result-card selected" id="resultCard' + i + '" onclick="PipelinePage._toggleResult(' + i + ')">' +
+            '<input type="checkbox" class="result-checkbox" id="resultCb' + i + '" checked onclick="event.stopPropagation();PipelinePage._toggleResult(' + i + ')" />' +
+            '<div class="result-info">' +
+              '<div class="result-title">' + App.escapeHtml(item.title || item.url) + '</div>' +
+              '<div class="result-url"><a href="' + App.escapeHtml(item.url) + '" target="_blank" rel="noopener" onclick="event.stopPropagation()" title="在新标签页打开">' + App.escapeHtml(item.url) + '</a></div>' +
+            '</div>' +
+          '</div>';
+      });
+      msgs.innerHTML = html;
+      this._updateIngestBtn();
+      document.getElementById('ingestActionBar').style.display = 'flex';
+      document.getElementById('btnStartIngest').style.display = '';
+      document.getElementById('btnCancelIngest').style.display = 'none';
+
+      // Mark search node done
+      var nodes = document.querySelectorAll('.pipe-node');
+      nodes.forEach(function(n, i) { n.classList.toggle('done', i === 0); n.classList.remove('active'); });
+      var progress = document.getElementById('pipelineProgress');
+      if (progress) progress.textContent = '搜索完成，请审查并选择要入库的结果';
+    },
+
+    _toggleResult: function(idx) {
+      if (this._ingesting) return;
+      var item = this._searchResults[idx];
+      if (!item) return;
+      item.selected = !item.selected;
+      var card = document.getElementById('resultCard' + idx);
+      var cb = document.getElementById('resultCb' + idx);
+      if (card) card.classList.toggle('selected', item.selected);
+      if (cb) cb.checked = item.selected;
+      this._updateIngestBtn();
+    },
+
+    _updateIngestBtn: function() {
+      var count = this._searchResults.filter(function(r) { return r.selected; }).length;
+      var btn = document.getElementById('btnStartIngest');
+      if (btn) { btn.textContent = '入库选中(' + count + ')'; btn.disabled = count === 0; }
+    },
+
+    // ═══════════════════════════════════════════════════
+    // Step 2: Ingest — SSE with cancel support
+    // ═══════════════════════════════════════════════════
+    startIngest: function() {
+      if (this._ingesting) return;
+      var selected = this._searchResults.filter(function(r) { return r.selected; });
+      if (!selected.length) return;
+      var query = document.getElementById('pipelineQuery').value.trim();
+      var self = this;
+      this._ingesting = true;
+      this._ingestSessionId = 'ingest_' + Date.now();
+
+      // UI: show cancel, hide ingest btn
+      document.getElementById('btnStartIngest').style.display = 'none';
+      document.getElementById('btnCancelIngest').style.display = '';
+      var searchBtn = document.getElementById('pipelineSearchBtn');
+      if (searchBtn) searchBtn.disabled = true;
+
+      // Reset pipeline nodes beyond search
+      document.querySelectorAll('.pipe-node').forEach(function(n, i) {
+        n.classList.remove('active');
+        n.classList.toggle('done', i === 0);
+      });
+
+      var progress = document.getElementById('pipelineProgress');
+      if (progress) progress.textContent = '开始抓取文档...';
+
+      // Animate connector dot
+      if (!reducedMotion) {
+        var dot = document.querySelector('.connector-dot');
+        if (dot) dot.style.animation = 'connectorFlow 0.7s ease-in-out infinite';
+      }
+
+      var msgs = document.getElementById('outputMessages');
+      if (msgs) msgs.innerHTML = '<div class="pipeline-loading">开始抓取文档...</div>';
+
+      var urls = selected.map(function(r) { return r.url; });
+
+      fetch('/api/knowledge/ingest', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({urls: urls, query: query, session_id: this._ingestSessionId})
+      }).then(function(resp) {
+        if (!resp.ok) { self._showError('服务器返回 ' + resp.status); return; }
+        var reader = resp.body.getReader();
+        self._streamReader = reader;
+        var decoder = new TextDecoder();
+        var buffer = '';
+
+        function read() {
+          reader.read().then(function(result) {
+            if (result.done) { self._onIngestDone(); return; }
+            if (!self._ingesting) { try { reader.cancel(); } catch(e) {} return; }
+            buffer += decoder.decode(result.value, {stream: true});
+            var lines = buffer.split('\n');
+            buffer = lines.pop();
+            lines.forEach(function(line) {
+              if (line.startsWith('data: ')) {
+                try { self._onPipelineEvent(JSON.parse(line.slice(6))); } catch(e) {}
+              }
+            });
+            read();
+          }).catch(function() {
+            if (self._ingesting) self._showError('读取中断');
+          });
+        }
+        read();
+      }).catch(function() {
+        self._showError('网络错误，请检查连接');
+      });
+    },
+
+    cancelIngest: function() {
+      var self = this;
+      var sid = this._ingestSessionId;
+      // Tell backend to cancel
+      if (sid) {
+        fetch('/api/knowledge/ingest/cancel', {
+          method: 'POST',
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify({session_id: sid})
+        }).catch(function() {});
+      }
+      this._ingesting = false;
+      if (this._streamReader) {
+        try { this._streamReader.cancel(); } catch(e) {}
+        this._streamReader = null;
+      }
+      document.getElementById('btnCancelIngest').style.display = 'none';
+      document.getElementById('btnStartIngest').style.display = '';
+      this._updateIngestBtn();
+      var searchBtn = document.getElementById('pipelineSearchBtn');
+      if (searchBtn) searchBtn.disabled = false;
+      var progress = document.getElementById('pipelineProgress');
+      if (progress) progress.textContent = '已取消嵌入，可选其他结果重新入库';
+      if (!reducedMotion) {
+        var dot = document.querySelector('.connector-dot');
+        if (dot) dot.style.animation = '';
+      }
+      document.querySelectorAll('.pipe-node').forEach(function(n) {
+        n.classList.remove('active');
+        n.classList.toggle('done', false);
+      });
+      var nodes = document.querySelectorAll('.pipe-node');
+      if (nodes.length > 0) nodes[0].classList.add('done');
+      this._ingestSessionId = '';
+    },
+
+    _onPipelineEvent: function(evt) {
+      if (evt.type === 'stage') {
+        this._highlightNode(evt.stage);
+        var progress = document.getElementById('pipelineProgress');
+        if (!progress) return;
+        if (evt.stage === 'fetching') {
+          progress.textContent = '正在抓取文档 ' + (evt.progress || '');
+        } else if (evt.stage === 'cleaning') {
+          progress.textContent = '正在清洗文档...';
+        } else if (evt.stage === 'chunking') {
+          progress.textContent = '正在切分文档 (共 ' + evt.total_chunks + ' 块)';
+          if (evt.filtered > 0) progress.textContent += '，过滤 ' + evt.filtered + ' 篇';
+        } else if (evt.stage === 'embedding') {
+          progress.textContent = '正在嵌入向量 (' + evt.current + '/' + evt.total + ')';
+        } else if (evt.stage === 'storing') {
+          progress.textContent = '已入库 ' + evt.saved + ' 个片段';
+        } else if (evt.stage === 'verifying') {
+          progress.textContent = '正在验证检索可用性...';
+        }
+      } else if (evt.type === 'done') {
+        this._showPreview(evt.preview, evt.added);
+        this._onIngestDone();
+        var nodes = document.querySelectorAll('.pipe-node');
+        nodes.forEach(function(n) { n.classList.add('done'); n.classList.remove('active'); });
+        var progress = document.getElementById('pipelineProgress');
+        if (progress) progress.textContent = '完成！已入库 ' + evt.added + ' 个片段';
+      } else if (evt.type === 'cancelled') {
+        var saved = evt.saved || 0;
+        var total = evt.total || 0;
+        this._showError('已取消嵌入 (已入库 ' + saved + '/' + total + ' 个片段)');
+        document.querySelectorAll('.pipe-node').forEach(function(n) { n.classList.remove('active'); });
+        this._onIngestDone();
+      } else if (evt.type === 'error') {
+        this._showError(evt.message);
+      }
+    },
+
+    _highlightNode: function(stage) {
+      var stageToIdx = {
+        'fetching': 1,
+        'cleaning': 3,
+        'chunking': 4,
+        'embedding': 5,
+        'storing': 6,
+        'verifying': 7
+      };
+      var idx = stageToIdx[stage];
+      if (idx === undefined) return;
+      var nodes = document.querySelectorAll('.pipe-node');
+      nodes.forEach(function(n, i) {
+        n.classList.toggle('active', i === idx);
+        if (i === 0) n.classList.add('done');
+        n.classList.toggle('done', i > 0 && i < idx);
+      });
+    },
+
+    _onIngestDone: function() {
+      this._ingesting = false;
+      this._streamReader = null;
+      this._ingestSessionId = '';
+      document.getElementById('btnCancelIngest').style.display = 'none';
+      document.getElementById('btnStartIngest').style.display = '';
+      this._updateIngestBtn();
+      var searchBtn = document.getElementById('pipelineSearchBtn');
+      if (searchBtn) searchBtn.disabled = false;
+      if (!reducedMotion) {
+        var dot = document.querySelector('.connector-dot');
+        if (dot) dot.style.animation = '';
+      }
+    },
+
+    _showPreview: function(preview, addedCount) {
+      var msgs = document.getElementById('outputMessages');
+      if (!msgs) return;
+      addedCount = addedCount || 0;
+
+      var summary = '<div class="ingest-summary">' +
+        '<div class="summary-count">' + addedCount + '</div>' +
+        '<div>个片段已入库</div></div>';
+
+      if (!preview || !preview.length) {
+        msgs.innerHTML = summary + '<div class="output-empty"><p>内容已入库，暂无可预览摘要</p></div>';
+        return;
+      }
+      var self = this;
+      var html = summary;
+      html += '<div style="font-size:11px;color:rgba(61,43,20,0.45);margin-bottom:6px;font-family:Georgia,serif;font-style:italic">预览（前5条）</div>';
+      preview.forEach(function(item) {
+        var safeSource = App.escapeHtml(item.source || '');
+        var safeTitle = App.escapeHtml(item.title || '来源');
+        html += '<div class="ingest-preview-card">' +
+          '<div class="preview-title">' + safeTitle + '</div>' +
+          '<div class="preview-snippet">' + App.escapeHtml(item.text || '') + '</div>' +
+          '<div class="preview-source"><a href="' + safeSource + '" target="_blank" rel="noopener">' + safeSource + '</a></div>' +
+          '<div class="preview-actions">' +
+            '<button class="preview-ask-btn" onclick="PipelinePage.askAbout(\'' +
+              safeTitle.replace(/'/g, "\\'") + '\')">去问问同桌</button>' +
+            '<button class="preview-look-btn" onclick="PipelinePage._showChunkDetail(\'' +
+              safeSource.replace(/'/g, "\\'") + '\')">查看内容</button>' +
+          '</div>' +
+        '</div>';
+      });
+      msgs.innerHTML = html;
+      this.refreshStatus();
+    },
+
+    _showChunkDetail: function(sourceUrl) {
+      // Fetch chunks from source
+      var self = this;
+      // Build API path: /api/knowledge/source/{name}
+      var overlay = document.createElement('div');
+      overlay.className = 'chunk-detail-overlay';
+      overlay.innerHTML = '<div class="chunk-detail-modal"><div class="pipeline-loading">加载中...</div></div>';
+      overlay.addEventListener('click', function(e) {
+        if (e.target === overlay) { document.body.removeChild(overlay); }
+      });
+      document.body.appendChild(overlay);
+
+      fetch('/api/knowledge/source/' + encodeURIComponent(sourceUrl))
+        .then(function(r) { return r.json(); })
+        .then(function(data) {
+          overlay.querySelector('.chunk-detail-modal').innerHTML =
+            '<div class="chunk-modal-title">' + App.escapeHtml(data.title || '来源') + '</div>' +
+            '<div class="chunk-modal-source"><a href="' + App.escapeHtml(sourceUrl) + '" target="_blank" rel="noopener">' + App.escapeHtml(sourceUrl) + '</a> &middot; ' + (data.chunks || 0) + ' 个片段</div>' +
+            '<div class="chunk-modal-text">' + App.escapeHtml(data.text || '未找到内容') + '</div>' +
+            '<div class="chunk-modal-close"><button onclick="this.closest(\'.chunk-detail-overlay\').remove()">关闭</button></div>';
+        })
+        .catch(function() {
+          overlay.querySelector('.chunk-detail-modal').innerHTML =
+            '<div class="chunk-modal-title">加载失败</div>' +
+            '<div class="chunk-modal-text">无法获取该来源的详细内容，请检查向量库状态。</div>' +
+            '<div class="chunk-modal-close"><button onclick="this.closest(\'.chunk-detail-overlay\').remove()">关闭</button></div>';
+        });
+    },
+
+    _showError: function(msg) {
+      this._onIngestDone();
+      var msgs = document.getElementById('outputMessages');
+      if (msgs) msgs.innerHTML = '<div class="ingest-error">' + App.escapeHtml(msg) + '</div>';
+      var progress = document.getElementById('pipelineProgress');
+      if (progress) progress.textContent = '错误：' + msg;
+    },
+
+    // ─── Output chat — ask desk agent via SSE ───
+    askAbout: function(title) {
+      var input = document.getElementById('outputChatInput');
+      if (input) {
+        input.value = '请深入讲讲：' + title;
+        input.focus();
+        var row = document.getElementById('outputInputRow');
+        if (row) row.scrollIntoView({behavior: 'smooth', block: 'center'});
+      }
+    },
+
+    chatSend: function() {
+      var input = document.getElementById('outputChatInput');
+      if (!input) return;
+      var text = input.value.trim();
+      if (!text) return;
+      input.value = '';
+      var msgs = document.getElementById('outputMessages');
+      var self = this;
+
+      var userHtml = '<div class="output-chat-msg user">' +
+        '<span class="chat-label">你</span>' +
+        '<div class="chat-text">' + App.escapeHtml(text) + '</div>' +
+      '</div>';
+      msgs.insertAdjacentHTML('beforeend', userHtml);
+      msgs.scrollTop = msgs.scrollHeight;
+
+      var agentHtml = '<div class="output-chat-msg ai streaming" id="outputStreamMsg">' +
+        '<span class="chat-label">同桌</span>' +
+        '<div class="chat-text"></div>' +
+      '</div>';
+      msgs.insertAdjacentHTML('beforeend', agentHtml);
+      msgs.scrollTop = msgs.scrollHeight;
+
+      var agentDiv = document.getElementById('outputStreamMsg');
+      var agentText = '';
+
+      fetch('/api/chat/stream', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({message: text, persona: 'deskmate', session_id: 'pipeline-chat'})
+      }).then(function(resp) {
+        if (!resp.ok) throw new Error('HTTP ' + resp.status);
+        var reader = resp.body.getReader();
+        var decoder = new TextDecoder();
+        var buf = '';
+        function read() {
+          reader.read().then(function(result) {
+            if (result.done) {
+              if (agentDiv) agentDiv.classList.remove('streaming');
+              return;
+            }
+            buf += decoder.decode(result.value, {stream: true});
+            var lines = buf.split('\n');
+            buf = lines.pop();
+            lines.forEach(function(line) {
+              if (!line.startsWith('data: ')) return;
+              try { var evt = JSON.parse(line.slice(6)); } catch(e) { return; }
+              if (evt.type === 'token') {
+                agentText += evt.token;
+                if (agentDiv) {
+                  agentDiv.querySelector('.chat-text').innerHTML = App.renderMarkdown(agentText);
+                  msgs.scrollTop = msgs.scrollHeight;
+                }
+              } else if (evt.type === 'final') {
+                agentText = evt.text || agentText;
+                if (agentDiv) {
+                  agentDiv.querySelector('.chat-text').innerHTML = App.renderMarkdown(agentText);
+                  agentDiv.classList.remove('streaming');
+                }
+              }
+            });
+            read();
+          }).catch(function() {
+            if (agentDiv) agentDiv.classList.remove('streaming');
+          });
+        }
+        read();
+      }).catch(function(err) {
+        if (agentDiv) {
+          agentDiv.classList.remove('streaming');
+          agentDiv.querySelector('.chat-text').textContent = '对话出错：' + err.message;
+        }
+      });
+    },
+
+    refreshStatus: function() {
+      var self = this;
+      fetch('/api/knowledge/pipeline/status')
+        .then(function(r) { return r.json(); })
+        .then(function(data) { self._data = data; self.updateNodeDots(data); })
+        .catch(function() {});
+    }
+  };
+
+  // ─── Canvas particles: 30 paper scraps + 20 ink dust ───
+  (function initCanvas() {
+    var canvas = document.getElementById('pipelineCanvas');
+    if (!canvas) return;
+    if (reducedMotion) { canvas.style.display = 'none'; return; }
+    var ctx = canvas.getContext('2d');
+    var particles = [];
+    var isHidden = false;
+
+    function resize() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+      createParticles();
+    }
+
+    function createParticles() {
+      particles = [];
+      var w = canvas.width, h = canvas.height;
+      for (var i = 0; i < 30; i++) {
+        particles.push({
+          type: 'paper', x: Math.random() * w, y: Math.random() * h,
+          w: Math.random() * 8 + 3, h: Math.random() * 6 + 2,
+          vx: (Math.random() - 0.5) * 0.25, vy: (Math.random() - 0.5) * 0.2 - 0.05,
+          rot: Math.random() * Math.PI * 2, rotV: (Math.random() - 0.5) * 0.01,
+          opacity: Math.random() * 0.05 + 0.03
+        });
+      }
+      for (var j = 0; j < 20; j++) {
+        particles.push({
+          type: 'ink', x: Math.random() * w, y: Math.random() * h,
+          r: Math.random() * 2.5 + 0.8,
+          vx: (Math.random() - 0.5) * 0.15, vy: (Math.random() - 0.5) * 0.15 - 0.03,
+          opacity: Math.random() * 0.05 + 0.03
+        });
+      }
+    }
+
+    function animate() {
+      if (isHidden) { pipelineRafId = requestAnimationFrame(animate); return; }
+      if (!document.contains(canvas)) { pipelineRafId = null; return; }
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      for (var i = 0; i < particles.length; i++) {
+        var p = particles[i];
+        p.x += p.vx; p.y += p.vy;
+        if (p.x < -20) p.x = canvas.width + 20;
+        if (p.x > canvas.width + 20) p.x = -20;
+        if (p.y < -20) p.y = canvas.height + 20;
+        if (p.y > canvas.height + 20) p.y = -20;
+        if (p.type === 'paper') {
+          p.rot += p.rotV;
+          ctx.save(); ctx.translate(p.x, p.y); ctx.rotate(p.rot);
+          ctx.fillStyle = 'rgba(210, 190, 165, ' + p.opacity + ')';
+          ctx.fillRect(-p.w / 2, -p.h / 2, p.w, p.h);
+          ctx.restore();
+        } else {
+          ctx.beginPath();
+          ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+          ctx.fillStyle = 'rgba(60, 45, 30, ' + p.opacity + ')';
+          ctx.fill();
+        }
+      }
+      pipelineRafId = requestAnimationFrame(animate);
+    }
+
+    resize();
+    window.addEventListener('resize', resize);
+    document.addEventListener('visibilitychange', function() {
+      isHidden = document.hidden;
+    });
+    pipelineRafId = requestAnimationFrame(animate);
+    window.addEventListener('beforeunload', function() {
+      if (pipelineRafId) cancelAnimationFrame(pipelineRafId);
+    });
+  })();
+
+  // Add connector dot animation keyframes
+  if (!reducedMotion) {
+    var styleSheet = document.createElement('style');
+    styleSheet.textContent =
+      '@keyframes connectorFlow {' +
+      '  0% { cy: 0; opacity: 0.8; }' +
+      '  100% { cy: 32; opacity: 0; }' +
+      '}';
+    document.head.appendChild(styleSheet);
+  }
+
+  // ─── Init on DOM ready ───
+  App.ready(function() {
+    PipelinePage.init();
+  });
+
+})();
+</script>
+{% endblock %}

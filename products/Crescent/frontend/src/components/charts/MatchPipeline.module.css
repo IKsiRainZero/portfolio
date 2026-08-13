@@ -1,0 +1,33 @@
+.wrap { border: 1px solid var(--cr-border); border-radius: 8px; overflow: hidden; }
+
+.header {
+  display: flex; justify-content: space-between; align-items: center;
+  width: 100%; padding: 8px 14px;
+  background: var(--cr-surface2); border: none;
+  font-size: 12px; font-family: var(--cr-mono); color: var(--cr-text2); cursor: pointer;
+}
+.header:hover { background: var(--cr-border); }
+
+.chevron { font-size: 10px; color: var(--cr-text3); }
+
+.body { background: var(--cr-surface1); }
+
+.svg { width: 100%; height: auto; display: block; padding: 8px 0; }
+
+.arrow { stroke: var(--cr-border-hv); stroke-width: 1.5; }
+
+.arrowHead { fill: var(--cr-border-hv); }
+
+.node { fill: var(--cr-surface2); stroke: var(--cr-border-hv); stroke-width: 1; cursor: pointer; transition: stroke 0.15s, fill 0.15s; }
+.node:hover { stroke: var(--cr-accent); fill: rgba(212,140,64,0.06); }
+.nodeActive { stroke: var(--cr-accent); fill: rgba(212,140,64,0.08); }
+
+.nodeText { font-size: 11px; fill: var(--cr-text1); font-family: var(--cr-mono); font-weight: 500; pointer-events: none; }
+
+.detailPanel { overflow: hidden; border-top: 1px solid var(--cr-border); }
+
+.detailText {
+  margin: 0; padding: 10px 14px;
+  font-size: 11px; font-family: var(--cr-mono); color: var(--cr-text2);
+  line-height: 1.6;
+}

@@ -1,0 +1,143 @@
+/* === Crescent Workbench — Design System ===
+   Organic / Warm Paper — "Rice Paper + Amber Light"
+   Multi-layer: static gradients → noise grain → animated orbs (AmbientLight.tsx) */
+
+:root {
+  /* —— Palette (Light Warm) —— */
+  --cr-base:      #FAF7F2;  /* rice paper cream */
+  --cr-surface1:  #F2EDE5;  /* card / sheet */
+  --cr-surface2:  #EAE4DA;  /* hover / handle */
+  --cr-surface3:  #E1DACF;  /* elevated */
+  --cr-border:    rgba(0,0,0,0.06);
+  --cr-border-hv: rgba(0,0,0,0.12);
+
+  --cr-text1:     #1E1B18;  /* near-black with warmth */
+  --cr-text2:     rgba(0,0,0,0.55);
+  --cr-text3:     rgba(0,0,0,0.32);
+  --cr-text4:     rgba(0,0,0,0.12);
+
+  --cr-accent:    #C67A2E;  /* warm amber (darker for light bg contrast) */
+  --cr-accent-hv: #B06820;
+  --cr-accent-soft: rgba(198,122,46,0.10);
+  --cr-accent-glow: rgba(198,122,46,0.05);
+
+  --cr-green:     #5D8A5A;
+  --cr-green-soft: rgba(93,138,90,0.10);
+  --cr-red:       #B84C4C;
+  --cr-red-soft:  rgba(184,76,76,0.10);
+  --cr-yellow:    #B8993E;
+
+  /* —— Typography —— */
+  --cr-sans: "PingFang SC", "Microsoft YaHei", "Noto Sans SC", system-ui, sans-serif;
+  --cr-mono: "JetBrains Mono", "Fira Code", "Cascadia Code", monospace;
+
+  /* —— Spacing —— */
+  --cr-space-xs: 4px;
+  --cr-space-sm: 8px;
+  --cr-space-md: 16px;
+  --cr-space-lg: 24px;
+  --cr-space-xl: 32px;
+  --cr-space-2xl: 48px;
+  --cr-space-3xl: 64px;
+
+  /* —— Shape —— */
+  --cr-radius-sm: 6px;
+  --cr-radius:    10px;
+  --cr-radius-lg: 14px;
+  --cr-radius-xl: 20px;
+
+  /* —— Motion —— */
+  --cr-ease:      cubic-bezier(0.4, 0, 0.2, 1);
+  --cr-ease-out:  cubic-bezier(0, 0, 0.2, 1);
+  --cr-dur-fast:  120ms;
+  --cr-dur:       200ms;
+  --cr-dur-slow:  350ms;
+}
+
+/* —— Base Reset —— */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body, #root {
+  height: 100%;
+  background: var(--cr-base);
+  color: var(--cr-text1);
+  font-family: var(--cr-sans);
+  font-size: 14px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* —— Multi-layer Background ——
+   Layer 0: base color (--cr-base on html/body)
+   Layer 1: static ambient gradients (body background-image)
+   Layer 2: noise grain (body::before)
+   Layer 3: animated light orbs (AmbientLight React component, z-index: 0)
+*/
+
+body {
+  background-image:
+    /* top-right warm amber glow */
+    radial-gradient(ellipse 60% 45% at 75% 5%,  rgba(212,140,64,0.10) 0%, transparent 100%),
+    /* bottom-left terracotta glow */
+    radial-gradient(ellipse 50% 55% at 10% 90%, rgba(193,140,93,0.08) 0%, transparent 100%),
+    /* center subtle warmth */
+    radial-gradient(ellipse 40% 35% at 50% 50%, rgba(220,180,120,0.05) 0%, transparent 100%);
+  background-attachment: fixed;
+}
+
+/* Layer 2 — Noise Grain */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  pointer-events: none;
+  opacity: 0.04;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+  background-size: 256px 256px;
+  mix-blend-mode: multiply;
+}
+
+/* —— Subtle Vignette —— */
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: 9998;
+  pointer-events: none;
+  background: radial-gradient(ellipse at center, transparent 60%, rgba(180,160,140,0.08) 100%);
+}
+
+/* —— Scrollbar —— */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(0,0,0,0.10);
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(0,0,0,0.18);
+}
+
+/* —— Selection —— */
+::selection {
+  background: var(--cr-accent-soft);
+  color: var(--cr-text1);
+}
+
+/* —— Focus —— */
+:focus-visible {
+  outline: 2px solid var(--cr-accent);
+  outline-offset: 2px;
+}

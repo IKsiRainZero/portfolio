@@ -1,0 +1,374 @@
+{
+  "meta": {
+    "domain": "ai-curriculum",
+    "display_name": "AI 完整学习路线",
+    "description": "从数学基础到AI主流方向的完整学习路线，8大类37个一级细分。每个条目可进一步细分并生成学习卡片与练习题。",
+    "version": 2,
+    "created": "2026-06-03",
+    "updated": "2026-06-04"
+  },
+  "sections": [
+    {
+      "id": "math-foundation",
+      "title": "一、数学基础",
+      "items": [
+        {
+          "id": "math-linear-algebra",
+          "type": "concept",
+          "title": "1.1 线性代数",
+          "content": "AI/ML 的数学语言。核心内容: 向量与矩阵运算、特征值与特征向量、奇异值分解(SVD)、矩阵微积分。\n应用: PCA降维、神经网络权重矩阵、Transformer中的QKV投影、梯度计算。\n前置: 高中数学。\n建议深度: ⭐⭐⭐⭐⭐ (AI最核心的数学基础)",
+          "tags": ["数学", "线性代数", "基础"],
+          "prerequisites": ["高中数学（向量、矩阵基础运算）"],
+          "learning_objectives": [
+            "理解向量空间与线性变换的几何含义",
+            "掌握特征值分解的计算方法和应用场景",
+            "能够用SVD进行矩阵降维并解释其几何意义"
+          ],
+          "practical_exercises": [
+            { "type": "coding", "title": "用NumPy实现PCA", "description": "加载Iris数据集，使用SVD实现PCA降维到2维并可视化", "difficulty": "中等" },
+            { "type": "concept_check", "title": "解释协方差矩阵的特征值含义", "description": "特征值表示数据在对应特征向量方向上的方差大小，最大特征值对应主成分方向" }
+          ],
+          "related_resources": [
+            { "title": "3Blue1Brown: Essence of Linear Algebra", "url": "https://www.3blue1brown.com/topics/linear-algebra", "type": "video" },
+            { "title": "Gilbert Strang: Linear Algebra (MIT 18.06)", "url": "https://ocw.mit.edu/courses/18-06-linear-algebra-spring-2010/", "type": "course" }
+          ],
+          "sub_concepts": [
+            { "id": "math-la-vector", "title": "向量与矩阵运算", "content": "向量加减、标量乘、点积、矩阵乘法、转置、逆矩阵。这些都是AI中最基本的运算操作。" },
+            { "id": "math-la-eigen", "title": "特征值与特征向量", "content": "对于方阵A，满足Av=λv的λ和v。用于PCA中的主成分分析和矩阵对角化。" },
+            { "id": "math-la-svd", "title": "奇异值分解 (SVD)", "content": "将任意矩阵分解为UΣV^T。用于PCA降维、推荐系统、数据压缩。" }
+          ]
+        },
+        {
+          "id": "math-calculus",
+          "type": "concept",
+          "title": "1.2 微积分",
+          "content": "优化的数学基础。核心内容: 导数与偏导数、梯度、链式法则、泰勒展开。\n应用: 反向传播算法(链式法则)、梯度下降、损失函数优化。\n前置: 高中数学 → 1.1 线性代数。\n建议深度: ⭐⭐⭐⭐",
+          "tags": ["数学", "微积分", "基础"],
+          "prerequisites": ["高中数学（函数、极限基础）", "1.1 线性代数"],
+          "learning_objectives": [
+            "理解梯度作为多维函数变化最快的方向",
+            "掌握链式法则在反向传播中的应用",
+            "理解梯度下降的几何含义"
+          ]
+        },
+        {
+          "id": "math-probability",
+          "type": "concept",
+          "title": "1.3 概率论",
+          "content": "不确定性的数学。核心内容: 条件概率、贝叶斯定理、期望与方差、常见分布(高斯/伯努利/多项)。\n应用: 贝叶斯分类器、生成模型(VAE/GAN/Diffusion)的数学基础、交叉熵损失。\n前置: 高中数学。\n建议深度: ⭐⭐⭐⭐⭐",
+          "tags": ["数学", "概率论", "基础"],
+          "prerequisites": ["高中数学（排列组合、概率基础）"],
+          "learning_objectives": [
+            "掌握贝叶斯定理及其在ML中的应用",
+            "理解常见概率分布及其适用场景",
+            "能够推导交叉熵损失函数"
+          ],
+          "sub_concepts": [
+            { "id": "math-prob-bayes", "title": "贝叶斯定理", "content": "P(A|B) = P(B|A)P(A)/P(B)。是贝叶斯分类器、贝叶斯推断和许多生成模型的基础。" },
+            { "id": "math-prob-distributions", "title": "常见概率分布", "content": "高斯分布（连续数据）、伯努利分布（二分类）、多项分布（多分类）、指数分布（等待时间）。" }
+          ]
+        },
+        {
+          "id": "math-stochastic",
+          "type": "concept",
+          "title": "1.4 随机过程",
+          "content": "时间序列中随机现象的建模。核心内容: 马尔可夫链、隐马尔可夫模型(HMM)、泊松过程。\n应用: HMM在语音识别中的应用、MCMC采样、强化学习中的MDP。\n前置: 1.3 概率论。\n建议深度: ⭐⭐⭐ (研究向)",
+          "tags": ["数学", "随机过程", "进阶"],
+          "prerequisites": ["1.3 概率论"],
+          "learning_objectives": ["理解马尔可夫链的状态转移", "了解HMM的三个基本问题（评估/解码/学习）"]
+        },
+        {
+          "id": "math-statistics",
+          "type": "concept",
+          "title": "1.5 统计学原理",
+          "content": "从数据中推断的数学。核心内容: 假设检验、置信区间、最大似然估计(MLE)、最大后验估计(MAP)、贝叶斯推断。\n应用: A/B测试、模型评估(显著性检验)、参数估计。\n前置: 1.3 概率论。\n建议深度: ⭐⭐⭐⭐",
+          "tags": ["数学", "统计学", "基础"],
+          "prerequisites": ["1.3 概率论"],
+          "learning_objectives": ["掌握MLE和MAP的区别与推导", "理解置信区间与显著性检验", "了解贝叶斯与频率学派的分歧"]
+        },
+        {
+          "id": "math-optimization",
+          "type": "concept",
+          "title": "1.6 最优化",
+          "content": "寻找最优解的数学方法。核心内容: 凸优化、梯度下降及其变体(SGD/Adam/AdamW)、拉格朗日乘子法、KKT条件。\n应用: 所有神经网络的训练过程本质都是优化问题。\n前置: 1.2 微积分 + 1.1 线性代数。\n建议深度: ⭐⭐⭐⭐",
+          "tags": ["数学", "最优化", "基础"],
+          "prerequisites": ["1.2 微积分", "1.1 线性代数"],
+          "learning_objectives": ["理解凸函数及其优化性质", "区分SGD/Adam/AdamW的适用场景", "了解学习率调度策略"]
+        },
+        {
+          "id": "math-information-theory",
+          "type": "concept",
+          "title": "1.7 信息论",
+          "content": "信息度量的数学。核心内容: 熵、交叉熵、KL散度、互信息。\n应用: 交叉熵损失函数(分类任务标配)、KL散度(VAE的正则项)、信息瓶颈理论。\n前置: 1.3 概率论。\n建议深度: ⭐⭐⭐ (核心概念需掌握)",
+          "tags": ["数学", "信息论", "进阶"],
+          "prerequisites": ["1.3 概率论"],
+          "learning_objectives": ["理解熵作为不确定度量", "掌握交叉熵与KL散度的关系", "了解互信息在特征选择中的应用"]
+        },
+        {
+          "id": "math-numerical",
+          "type": "concept",
+          "title": "1.8 数值分析",
+          "content": "计算机中数学运算的精度与稳定性。核心内容: 浮点数精度、数值稳定性(如softmax的溢出问题)、迭代方法的收敛性。\n应用: 混合精度训练(fp16/bf16)、梯度裁剪、LayerNorm的数值稳定性。\n前置: 1.2 微积分。\n建议深度: ⭐⭐ (工程向，用到再学)",
+          "tags": ["数学", "数值分析", "进阶"],
+          "prerequisites": ["1.2 微积分"],
+          "learning_objectives": ["理解浮点数精度的限制", "了解softmax/log_softmax的数值技巧"]
+        },
+        {
+          "id": "math-la-qa-001",
+          "type": "qa",
+          "question": "PCA中为什么要用协方差矩阵的特征向量？",
+          "answer": "协方差矩阵的特征向量表示数据变化最大的方向。\n\n具体来说：\n1. 协方差矩阵的第i个特征向量表示数据在第i个主成分方向上的投影方向\n2. 对应的特征值表示数据在该方向上的方差大小\n3. PCA通过选取最大的k个特征值对应的特征向量，将数据投影到k维子空间，实现降维的同时保留最大方差（即最多信息）\n\n几何意义上，特征向量定义了新的坐标轴（主成分），特征值告诉你每条轴上的数据分散程度。",
+          "tags": ["线性代数", "PCA", "特征值", "核心概念"],
+          "difficulty": "中等"
+        },
+        {
+          "id": "math-la-qa-002",
+          "type": "qa",
+          "question": "为什么梯度下降中的学习率不能太大也不能太小？",
+          "answer": "学习率控制每次参数更新的步长，是优化中最关键的调参之一。\n\n**太大**的问题：\n- 可能在最优解附近震荡，无法收敛\n- 在最坏情况下会导致loss发散（梯度爆炸）\n- 几何上：在峡谷状的loss曲面中，大步长导致之字形震荡\n\n**太小**的问题：\n- 收敛速度极慢，训练时间成倍增加\n- 容易陷入局部最优解或鞍点\n\n**实践经验**：\n- 常用初始值：0.1, 0.01, 0.001\n- Adam优化器对学习率不敏感，默认1e-3通常足够\n- 使用学习率调度（Cosine Annealing、Warmup）动态调整",
+          "tags": ["微积分", "最优化", "梯度下降", "核心概念"],
+          "difficulty": "中等"
+        },
+        {
+          "id": "math-la-code-001",
+          "type": "code_example",
+          "title": "NumPy SVD 实现 PCA 降维",
+          "language": "python",
+          "code": "import numpy as np\nfrom sklearn.datasets import load_iris\n\n# 加载数据\niris = load_iris()\nX = iris.data  # shape: (150, 4)\n\n# 中心化\nX_centered = X - X.mean(axis=0)\n\n# SVD分解\nU, S, Vt = np.linalg.svd(X_centered, full_matrices=False)\n\n# 取前2个主成分\nX_pca = U[:, :2] * S[:2]\n\nprint(f'原始形状: {X.shape}')\nprint(f'降维后形状: {X_pca.shape}')\nprint(f'各主成分方差占比: {S**2 / np.sum(S**2)}')",
+          "explanation": "对中心化后的数据矩阵X做SVD分解（X = UΣV^T），U的列是左奇异向量（对应样本在PC空间中的坐标），Σ的对角元素是奇异值（对应各主成分的标准差）。取前k个奇异值和对应的列即实现PCA降维。注意：此处X_pca = U[:,:k] * S[:k]得到的是主成分得分，等价于sklearn的PCA().fit_transform(X)。"
+        }
+      ]
+    },
+    {
+      "id": "cs-foundation",
+      "title": "二、计算机基础",
+      "items": [
+        {
+          "id": "cs-programming",
+          "type": "concept",
+          "title": "2.1 编程",
+          "content": "AI工程师的核心工具。推荐语言: Python (首选，生态系统最完整) + C++ (高性能推理/部署)。\nPython核心: 数据结构(list/dict/set/tuple)、函数式编程(map/filter/list comprehension)、面向对象、文件I/O、异常处理。\nPython AI生态: NumPy(数值计算) → Pandas(数据处理) → Matplotlib/Seaborn(可视化) → Scikit-learn(传统ML) → PyTorch/TensorFlow(深度学习)。\nC++核心: 指针与引用、内存管理、STL容器、CUDA编程基础(可选)。\n建议深度: Python ⭐⭐⭐⭐⭐, C++ ⭐⭐⭐ (按需)",
+          "tags": ["计算机", "编程", "Python", "基础"]
+        },
+        {
+          "id": "cs-data-structures",
+          "type": "concept",
+          "title": "2.2 数据结构与算法",
+          "content": "高效处理数据的基础。核心内容: 数组/链表/哈希表/树/图、排序与搜索、时间/空间复杂度分析(Big-O)。\nAI相关: 注意力机制的O(n²)复杂度理解、KV Cache的哈希表本质、Beam Search的优先队列实现。\n建议深度: ⭐⭐⭐ (核心数据结构必须掌握，高级算法按需)",
+          "tags": ["计算机", "数据结构", "算法", "基础"]
+        },
+        {
+          "id": "cs-tools",
+          "type": "concept",
+          "title": "2.3 Linux / Git / GPU / TPU",
+          "content": "AI开发的运行环境与协作工具。\nLinux: 命令行操作、Shell脚本、进程管理、文件权限。绝大多数AI服务器运行Linux。\nGit: 版本控制、分支管理、协作工作流(git flow/trunk-based)。\nGPU/TPU: CUDA基础概念、GPU内存层级(global/shared/local)、混合精度训练(fp16/bf16)、TPU的矩阵乘法单元(MXU)设计。\n建议深度: Linux ⭐⭐⭐⭐, Git ⭐⭐⭐⭐, GPU ⭐⭐⭐",
+          "tags": ["计算机", "Linux", "Git", "GPU", "工具"]
+        }
+      ]
+    },
+    {
+      "id": "data-engineering",
+      "title": "三、数据工程",
+      "items": [
+        {
+          "id": "data-types",
+          "type": "concept",
+          "title": "3.1 数据类型",
+          "content": "不同AI任务对应不同的数据类型和处理方式。\n结构化数据: 表格数据(CSV/Parquet)、数据库(SQL/NoSQL)、特征工程。\n非结构化数据: 文本(自然语言)、图像(像素矩阵)、音频(波形/频谱)、视频(图像序列+音频)。\n半结构化数据: JSON、XML、HTML、Markdown。\n多模态数据: CLIP(文本+图像)、Video-LLaMA(视频+文本)。\n应用: 不同数据类型需要不同的预处理管道和模型架构。",
+          "tags": ["数据工程", "数据类型", "基础"]
+        },
+        {
+          "id": "data-cleaning",
+          "type": "concept",
+          "title": "3.2 数据清洗",
+          "content": "数据质量决定模型质量的上限。\n常见问题: 缺失值处理(删除/填充/预测)、异常值检测(IQR/Z-score/Isolation Forest)、重复数据去除、格式标准化。\n文本清洗: 去除HTML标签、统一编码(UTF-8)、分词与标准化、去停用词(按任务决定)。\n图像清洗: 去噪、尺寸统一、色彩空间转换、数据增强(crop/flip/rotate/color jitter)。\n工具: Pandas, OpenCV, NLTK/spaCy, CleanLab(自动标签错误检测)。",
+          "tags": ["数据工程", "数据清洗", "预处理"]
+        },
+        {
+          "id": "data-labeling",
+          "type": "concept",
+          "title": "3.3 数据标注",
+          "content": "监督学习的燃料。标注质量直接决定模型效果。\n标注类型: 分类标签(单标签/多标签)、边界框(BBox for 目标检测)、分割掩码(语义/实例分割)、关键点(人体姿态)、文本标注(NER/情感/意图)。\n标注策略: 人工标注(众包/专家)、主动学习(模型挑不确定样本给人标)、弱监督(用规则/已有知识自动标注)、半监督(少量标注+大量未标注)。\n质量保证: 标注一致性(Cohen's Kappa/IAA)、标注审核流程、多轮标注+投票。",
+          "tags": ["数据工程", "数据标注", "监督学习"]
+        },
+        {
+          "id": "data-distribution",
+          "type": "concept",
+          "title": "3.4 数据分布",
+          "content": "数据分布决定了模型的泛化能力。\n核心概念: 训练集/验证集/测试集的分布一致性、数据漂移(data drift)、类别不平衡、长尾分布。\n处理方法: 分层采样(stratified sampling)、过采样(SMOTE)/欠采样、数据增强(弥补少数类)、迁移学习(源域→目标域)。\n评估: 在分布外(OOD)数据上的表现、领域自适应(domain adaptation)。\n经验: \"确保验证集和测试集的分布与实际部署场景一致\"比模型调参更重要。",
+          "tags": ["数据工程", "数据分布", "泛化"]
+        }
+      ]
+    },
+    {
+      "id": "paper-reading",
+      "title": "四、论文阅读",
+      "items": [
+        {
+          "id": "paper-problem",
+          "type": "concept",
+          "title": "4.1 识别问题 (What problem does it solve?)",
+          "content": "读论文第一步: 理解它在解决什么问题。\n关键问题: ①这篇论文要解决什么核心问题？②已有方法为什么不够好？(limitation) ③这个问题为什么重要？(impact)\n技巧: 读 Abstract + Introduction 最后一段 (contribution summary)，通常就能回答这三个问题。\n输出: 一句话总结: \"这篇论文提出[X]方法，解决[Y]问题，相比[Z]方法在[W]指标上提升了[V]%。\"",
+          "tags": ["论文阅读", "方法论", "问题分析"]
+        },
+        {
+          "id": "paper-method",
+          "type": "concept",
+          "title": "4.2 分析方法 (How does it work?)",
+          "content": "读论文第二步: 理解方法的创新点。\n关键问题: ①核心创新是什么？(不同于已有方法的关键设计) ②为什么这个设计能解决问题？(intuition) ③有没有理论保证或消融实验？\n技巧: 先看 Figure 1 (架构图/流程图)，再看 Method 的核心公式(通常1-2个)，跳过繁琐推导。\n输出: 方法论卡片 (参考本项目的 insight_store 格式): 方法名 → 核心思想 → 适用场景 → 局限。",
+          "tags": ["论文阅读", "方法论", "方法分析"]
+        },
+        {
+          "id": "paper-verdict",
+          "type": "concept",
+          "title": "4.3 评判结论 (Do I believe it?)",
+          "content": "读论文第三步: 批判性评估。\n关键问题: ①实验设计是否合理？(baseline是否公平/指标是否全面) ②结果是否显著？(统计检验/p-value/误差棒) ③结论是否过度泛化？(只在特定数据集有效？) ④复现难度？(代码开源？超参敏感？)\n输出: 置信度评分(0-1): ①方法可信度 ②对我的工作是否有用 ③是否值得复现。\n参考: 本项目的 insight_store 每张卡片都有 confidence 和 quality_score 字段。",
+          "tags": ["论文阅读", "方法论", "批判性思维"]
+        }
+      ]
+    },
+    {
+      "id": "ai-theory",
+      "title": "五、AI基础理论",
+      "items": [
+        {
+          "id": "ai-learning-paradigms",
+          "type": "concept",
+          "title": "5.1 学习方式总览",
+          "content": "AI的学习方式定义了模型从数据中获取知识的基本范型。\n\n5.1.1 监督学习 (Supervised Learning): 有标签数据，(x, y) 对。学习 f: x → y。\n  代表: 分类(猫/狗)、回归(房价预测)、目标检测。\n\n5.1.2 无监督学习 (Unsupervised Learning): 无标签数据，只有 x。发现数据内在结构。\n  代表: 聚类(K-Means/DBSCAN)、降维(PCA/t-SNE)、密度估计。\n\n5.1.3 半监督学习 (Semi-Supervised Learning): 少量有标签 + 大量无标签数据。\n  代表: Pseudo-labeling、Consistency Regularization、FixMatch。\n\n5.1.4 自监督学习 (Self-Supervised Learning): 从数据自身构造监督信号。\n  代表: BERT(MLM)、GPT(Next Token Prediction)、SimCLR(对比学习)、MAE(掩码重建)。\n  → 这是当前AI最激动人心的方向，GPT系列的核心技术。\n\n5.1.5 强化学习 (Reinforcement Learning): Agent与环境交互，通过奖励信号学习策略。\n  代表: DQN、PPO、RLHF(InstructGPT/ChatGPT的核心对齐技术)。",
+          "tags": ["AI理论", "学习方式", "监督学习", "自监督学习", "强化学习"]
+        },
+        {
+          "id": "ai-evaluation",
+          "type": "concept",
+          "title": "5.2 模型评估",
+          "content": "评估决定了我们如何判断模型的好坏。\n分类指标: 准确率(Accuracy)、精确率(Precision)、召回率(Recall)、F1-Score、ROC-AUC、混淆矩阵。\n回归指标: MSE、MAE、RMSE、R²、MAPE。\n生成指标: BLEU(机器翻译)、ROUGE(摘要)、Perplexity(语言模型)。\n评估策略: 交叉验证(k-fold)、留出法(hold-out)、分层采样(stratified split)。\n陷阱: 准确率在不平衡数据集上是误导指标；测试集泄露(数据预处理在split之前做)。",
+          "tags": ["AI理论", "评估", "指标", "模型"]
+        },
+        {
+          "id": "ai-training",
+          "type": "concept",
+          "title": "5.3 优化与训练",
+          "content": "让模型从数据中学习的技术。\n损失函数: 交叉熵(分类)、MSE(回归)、对比损失(自监督)、KL散度(蒸馏)。\n优化器: SGD → Momentum → Adam → AdamW(当前CV/NLP标配) → Lion(新秀)。\n训练技巧: 学习率调度(warmup+cosine decay)、梯度裁剪、Batch Normalization vs Layer Normalization、Dropout/Weight Decay(正则化)、混合精度训练(fp16+fp32)。\n分布式训练: Data Parallel(每GPU持有完整模型副本)、Model Parallel(模型切分到多GPU)、ZeRO(优化器状态分片)。\nFine-tuning: 全量微调 vs LoRA/Adapter(参数高效微调) vs Prompt Tuning。",
+          "tags": ["AI理论", "优化", "训练", "技巧"]
+        },
+        {
+          "id": "ai-representation",
+          "type": "concept",
+          "title": "5.4 表示学习 (Representation Learning)",
+          "content": "让数据自己学会如何被表示，而非人工设计特征。\n核心思想: 好的表示 = 下游任务容易使用的表示。\n\n经典方法:\n  - One-hot → 稀疏、无语义\n  - Word2Vec/GloVe → 稠密、语义相似(king-man+woman=queen)\n  - BERT → 上下文相关(contextualized)表示\n  - CLIP → 多模态对齐表示(图片和文本在同一向量空间)\n\n关键属性:\n  - 解耦(Disentanglement): 不同维度对应独立的语义因素\n  - 不变性(Invariance): 对不相关变化(旋转/光照/风格)不敏感\n  - 可迁移(Transferability): 在一个任务上学到的表示能为另一个任务所用\n\n前沿: 世界模型(World Model) — 学习对世界状态的内部表示，用于预测和规划。",
+          "tags": ["AI理论", "表示学习", "Embedding", "特征"]
+        }
+      ]
+    },
+    {
+      "id": "model-methods",
+      "title": "六、模型方法",
+      "items": [
+        {
+          "id": "model-traditional",
+          "type": "concept",
+          "title": "6.1 传统机器学习模型",
+          "content": "在深度学习之前，这些模型是AI的主力。在数据量小、可解释性要求高的场景仍然广泛使用。\n\n6.1.1 线性回归: 拟合自变量与因变量的线性关系 y=wx+b。基础中的基础。\n6.1.2 逻辑回归: 二分类问题的线性模型，输出概率。虽然叫\"回归\"实为分类。\n6.1.3 决策树: 树状结构的分支判断，可解释性强，容易过拟合。\n6.1.4 随机森林: 多棵决策树的集成(Bagging)，降低过拟合。特征重要性分析。\n6.1.5 SVM (支持向量机): 寻找最大化分类间隔的超平面。核技巧将数据映射到高维空间。\n6.1.6 PCA (主成分分析): 线性降维，找到方差最大的投影方向。数据可视化首选。\n6.1.7 HMM (隐马尔可夫模型): 序列数据的概率图模型。语音识别/Gene Finding经典方法。\n\n建议: 先学线性回归→逻辑回归→决策树→随机森林→SVM，边学边用 sklearn 实操。",
+          "tags": ["模型", "传统ML", "机器学习", "基础"]
+        },
+        {
+          "id": "model-neural-basics",
+          "type": "concept",
+          "title": "6.2 神经网络基础",
+          "content": "深度学习的基本构件。\n\n核心组件:\n  - 神经元: 线性变换 + 非线性激活 = y = σ(wx + b)\n  - 激活函数: Sigmoid→梯度消失/ Tanh→零中心/ ReLU→死亡神经元/ GELU→Transformer标配/ SiLU(Swish)→新秀\n  - 层(Layer): 全连接(FC/Linear)、卷积(Conv)、循环(RNN)、注意力(Attention)\n  - 损失函数 → 反向传播 → 梯度更新 (训练循环)\n\n关键概念:\n  - 反向传播(Backpropagation): 链式法则从输出层向输入层逐层计算梯度\n  - 计算图(Computation Graph): 前向计算 + 反向梯度，PyTorch autograd的核心\n  - 批次训练: Mini-batch SGD，batch_size权衡GPU利用率和梯度噪声\n\n建议: 用 PyTorch 手写一个 MLP 在 MNIST 上训练，理解每个环节。",
+          "tags": ["模型", "神经网络", "深度学习", "基础"]
+        },
+        {
+          "id": "model-deep-learning",
+          "type": "concept",
+          "title": "6.3 Deep Learning 架构族谱",
+          "content": "深度学习的核心架构演变路线图:\n\n6.3.1 CNN (卷积神经网络): 局部连接 + 权重共享 + 池化。图像处理的基石。\n6.3.2 RNN (循环神经网络): 处理序列数据，通过隐藏状态传递时序信息。梯度消失/爆炸问题。\n6.3.3 LSTM (长短期记忆): RNN的改进，引入门控机制(遗忘门/输入门/输出门)解决长程依赖。\n6.3.4 Attention (注意力机制): \"关注最相关的部分\"，为Transformer铺路。Bahdanau(加性) vs Luong(乘性)。\n6.3.5 Transformer: 自注意力 + 位置编码 + 残差连接 + LayerNorm。彻底改变NLP→CV→多模态的游戏规则。\n6.3.6 Autoencoder (自编码器): 编码器→低维表示→解码器。用于降维、去噪、异常检测。\n6.3.7 Diffusion (扩散模型): 前向加噪 → 反向去噪。当前图像生成(SD/DALL-E 3)和视频生成(Sora)的主流架构。\n\n演进逻辑: CNN(空间) → RNN/LSTM(时序) → Attention(选择) → Transformer(全局+并行) → Diffusion(生成)",
+          "tags": ["模型", "DL架构", "CNN", "RNN", "Transformer", "Diffusion"]
+        }
+      ]
+    },
+    {
+      "id": "classic-architectures",
+      "title": "七、经典架构",
+      "items": [
+        {
+          "id": "arch-lenet",
+          "type": "concept",
+          "title": "7.1 LeNet (1998)",
+          "content": "Yann LeCun 提出的卷积神经网络鼻祖。\n架构: Conv → Pool → Conv → Pool → FC → FC → Output\n任务: 手写数字识别 (MNIST)\n关键创新: 卷积+池化+全连接的组合模式，奠定了CNN的基本范式\n学习价值: 理解CNN的最简实现，适合作为深度学习入门第一个手写项目",
+          "tags": ["经典架构", "CNN", "LeNet", "计算机视觉"]
+        },
+        {
+          "id": "arch-alexnet",
+          "type": "concept",
+          "title": "7.2 AlexNet (2012)",
+          "content": "深度学习革命的引爆者。ImageNet 2012 冠军，大幅领先传统方法。\n架构: 5 Conv + 3 FC，双GPU并行\n关键创新: ReLU激活(解决梯度消失)、Dropout(防止过拟合)、数据增强\n历史意义: 证明了深度CNN在GPU上训练大规模数据集的可行性，开启了深度学习时代\n学习价值: 理解\"为什么深度学习在2012年才爆发\"(数据+算力+算法)",
+          "tags": ["经典架构", "CNN", "AlexNet", "ImageNet"]
+        },
+        {
+          "id": "arch-vgg",
+          "type": "concept",
+          "title": "7.3 VGG (2014)",
+          "content": "深且统一的卷积网络。\n架构: 堆叠3×3 Conv + 2×2 MaxPool，16-19层\n设计哲学: 用小卷积核堆叠代替大卷积核(两个3×3 = 一个5×5的感受野，但参数更少)\n特点: 结构简洁规则、但参数巨大(138M for VGG16)、适合迁移学习\n学习价值: 理解\"深度\"的重要性——更深→更大感受野→更强表达能力",
+          "tags": ["经典架构", "CNN", "VGG", "深度"]
+        },
+        {
+          "id": "arch-resnet",
+          "type": "concept",
+          "title": "7.4 ResNet (2015)",
+          "content": "残差网络——让极深网络(152层)成为可能。\n架构: 残差块(Residual Block) = 卷积层 + Skip Connection(跳跃连接)\n核心公式: Output = F(x) + x (学习残差而非原始映射)\n关键创新: 解决了深层网络的退化问题(网络越深训练误差反而越大，不是过拟合)\n影响: BatchNorm + ResNet 成为了所有现代架构的标准组合\n学习价值: 理解Skip Connection的本质——让梯度有一条\"高速公路\"直通浅层",
+          "tags": ["经典架构", "CNN", "ResNet", "残差连接"]
+        },
+        {
+          "id": "arch-seq2seq",
+          "type": "concept",
+          "title": "7.5 Seq2Seq (2014)",
+          "content": "序列到序列——机器翻译的里程碑。\n架构: Encoder(编码输入序列→固定长度向量) → Decoder(从向量解码输出序列)\n关键创新: 可变长输入→可变长输出(不要求等长)\n问题: 固定长度向量成为信息瓶颈(长句子的信息被压缩丢失)\n解决: Attention机制(Bahdanau 2015)——Decoder每步动态关注Encoder的不同位置\n学习价值: 理解Encoder-Decoder范型 + 信息瓶颈问题 → 引出Attention的必要性",
+          "tags": ["经典架构", "Seq2Seq", "NLP", "Encoder-Decoder"]
+        },
+        {
+          "id": "arch-word2vec",
+          "type": "concept",
+          "title": "7.6 Word2Vec (2013)",
+          "content": "词向量——让计算机理解词语语义。\n方法: CBOW(上下文→目标词) + Skip-gram(目标词→上下文)\n关键结果: king - man + woman ≈ queen (向量空间中捕获语义关系)\n训练技巧: 负采样(Negative Sampling)加速训练\n影响: 将离散的词语映射到连续的语义空间，成为NLP深度学习化的起点\n演进: Word2Vec(静态) → ELMo(上下文相关但双向RNN) → BERT(双向Transformer) → GPT(单向→零样本→对话)\n学习价值: 理解Embedding的核心思想——\"语义相近的词，向量距离近\"",
+          "tags": ["经典架构", "Word2Vec", "NLP", "Embedding"]
+        },
+        {
+          "id": "arch-gan-vae",
+          "type": "concept",
+          "title": "7.7 GAN / VAE — 生成模型双子星",
+          "content": "GAN (Generative Adversarial Network, 2014):\n  生成器 vs 判别器的对抗博弈 → 生成以假乱真的数据\n  核心: Generator(从噪声生成图像) + Discriminator(判断真假)\n  训练技巧: WGAN(稳定训练)、StyleGAN(可控生成)\n  应用: 图像生成、超分辨率、风格迁移\n  挑战: 训练不稳定(mode collapse)、难以评估生成质量\n\nVAE (Variational Autoencoder, 2013):\n  编码器→隐空间分布(μ, σ)→采样z →解码器→重建\n  核心: ELBO损失 = 重建损失 + KL正则项(让隐空间接近标准正态分布)\n  优点: 训练稳定、有概率解释、隐空间连续平滑(可插值)\n  缺点: 生成图片偏模糊(高斯假设的限制)\n\n关系: GAN追求\"像\"，VAE追求\"全\"。Diffusion(7.Df)在两者之上进一步提升了生成质量。",
+          "tags": ["经典架构", "GAN", "VAE", "生成模型"]
+        }
+      ]
+    },
+    {
+      "id": "ai-directions",
+      "title": "八、AI主流方向",
+      "items": [
+        {
+          "id": "direction-nlp",
+          "type": "concept",
+          "title": "8.1 NLP (自然语言处理)",
+          "content": "让机器理解和使用人类语言。\n\n核心任务层次:\n  - 词级: 分词、词性标注(POS)、命名实体识别(NER)\n  - 句级: 情感分析、文本分类、关系抽取\n  - 篇章级: 机器翻译、文本摘要、问答系统\n  - 对话级: 对话系统、指令跟随、Agent\n\n关键里程碑:\n  Word2Vec(2013) → Seq2Seq+Attention(2014-15) → Transformer(2017) → BERT(2018) → GPT-3(2020) → ChatGPT(2022) → GPT-4(2023) → Agent时代(2024+)\n\n当前前沿:\n  - LLM对齐(RLHF/DPO): 让模型输出符合人类偏好\n  - RAG: 知识检索+生成结合的问答系统\n  - Agent: LLM+工具+记忆+规划的自主智能体\n  - 多语言/跨语言: 低资源语言的迁移学习\n\n学习路径: 文本分类 → Seq2Seq翻译 → Transformer实现 → Fine-tune BERT → 构建RAG → 开发Agent",
+          "tags": ["AI方向", "NLP", "自然语言处理", "LLM"]
+        },
+        {
+          "id": "direction-cv",
+          "type": "concept",
+          "title": "8.2 CV (计算机视觉)",
+          "content": "让机器\"看见\"和理解视觉世界。\n\n核心任务层次:\n  - 图像级: 图像分类、图像检索\n  - 区域级: 目标检测(R-CNN/YOLO/)、语义分割(U-Net/DeepLab)、实例分割(Mask R-CNN)\n  - 像素级: 图像生成(GAN/Diffusion)、超分辨率、图像修复(Inpainting)\n  - 视频级: 目标跟踪、动作识别、视频生成(Sora)\n  - 3D: 点云处理、NeRF(神经辐射场)、3D重建\n\n关键里程碑:\n  AlexNet(2012) → VGG/ResNet(2014-15) → YOLO(2016) → GAN(2014-18) → ViT(2020) → DALL-E/Stable Diffusion(2022) → SAM(2023, 分割一切模型)\n\n当前前沿:\n  - Vision Transformer(ViT): Transformer架构在视觉中的成功应用\n  - Diffusion Models: 已成为图像生成的主流\n  - 多模态: CLIP→视觉+语言联合理解\n  - 3D视觉: 从2D到3D的跨越(NeRF/3D Gaussian Splatting)\n\n学习路径: 图像分类 → 目标检测 → 语义分割 → ViT → Diffusion → 多模态",
+          "tags": ["AI方向", "CV", "计算机视觉", "图像"]
+        },
+        {
+          "id": "direction-embodied",
+          "type": "concept",
+          "title": "8.3 具身智能 (Embodied AI)",
+          "content": "让AI在物理世界中感知、推理和行动。AI的\"身体\"。\n\n核心定义: 具身智能 = 感知(Perception) + 规划(Planning) + 控制(Control) + 学习(Learning)，在物理/模拟环境中闭环运行。\n\n关键挑战 (不同于纯数字AI):\n  1. 部分可观测性: 机器人只能感知局部环境\n  2. 物理交互: 力、摩擦力、碰撞等物理约束\n  3. 实时性: 毫秒级的感知-行动循环\n  4. Sim-to-Real Gap: 仿真中训练的策略在真实世界中可能失效\n  5. 安全: 错误可能造成物理损害\n\n核心技术:\n  - 机器人学: 运动学/动力学、路径规划(RRT/PRM)、控制理论(PID/MPC)\n  - 视觉感知: 深度估计、物体位姿估计、场景理解\n  - 模仿学习: 从人类示范中学习 (Behavior Cloning/Dagger)\n  - 强化学习: 在环境中试错学习 (Sim-to-Real Transfer)\n  - 基础模型: RT-2(视觉-语言-行动模型)、Octo(通用机器人模型)\n\n当前前沿:\n  - Skill Learning: 让机器人从经验中习得可复用的技能\n  - 语言指导: 用自然语言指令控制机器人\n  - 灵巧操作: 精细的物体操作(穿针/倒水/折衣服)\n\n学习路径: 基础机器人学 → 仿真环境(Gazebo/Isaac Sim) → 视觉伺服 → 模仿学习 → 强化学习 → 基础模型",
+          "tags": ["AI方向", "具身智能", "机器人", "Embodied AI"]
+        }
+      ]
+    }
+  ]
+}

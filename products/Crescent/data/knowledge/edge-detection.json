@@ -1,0 +1,198 @@
+{
+  "meta": {
+    "domain": "edge-detection",
+    "display_name": "图像边缘检测",
+    "description": "Sobel 算子与 Canny 边缘检测算法原理、数学推导、代码实现",
+    "version": 1,
+    "created": "2026-05-28"
+  },
+  "sections": [
+    {
+      "id": "edge-basics",
+      "title": "边缘检测基础",
+      "items": [
+        {
+          "id": "eb-1",
+          "type": "concept",
+          "title": "什么是图像边缘",
+          "content": "边缘是图像中像素灰度值发生剧烈变化的区域。\n\n数学上：边缘 = 灰度函数 f(x,y) 梯度幅值最大的位置。\n\n物理意义：\n- 物体边界、纹理变化、光照突变都会产生边缘\n- 边缘保留图像中最重要的结构信息\n- 边缘检测是目标识别、图像分割的基础步骤",
+          "tags": ["边缘", "基础"],
+          "difficulty": 1
+        },
+        {
+          "id": "eb-2",
+          "type": "concept",
+          "title": "梯度与边缘的关系",
+          "content": "图像 f(x,y) 的梯度是一个向量场：\n\n∇f = [∂f/∂x, ∂f/∂y]ᵀ\n\n- 梯度的方向：灰度变化最快的方向（垂直边缘）\n- 梯度的幅值 |∇f|：灰度变化的剧烈程度（边缘强度）\n\n对于离散图像（像素网格），用差分近似偏导数：\n∂f/∂x ≈ f(x+1,y) - f(x-1,y)\n∂f/∂y ≈ f(x,y+1) - f(x,y-1)",
+          "tags": ["梯度", "数学"],
+          "difficulty": 2
+        },
+        {
+          "id": "eb-3",
+          "type": "concept",
+          "title": "卷积与图像滤波",
+          "content": "卷积核（Kernel/Filter）是一个小矩阵，在图像上滑动进行逐元素乘积累加。\n\n操作步骤：\n1. 将核的中心对准图像的每个像素 (x,y)\n2. 取核覆盖区域的像素值\n3. 对应位置相乘后求和，得到输出像素值\n4. 对全图重复，得到输出图像\n\n边缘检测核的特点：权值之和 = 0（平滑区域输出接近0，只有边缘区域输出大）",
+          "tags": ["卷积", "基础"],
+          "difficulty": 1
+        }
+      ]
+    },
+    {
+      "id": "sobel",
+      "title": "Sobel 算子",
+      "items": [
+        {
+          "id": "sobel-1",
+          "type": "concept",
+          "title": "Sobel 算子定义",
+          "content": "Sobel 算子用两个 3×3 核分别检测水平边缘和垂直边缘：\n\n检测垂直边缘（Gx，响应左右灰度差）：\n┌            ┐\n│ -1  0  +1  │\n│ -2  0  +2  │\n│ -1  0  +1  │\n└            ┘\n\n检测水平边缘（Gy，响应上下灰度差）：\n┌            ┐\n│ -1 -2  -1  │\n│  0  0   0  │\n│ +1 +2  +1  │\n└            ┘\n\n核心思想：同时做平滑（中间一行/列权重大）和差分（左右/上下相减）。",
+          "tags": ["sobel", "核"],
+          "difficulty": 2
+        },
+        {
+          "id": "sobel-2",
+          "type": "qa",
+          "question": "Sobel 算子的 Gx 核为什么中间列权重大（±2）？",
+          "answer": "两重作用：\n1. 平滑降噪 — 对垂直方向（上下）做加权平均，抑制噪声\n2. 差分增强 — 对水平方向（左右）做差分检测边缘\n\n±2 靠近中心，贡献更大，等价于先做垂直平滑再做水平差分。\n这使得 Sobel 比简单的 [-1,0,+1] 差分更抗噪声，同时比大核计算量小。",
+          "tags": ["sobel", "设计原理"],
+          "difficulty": 2
+        },
+        {
+          "id": "sobel-3",
+          "type": "qa",
+          "question": "Sobel 算子如何计算梯度幅值和方向？",
+          "answer": "梯度幅值（边缘强度）：\nG = sqrt(Gx² + Gy²)\n\n实践中常用近似以加速：\nG ≈ |Gx| + |Gy|  （误差 < 12%，无需开方）\n\n梯度方向（边缘法线方向）：\nθ = arctan(Gy / Gx)\n\n- θ ≈ 0°：垂直边缘（水平梯度为主）\n- θ ≈ 90°：水平边缘（垂直梯度为主）\n- 实际实现用 atan2(Gy, Gx)，自动处理象限问题",
+          "tags": ["sobel", "梯度", "数学"],
+          "difficulty": 2
+        },
+        {
+          "id": "sobel-4",
+          "type": "table",
+          "title": "Sobel vs 其他一阶导数算子",
+          "headers": ["算子", "核大小", "平滑", "优缺点"],
+          "rows": [
+            ["Sobel", "3×3", "有（高斯加权）", "最常用，抗噪好，精度适中"],
+            ["Prewitt", "3×3", "有（均匀加权）", "比Sobel简单但权值不区分远近"],
+            ["Roberts", "2×2", "无", "计算最快但噪声敏感，3×3不能对齐中心"],
+            ["Scharr", "3×3", "有（±3,±10权）", "比Sobel数学更精确，但实现复杂"]
+          ],
+          "tags": ["对比"]
+        },
+        {
+          "id": "sobel-5",
+          "type": "code",
+          "title": "Sobel 算子 Python 实现",
+          "language": "python",
+          "code": "import numpy as np\n\ndef sobel_edge(gray_img):\n    \"\"\"灰度图→Sobel边缘强度图\n    gray_img: 2D numpy array (H,W)\n    returns: 梯度幅值图 (H,W)\n    \"\"\"\n    H, W = gray_img.shape\n    # 初始化输出\n    Gx = np.zeros((H, W), dtype=np.float64)\n    Gy = np.zeros((H, W), dtype=np.float64)\n\n    # 遍历内部像素 (跳过边界)\n    for y in range(1, H-1):\n        for x in range(1, W-1):\n            # 取3x3邻域\n            patch = gray_img[y-1:y+2, x-1:x+2]\n            # Sobel X 卷积\n            Gx[y,x] = (-1 * patch[0,0] + 0 * patch[0,1] + 1 * patch[0,2]\n                       -2 * patch[1,0] + 0 * patch[1,1] + 2 * patch[1,2]\n                       -1 * patch[2,0] + 0 * patch[2,1] + 1 * patch[2,2])\n            # Sobel Y 卷积\n            Gy[y,x] = (-1 * patch[0,0] - 2 * patch[0,1] - 1 * patch[0,2]\n                       +0 * patch[1,0] + 0 * patch[1,1] + 0 * patch[1,2]\n                       +1 * patch[2,0] + 2 * patch[2,1] + 1 * patch[2,2])\n\n    # 梯度幅值\n    magnitude = np.sqrt(Gx**2 + Gy**2)\n    # 归一化到 [0, 255]\n    return (magnitude / magnitude.max() * 255).astype(np.uint8)",
+          "explanation": "逐像素对3×3邻域做Sobel卷积，计算Gx和Gy，合并为梯度幅值。注意边界像素需特殊处理（此处跳过了第一行/列和最后一行/列）。"
+        }
+      ]
+    },
+    {
+      "id": "canny",
+      "title": "Canny 边缘检测",
+      "items": [
+        {
+          "id": "canny-1",
+          "type": "concept",
+          "title": "Canny 算法概述",
+          "content": "Canny（1986）是最经典的边缘检测算法，包含5个步骤：\n\n第一步：高斯平滑 → 去除噪声\n第二步：Sobel 梯度计算 → 获取幅值+方向\n第三步：非极大值抑制（NMS） → 细化边缘（只保留局部最大）\n第四步：双阈值检测 → 区分强边缘/弱边缘/非边缘\n第五步：滞后边缘追踪 → 弱边缘靠近强边缘则保留\n\nCanny 三个设计目标：\n1. 高检出率（不漏真边缘）\n2. 精确定位（标记位置就是边缘中心）\n3. 单一边缘响应（一个边缘只标记一次）",
+          "tags": ["canny", "流程", "概述"],
+          "difficulty": 2
+        },
+        {
+          "id": "canny-2",
+          "type": "qa",
+          "question": "Canny 第一步：高斯平滑的目的是什么？核大小如何选择？",
+          "answer": "目的：消除图像中的高频噪声，防止噪声被误判为边缘。\n\n高斯核 vs 均值核：高斯核给中心更大权重，更加平滑，且数学上可分离（先X再Y，计算量从O(k²)降为O(2k)）。\n\n核大小选择：\n- σ=1.4, 核5×5：经典配置，适合大多数场景\n- 核太大：细节丢失，边缘移位\n- 核太小：噪声残留，出现大量假边缘\n\n核越大平滑越强，但小边缘可能被抹掉。",
+          "tags": ["canny", "高斯"],
+          "difficulty": 2
+        },
+        {
+          "id": "canny-3",
+          "type": "qa",
+          "question": "Canny 第三步：非极大值抑制（NMS）是如何工作的？为什么要做NMS？",
+          "answer": "问题：Sobel 输出的边缘通常有几个像素宽（渐变过渡），不够精确。\n\nNMS 做法：\n1. 对于每个像素，看梯度方向 θ\n2. 将 θ 量化为 4 个方向之一：0°(水平)、45°(对角)、90°(垂直)、135°(反对角)\n3. 沿梯度方向比较相邻两个像素的梯度幅值\n4. 如果当前像素不是三个中的最大值 → 置为 0\n\n结果：粗边缘被细化为单像素宽的精确边缘。\n\n为什么沿梯度方向？边缘法线方向 = 梯度方向，该方向上梯度变化最陡，最大值点就是边缘中心。",
+          "tags": ["canny", "nms"],
+          "difficulty": 3
+        },
+        {
+          "id": "canny-4",
+          "type": "qa",
+          "question": "Canny 第四步：双阈值的作用？高阈值和低阈值如何设定？",
+          "answer": "单阈值的问题：\n- 阈值高：丢失弱边缘\n- 阈值低：出现假边缘（噪声）\n\n双阈值方案：\n- 强边缘（>高阈值 T_high）：确信是边缘\n- 非边缘（<低阈值 T_low）：丢弃\n- 弱边缘（T_low ~ T_high）：待定，由第五步滞后追踪决定\n\n典型值：T_low = T_high * 0.4 ~ 0.5\n或用梯度直方图的百分位数（如 T_high = 70%分位, T_low = 30%分位）。\n\n为什么不等距？边缘幅值分布严重右偏（大多数像素梯度接近0），用均值+标准差会被少数亮点拉高。",
+          "tags": ["canny", "阈值"],
+          "difficulty": 3
+        },
+        {
+          "id": "canny-5",
+          "type": "qa",
+          "question": "Canny 第五步：滞后边缘追踪（Hysteresis）的原理？",
+          "answer": "原则：弱边缘如果和强边缘连通（8邻域相邻），则保留；否则丢弃。\n\n实现（BFS/DFS）：\n1. 遍历所有强边缘像素\n2. 对每个强边缘，检查其 8 邻域\n3. 邻域中若有弱边缘 → 升级为强边缘，并以其为中心继续检查\n4. 直到没有新的弱边缘可连接\n\n为什么有效：真实边缘通常是连续的，噪声是孤立的。\n弱边缘沿真实边缘分布时能\"搭车\"保留，孤立的噪声弱边缘则被过滤。\n\n这一步是 Canny 相比简单 Sobel+阈值最关键的提升。",
+          "tags": ["canny", "hysteresis"],
+          "difficulty": 3
+        },
+        {
+          "id": "canny-6",
+          "type": "table",
+          "title": "Canny 五步流程总览",
+          "headers": ["步骤", "输入", "输出", "关键参数", "作用"],
+          "rows": [
+            ["1. 高斯平滑", "原始灰度图", "平滑图", "核大小k, σ", "去噪"],
+            ["2. 梯度计算", "平滑图", "幅值G, 方向θ", "Sobel核3×3", "找边缘候选"],
+            ["3. NMS", "G, θ", "细化幅值图", "方向量化(4向)", "精确定位"],
+            ["4. 双阈值", "细化幅值图", "强/弱/无 标记", "T_high, T_low", "分类"],
+            ["5. 滞后追踪", "强+弱标记", "最终边缘图", "8邻域连通", "去噪连边"]
+          ],
+          "tags": ["canny", "流程"]
+        },
+        {
+          "id": "canny-7",
+          "type": "code",
+          "title": "Canny NMS Python 实现",
+          "language": "python",
+          "code": "def non_max_suppression(magnitude, angle):\n    \"\"\"非极大值抑制\n    magnitude: 梯度幅值图 (H,W)\n    angle: 梯度方向图 (H,W), 弧度\n    returns: 细化后的幅值图\n    \"\"\"\n    H, W = magnitude.shape\n    nms = np.zeros((H, W), dtype=np.float64)\n    # 弧度转角度\n    angle_deg = angle * 180.0 / np.pi\n    angle_deg[angle_deg < 0] += 180\n\n    for y in range(1, H-1):\n        for x in range(1, W-1):\n            # 量化方向到4个方向\n            a = angle_deg[y, x]\n            if (0 <= a < 22.5) or (157.5 <= a <= 180):\n                # 方向0: 水平 → 比较左右邻居\n                n1, n2 = magnitude[y, x-1], magnitude[y, x+1]\n            elif 22.5 <= a < 67.5:\n                # 方向45: 对角 → 比较对角线邻居\n                n1, n2 = magnitude[y-1, x+1], magnitude[y+1, x-1]\n            elif 67.5 <= a < 112.5:\n                # 方向90: 垂直 → 比较上下邻居\n                n1, n2 = magnitude[y-1, x], magnitude[y+1, x]\n            else:  # 112.5 <= a < 157.5\n                # 方向135: 反对角 → 比较反对角邻居\n                n1, n2 = magnitude[y-1, x-1], magnitude[y+1, x+1]\n\n            if magnitude[y, x] >= n1 and magnitude[y, x] >= n2:\n                nms[y, x] = magnitude[y, x]\n            else:\n                nms[y, x] = 0\n    return nms",
+          "explanation": "将梯度方向量化为4个方向(0°/45°/90°/135°)，沿梯度方向比较相邻像素，只保留局部最大值。注意atan2返回[-π,π]，需归一化到[0,180]（因为边缘方向仅需考虑180°范围）。"
+        },
+        {
+          "id": "canny-8",
+          "type": "qa",
+          "question": "为什么 Canny 的滞后追踪用 8 邻域而不是 4 邻域？",
+          "answer": "8 邻域（上下左右 + 四个对角）能检测对角线方向的连续性，4 邻域只能检测水平和垂直。\n\n真实边缘可以是任意方向的，用 8 邻域更完整：\n- 45° 方向的边缘用 4 邻域会断开\n- 8 邻域成本可忽略（只多检查 4 个像素）\n\n图像处理中，8 邻域是描述像素连通性的标准方式。",
+          "tags": ["canny", "细节"],
+          "difficulty": 2
+        }
+      ]
+    },
+    {
+      "id": "compare",
+      "title": "Sobel vs Canny 对比",
+      "items": [
+        {
+          "id": "comp-1",
+          "type": "table",
+          "title": "Sobel 与 Canny 全面对比",
+          "headers": ["维度", "Sobel", "Canny"],
+          "rows": [
+            ["步骤数", "1 步（卷积+幅值）", "5 步（高斯→梯度→NMS→双阈值→滞后）"],
+            ["边缘宽度", "较粗（多像素）", "单像素（NMS细化后）"],
+            ["噪声抑制", "仅核自带平滑", "高斯+双阈值+滞后，三重降噪"],
+            ["弱边缘", "可能丢失（阈值不好设）", "通过滞后追踪保留"],
+            ["计算量", "小，可实时", "较大，约 Sobel 的 3-5 倍"],
+            ["参数", "无（固定核）", "3个（σ, T_high, T_low）需调参"],
+            ["适用场景", "实时检测/特征输入", "精确分割/边缘分析"],
+            ["学术引用", "Sobel 1968", "Canny 1986 (引用2万+)"]
+          ],
+          "tags": ["对比"]
+        },
+        {
+          "id": "comp-2",
+          "type": "qa",
+          "question": "什么场景用 Sobel？什么场景用 Canny？",
+          "answer": "用 Sobel：\n- 实时视频处理（计算快）\n- CNN 特征提取的前处理\n- 不需要精确边界的场景\n- 对噪声已做过预处理\n\n用 Canny：\n- 需要精确边缘定位（如医学图像）\n- 边缘分析/测量\n- 后续做 Hough 变换（直线/圆检测）\n- 图像分割的前处理\n\n实践中：Sobel 做快速筛选，Canny 做精细分析。两者不是替代关系，是互补关系。",
+          "tags": ["对比", "实践"]
+        }
+      ]
+    }
+  ]
+}

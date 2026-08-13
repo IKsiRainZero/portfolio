@@ -1,0 +1,86 @@
+.container {
+  position: absolute;
+  right: 48px;
+  top: 12%;
+  bottom: 12%;
+  width: 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  z-index: 3;
+  pointer-events: none;
+}
+
+.line {
+  width: 1px;
+  flex: 1;
+  background: linear-gradient(
+    to bottom,
+    transparent 0%,
+    rgba(0, 0, 0, 0.10) 15%,
+    rgba(0, 0, 0, 0.10) 85%,
+    transparent 100%
+  );
+}
+
+.glow {
+  position: absolute;
+  width: 12px;
+  height: 60px;
+  border-radius: 6px;
+  background: var(--cr-accent);
+  filter: blur(12px);
+  animation: barPulse 28s ease-in-out infinite;
+}
+
+.glow2 {
+  position: absolute;
+  width: 6px;
+  height: 24px;
+  border-radius: 3px;
+  background: var(--cr-accent);
+  filter: blur(6px);
+  animation: barPulse2 28s ease-in-out infinite;
+}
+
+@keyframes barPulse {
+  0% {
+    top: 20%;
+    opacity: 0.22;
+  }
+  25% {
+    top: 35%;
+    opacity: 0.35;
+  }
+  50% {
+    top: 55%;
+    opacity: 0.15;
+  }
+  75% {
+    top: 42%;
+    opacity: 0.28;
+  }
+  100% {
+    top: 20%;
+    opacity: 0.22;
+  }
+}
+
+@keyframes barPulse2 {
+  0% {
+    top: 55%;
+    opacity: 0.12;
+  }
+  33% {
+    top: 42%;
+    opacity: 0.22;
+  }
+  66% {
+    top: 25%;
+    opacity: 0.10;
+  }
+  100% {
+    top: 55%;
+    opacity: 0.12;
+  }
+}

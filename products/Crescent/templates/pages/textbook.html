@@ -1,0 +1,780 @@
+{% extends "base.html" %}
+{% block title %}课本·知识库{% endblock %}
+{% block body_class %}page-textbook{% endblock %}
+{% block head %}
+<style>
+/* ── Wooden desk background ── */
+.page-textbook { position: relative; }
+.page-textbook::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background:
+    /* Reading lamp glow */
+    radial-gradient(ellipse 1000px 700px at 12% 0%, rgba(255,248,235,0.6) 0%, transparent 65%),
+    /* Subtle desk wood grain */
+    repeating-linear-gradient(2deg, transparent, transparent 2px, rgba(180,160,130,0.03) 2px, rgba(180,160,130,0.03) 4px),
+    repeating-linear-gradient(178deg, transparent, transparent 6px, rgba(160,140,110,0.02) 6px, rgba(160,140,110,0.02) 7px),
+    /* Base warm tone */
+    linear-gradient(180deg, #f6f2ea 0%, #ede5d5 50%, #e5dcc8 100%);
+}
+
+/* ── Open book spread with page-stack curves ── */
+.textbook-wrap {
+  max-width: 1160px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 1;
+  background: #fefdfb;
+  border-radius: 3px 8px 8px 4px / 2px 4px 6px 3px;
+  box-shadow:
+    /* Stacked paper edges — left */
+    -1px 0 0 #f3efe5, -2px 0 0 #ebe7dc, -3px 0 0 #e3dfd4,
+    /* Stacked paper edges — right */
+    1px 0 0 #f3efe5, 2px 0 0 #ebe7dc, 3px 0 0 #e3dfd4, 4px 0 0 #dbd7cc,
+    /* Stacked paper edges — bottom */
+    0 1px 0 #f3efe5, 0 2px 0 #ebe7dc, 0 3px 0 #e3dfd4,
+    /* Main paper stack shadow */
+    3px 5px 18px rgba(0,0,0,.07),
+    /* Surface inset */
+    inset 0 0 0 1px rgba(0,0,0,.012);
+  padding: 32px 52px 40px;
+  min-height: calc(100vh - 60px);
+}
+
+/* ── Corner bookmark tabs — cycling page-turn ── */
+.textbook-corners {
+  position: absolute;
+  top: -4px;
+  left: 0;
+  right: 0;
+  pointer-events: none;
+  z-index: 3;
+}
+.textbook-corner-tab {
+  position: absolute;
+  top: 0;
+  padding: 6px 24px;
+  border: none;
+  font-size: 12px;
+  font-family: inherit;
+  font-weight: 500;
+  cursor: pointer;
+  pointer-events: auto;
+  transition: all .35s cubic-bezier(.4,0,.2,1);
+  letter-spacing: .02em;
+}
+/* Left corner — current page marker */
+.textbook-corner-tab.left {
+  left: 28px;
+  background: #c47b5a;
+  color: #fff;
+  clip-path: polygon(0 0, 100% 0, 88% 100%, 0 100%);
+  padding-right: 28px;
+}
+/* Right corner — next page marker */
+.textbook-corner-tab.right {
+  right: 28px;
+  background: #8b9db5;
+  color: #fff;
+  clip-path: polygon(12% 0, 100% 0, 100% 100%, 0 100%);
+  padding-left: 28px;
+}
+.textbook-corner-tab.left:hover { background: #b06b4a; padding-right: 32px; }
+.textbook-corner-tab.right:hover { background: #7a8ea8; padding-left: 32px; }
+.textbook-corner-tab:active { transform: scale(.96); }
+
+/* Page-turn animation for tab labels */
+@keyframes tabFadeIn {
+  from { opacity: 0; transform: translateY(-4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.textbook-corner-tab.switching { animation: tabFadeIn .25s ease; }
+
+.textbook-panels { position: relative; perspective: 1200px; perspective-origin: center; }
+.textbook-panel { transform-style: preserve-3d; backface-visibility: hidden; }
+/* ── Notebook ruled lines on content area ── */
+.textbook-panels::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background-image: repeating-linear-gradient(0deg, transparent, transparent 27px, rgba(0,0,0,.03) 27px, rgba(0,0,0,.03) 28px);
+  border-radius: 4px;
+}
+.textbook-panel { display: none; }
+.textbook-panel.active { display: block; }
+.textbook-panel.subpage-recede {
+  display: block;
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  z-index: 0;
+}
+.textbook-panel.subpage-push {
+  display: block;
+  position: relative;
+  z-index: 1;
+  transform-origin: center;
+}
+
+/* ── Notes Tab ── */
+.notes-input-area {
+  margin-bottom: 16px;
+}
+.notes-input-area textarea {
+  width: 100%;
+  height: 80px;
+  padding: 12px 16px;
+  border: 1px solid rgba(0,0,0,.06);
+  border-radius: 6px;
+  font-size: 14px;
+  font-family: inherit;
+  resize: vertical;
+  background: rgba(255,255,255,.6);
+}
+.notes-input-area textarea:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(79,110,246,.08);
+}
+.notes-input-area .notes-actions {
+  display: flex;
+  gap: 6px;
+  justify-content: flex-end;
+  margin-top: 6px;
+}
+.notes-list { display: flex; flex-direction: column; gap: 8px; }
+.note-card {
+  padding: 14px 18px;
+  background: rgba(255,255,255,.7);
+  border-radius: 6px;
+  border: 1px solid rgba(0,0,0,.05);
+  font-size: 14px;
+  line-height: 1.7;
+  position: relative;
+}
+.note-card .note-time {
+  font-size: 10px;
+  color: var(--text3);
+  margin-bottom: 4px;
+}
+.note-card .note-delete {
+  position: absolute;
+  top: 8px;
+  right: 10px;
+  font-size: 14px;
+  color: var(--text3);
+  cursor: pointer;
+  background: none;
+  border: none;
+  opacity: 0;
+  transition: opacity .15s;
+}
+.note-card:hover .note-delete { opacity: 1; }
+.note-card .note-delete:hover { color: #dc2626; }
+
+/* ── Knowledge Tab ── */
+.knowledge-toolbar {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 16px;
+  flex-wrap: wrap;
+}
+.knowledge-toolbar select,
+.knowledge-toolbar input {
+  padding: 7px 12px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  font-size: 12px;
+  font-family: inherit;
+  background: #fff;
+}
+.knowledge-toolbar select:focus,
+.knowledge-toolbar input:focus { outline: none; border-color: var(--accent); }
+.knowledge-toolbar select { min-width: 180px; }
+.knowledge-toolbar input { flex: 1; min-width: 200px; }
+
+.kb-section { margin-bottom: 20px; }
+.kb-section-title {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text2);
+  text-transform: uppercase;
+  letter-spacing: .03em;
+  margin-bottom: 8px;
+  padding-bottom: 4px;
+  border-bottom: 1px solid var(--border-light, #e7e5e0);
+}
+.kb-item-card {
+  margin: 6px 0;
+  padding: 12px 16px;
+  background: rgba(255,255,255,.6);
+  border-radius: 6px;
+  border: 1px solid rgba(0,0,0,.04);
+  font-size: 13px;
+  line-height: 1.7;
+}
+.kb-item-card .kb-item-q {
+  font-weight: 500;
+  cursor: pointer;
+  color: var(--accent);
+}
+.kb-item-card .kb-item-a {
+  margin-top: 4px;
+  color: var(--text2);
+  display: none;
+}
+.kb-item-card .kb-item-a.open { display: block; }
+.kb-item-card pre {
+  background: #1e293b; color: #e2e8f0; padding: 10px; border-radius: 6px;
+  font-size: 12px; overflow-x: auto; margin: 6px 0;
+}
+
+/* ── Journal Tab (Learning Dashboard) ── */
+.journal-stats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 14px;
+  margin-bottom: 20px;
+}
+.journal-stat-card {
+  text-align: center;
+  padding: 16px 12px;
+  background: rgba(255,255,255,.5);
+  border-radius: 6px;
+  border: 1px solid rgba(0,0,0,.04);
+}
+.journal-stat-card .stat-value {
+  font-size: 28px;
+  font-weight: 650;
+  color: #4a3728;
+  line-height: 1;
+}
+.journal-stat-card .stat-label {
+  font-size: 11px;
+  color: var(--text3);
+  margin-top: 6px;
+  text-transform: uppercase;
+  letter-spacing: .04em;
+}
+.journal-stat-card .stat-sub {
+  font-size: 10px;
+  color: var(--text2);
+  margin-top: 2px;
+}
+
+.journal-charts {
+  display: grid;
+  grid-template-columns: 1.6fr 1fr;
+  gap: 18px;
+  margin-bottom: 20px;
+}
+.journal-chart-box {
+  background: rgba(255,255,255,.4);
+  border-radius: 6px;
+  border: 1px solid rgba(0,0,0,.04);
+  padding: 12px 14px;
+  position: relative;
+}
+.journal-chart-box .chart-title {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text3);
+  text-transform: uppercase;
+  letter-spacing: .04em;
+  margin-bottom: 8px;
+}
+.journal-chart-box canvas {
+  max-height: 220px;
+}
+
+.journal-recent { margin-top: 8px; }
+.journal-recent-title {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text3);
+  text-transform: uppercase;
+  letter-spacing: .04em;
+  margin-bottom: 12px;
+  padding-bottom: 4px;
+  border-bottom: 1px solid rgba(0,0,0,.05);
+}
+.changelog-entry {
+  margin-bottom: 20px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--border-light, #e7e5e0);
+}
+.changelog-entry:last-child { border-bottom: none; }
+.changelog-entry .cl-version {
+  font-size: 16px;
+  font-weight: 650;
+  margin-bottom: 2px;
+}
+.changelog-entry .cl-date {
+  font-size: 11px;
+  color: var(--text3);
+  margin-bottom: 10px;
+}
+.changelog-entry .cl-changes {
+  list-style: none;
+  padding: 0;
+  font-size: 13px;
+  line-height: 1.7;
+}
+.changelog-entry .cl-changes li {
+  padding: 3px 0;
+  padding-left: 16px;
+  position: relative;
+}
+.changelog-entry .cl-changes li::before {
+  content: '•';
+  position: absolute;
+  left: 2px;
+  color: var(--accent);
+}
+.cl-tag {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 10px;
+  font-size: 10px;
+  font-weight: 500;
+  margin-right: 4px;
+}
+.cl-tag.feat { background: #dbeafe; color: #1e40af; }
+.cl-tag.fix { background: #fee2e2; color: #991b1b; }
+.cl-tag.docs { background: #fef3c7; color: #92400e; }
+.cl-tag.refactor { background: #e0e7ff; color: #3730a3; }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="page-textbook">
+<div class="textbook-wrap">
+  <div class="textbook-corners" id="textbookCorners">
+    <button class="textbook-corner-tab left" data-tab="notes">笔记</button>
+    <button class="textbook-corner-tab right" data-tab="knowledge">知识库</button>
+  </div>
+
+  <!-- Notes Panel -->
+  <div class="textbook-panels">
+  <div class="textbook-panel active" id="panel-notes">
+    <div class="notes-input-area">
+      <textarea id="noteInput" placeholder="记一条笔记..." onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();Textbook.addNote();}"></textarea>
+      <div class="notes-actions">
+        <button class="btn btn-sm btn-primary" onclick="Textbook.addNote()">保存笔记</button>
+      </div>
+    </div>
+    <div class="notes-list" id="notesList">
+      <div class="empty-state" style="padding:40px"><p style="color:var(--text3);font-size:13px">还没有笔记。在<a href="/">同桌</a>聊天时也可以保存笔记。</p></div>
+    </div>
+  </div>
+
+  <!-- Knowledge Panel -->
+  <div class="textbook-panel" id="panel-knowledge">
+    <div class="knowledge-toolbar">
+      <select id="kbDomainSelect" onchange="Textbook.loadKnowledgeSet(this.value)">
+        <option value="">-- 选择知识库 --</option>
+      </select>
+      <input type="text" id="kbSearch" placeholder="在当前知识库中搜索..." oninput="Textbook.filterKnowledge()">
+    </div>
+    <div id="kbContent">
+      <div class="empty-state" style="padding:40px"><p style="color:var(--text3);font-size:13px">选择一个知识库开始浏览</p></div>
+    </div>
+  </div>
+
+  <!-- Journal Panel -->
+  <div class="textbook-panel" id="panel-journal">
+    <div class="empty-state" style="padding:40px"><p style="color:var(--text3)">加载中...</p></div>
+  </div>
+</div>
+</div>
+
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<script>
+var Textbook = {
+  _tabOrder: ['notes', 'knowledge', 'journal'],
+  _activeTab: 'notes',
+  _kbItems: [],
+  _kbActiveSetId: '',
+
+  init: function() {
+    this._renderCorners();
+    this.setupCorners();
+    this.loadNotes();
+    this.loadKnowledgeDomains();
+    // Lazy-load journal only when tab is first visited
+  },
+
+  // ── Corner bookmark cycling ──
+  _renderCorners: function() {
+    var idx = this._tabOrder.indexOf(this._activeTab);
+    var nextIdx = (idx + 1) % 3;
+    var left = document.querySelector('.textbook-corner-tab.left');
+    var right = document.querySelector('.textbook-corner-tab.right');
+    if (left) {
+      left.dataset.tab = this._activeTab;
+      left.textContent = this._tabLabel(this._activeTab);
+    }
+    if (right) {
+      right.dataset.tab = this._tabOrder[nextIdx];
+      right.textContent = this._tabLabel(this._tabOrder[nextIdx]);
+    }
+  },
+
+  _tabLabel: function(tab) {
+    return { notes: '笔记', knowledge: '知识库', journal: '工作日志' }[tab] || tab;
+  },
+
+  setupCorners: function() {
+    var self = this;
+    document.querySelectorAll('.textbook-corner-tab').forEach(function(btn) {
+      btn.addEventListener('click', function() {
+        self._advancePage();
+      });
+    });
+  },
+
+  _advancePage: function() {
+    var idx = this._tabOrder.indexOf(this._activeTab);
+    var nextIdx = (idx + 1) % 3;
+    var nextTab = this._tabOrder[nextIdx];
+    this.switchTab(nextTab);
+  },
+
+  switchTab: function(tab) {
+    if (tab === this._activeTab) return;
+    this._activeTab = tab;
+
+    // Flash animation on corner tabs
+    var corners = document.querySelectorAll('.textbook-corner-tab');
+    corners.forEach(function(c) { c.classList.add('switching'); });
+    setTimeout(function() { corners.forEach(function(c) { c.classList.remove('switching'); }); }, 300);
+
+    // Re-render corner labels
+    this._renderCorners();
+
+    var currentPanel = document.querySelector('.textbook-panel.active');
+    var targetPanel = document.getElementById('panel-' + tab);
+    if (!targetPanel || currentPanel === targetPanel) return;
+
+    // Exit animation on current panel
+    currentPanel.classList.add('subpage-recede');
+    currentPanel.addEventListener('animationend', function handler() {
+      currentPanel.removeEventListener('animationend', handler);
+      currentPanel.classList.remove('active', 'subpage-recede');
+
+      // Enter animation on target panel
+      targetPanel.classList.add('active', 'subpage-push');
+      targetPanel.addEventListener('animationend', function h2() {
+        targetPanel.removeEventListener('animationend', h2);
+        targetPanel.classList.remove('subpage-push');
+      });
+    });
+
+    if (tab === 'journal') this.loadJournal();
+  },
+
+  // ── Notes ──
+  loadNotes: function() {
+    var notes = [];
+    try { notes = JSON.parse(localStorage.getItem('desk_notes') || '[]'); } catch(e) {}
+    this.renderNotes(notes);
+  },
+
+  renderNotes: function(notes) {
+    var list = document.getElementById('notesList');
+    if (!notes.length) {
+      list.innerHTML = '<div class="empty-state" style="padding:40px"><p style="color:var(--text3);font-size:13px">还没有笔记。在<a href="/">同桌</a>聊天时也可以保存笔记。</p></div>';
+      return;
+    }
+    notes.reverse();
+    list.innerHTML = notes.map(function(n, i) {
+      var time = n.time ? new Date(n.time).toLocaleString('zh-CN', {month:'short', day:'numeric', hour:'2-digit', minute:'2-digit'}) : '';
+      return '<div class="note-card">' +
+        '<button class="note-delete" onclick="Textbook.deleteNote(' + i + ')" title="删除">&times;</button>' +
+        '<div class="note-time">' + App.escapeHtml(time) + '</div>' +
+        '<div>' + App.escapeHtml(n.text).replace(/\n/g, '<br>') + '</div>' +
+      '</div>';
+    }).join('');
+  },
+
+  addNote: function() {
+    var input = document.getElementById('noteInput');
+    var text = input.value.trim();
+    if (!text) return;
+    var notes = [];
+    try { notes = JSON.parse(localStorage.getItem('desk_notes') || '[]'); } catch(e) {}
+    notes.push({ text: text, time: new Date().toISOString() });
+    if (notes.length > 200) notes = notes.slice(-200);
+    localStorage.setItem('desk_notes', JSON.stringify(notes));
+    input.value = '';
+    this.renderNotes(notes);
+  },
+
+  deleteNote: function(displayIdx) {
+    var notes = [];
+    try { notes = JSON.parse(localStorage.getItem('desk_notes') || '[]'); } catch(e) {}
+    // displayIdx is in reversed order
+    var realIdx = notes.length - 1 - displayIdx;
+    if (realIdx >= 0 && realIdx < notes.length) {
+      notes.splice(realIdx, 1);
+      localStorage.setItem('desk_notes', JSON.stringify(notes));
+      this.renderNotes(notes);
+    }
+  },
+
+  // ── Knowledge ──
+  loadKnowledgeDomains: function() {
+    var self = this;
+    fetch('/api/knowledge/sets')
+      .then(function(r) { return r.json(); })
+      .then(function(data) {
+        var sel = document.getElementById('kbDomainSelect');
+        (data.sets || []).forEach(function(s) {
+          var opt = document.createElement('option');
+          opt.value = s.id;
+          opt.textContent = (s.display_name || s.id) + ' (' + (s.item_count || 0) + '项)';
+          sel.appendChild(opt);
+        });
+      })
+      .catch(function() {});
+  },
+
+  loadKnowledgeSet: function(id) {
+    this._kbActiveSetId = id;
+    if (!id) {
+      document.getElementById('kbContent').innerHTML = '<div class="empty-state" style="padding:40px"><p style="color:var(--text3);font-size:13px">选择一个知识库开始浏览</p></div>';
+      return;
+    }
+    var self = this;
+    document.getElementById('kbContent').innerHTML = '<div class="empty-state" style="padding:40px"><p style="color:var(--text3)">加载中...</p></div>';
+    fetch('/api/knowledge/' + id)
+      .then(function(r) { return r.json(); })
+      .then(function(data) {
+        self._kbItems = data.items || [];
+        self._kbItems.forEach(function(it, i) { if (!it.id) it.id = id + '-' + i; });
+        self.renderKnowledgeItems(self._kbItems);
+      })
+      .catch(function(e) {
+        document.getElementById('kbContent').innerHTML = '<div class="empty-state" style="padding:40px"><p style="color:var(--red)">加载失败: ' + e.message + '</p></div>';
+      });
+  },
+
+  filterKnowledge: function() {
+    var q = (document.getElementById('kbSearch').value || '').toLowerCase();
+    var filtered = q ? this._kbItems.filter(function(item) {
+      return (item.title || '').toLowerCase().indexOf(q) !== -1 ||
+        (item.question || '').toLowerCase().indexOf(q) !== -1 ||
+        (item.answer || '').toLowerCase().indexOf(q) !== -1 ||
+        (item.content || '').toLowerCase().indexOf(q) !== -1;
+    }) : this._kbItems;
+    this.renderKnowledgeItems(filtered);
+  },
+
+  renderKnowledgeItems: function(items) {
+    var body = document.getElementById('kbContent');
+    if (!items.length) { body.innerHTML = '<div class="empty-state" style="padding:40px"><p style="color:var(--text3)">无匹配条目</p></div>'; return; }
+    var sections = {};
+    items.forEach(function(item) {
+      var sec = item.section || '其他';
+      if (!sections[sec]) sections[sec] = [];
+      sections[sec].push(item);
+    });
+    var html = '';
+    Object.keys(sections).forEach(function(sec) {
+      html += '<div class="kb-section"><div class="kb-section-title">' + App.escapeHtml(sec) + '</div>';
+      sections[sec].forEach(function(item) {
+        html += Textbook.renderKBItem(item);
+      });
+      html += '</div>';
+    });
+    body.innerHTML = html;
+  },
+
+  renderKBItem: function(item) {
+    switch(item.type) {
+      case 'qa':
+        return '<div class="kb-item-card">' +
+          '<div class="kb-item-q" onclick="var a=this.nextElementSibling;a.classList.toggle(\'open\')">Q: ' + App.escapeHtml(item.question || '') + '</div>' +
+          '<div class="kb-item-a">' + App.escapeHtml(item.answer || '').replace(/\n/g, '<br>') + '</div>' +
+        '</div>';
+      case 'concept':
+        return '<div class="kb-item-card" style="background:var(--accent-subtle,#f0f1ff)">' +
+          '<strong>' + App.escapeHtml(item.title || '') + '</strong>' +
+          '<p style="margin-top:4px;color:var(--text2)">' + App.escapeHtml(item.content || '').replace(/\n/g, '<br>') + '</p>' +
+        '</div>';
+      case 'table':
+        return '<table style="width:100%;font-size:12px;border-collapse:collapse;margin:8px 0">' +
+          (item.headers ? '<tr>' + item.headers.map(function(h) { return '<th style="text-align:left;padding:6px 8px;border-bottom:2px solid var(--border)">' + App.escapeHtml(h) + '</th>'; }).join('') + '</tr>' : '') +
+          (item.rows || []).map(function(row) { return '<tr>' + row.map(function(c) { return '<td style="padding:6px 8px;border-bottom:1px solid var(--border-light)">' + App.escapeHtml(String(c)) + '</td>'; }).join('') + '</tr>'; }).join('') +
+        '</table>';
+      case 'code':
+        return '<pre>' + App.escapeHtml(item.code || '') + '</pre>' +
+          (item.explanation ? '<p style="font-size:11px;color:var(--text2)">' + App.escapeHtml(item.explanation) + '</p>' : '');
+      default:
+        return '<div class="kb-item-card">' + App.escapeHtml(JSON.stringify(item)) + '</div>';
+    }
+  },
+
+  // ── 工作日志 (Learning Dashboard with charts) ──
+  _journalLoaded: false,
+  _journalCharts: {},
+  _chartJsReady: false,
+
+  _ensureChartJS: function() {
+    if (this._chartJsReady || typeof Chart !== 'undefined') {
+      this._chartJsReady = true;
+      return Promise.resolve();
+    }
+    var self = this;
+    return new Promise(function(resolve) {
+      var s = document.createElement('script');
+      s.src = 'https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js';
+      s.onload = function() { self._chartJsReady = true; resolve(); };
+      s.onerror = function() { resolve(); };
+      document.head.appendChild(s);
+    });
+  },
+
+  loadJournal: function() {
+    if (this._journalLoaded) return;
+    this._journalLoaded = true;
+    var self = this;
+    var panel = document.getElementById('panel-journal');
+    panel.innerHTML = '<div class="empty-state" style="padding:40px"><p style="color:var(--text3)">加载中...</p></div>';
+    fetch('/api/progress/dashboard')
+      .then(function(r) { return r.json(); })
+      .then(function(data) { self.renderJournal(data); })
+      .catch(function(e) {
+        panel.innerHTML = '<div class="empty-state" style="padding:40px"><p style="color:var(--red)">加载失败: ' + e.message + '</p></div>';
+      });
+  },
+
+  renderJournal: function(data) {
+    var panel = document.getElementById('panel-journal');
+    var recent = data.recent || [];
+    if (!data.total_exercises && !recent.length) {
+      panel.innerHTML = '<div class="empty-state" style="padding:40px"><p style="color:var(--text3)">还没有学习记录</p><p style="font-size:12px;color:var(--text2);margin-top:8px">去<a href="/trainer" style="color:var(--accent)">训练器</a>做几道题吧</p></div>';
+      return;
+    }
+
+    // Destroy old charts
+    Object.values(this._journalCharts).forEach(function(c) { c.destroy(); });
+    this._journalCharts = {};
+
+    var mcqAcc = data.mcq_total > 0 ? Math.round(data.mcq_correct / data.mcq_total * 100) : 0;
+    var weakCount = (data.weak_areas || []).length;
+
+    var html = '';
+    // Stat cards
+    html += '<div class="journal-stats">' +
+      '<div class="journal-stat-card"><div class="stat-value">' + (data.total_exercises || 0) + '</div><div class="stat-label">总练习量</div></div>' +
+      '<div class="journal-stat-card"><div class="stat-value">' + (data.streak_days || 0) + '</div><div class="stat-label">连续天数</div><div class="stat-sub">🔥 streak</div></div>' +
+      '<div class="journal-stat-card"><div class="stat-value">' + mcqAcc + '%</div><div class="stat-label">选择题正确率</div><div class="stat-sub">' + data.mcq_correct + '/' + data.mcq_total + '</div></div>' +
+      '<div class="journal-stat-card"><div class="stat-value">' + weakCount + '</div><div class="stat-label">薄弱领域</div><div class="stat-sub">待加强</div></div>' +
+    '</div>';
+
+    // Charts row
+    html += '<div class="journal-charts">' +
+      '<div class="journal-chart-box"><div class="chart-title">每日练习趋势 (14天)</div><canvas id="chartDailyActivity"></canvas></div>' +
+      '<div class="journal-chart-box"><div class="chart-title">错因分布</div><canvas id="chartMistakeReasons"></canvas></div>' +
+    '</div>';
+
+    // Recent activity header
+    html += '<div class="journal-recent"><div class="journal-recent-title">最近活动</div>';
+
+    var typeLabels = { mcq: '选择题', code: '编程', flashcard: '闪卡', short_answer: '简答', mock_interview: '面试', feynman: '费曼', interview: '面试' };
+    recent.forEach(function(r) {
+      var label = typeLabels[r.type] || r.type || '练习';
+      var date = (r.timestamp || '').slice(0, 16);
+      var correct = r.correct !== undefined ? (r.correct ? ' ✓' : ' ✗') : '';
+      var score = r.score !== undefined ? ' 得分 ' + r.score + '/10' : '';
+      html += '<div class="changelog-entry">' +
+        '<div class="cl-version">' + App.escapeHtml(label) + correct + '</div>' +
+        '<div class="cl-date">' + App.escapeHtml(date) + '</div>' +
+        (r.topic ? '<div style="font-size:12px;color:var(--text2);margin-top:4px">主题: ' + App.escapeHtml(r.topic) + score + '</div>' : '') +
+        (r.user_answer ? '<div style="font-size:11px;color:var(--text3);margin-top:2px">回答: ' + App.escapeHtml(r.user_answer) + '</div>' : '') +
+      '</div>';
+    });
+    html += '</div>';
+
+    panel.innerHTML = html;
+
+    // Render charts after DOM update (ensure Chart.js loaded for SPA nav)
+    var self = this;
+    this._ensureChartJS().then(function() {
+      self._renderDailyChart(data);
+      self._renderMistakeChart(data);
+    });
+  },
+
+  _renderDailyChart: function(data) {
+    var canvas = document.getElementById('chartDailyActivity');
+    if (!canvas) return;
+    var daily = data.daily_activity || [];
+    var labels = daily.map(function(d) { return d.date; });
+    var colors = { mcq: '#6366f1', code: '#0891b2', flashcard: '#d97706', short_answer: '#059669', mock_interview: '#dc2626', feynman: '#7c3aed' };
+    var datasets = ['mcq', 'code', 'flashcard', 'short_answer', 'mock_interview', 'feynman'].map(function(type) {
+      return {
+        label: { mcq: '选择', code: '编程', flashcard: '闪卡', short_answer: '简答', mock_interview: '面试', feynman: '费曼' }[type],
+        data: daily.map(function(d) { return d[type] || 0; }),
+        backgroundColor: colors[type],
+        borderColor: colors[type],
+        borderWidth: 1,
+        borderRadius: 2,
+      };
+    }).filter(function(ds) { return ds.data.some(function(v) { return v > 0; }); });
+
+    this._journalCharts.daily = new Chart(canvas, {
+      type: 'bar',
+      data: { labels: labels, datasets: datasets },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        scales: {
+          x: { stacked: true, ticks: { font: { size: 10 }, maxTicksLimit: 7 }, grid: { display: false } },
+          y: { stacked: true, ticks: { font: { size: 10 }, stepSize: 1 }, grid: { color: 'rgba(0,0,0,.04)' }, beginAtZero: true },
+        },
+        plugins: { legend: { position: 'bottom', labels: { boxWidth: 10, padding: 12, font: { size: 10 } } } },
+      },
+    });
+  },
+
+  _renderMistakeChart: function(data) {
+    var canvas = document.getElementById('chartMistakeReasons');
+    if (!canvas) return;
+    var reasons = data.mistake_reasons || {};
+    var labels = { guess: '瞎猜', knowledge_gap: '知识漏洞', careless: '粗心' };
+    var bgColors = ['#f59e0b', '#6366f1', '#94a3b8'];
+    var entries = Object.keys(labels).map(function(k, i) {
+      return { label: labels[k], value: reasons[k] || 0, color: bgColors[i] };
+    }).filter(function(e) { return e.value > 0; });
+
+    if (!entries.length) return;
+
+    this._journalCharts.mistake = new Chart(canvas, {
+      type: 'doughnut',
+      data: {
+        labels: entries.map(function(e) { return e.label; }),
+        datasets: [{ data: entries.map(function(e) { return e.value; }), backgroundColor: entries.map(function(e) { return e.color; }), borderWidth: 0 }],
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        cutout: '65%',
+        plugins: { legend: { position: 'bottom', labels: { boxWidth: 10, padding: 12, font: { size: 10 } } } },
+      },
+    });
+  },
+};
+
+App.ready(function() { Textbook.init(); });
+</script>
+{% endblock %}

@@ -1,0 +1,2790 @@
+{
+  "hybrid": {
+    "summary": {
+      "config": "hybrid",
+      "config_label": "向量+BM25混合检索",
+      "k": 5,
+      "hit_rate@5": 1.0,
+      "mrr": 0.9667,
+      "avg_relevant@5": 3.13,
+      "avg_latency_ms": 9448.5,
+      "hit_count": 30,
+      "total_queries": 30,
+      "timestamp": "2026-06-19T22:26:44.561343"
+    },
+    "details": [
+      {
+        "id": 1,
+        "question": "RAG 中的 TopK 通常设为多少？为什么是这个设置？",
+        "domain": "AI大模型",
+        "hit": true,
+        "hit_rank": 1,
+        "rr": 1.0,
+        "relevant_found": 3,
+        "top5_sources": [
+          "闪卡手册.md",
+          "AI大模型.md",
+          "AI大模型.md"
+        ],
+        "top5_similarities": [
+          0.7539,
+          0.7734,
+          0.6559
+        ],
+        "elapsed_ms": 269042
+      },
+      {
+        "id": 2,
+        "question": "混合检索设计了哪些检索模式？各自的排序占比如何？",
+        "domain": "AI大模型",
+        "hit": true,
+        "hit_rank": 1,
+        "rr": 1.0,
+        "relevant_found": 3,
+        "top5_sources": [
+          "AI大模型.md",
+          "闪卡手册.md",
+          "闪卡手册.md"
+        ],
+        "top5_similarities": [
+          0.6889,
+          0.731,
+          0.6148
+        ],
+        "elapsed_ms": 519
+      },
+      {
+        "id": 3,
+        "question": "AdamW 优化器的更新公式是什么？和 Adam 有什么区别？",
+        "domain": "深度学习",
+        "hit": true,
+        "hit_rank": 1,
+        "rr": 1.0,
+        "relevant_found": 2,
+        "top5_sources": [
+          "深度学习.md",
+          "闪卡手册.md"
+        ],
+        "top5_similarities": [
+          0.7593,
+          0.675
+        ],
+        "elapsed_ms": 481
+      },
+      {
+        "id": 4,
+        "question": "LoRA 微调的原理是什么？为什么能减少可训练参数？",
+        "domain": "深度学习",
+        "hit": true,
+        "hit_rank": 1,
+        "rr": 1.0,
+        "relevant_found": 3,
+        "top5_sources": [
+          "AI大模型.md",
+          "闪卡手册.md",
+          "闪卡手册.md"
+        ],
+        "top5_similarities": [
+          0.7687,
+          0.7724,
+          0.7477
+        ],
+        "elapsed_ms": 488
+      },
+      {
+        "id": 5,
+        "question": "MySQL 有哪些索引类型？InnoDB 为什么用 B+ 树？",
+        "domain": "数据库",
+        "hit": true,
+        "hit_rank": 1,
+        "rr": 1.0,
+        "relevant_found": 5,
+        "top5_sources": [
+          "闪卡手册.md",
+          "数据库.md",
+          "数据库.md",
+          "闪卡手册.md",
+          "闪卡手册.md"
+        ],
+        "top5_similarities": [
+          0.788,
+          0.7744,
+          0.7647,
+          0.7501,
+          0.7701
+        ],
+        "elapsed_ms": 474
+      },
+      {
+        "id": 6,
+        "question": "MySQL 的三大日志是什么？各有什么作用？",
+        "domain": "数据库",
+        "hit": true,
+        "hit_rank": 1,
+        "rr": 1.0,
+        "relevant_found": 2,
+        "top5_sources": [
+          "闪卡手册.md",
+          "数据库.md"
+        ],
+        "top5_similarities": [
+          0.6734,
+          0.6672
+        ],
+        "elapsed_ms": 485
+      },
+      {
+        "id": 7,
+        "question": "什么是回表查询？如何避免回表？",
+        "domain": "数据库",
+        "hit": true,
+        "hit_rank": 1,
+        "rr": 1.0,
+        "relevant_found": 3,
+        "top5_sources": [
+          "闪卡手册.md",
+          "数据库.md",
+          "闪卡手册.md",
+          "闪卡手册.md",
+          "finance-basics.json"
+        ],
+        "top5_similarities": [
+          0.5974,
+          0.6453,
+          0.6647,
+          0.562,
+          0.6006
+        ],
+        "elapsed_ms": 466
+      },
+      {
+        "id": 8,
+        "question": "LangGraph 和 LangChain 框架选型的核心考虑是什么？",
+        "domain": "系统设计",
+        "hit": true,
+        "hit_rank": 1,
+        "rr": 1.0,
+        "relevant_found": 3,
+        "top5_sources": [
+          "闪卡手册.md",
+          "系统设计.md",
+          "agent-development.json"
+        ],
+        "top5_similarities": [
+          0.6331,
+          0.684,
+          0.6306
+        ],
+        "elapsed_ms": 570
+      },
+      {
+        "id": 9,
+        "question": "Agent 工具响应慢的异常情况如何处理？",
+        "domain": "系统设计",
+        "hit": true,
+        "hit_rank": 1,
+        "rr": 1.0,
+        "relevant_found": 1,
+        "top5_sources": [
+          "系统设计.md",
+          "agent-development.json",
+          "agent-development.json",
+          "agent-development.json",
+          "agent-development.json"
+        ],
+        "top5_similarities": [
+          0.6619,
+          0.7381,
+          0.6714,
+          0.6639,
+          0.6513
+        ],
+        "elapsed_ms": 522
+      },
+      {
+        "id": 10,
+        "question": "架构上如何减轻数据库压力？",
+        "domain": "系统设计",
+        "hit": true,
+        "hit_rank": 1,
+        "rr": 1.0,
+        "relevant_found": 3,
+        "top5_sources": [
+          "系统设计.md",
+          "闪卡手册.md",
+          "闪卡手册.md",
+          "闪卡手册.md",
+          "闪卡手册.md"
+        ],
+        "top5_similarities": [
+          0.6361,
+          0.6161,
+          0.5929,
+          0.5785,
+          0.5767
+        ],
+        "elapsed_ms": 518
+      },
+      {
+        "id": 11,
+        "question": "Sobel 算子的两个 3×3 卷积核分别是什么？",
+        "domain": "计算机视觉",
+        "hit": true,
+        "hit_rank": 2,
+        "rr": 0.5,
+        "relevant_found": 4,
+        "top5_sources": [
+          "edge-detection.json",
+          "edge-detection.json",
+          "边缘检测.md",
+          "edge-detection.json",
+          "edge-detection.json"
+        ],
+        "top5_similarities": [
+          0.6366,
+          0.6558,
+          0.621,
+          0.5745,
+          0.5617
+        ],
+        "elapsed_ms": 526
+      },
+      {
+        "id": 12,
+        "question": "如何从 Gx 和 Gy 得到边缘强度图和方向图？",
+        "domain": "计算机视觉",
+        "hit": true,
+        "hit_rank": 1,
+        "rr": 1.0,
+        "relevant_found": 4,
+        "top5_sources": [
+          "边缘检测.md",
+          "闪卡手册.md",
+          "edge-detection.json",
+          "edge-detection.json",
+          "edge-detection.json"
+        ],
+        "top5_similarities": [
+          0.6378,
+          0.6944,
+          0.6427,
+          0.625,
+          0.6012
+        ],
+        "elapsed_ms": 527
+      },
+      {
+        "id": 13,
+        "question": "Canny 边缘检测的完整流程是什么？",
+        "domain": "计算机视觉",
+        "hit": true,
+        "hit_rank": 1,
+        "rr": 1.0,
+        "relevant_found": 2,
+        "top5_sources": [
+          "edge-detection.json",
+          "边缘检测.md",
+          "edge-detection.json"
+        ],
+        "top5_similarities": [
+          0.7814,
+          0.6833,
+          0.6676
+        ],
+        "elapsed_ms": 535
+      },
+      {
+        "id": 14,
+        "question": "量化交易中过拟合是什么？如何防止？",
+        "domain": "量化金融",
+        "hit": true,
+        "hit_rank": 1,
+        "rr": 1.0,
+        "relevant_found": 2,
+        "top5_sources": [
+          "量化陷阱.md",
+          "finance-basics.json"
+        ],
+        "top5_similarities": [
+          0.7895,
+          0.7361
+        ],
+        "elapsed_ms": 518
+      },
+      {
+        "id": 15,
+        "question": "PPO 和 GRPO 分别用在模型训练的哪个阶段？有什么区别？",
+        "domain": "AI大模型",
+        "hit": true,
+        "hit_rank": 1,
+        "rr": 1.0,
+        "relevant_found": 5,
+        "top5_sources": [
+          "AI大模型.md",
+          "闪卡手册.md",
+          "闪卡手册.md",
+          "AI大模型.md",
+          "闪卡手册.md"
+        ],
+        "top5_similarities": [
+          0.7086,
+          0.716,
+          0.7299,
+          0.7158,
+          0.6684
+        ],
+        "elapsed_ms": 523
+      },
+      {
+        "id": 16,
+        "question": "模型训练项目主要做什么内容？",
+        "domain": "AI大模型",
+        "hit": true,
+        "hit_rank": 1,
+        "rr": 1.0,
+        "relevant_found": 2,
+        "top5_sources": [
+          "AI大模型.md",
+          "闪卡手册.md",
+          "ai-curriculum.json"
+        ],
+        "top5_similarities": [
+          0.6909,
+          0.6921,
+          0.6101
+        ],
+        "elapsed_ms": 488
+      },
+      {
+        "id": 17,
+        "question": "bf16、fp16 和 fp32 的区别是什么？各有什么优劣？",
+        "domain": "深度学习",
+        "hit": true,
+        "hit_rank": 1,
+        "rr": 1.0,
+        "relevant_found": 2,
+        "top5_sources": [
+          "深度学习.md",
+          "闪卡手册.md"
+        ],
+        "top5_similarities": [
+          0.6816,
+          0.6083
+        ],
+        "elapsed_ms": 526
+      },
+      {
+        "id": 18,
+        "question": "模型量化的常见方法有哪些？量化有什么挑战？",
+        "domain": "深度学习",
+        "hit": true,
+        "hit_rank": 1,
+        "rr": 1.0,
+        "relevant_found": 3,
+        "top5_sources": [
+          "深度学习.md",
+          "闪卡手册.md",
+          "闪卡手册.md"
+        ],
+        "top5_similarities": [
+          0.6729,
+          0.6138,
+          0.6095
+        ],
+        "elapsed_ms": 505
+      },
+      {
+        "id": 19,
+        "question": "千万级大表深分页如何优化？",
+        "domain": "数据库",
+        "hit": true,
+        "hit_rank": 1,
+        "rr": 1.0,
+        "relevant_found": 3,
+        "top5_sources": [
+          "数据库.md",
+          "闪卡手册.md",
+          "闪卡手册.md",
+          "AI大模型.md",
+          "闪卡手册.md"
+        ],
+        "top5_similarities": [
+          0.5929,
+          0.6093,
+          0.5751,
+          0.5389,
+          0.5366
+        ],
+        "elapsed_ms": 162
+      },
+      {
+        "id": 20,
+        "question": "数据库中事务的 ACID 特性是什么？",
+        "domain": "数据库",
+        "hit": true,
+        "hit_rank": 1,
+        "rr": 1.0,
+        "relevant_found": 5,
+        "top5_sources": [
+          "数据库.md",
+          "闪卡手册.md",
+          "闪卡手册.md",
+          "闪卡手册.md",
+          "闪卡手册.md"
+        ],
+        "top5_similarities": [
+          0.6338,
+          0.6326,
+          0.5563,
+          0.5538,
+          0.5483
+        ],
+        "elapsed_ms": 511
+      },
+      {
+        "id": 21,
+        "question": "HTTP 和 HTTPS 的区别是什么？HTTPS 的加密过程是怎样的？",
+        "domain": "计算机网络",
+        "hit": true,
+        "hit_rank": 1,
+        "rr": 1.0,
+        "relevant_found": 3,
+        "top5_sources": [
+          "闪卡手册.md",
+          "计算机网络.md",
+          "闪卡手册.md"
+        ],
+        "top5_similarities": [
+          0.7552,
+          0.7318,
+          0.6585
+        ],
+        "elapsed_ms": 529
+      },
+      {
+        "id": 22,
+        "question": "TCP 三次握手和四次挥手的过程是怎样的？",
+        "domain": "计算机网络",
+        "hit": true,
+        "hit_rank": 1,
+        "rr": 1.0,
+        "relevant_found": 4,
+        "top5_sources": [
+          "闪卡手册.md",
+          "计算机网络.md",
+          "闪卡手册.md",
+          "计算机网络.md"
+        ],
+        "top5_similarities": [
+          0.6884,
+          0.713,
+          0.6991,
+          0.6285
+        ],
+        "elapsed_ms": 539
+      },
+      {
+        "id": 23,
+        "question": "进程和线程的区别是什么？",
+        "domain": "操作系统",
+        "hit": true,
+        "hit_rank": 1,
+        "rr": 1.0,
+        "relevant_found": 5,
+        "top5_sources": [
+          "操作系统.md",
+          "操作系统.md",
+          "闪卡手册.md",
+          "闪卡手册.md",
+          "闪卡手册.md"
+        ],
+        "top5_similarities": [
+          0.7189,
+          0.7201,
+          0.6911,
+          0.6175,
+          0.6871
+        ],
+        "elapsed_ms": 521
+      },
+      {
+        "id": 24,
+        "question": "死锁的四个必要条件是什么？如何预防死锁？",
+        "domain": "操作系统",
+        "hit": true,
+        "hit_rank": 1,
+        "rr": 1.0,
+        "relevant_found": 3,
+        "top5_sources": [
+          "闪卡手册.md",
+          "操作系统.md",
+          "系统设计.md",
+          "闪卡手册.md",
+          "agent-development.json"
+        ],
+        "top5_similarities": [
+          0.5975,
+          0.6932,
+          0.5334,
+          0.531,
+          0.5157
+        ],
+        "elapsed_ms": 542
+      },
+      {
+        "id": 25,
+        "question": "Python 中的 GIL 是什么？对多线程有什么影响？",
+        "domain": "Python基础",
+        "hit": true,
+        "hit_rank": 1,
+        "rr": 1.0,
+        "relevant_found": 3,
+        "top5_sources": [
+          "Python基础.md",
+          "闪卡手册.md",
+          "闪卡手册.md"
+        ],
+        "top5_similarities": [
+          0.7398,
+          0.772,
+          0.7565
+        ],
+        "elapsed_ms": 509
+      },
+      {
+        "id": 26,
+        "question": "C++ 中指针和引用的区别是什么？",
+        "domain": "C++基础",
+        "hit": true,
+        "hit_rank": 1,
+        "rr": 1.0,
+        "relevant_found": 4,
+        "top5_sources": [
+          "闪卡手册.md",
+          "C++基础.md",
+          "C++基础.md",
+          "闪卡手册.md"
+        ],
+        "top5_similarities": [
+          0.7677,
+          0.7735,
+          0.6536,
+          0.6628
+        ],
+        "elapsed_ms": 526
+      },
+      {
+        "id": 27,
+        "question": "Java 面向对象编程的四大特性是什么？",
+        "domain": "Java基础",
+        "hit": true,
+        "hit_rank": 1,
+        "rr": 1.0,
+        "relevant_found": 1,
+        "top5_sources": [
+          "闪卡手册.md",
+          "frontend-interview.json",
+          "agent-development.json",
+          "agent-development.json",
+          "ai-curriculum.json"
+        ],
+        "top5_similarities": [
+          0.51,
+          0.5043,
+          0.504,
+          0.4985,
+          0.4894
+        ],
+        "elapsed_ms": 158
+      },
+      {
+        "id": 28,
+        "question": "CSS Flexbox 和 Grid 布局有什么区别？各适合什么场景？",
+        "domain": "前端开发",
+        "hit": true,
+        "hit_rank": 1,
+        "rr": 1.0,
+        "relevant_found": 2,
+        "top5_sources": [
+          "frontend-interview.json",
+          "frontend-interview.json"
+        ],
+        "top5_similarities": [
+          0.8067,
+          0.4978
+        ],
+        "elapsed_ms": 542
+      },
+      {
+        "id": 29,
+        "question": "强化学习中 Q-Learning 和 Policy Gradient 的核心区别是什么？",
+        "domain": "强化学习",
+        "hit": true,
+        "hit_rank": 2,
+        "rr": 0.5,
+        "relevant_found": 4,
+        "top5_sources": [
+          "AI大模型.md",
+          "强化学习.md",
+          "闪卡手册.md",
+          "闪卡手册.md",
+          "闪卡手册.md"
+        ],
+        "top5_similarities": [
+          0.6111,
+          0.6798,
+          0.5881,
+          0.6424,
+          0.5636
+        ],
+        "elapsed_ms": 564
+      },
+      {
+        "id": 30,
+        "question": "常见排序算法的时间复杂度对比？快速排序和归并排序各有什么优劣？",
+        "domain": "算法",
+        "hit": true,
+        "hit_rank": 1,
+        "rr": 1.0,
+        "relevant_found": 5,
+        "top5_sources": [
+          "闪卡手册.md",
+          "闪卡手册.md",
+          "闪卡手册.md",
+          "闪卡手册.md",
+          "闪卡手册.md"
+        ],
+        "top5_similarities": [
+          0.5926,
+          0.6088,
+          0.5936,
+          0.5931,
+          0.5909
+        ],
+        "elapsed_ms": 639
+      }
+    ]
+  },
+  "hybrid+reranker": {
+    "summary": {
+      "config": "hybrid+reranker",
+      "config_label": "混合检索 + Reranker精排",
+      "k": 5,
+      "hit_rate@5": 1.0,
+      "mrr": 0.9833,
+      "avg_relevant@5": 4.07,
+      "avg_latency_ms": 20737.2,
+      "hit_count": 30,
+      "total_queries": 30,
+      "timestamp": "2026-06-19T22:37:06.681124"
+    },
+    "details": [
+      {
+        "id": 1,
+        "question": "RAG 中的 TopK 通常设为多少？为什么是这个设置？",
+        "domain": "AI大模型",
+        "hit": true,
+        "hit_rank": 1,
+        "rr": 1.0,
+        "relevant_found": 5,
+        "top5_sources": [
+          "AI大模型.md",
+          "闪卡手册.md",
+          "闪卡手册.md",
+          "AI大模型.md",
+          "agent-development.json"
+        ],
+        "top5_similarities": [
+          0.7734,
+          0.7539,
+          0.6299,
+          0.6559,
+          0.6369
+        ],
+        "elapsed_ms": 73750
+      },
+      {
+        "id": 2,
+        "question": "混合检索设计了哪些检索模式？各自的排序占比如何？",
+        "domain": "AI大模型",
+        "hit": true,
+        "hit_rank": 1,
+        "rr": 1.0,
+        "relevant_found": 5,
+        "top5_sources": [
+          "AI大模型.md",
+          "闪卡手册.md",
+          "闪卡手册.md",
+          "AI大模型.md",
+          "闪卡手册.md"
+        ],
+        "top5_similarities": [
+          0.6889,
+          0.731,
+          0.5416,
+          0.0,
+          0.0
+        ],
+        "elapsed_ms": 21137
+      },
+      {
+        "id": 3,
+        "question": "AdamW 优化器的更新公式是什么？和 Adam 有什么区别？",
+        "domain": "深度学习",
+        "hit": true,
+        "hit_rank": 1,
+        "rr": 1.0,
+        "relevant_found": 4,
+        "top5_sources": [
+          "深度学习.md",
+          "闪卡手册.md",
+          "闪卡手册.md",
+          "ai-curriculum.json",
+          "ai-curriculum.json"
+        ],
+        "top5_similarities": [
+          0.7593,
+          0.675,
+          0.6267,
+          0.5263,
+          0.5793
+        ],
+        "elapsed_ms": 19428
+      },
+      {
+        "id": 4,
+        "question": "LoRA 微调的原理是什么？为什么能减少可训练参数？",
+        "domain": "深度学习",
+        "hit": true,
+        "hit_rank": 1,
+        "rr": 1.0,
+        "relevant_found": 5,
+        "top5_sources": [
+          "AI大模型.md",
+          "闪卡手册.md",
+          "深度学习.md",
+          "闪卡手册.md",
+          "闪卡手册.md"
+        ],
+        "top5_similarities": [
+          0.7687,
+          0.7477,
+          0.6413,
+          0.7724,
+          0.6513
+        ],
+        "elapsed_ms": 17159
+      },
+      {
+        "id": 5,
+        "question": "MySQL 有哪些索引类型？InnoDB 为什么用 B+ 树？",
+        "domain": "数据库",
+        "hit": true,
+        "hit_rank": 1,
+        "rr": 1.0,
+        "relevant_found": 5,
+        "top5_sources": [
+          "数据库.md",
+          "闪卡手册.md",
+          "数据库.md",
+          "闪卡手册.md",
+          "闪卡手册.md"
+        ],
+        "top5_similarities": [
+          0.7744,
+          0.788,
+          0.7647,
+          0.7501,
+          0.7701
+        ],
+        "elapsed_ms": 17918
+      },
+      {
+        "id": 6,
+        "question": "MySQL 的三大日志是什么？各有什么作用？",
+        "domain": "数据库",
+        "hit": true,
+        "hit_rank": 1,
+        "rr": 1.0,
+        "relevant_found": 2,
+        "top5_sources": [
+          "闪卡手册.md",
+          "数据库.md",
+          "系统设计.md",
+          "python-basics.json",
+          "闪卡手册.md"
+        ],
+        "top5_similarities": [
+          0.6734,
+          0.6672,
+          0.49,
+          0.487,
+          0.4919
+        ],
+        "elapsed_ms": 20128
+      },
+      {
+        "id": 7,
+        "question": "什么是回表查询？如何避免回表？",
+        "domain": "数据库",
+        "hit": true,
+        "hit_rank": 1,
+        "rr": 1.0,
+        "relevant_found": 3,
+        "top5_sources": [
+          "数据库.md",
+          "闪卡手册.md",
+          "闪卡手册.md",
+          "闪卡手册.md",
+          "agent-development.json"
+        ],
+        "top5_similarities": [
+          0.6453,
+          0.6647,
+          0.5974,
+          0.5312,
+          0.5334
+        ],
+        "elapsed_ms": 19692
+      },
+      {
+        "id": 8,
+        "question": "LangGraph 和 LangChain 框架选型的核心考虑是什么？",
+        "domain": "系统设计",
+        "hit": true,
+        "hit_rank": 1,
+        "rr": 1.0,
+        "relevant_found": 5,
+        "top5_sources": [
+          "闪卡手册.md",
+          "系统设计.md",
+          "AI大模型.md",
+          "闪卡手册.md",
+          "agent-development.json"
+        ],
+        "top5_similarities": [
+          0.6331,
+          0.684,
+          0.5211,
+          0.0,
+          0.6306
+        ],
+        "elapsed_ms": 20292
+      },
+      {
+        "id": 9,
+        "question": "Agent 工具响应慢的异常情况如何处理？",
+        "domain": "系统设计",
+        "hit": true,
+        "hit_rank": 1,
+        "rr": 1.0,
+        "relevant_found": 2,
+        "top5_sources": [
+          "系统设计.md",
+          "闪卡手册.md",
+          "agent-development.json",
+          "agent-development.json",
+          "agent-development.json"
+        ],
+        "top5_similarities": [
+          0.6619,
+          0.6499,
+          0.7381,
+          0.6639,
+          0.5934
+        ],
+        "elapsed_ms": 16265
+      },
+      {
+        "id": 10,
+        "question": "架构上如何减轻数据库压力？",
+        "domain": "系统设计",
+        "hit": true,
+        "hit_rank": 1,
+        "rr": 1.0,
+        "relevant_found": 3,
+        "top5_sources": [
+          "闪卡手册.md",
+          "系统设计.md",
+          "系统设计.md",
+          "闪卡手册.md",
+          "闪卡手册.md"
+        ],
+        "top5_similarities": [
+          0.6161,
+          0.6361,
+          0.0,
+          0.0,
+          0.5929
+        ],
+        "elapsed_ms": 20047
+      },
+      {
+        "id": 11,
+        "question": "Sobel 算子的两个 3×3 卷积核分别是什么？",
+        "domain": "计算机视觉",
+        "hit": true,
+        "hit_rank": 1,
+        "rr": 1.0,
+        "relevant_found": 4,
+        "top5_sources": [
+          "edge-detection.json",
+          "边缘检测.md",
+          "闪卡手册.md",
+          "边缘检测.md",
+          "ai-curriculum.json"
+        ],
+        "top5_similarities": [
+          0.6558,
+          0.621,
+          0.4551,
+          0.4652,
+          0.4708
+        ],
+        "elapsed_ms": 15192
+      },
+      {
+        "id": 12,
+        "question": "如何从 Gx 和 Gy 得到边缘强度图和方向图？",
+        "domain": "计算机视觉",
+        "hit": true,
+        "hit_rank": 1,
+        "rr": 1.0,
+        "relevant_found": 5,
+        "top5_sources": [
+          "边缘检测.md",
+          "闪卡手册.md",
+          "闪卡手册.md",
+          "edge-detection.json",
+          "edge-detection.json"
+        ],
+        "top5_similarities": [
+          0.6378,
+          0.6944,
+          0.0,
+          0.6427,
+          0.625
+        ],
+        "elapsed_ms": 17494
+      },
+      {
+        "id": 13,
+        "question": "Canny 边缘检测的完整流程是什么？",
+        "domain": "计算机视觉",
+        "hit": true,
+        "hit_rank": 1,
+        "rr": 1.0,
+        "relevant_found": 4,
+        "top5_sources": [
+          "edge-detection.json",
+          "边缘检测.md",
+          "edge-detection.json",
+          "edge-detection.json",
+          "edge-detection.json"
+        ],
+        "top5_similarities": [
+          0.7814,
+          0.6833,
+          0.6676,
+          0.6112,
+          0.6101
+        ],
+        "elapsed_ms": 13874
+      },
+      {
+        "id": 14,
+        "question": "量化交易中过拟合是什么？如何防止？",
+        "domain": "量化金融",
+        "hit": true,
+        "hit_rank": 1,
+        "rr": 1.0,
+        "relevant_found": 3,
+        "top5_sources": [
+          "量化陷阱.md",
+          "闪卡手册.md",
+          "finance-basics.json",
+          "finance-basics.json",
+          "智能体技能学习.md"
+        ],
+        "top5_similarities": [
+          0.7895,
+          0.607,
+          0.7361,
+          0.5503,
+          0.5037
+        ],
+        "elapsed_ms": 19240
+      },
+      {
+        "id": 15,
+        "question": "PPO 和 GRPO 分别用在模型训练的哪个阶段？有什么区别？",
+        "domain": "AI大模型",
+        "hit": true,
+        "hit_rank": 1,
+        "rr": 1.0,
+        "relevant_found": 5,
+        "top5_sources": [
+          "闪卡手册.md",
+          "闪卡手册.md",
+          "AI大模型.md",
+          "AI大模型.md",
+          "闪卡手册.md"
+        ],
+        "top5_similarities": [
+          0.7299,
+          0.716,
+          0.7086,
+          0.7158,
+          0.6595
+        ],
+        "elapsed_ms": 15612
+      },
+      {
+        "id": 16,
+        "question": "模型训练项目主要做什么内容？",
+        "domain": "AI大模型",
+        "hit": true,
+        "hit_rank": 1,
+        "rr": 1.0,
+        "relevant_found": 2,
+        "top5_sources": [
+          "AI大模型.md",
+          "闪卡手册.md",
+          "闪卡手册.md",
+          "ai-curriculum.json",
+          "ai-curriculum.json"
+        ],
+        "top5_similarities": [
+          0.6909,
+          0.6921,
+          0.0,
+          0.6101,
+          0.5494
+        ],
+        "elapsed_ms": 18507
+      },
+      {
+        "id": 17,
+        "question": "bf16、fp16 和 fp32 的区别是什么？各有什么优劣？",
+        "domain": "深度学习",
+        "hit": true,
+        "hit_rank": 1,
+        "rr": 1.0,
+        "relevant_found": 5,
+        "top5_sources": [
+          "深度学习.md",
+          "闪卡手册.md",
+          "闪卡手册.md",
+          "ai-curriculum.json",
+          "ai-curriculum.json"
+        ],
+        "top5_similarities": [
+          0.6816,
+          0.6083,
+          0.405,
+          0.3884,
+          0.0
+        ],
+        "elapsed_ms": 22116
+      },
+      {
+        "id": 18,
+        "question": "模型量化的常见方法有哪些？量化有什么挑战？",
+        "domain": "深度学习",
+        "hit": true,
+        "hit_rank": 1,
+        "rr": 1.0,
+        "relevant_found": 3,
+        "top5_sources": [
+          "深度学习.md",
+          "闪卡手册.md",
+          "闪卡手册.md",
+          "量化陷阱.md",
+          "AI大模型.md"
+        ],
+        "top5_similarities": [
+          0.6729,
+          0.6138,
+          0.6095,
+          0.5586,
+          0.5486
+        ],
+        "elapsed_ms": 17251
+      },
+      {
+        "id": 19,
+        "question": "千万级大表深分页如何优化？",
+        "domain": "数据库",
+        "hit": true,
+        "hit_rank": 1,
+        "rr": 1.0,
+        "relevant_found": 3,
+        "top5_sources": [
+          "数据库.md",
+          "闪卡手册.md",
+          "闪卡手册.md",
+          "frontend-interview.json",
+          "闪卡手册.md"
+        ],
+        "top5_similarities": [
+          0.5929,
+          0.6093,
+          0.5751,
+          0.0,
+          0.0
+        ],
+        "elapsed_ms": 20706
+      },
+      {
+        "id": 20,
+        "question": "数据库中事务的 ACID 特性是什么？",
+        "domain": "数据库",
+        "hit": true,
+        "hit_rank": 1,
+        "rr": 1.0,
+        "relevant_found": 5,
+        "top5_sources": [
+          "闪卡手册.md",
+          "数据库.md",
+          "闪卡手册.md",
+          "闪卡手册.md",
+          "数据库.md"
+        ],
+        "top5_similarities": [
+          0.6326,
+          0.6338,
+          0.0,
+          0.5563,
+          0.0
+        ],
+        "elapsed_ms": 21518
+      },
+      {
+        "id": 21,
+        "question": "HTTP 和 HTTPS 的区别是什么？HTTPS 的加密过程是怎样的？",
+        "domain": "计算机网络",
+        "hit": true,
+        "hit_rank": 1,
+        "rr": 1.0,
+        "relevant_found": 5,
+        "top5_sources": [
+          "闪卡手册.md",
+          "计算机网络.md",
+          "闪卡手册.md",
+          "计算机网络.md",
+          "frontend-interview.json"
+        ],
+        "top5_similarities": [
+          0.7552,
+          0.7318,
+          0.6585,
+          0.6382,
+          0.5974
+        ],
+        "elapsed_ms": 19718
+      },
+      {
+        "id": 22,
+        "question": "TCP 三次握手和四次挥手的过程是怎样的？",
+        "domain": "计算机网络",
+        "hit": true,
+        "hit_rank": 1,
+        "rr": 1.0,
+        "relevant_found": 5,
+        "top5_sources": [
+          "计算机网络.md",
+          "闪卡手册.md",
+          "计算机网络.md",
+          "闪卡手册.md",
+          "frontend-interview.json"
+        ],
+        "top5_similarities": [
+          0.6285,
+          0.6991,
+          0.713,
+          0.6884,
+          0.4427
+        ],
+        "elapsed_ms": 18408
+      },
+      {
+        "id": 23,
+        "question": "进程和线程的区别是什么？",
+        "domain": "操作系统",
+        "hit": true,
+        "hit_rank": 1,
+        "rr": 1.0,
+        "relevant_found": 5,
+        "top5_sources": [
+          "操作系统.md",
+          "闪卡手册.md",
+          "操作系统.md",
+          "闪卡手册.md",
+          "闪卡手册.md"
+        ],
+        "top5_similarities": [
+          0.7201,
+          0.6871,
+          0.7189,
+          0.5847,
+          0.6911
+        ],
+        "elapsed_ms": 16585
+      },
+      {
+        "id": 24,
+        "question": "死锁的四个必要条件是什么？如何预防死锁？",
+        "domain": "操作系统",
+        "hit": true,
+        "hit_rank": 1,
+        "rr": 1.0,
+        "relevant_found": 4,
+        "top5_sources": [
+          "操作系统.md",
+          "闪卡手册.md",
+          "闪卡手册.md",
+          "系统设计.md",
+          "闪卡手册.md"
+        ],
+        "top5_similarities": [
+          0.6932,
+          0.5975,
+          0.4497,
+          0.5334,
+          0.531
+        ],
+        "elapsed_ms": 18779
+      },
+      {
+        "id": 25,
+        "question": "Python 中的 GIL 是什么？对多线程有什么影响？",
+        "domain": "Python基础",
+        "hit": true,
+        "hit_rank": 1,
+        "rr": 1.0,
+        "relevant_found": 5,
+        "top5_sources": [
+          "Python基础.md",
+          "闪卡手册.md",
+          "闪卡手册.md",
+          "闪卡手册.md",
+          "闪卡手册.md"
+        ],
+        "top5_similarities": [
+          0.7398,
+          0.772,
+          0.7565,
+          0.4952,
+          0.4832
+        ],
+        "elapsed_ms": 19946
+      },
+      {
+        "id": 26,
+        "question": "C++ 中指针和引用的区别是什么？",
+        "domain": "C++基础",
+        "hit": true,
+        "hit_rank": 1,
+        "rr": 1.0,
+        "relevant_found": 5,
+        "top5_sources": [
+          "闪卡手册.md",
+          "C++基础.md",
+          "闪卡手册.md",
+          "C++基础.md",
+          "闪卡手册.md"
+        ],
+        "top5_similarities": [
+          0.7677,
+          0.7735,
+          0.6441,
+          0.6536,
+          0.6628
+        ],
+        "elapsed_ms": 19880
+      },
+      {
+        "id": 27,
+        "question": "Java 面向对象编程的四大特性是什么？",
+        "domain": "Java基础",
+        "hit": true,
+        "hit_rank": 2,
+        "rr": 0.5,
+        "relevant_found": 3,
+        "top5_sources": [
+          "ai-curriculum.json",
+          "闪卡手册.md",
+          "闪卡手册.md",
+          "frontend-interview.json",
+          "闪卡手册.md"
+        ],
+        "top5_similarities": [
+          0.4894,
+          0.51,
+          0.0,
+          0.4578,
+          0.4738
+        ],
+        "elapsed_ms": 20931
+      },
+      {
+        "id": 28,
+        "question": "CSS Flexbox 和 Grid 布局有什么区别？各适合什么场景？",
+        "domain": "前端开发",
+        "hit": true,
+        "hit_rank": 1,
+        "rr": 1.0,
+        "relevant_found": 5,
+        "top5_sources": [
+          "frontend-interview.json",
+          "frontend-interview.json",
+          "frontend-interview.json",
+          "frontend-interview.json",
+          "frontend-interview.json"
+        ],
+        "top5_similarities": [
+          0.8067,
+          0.4978,
+          0.6147,
+          0.6034,
+          0.5345
+        ],
+        "elapsed_ms": 20982
+      },
+      {
+        "id": 29,
+        "question": "强化学习中 Q-Learning 和 Policy Gradient 的核心区别是什么？",
+        "domain": "强化学习",
+        "hit": true,
+        "hit_rank": 1,
+        "rr": 1.0,
+        "relevant_found": 5,
+        "top5_sources": [
+          "强化学习.md",
+          "闪卡手册.md",
+          "闪卡手册.md",
+          "强化学习.md",
+          "闪卡手册.md"
+        ],
+        "top5_similarities": [
+          0.6798,
+          0.6424,
+          0.5881,
+          0.5514,
+          0.0
+        ],
+        "elapsed_ms": 18036
+      },
+      {
+        "id": 30,
+        "question": "常见排序算法的时间复杂度对比？快速排序和归并排序各有什么优劣？",
+        "domain": "算法",
+        "hit": true,
+        "hit_rank": 1,
+        "rr": 1.0,
+        "relevant_found": 2,
+        "top5_sources": [
+          "闪卡手册.md",
+          "系统设计.md",
+          "闪卡手册.md",
+          "edge-detection.json",
+          "ai-curriculum.json"
+        ],
+        "top5_similarities": [
+          0.0,
+          0.0,
+          0.0,
+          0.5768,
+          0.5862
+        ],
+        "elapsed_ms": 21525
+      }
+    ]
+  },
+  "vector-only": {
+    "summary": {
+      "config": "vector-only",
+      "config_label": "纯向量检索",
+      "k": 5,
+      "hit_rate@5": 1.0,
+      "mrr": 0.975,
+      "avg_relevant@5": 2.97,
+      "avg_latency_ms": 128.3,
+      "hit_count": 30,
+      "total_queries": 30,
+      "timestamp": "2026-06-19T22:37:10.533606"
+    },
+    "details": [
+      {
+        "id": 1,
+        "question": "RAG 中的 TopK 通常设为多少？为什么是这个设置？",
+        "domain": "AI大模型",
+        "hit": true,
+        "hit_rank": 1,
+        "rr": 1.0,
+        "relevant_found": 2,
+        "top5_sources": [
+          "AI大模型.md",
+          "闪卡手册.md"
+        ],
+        "top5_similarities": [
+          0.7734,
+          0.7539
+        ],
+        "elapsed_ms": 141
+      },
+      {
+        "id": 2,
+        "question": "混合检索设计了哪些检索模式？各自的排序占比如何？",
+        "domain": "AI大模型",
+        "hit": true,
+        "hit_rank": 1,
+        "rr": 1.0,
+        "relevant_found": 2,
+        "top5_sources": [
+          "闪卡手册.md",
+          "AI大模型.md"
+        ],
+        "top5_similarities": [
+          0.731,
+          0.6889
+        ],
+        "elapsed_ms": 131
+      },
+      {
+        "id": 3,
+        "question": "AdamW 优化器的更新公式是什么？和 Adam 有什么区别？",
+        "domain": "深度学习",
+        "hit": true,
+        "hit_rank": 1,
+        "rr": 1.0,
+        "relevant_found": 2,
+        "top5_sources": [
+          "深度学习.md",
+          "闪卡手册.md"
+        ],
+        "top5_similarities": [
+          0.7593,
+          0.675
+        ],
+        "elapsed_ms": 129
+      },
+      {
+        "id": 4,
+        "question": "LoRA 微调的原理是什么？为什么能减少可训练参数？",
+        "domain": "深度学习",
+        "hit": true,
+        "hit_rank": 1,
+        "rr": 1.0,
+        "relevant_found": 3,
+        "top5_sources": [
+          "闪卡手册.md",
+          "AI大模型.md",
+          "闪卡手册.md"
+        ],
+        "top5_similarities": [
+          0.7724,
+          0.7687,
+          0.7477
+        ],
+        "elapsed_ms": 128
+      },
+      {
+        "id": 5,
+        "question": "MySQL 有哪些索引类型？InnoDB 为什么用 B+ 树？",
+        "domain": "数据库",
+        "hit": true,
+        "hit_rank": 1,
+        "rr": 1.0,
+        "relevant_found": 5,
+        "top5_sources": [
+          "闪卡手册.md",
+          "数据库.md",
+          "闪卡手册.md",
+          "数据库.md",
+          "闪卡手册.md"
+        ],
+        "top5_similarities": [
+          0.788,
+          0.7744,
+          0.7701,
+          0.7647,
+          0.7501
+        ],
+        "elapsed_ms": 133
+      },
+      {
+        "id": 6,
+        "question": "MySQL 的三大日志是什么？各有什么作用？",
+        "domain": "数据库",
+        "hit": true,
+        "hit_rank": 1,
+        "rr": 1.0,
+        "relevant_found": 2,
+        "top5_sources": [
+          "闪卡手册.md",
+          "数据库.md"
+        ],
+        "top5_similarities": [
+          0.6734,
+          0.6672
+        ],
+        "elapsed_ms": 121
+      },
+      {
+        "id": 7,
+        "question": "什么是回表查询？如何避免回表？",
+        "domain": "数据库",
+        "hit": true,
+        "hit_rank": 1,
+        "rr": 1.0,
+        "relevant_found": 3,
+        "top5_sources": [
+          "闪卡手册.md",
+          "数据库.md",
+          "finance-basics.json",
+          "闪卡手册.md"
+        ],
+        "top5_similarities": [
+          0.6647,
+          0.6453,
+          0.6006,
+          0.5974
+        ],
+        "elapsed_ms": 120
+      },
+      {
+        "id": 8,
+        "question": "LangGraph 和 LangChain 框架选型的核心考虑是什么？",
+        "domain": "系统设计",
+        "hit": true,
+        "hit_rank": 1,
+        "rr": 1.0,
+        "relevant_found": 3,
+        "top5_sources": [
+          "系统设计.md",
+          "闪卡手册.md",
+          "agent-development.json"
+        ],
+        "top5_similarities": [
+          0.684,
+          0.6331,
+          0.6306
+        ],
+        "elapsed_ms": 129
+      },
+      {
+        "id": 9,
+        "question": "Agent 工具响应慢的异常情况如何处理？",
+        "domain": "系统设计",
+        "hit": true,
+        "hit_rank": 4,
+        "rr": 0.25,
+        "relevant_found": 1,
+        "top5_sources": [
+          "agent-development.json",
+          "agent-development.json",
+          "agent-development.json",
+          "系统设计.md",
+          "agent-development.json"
+        ],
+        "top5_similarities": [
+          0.7381,
+          0.6714,
+          0.6639,
+          0.6619,
+          0.6513
+        ],
+        "elapsed_ms": 116
+      },
+      {
+        "id": 10,
+        "question": "架构上如何减轻数据库压力？",
+        "domain": "系统设计",
+        "hit": true,
+        "hit_rank": 1,
+        "rr": 1.0,
+        "relevant_found": 3,
+        "top5_sources": [
+          "系统设计.md",
+          "闪卡手册.md",
+          "闪卡手册.md",
+          "闪卡手册.md",
+          "闪卡手册.md"
+        ],
+        "top5_similarities": [
+          0.6361,
+          0.6161,
+          0.5929,
+          0.5785,
+          0.5767
+        ],
+        "elapsed_ms": 112
+      },
+      {
+        "id": 11,
+        "question": "Sobel 算子的两个 3×3 卷积核分别是什么？",
+        "domain": "计算机视觉",
+        "hit": true,
+        "hit_rank": 1,
+        "rr": 1.0,
+        "relevant_found": 4,
+        "top5_sources": [
+          "edge-detection.json",
+          "edge-detection.json",
+          "边缘检测.md",
+          "edge-detection.json",
+          "edge-detection.json"
+        ],
+        "top5_similarities": [
+          0.6558,
+          0.6366,
+          0.621,
+          0.5745,
+          0.5617
+        ],
+        "elapsed_ms": 128
+      },
+      {
+        "id": 12,
+        "question": "如何从 Gx 和 Gy 得到边缘强度图和方向图？",
+        "domain": "计算机视觉",
+        "hit": true,
+        "hit_rank": 1,
+        "rr": 1.0,
+        "relevant_found": 4,
+        "top5_sources": [
+          "闪卡手册.md",
+          "edge-detection.json",
+          "边缘检测.md",
+          "edge-detection.json",
+          "edge-detection.json"
+        ],
+        "top5_similarities": [
+          0.6944,
+          0.6427,
+          0.6378,
+          0.625,
+          0.6012
+        ],
+        "elapsed_ms": 135
+      },
+      {
+        "id": 13,
+        "question": "Canny 边缘检测的完整流程是什么？",
+        "domain": "计算机视觉",
+        "hit": true,
+        "hit_rank": 1,
+        "rr": 1.0,
+        "relevant_found": 2,
+        "top5_sources": [
+          "edge-detection.json",
+          "边缘检测.md",
+          "edge-detection.json"
+        ],
+        "top5_similarities": [
+          0.7814,
+          0.6833,
+          0.6676
+        ],
+        "elapsed_ms": 121
+      },
+      {
+        "id": 14,
+        "question": "量化交易中过拟合是什么？如何防止？",
+        "domain": "量化金融",
+        "hit": true,
+        "hit_rank": 1,
+        "rr": 1.0,
+        "relevant_found": 2,
+        "top5_sources": [
+          "量化陷阱.md",
+          "finance-basics.json"
+        ],
+        "top5_similarities": [
+          0.7895,
+          0.7361
+        ],
+        "elapsed_ms": 121
+      },
+      {
+        "id": 15,
+        "question": "PPO 和 GRPO 分别用在模型训练的哪个阶段？有什么区别？",
+        "domain": "AI大模型",
+        "hit": true,
+        "hit_rank": 1,
+        "rr": 1.0,
+        "relevant_found": 5,
+        "top5_sources": [
+          "闪卡手册.md",
+          "闪卡手册.md",
+          "AI大模型.md",
+          "AI大模型.md",
+          "闪卡手册.md"
+        ],
+        "top5_similarities": [
+          0.7299,
+          0.716,
+          0.7158,
+          0.7086,
+          0.6684
+        ],
+        "elapsed_ms": 134
+      },
+      {
+        "id": 16,
+        "question": "模型训练项目主要做什么内容？",
+        "domain": "AI大模型",
+        "hit": true,
+        "hit_rank": 1,
+        "rr": 1.0,
+        "relevant_found": 2,
+        "top5_sources": [
+          "闪卡手册.md",
+          "AI大模型.md",
+          "ai-curriculum.json"
+        ],
+        "top5_similarities": [
+          0.6921,
+          0.6909,
+          0.6101
+        ],
+        "elapsed_ms": 111
+      },
+      {
+        "id": 17,
+        "question": "bf16、fp16 和 fp32 的区别是什么？各有什么优劣？",
+        "domain": "深度学习",
+        "hit": true,
+        "hit_rank": 1,
+        "rr": 1.0,
+        "relevant_found": 2,
+        "top5_sources": [
+          "深度学习.md",
+          "闪卡手册.md"
+        ],
+        "top5_similarities": [
+          0.6816,
+          0.6083
+        ],
+        "elapsed_ms": 137
+      },
+      {
+        "id": 18,
+        "question": "模型量化的常见方法有哪些？量化有什么挑战？",
+        "domain": "深度学习",
+        "hit": true,
+        "hit_rank": 1,
+        "rr": 1.0,
+        "relevant_found": 3,
+        "top5_sources": [
+          "深度学习.md",
+          "闪卡手册.md",
+          "闪卡手册.md"
+        ],
+        "top5_similarities": [
+          0.6729,
+          0.6138,
+          0.6095
+        ],
+        "elapsed_ms": 133
+      },
+      {
+        "id": 19,
+        "question": "千万级大表深分页如何优化？",
+        "domain": "数据库",
+        "hit": true,
+        "hit_rank": 1,
+        "rr": 1.0,
+        "relevant_found": 3,
+        "top5_sources": [
+          "闪卡手册.md",
+          "数据库.md",
+          "闪卡手册.md",
+          "AI大模型.md",
+          "闪卡手册.md"
+        ],
+        "top5_similarities": [
+          0.6093,
+          0.5929,
+          0.5751,
+          0.5389,
+          0.5366
+        ],
+        "elapsed_ms": 116
+      },
+      {
+        "id": 20,
+        "question": "数据库中事务的 ACID 特性是什么？",
+        "domain": "数据库",
+        "hit": true,
+        "hit_rank": 1,
+        "rr": 1.0,
+        "relevant_found": 5,
+        "top5_sources": [
+          "数据库.md",
+          "闪卡手册.md",
+          "闪卡手册.md",
+          "闪卡手册.md",
+          "闪卡手册.md"
+        ],
+        "top5_similarities": [
+          0.6338,
+          0.6326,
+          0.5563,
+          0.5538,
+          0.5483
+        ],
+        "elapsed_ms": 122
+      },
+      {
+        "id": 21,
+        "question": "HTTP 和 HTTPS 的区别是什么？HTTPS 的加密过程是怎样的？",
+        "domain": "计算机网络",
+        "hit": true,
+        "hit_rank": 1,
+        "rr": 1.0,
+        "relevant_found": 3,
+        "top5_sources": [
+          "闪卡手册.md",
+          "计算机网络.md",
+          "闪卡手册.md"
+        ],
+        "top5_similarities": [
+          0.7552,
+          0.7318,
+          0.6585
+        ],
+        "elapsed_ms": 155
+      },
+      {
+        "id": 22,
+        "question": "TCP 三次握手和四次挥手的过程是怎样的？",
+        "domain": "计算机网络",
+        "hit": true,
+        "hit_rank": 1,
+        "rr": 1.0,
+        "relevant_found": 4,
+        "top5_sources": [
+          "计算机网络.md",
+          "闪卡手册.md",
+          "闪卡手册.md",
+          "计算机网络.md"
+        ],
+        "top5_similarities": [
+          0.713,
+          0.6991,
+          0.6884,
+          0.6285
+        ],
+        "elapsed_ms": 130
+      },
+      {
+        "id": 23,
+        "question": "进程和线程的区别是什么？",
+        "domain": "操作系统",
+        "hit": true,
+        "hit_rank": 1,
+        "rr": 1.0,
+        "relevant_found": 5,
+        "top5_sources": [
+          "操作系统.md",
+          "操作系统.md",
+          "闪卡手册.md",
+          "闪卡手册.md",
+          "闪卡手册.md"
+        ],
+        "top5_similarities": [
+          0.7201,
+          0.7189,
+          0.6911,
+          0.6871,
+          0.6175
+        ],
+        "elapsed_ms": 119
+      },
+      {
+        "id": 24,
+        "question": "死锁的四个必要条件是什么？如何预防死锁？",
+        "domain": "操作系统",
+        "hit": true,
+        "hit_rank": 1,
+        "rr": 1.0,
+        "relevant_found": 2,
+        "top5_sources": [
+          "操作系统.md",
+          "闪卡手册.md"
+        ],
+        "top5_similarities": [
+          0.6932,
+          0.5975
+        ],
+        "elapsed_ms": 147
+      },
+      {
+        "id": 25,
+        "question": "Python 中的 GIL 是什么？对多线程有什么影响？",
+        "domain": "Python基础",
+        "hit": true,
+        "hit_rank": 1,
+        "rr": 1.0,
+        "relevant_found": 3,
+        "top5_sources": [
+          "闪卡手册.md",
+          "闪卡手册.md",
+          "Python基础.md"
+        ],
+        "top5_similarities": [
+          0.772,
+          0.7565,
+          0.7398
+        ],
+        "elapsed_ms": 130
+      },
+      {
+        "id": 26,
+        "question": "C++ 中指针和引用的区别是什么？",
+        "domain": "C++基础",
+        "hit": true,
+        "hit_rank": 1,
+        "rr": 1.0,
+        "relevant_found": 3,
+        "top5_sources": [
+          "C++基础.md",
+          "闪卡手册.md",
+          "闪卡手册.md"
+        ],
+        "top5_similarities": [
+          0.7735,
+          0.7677,
+          0.6628
+        ],
+        "elapsed_ms": 125
+      },
+      {
+        "id": 27,
+        "question": "Java 面向对象编程的四大特性是什么？",
+        "domain": "Java基础",
+        "hit": true,
+        "hit_rank": 1,
+        "rr": 1.0,
+        "relevant_found": 1,
+        "top5_sources": [
+          "闪卡手册.md",
+          "frontend-interview.json",
+          "agent-development.json",
+          "agent-development.json",
+          "ai-curriculum.json"
+        ],
+        "top5_similarities": [
+          0.51,
+          0.5043,
+          0.504,
+          0.4985,
+          0.4894
+        ],
+        "elapsed_ms": 120
+      },
+      {
+        "id": 28,
+        "question": "CSS Flexbox 和 Grid 布局有什么区别？各适合什么场景？",
+        "domain": "前端开发",
+        "hit": true,
+        "hit_rank": 1,
+        "rr": 1.0,
+        "relevant_found": 2,
+        "top5_sources": [
+          "frontend-interview.json",
+          "frontend-interview.json"
+        ],
+        "top5_similarities": [
+          0.8067,
+          0.6147
+        ],
+        "elapsed_ms": 137
+      },
+      {
+        "id": 29,
+        "question": "强化学习中 Q-Learning 和 Policy Gradient 的核心区别是什么？",
+        "domain": "强化学习",
+        "hit": true,
+        "hit_rank": 1,
+        "rr": 1.0,
+        "relevant_found": 3,
+        "top5_sources": [
+          "强化学习.md",
+          "闪卡手册.md",
+          "AI大模型.md",
+          "闪卡手册.md"
+        ],
+        "top5_similarities": [
+          0.6798,
+          0.6424,
+          0.6111,
+          0.5881
+        ],
+        "elapsed_ms": 129
+      },
+      {
+        "id": 30,
+        "question": "常见排序算法的时间复杂度对比？快速排序和归并排序各有什么优劣？",
+        "domain": "算法",
+        "hit": true,
+        "hit_rank": 1,
+        "rr": 1.0,
+        "relevant_found": 5,
+        "top5_sources": [
+          "闪卡手册.md",
+          "闪卡手册.md",
+          "闪卡手册.md",
+          "闪卡手册.md",
+          "闪卡手册.md"
+        ],
+        "top5_similarities": [
+          0.6088,
+          0.5936,
+          0.5931,
+          0.5926,
+          0.5909
+        ],
+        "elapsed_ms": 139
+      }
+    ]
+  },
+  "bm25-only": {
+    "summary": {
+      "config": "bm25-only",
+      "config_label": "纯BM25检索",
+      "k": 5,
+      "hit_rate@5": 1.0,
+      "mrr": 0.975,
+      "avg_relevant@5": 3.83,
+      "avg_latency_ms": 132.8,
+      "hit_count": 30,
+      "total_queries": 30,
+      "timestamp": "2026-06-19T22:37:14.520689"
+    },
+    "details": [
+      {
+        "id": 1,
+        "question": "RAG 中的 TopK 通常设为多少？为什么是这个设置？",
+        "domain": "AI大模型",
+        "hit": true,
+        "hit_rank": 1,
+        "rr": 1.0,
+        "relevant_found": 5,
+        "top5_sources": [
+          "AI大模型.md",
+          "闪卡手册.md",
+          "AI大模型.md",
+          "agent-development.json",
+          "闪卡手册.md"
+        ],
+        "top5_similarities": [
+          0.7734,
+          0.7539,
+          0.6559,
+          0.6369,
+          0.6299
+        ],
+        "elapsed_ms": 138
+      },
+      {
+        "id": 2,
+        "question": "混合检索设计了哪些检索模式？各自的排序占比如何？",
+        "domain": "AI大模型",
+        "hit": true,
+        "hit_rank": 1,
+        "rr": 1.0,
+        "relevant_found": 4,
+        "top5_sources": [
+          "闪卡手册.md",
+          "AI大模型.md",
+          "闪卡手册.md",
+          "agent-development.json",
+          "agent-development.json"
+        ],
+        "top5_similarities": [
+          0.731,
+          0.6889,
+          0.6148,
+          0.5788,
+          0.5757
+        ],
+        "elapsed_ms": 130
+      },
+      {
+        "id": 3,
+        "question": "AdamW 优化器的更新公式是什么？和 Adam 有什么区别？",
+        "domain": "深度学习",
+        "hit": true,
+        "hit_rank": 1,
+        "rr": 1.0,
+        "relevant_found": 4,
+        "top5_sources": [
+          "深度学习.md",
+          "闪卡手册.md",
+          "闪卡手册.md",
+          "ai-curriculum.json",
+          "ai-curriculum.json"
+        ],
+        "top5_similarities": [
+          0.7593,
+          0.675,
+          0.6267,
+          0.5793,
+          0.5495
+        ],
+        "elapsed_ms": 134
+      },
+      {
+        "id": 4,
+        "question": "LoRA 微调的原理是什么？为什么能减少可训练参数？",
+        "domain": "深度学习",
+        "hit": true,
+        "hit_rank": 1,
+        "rr": 1.0,
+        "relevant_found": 5,
+        "top5_sources": [
+          "闪卡手册.md",
+          "AI大模型.md",
+          "闪卡手册.md",
+          "闪卡手册.md",
+          "深度学习.md"
+        ],
+        "top5_similarities": [
+          0.7724,
+          0.7687,
+          0.7477,
+          0.6513,
+          0.6413
+        ],
+        "elapsed_ms": 130
+      },
+      {
+        "id": 5,
+        "question": "MySQL 有哪些索引类型？InnoDB 为什么用 B+ 树？",
+        "domain": "数据库",
+        "hit": true,
+        "hit_rank": 1,
+        "rr": 1.0,
+        "relevant_found": 5,
+        "top5_sources": [
+          "闪卡手册.md",
+          "数据库.md",
+          "闪卡手册.md",
+          "数据库.md",
+          "闪卡手册.md"
+        ],
+        "top5_similarities": [
+          0.788,
+          0.7744,
+          0.7701,
+          0.7647,
+          0.7501
+        ],
+        "elapsed_ms": 130
+      },
+      {
+        "id": 6,
+        "question": "MySQL 的三大日志是什么？各有什么作用？",
+        "domain": "数据库",
+        "hit": true,
+        "hit_rank": 1,
+        "rr": 1.0,
+        "relevant_found": 4,
+        "top5_sources": [
+          "闪卡手册.md",
+          "数据库.md",
+          "数据库.md",
+          "闪卡手册.md",
+          "闪卡手册.md"
+        ],
+        "top5_similarities": [
+          0.6734,
+          0.6672,
+          0.5601,
+          0.5535,
+          0.5237
+        ],
+        "elapsed_ms": 117
+      },
+      {
+        "id": 7,
+        "question": "什么是回表查询？如何避免回表？",
+        "domain": "数据库",
+        "hit": true,
+        "hit_rank": 1,
+        "rr": 1.0,
+        "relevant_found": 3,
+        "top5_sources": [
+          "闪卡手册.md",
+          "数据库.md",
+          "finance-basics.json",
+          "闪卡手册.md",
+          "闪卡手册.md"
+        ],
+        "top5_similarities": [
+          0.6647,
+          0.6453,
+          0.6006,
+          0.5974,
+          0.562
+        ],
+        "elapsed_ms": 123
+      },
+      {
+        "id": 8,
+        "question": "LangGraph 和 LangChain 框架选型的核心考虑是什么？",
+        "domain": "系统设计",
+        "hit": true,
+        "hit_rank": 1,
+        "rr": 1.0,
+        "relevant_found": 4,
+        "top5_sources": [
+          "系统设计.md",
+          "闪卡手册.md",
+          "agent-development.json",
+          "agent-development.json",
+          "闪卡手册.md"
+        ],
+        "top5_similarities": [
+          0.684,
+          0.6331,
+          0.6306,
+          0.5279,
+          0.5244
+        ],
+        "elapsed_ms": 127
+      },
+      {
+        "id": 9,
+        "question": "Agent 工具响应慢的异常情况如何处理？",
+        "domain": "系统设计",
+        "hit": true,
+        "hit_rank": 4,
+        "rr": 0.25,
+        "relevant_found": 1,
+        "top5_sources": [
+          "agent-development.json",
+          "agent-development.json",
+          "agent-development.json",
+          "系统设计.md",
+          "agent-development.json"
+        ],
+        "top5_similarities": [
+          0.7381,
+          0.6714,
+          0.6639,
+          0.6619,
+          0.6513
+        ],
+        "elapsed_ms": 122
+      },
+      {
+        "id": 10,
+        "question": "架构上如何减轻数据库压力？",
+        "domain": "系统设计",
+        "hit": true,
+        "hit_rank": 1,
+        "rr": 1.0,
+        "relevant_found": 3,
+        "top5_sources": [
+          "系统设计.md",
+          "闪卡手册.md",
+          "闪卡手册.md",
+          "闪卡手册.md",
+          "闪卡手册.md"
+        ],
+        "top5_similarities": [
+          0.6361,
+          0.6161,
+          0.5929,
+          0.5785,
+          0.5767
+        ],
+        "elapsed_ms": 108
+      },
+      {
+        "id": 11,
+        "question": "Sobel 算子的两个 3×3 卷积核分别是什么？",
+        "domain": "计算机视觉",
+        "hit": true,
+        "hit_rank": 1,
+        "rr": 1.0,
+        "relevant_found": 4,
+        "top5_sources": [
+          "edge-detection.json",
+          "edge-detection.json",
+          "边缘检测.md",
+          "edge-detection.json",
+          "edge-detection.json"
+        ],
+        "top5_similarities": [
+          0.6558,
+          0.6366,
+          0.621,
+          0.5745,
+          0.5617
+        ],
+        "elapsed_ms": 130
+      },
+      {
+        "id": 12,
+        "question": "如何从 Gx 和 Gy 得到边缘强度图和方向图？",
+        "domain": "计算机视觉",
+        "hit": true,
+        "hit_rank": 1,
+        "rr": 1.0,
+        "relevant_found": 4,
+        "top5_sources": [
+          "闪卡手册.md",
+          "edge-detection.json",
+          "边缘检测.md",
+          "edge-detection.json",
+          "edge-detection.json"
+        ],
+        "top5_similarities": [
+          0.6944,
+          0.6427,
+          0.6378,
+          0.625,
+          0.6012
+        ],
+        "elapsed_ms": 129
+      },
+      {
+        "id": 13,
+        "question": "Canny 边缘检测的完整流程是什么？",
+        "domain": "计算机视觉",
+        "hit": true,
+        "hit_rank": 1,
+        "rr": 1.0,
+        "relevant_found": 4,
+        "top5_sources": [
+          "edge-detection.json",
+          "边缘检测.md",
+          "edge-detection.json",
+          "边缘检测.md",
+          "闪卡手册.md"
+        ],
+        "top5_similarities": [
+          0.7814,
+          0.6833,
+          0.6676,
+          0.6634,
+          0.63
+        ],
+        "elapsed_ms": 117
+      },
+      {
+        "id": 14,
+        "question": "量化交易中过拟合是什么？如何防止？",
+        "domain": "量化金融",
+        "hit": true,
+        "hit_rank": 1,
+        "rr": 1.0,
+        "relevant_found": 3,
+        "top5_sources": [
+          "量化陷阱.md",
+          "finance-basics.json",
+          "闪卡手册.md",
+          "finance-basics.json",
+          "imported.json"
+        ],
+        "top5_similarities": [
+          0.7895,
+          0.7361,
+          0.607,
+          0.5503,
+          0.5306
+        ],
+        "elapsed_ms": 144
+      },
+      {
+        "id": 15,
+        "question": "PPO 和 GRPO 分别用在模型训练的哪个阶段？有什么区别？",
+        "domain": "AI大模型",
+        "hit": true,
+        "hit_rank": 1,
+        "rr": 1.0,
+        "relevant_found": 5,
+        "top5_sources": [
+          "闪卡手册.md",
+          "闪卡手册.md",
+          "AI大模型.md",
+          "AI大模型.md",
+          "闪卡手册.md"
+        ],
+        "top5_similarities": [
+          0.7299,
+          0.716,
+          0.7158,
+          0.7086,
+          0.6684
+        ],
+        "elapsed_ms": 130
+      },
+      {
+        "id": 16,
+        "question": "模型训练项目主要做什么内容？",
+        "domain": "AI大模型",
+        "hit": true,
+        "hit_rank": 1,
+        "rr": 1.0,
+        "relevant_found": 2,
+        "top5_sources": [
+          "闪卡手册.md",
+          "AI大模型.md",
+          "ai-curriculum.json",
+          "ai-curriculum.json",
+          "ai-curriculum.json"
+        ],
+        "top5_similarities": [
+          0.6921,
+          0.6909,
+          0.6101,
+          0.5815,
+          0.577
+        ],
+        "elapsed_ms": 111
+      },
+      {
+        "id": 17,
+        "question": "bf16、fp16 和 fp32 的区别是什么？各有什么优劣？",
+        "domain": "深度学习",
+        "hit": true,
+        "hit_rank": 1,
+        "rr": 1.0,
+        "relevant_found": 2,
+        "top5_sources": [
+          "深度学习.md",
+          "闪卡手册.md",
+          "闪卡手册.md",
+          "imported.json",
+          "操作系统.md"
+        ],
+        "top5_similarities": [
+          0.6816,
+          0.6083,
+          0.4411,
+          0.437,
+          0.4194
+        ],
+        "elapsed_ms": 183
+      },
+      {
+        "id": 18,
+        "question": "模型量化的常见方法有哪些？量化有什么挑战？",
+        "domain": "深度学习",
+        "hit": true,
+        "hit_rank": 1,
+        "rr": 1.0,
+        "relevant_found": 3,
+        "top5_sources": [
+          "深度学习.md",
+          "闪卡手册.md",
+          "闪卡手册.md",
+          "闪卡手册.md",
+          "闪卡手册.md"
+        ],
+        "top5_similarities": [
+          0.6729,
+          0.6138,
+          0.6095,
+          0.5686,
+          0.5632
+        ],
+        "elapsed_ms": 138
+      },
+      {
+        "id": 19,
+        "question": "千万级大表深分页如何优化？",
+        "domain": "数据库",
+        "hit": true,
+        "hit_rank": 1,
+        "rr": 1.0,
+        "relevant_found": 3,
+        "top5_sources": [
+          "闪卡手册.md",
+          "数据库.md",
+          "闪卡手册.md",
+          "AI大模型.md",
+          "闪卡手册.md"
+        ],
+        "top5_similarities": [
+          0.6093,
+          0.5929,
+          0.5751,
+          0.5389,
+          0.5366
+        ],
+        "elapsed_ms": 117
+      },
+      {
+        "id": 20,
+        "question": "数据库中事务的 ACID 特性是什么？",
+        "domain": "数据库",
+        "hit": true,
+        "hit_rank": 1,
+        "rr": 1.0,
+        "relevant_found": 5,
+        "top5_sources": [
+          "数据库.md",
+          "闪卡手册.md",
+          "闪卡手册.md",
+          "闪卡手册.md",
+          "闪卡手册.md"
+        ],
+        "top5_similarities": [
+          0.6338,
+          0.6326,
+          0.5563,
+          0.5538,
+          0.5483
+        ],
+        "elapsed_ms": 124
+      },
+      {
+        "id": 21,
+        "question": "HTTP 和 HTTPS 的区别是什么？HTTPS 的加密过程是怎样的？",
+        "domain": "计算机网络",
+        "hit": true,
+        "hit_rank": 1,
+        "rr": 1.0,
+        "relevant_found": 5,
+        "top5_sources": [
+          "闪卡手册.md",
+          "计算机网络.md",
+          "闪卡手册.md",
+          "计算机网络.md",
+          "frontend-interview.json"
+        ],
+        "top5_similarities": [
+          0.7552,
+          0.7318,
+          0.6585,
+          0.6382,
+          0.5974
+        ],
+        "elapsed_ms": 139
+      },
+      {
+        "id": 22,
+        "question": "TCP 三次握手和四次挥手的过程是怎样的？",
+        "domain": "计算机网络",
+        "hit": true,
+        "hit_rank": 1,
+        "rr": 1.0,
+        "relevant_found": 5,
+        "top5_sources": [
+          "计算机网络.md",
+          "闪卡手册.md",
+          "闪卡手册.md",
+          "计算机网络.md",
+          "计算机网络.md"
+        ],
+        "top5_similarities": [
+          0.713,
+          0.6991,
+          0.6884,
+          0.6285,
+          0.5728
+        ],
+        "elapsed_ms": 127
+      },
+      {
+        "id": 23,
+        "question": "进程和线程的区别是什么？",
+        "domain": "操作系统",
+        "hit": true,
+        "hit_rank": 1,
+        "rr": 1.0,
+        "relevant_found": 5,
+        "top5_sources": [
+          "操作系统.md",
+          "操作系统.md",
+          "闪卡手册.md",
+          "闪卡手册.md",
+          "闪卡手册.md"
+        ],
+        "top5_similarities": [
+          0.7201,
+          0.7189,
+          0.6911,
+          0.6871,
+          0.6175
+        ],
+        "elapsed_ms": 111
+      },
+      {
+        "id": 24,
+        "question": "死锁的四个必要条件是什么？如何预防死锁？",
+        "domain": "操作系统",
+        "hit": true,
+        "hit_rank": 1,
+        "rr": 1.0,
+        "relevant_found": 3,
+        "top5_sources": [
+          "操作系统.md",
+          "闪卡手册.md",
+          "系统设计.md",
+          "闪卡手册.md",
+          "agent-development.json"
+        ],
+        "top5_similarities": [
+          0.6932,
+          0.5975,
+          0.5334,
+          0.531,
+          0.5157
+        ],
+        "elapsed_ms": 172
+      },
+      {
+        "id": 25,
+        "question": "Python 中的 GIL 是什么？对多线程有什么影响？",
+        "domain": "Python基础",
+        "hit": true,
+        "hit_rank": 1,
+        "rr": 1.0,
+        "relevant_found": 4,
+        "top5_sources": [
+          "闪卡手册.md",
+          "闪卡手册.md",
+          "Python基础.md",
+          "闪卡手册.md",
+          "ai-curriculum.json"
+        ],
+        "top5_similarities": [
+          0.772,
+          0.7565,
+          0.7398,
+          0.5244,
+          0.5235
+        ],
+        "elapsed_ms": 139
+      },
+      {
+        "id": 26,
+        "question": "C++ 中指针和引用的区别是什么？",
+        "domain": "C++基础",
+        "hit": true,
+        "hit_rank": 1,
+        "rr": 1.0,
+        "relevant_found": 5,
+        "top5_sources": [
+          "C++基础.md",
+          "闪卡手册.md",
+          "闪卡手册.md",
+          "C++基础.md",
+          "闪卡手册.md"
+        ],
+        "top5_similarities": [
+          0.7735,
+          0.7677,
+          0.6628,
+          0.6536,
+          0.6441
+        ],
+        "elapsed_ms": 131
+      },
+      {
+        "id": 27,
+        "question": "Java 面向对象编程的四大特性是什么？",
+        "domain": "Java基础",
+        "hit": true,
+        "hit_rank": 1,
+        "rr": 1.0,
+        "relevant_found": 1,
+        "top5_sources": [
+          "闪卡手册.md",
+          "frontend-interview.json",
+          "agent-development.json",
+          "agent-development.json",
+          "ai-curriculum.json"
+        ],
+        "top5_similarities": [
+          0.51,
+          0.5043,
+          0.504,
+          0.4985,
+          0.4894
+        ],
+        "elapsed_ms": 127
+      },
+      {
+        "id": 28,
+        "question": "CSS Flexbox 和 Grid 布局有什么区别？各适合什么场景？",
+        "domain": "前端开发",
+        "hit": true,
+        "hit_rank": 1,
+        "rr": 1.0,
+        "relevant_found": 5,
+        "top5_sources": [
+          "frontend-interview.json",
+          "frontend-interview.json",
+          "frontend-interview.json",
+          "frontend-interview.json",
+          "frontend-interview.json"
+        ],
+        "top5_similarities": [
+          0.8067,
+          0.6147,
+          0.6034,
+          0.5345,
+          0.4978
+        ],
+        "elapsed_ms": 150
+      },
+      {
+        "id": 29,
+        "question": "强化学习中 Q-Learning 和 Policy Gradient 的核心区别是什么？",
+        "domain": "强化学习",
+        "hit": true,
+        "hit_rank": 1,
+        "rr": 1.0,
+        "relevant_found": 4,
+        "top5_sources": [
+          "强化学习.md",
+          "闪卡手册.md",
+          "AI大模型.md",
+          "闪卡手册.md",
+          "闪卡手册.md"
+        ],
+        "top5_similarities": [
+          0.6798,
+          0.6424,
+          0.6111,
+          0.5881,
+          0.5636
+        ],
+        "elapsed_ms": 144
+      },
+      {
+        "id": 30,
+        "question": "常见排序算法的时间复杂度对比？快速排序和归并排序各有什么优劣？",
+        "domain": "算法",
+        "hit": true,
+        "hit_rank": 1,
+        "rr": 1.0,
+        "relevant_found": 5,
+        "top5_sources": [
+          "闪卡手册.md",
+          "闪卡手册.md",
+          "闪卡手册.md",
+          "闪卡手册.md",
+          "闪卡手册.md"
+        ],
+        "top5_similarities": [
+          0.6088,
+          0.5936,
+          0.5931,
+          0.5926,
+          0.5909
+        ],
+        "elapsed_ms": 160
+      }
+    ]
+  }
+}

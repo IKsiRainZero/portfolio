@@ -1,0 +1,5 @@
+{
+  "语言 & 工程": "Python (Flask, 数据处理, 脚本开发), C++ (面向对象, STL, 内存管理), HTML/CSS/JavaScript (原生开发, 无框架), SQL, Git, Shell",
+  "AI / LLM": "DeepSeek/OpenAI API 集成, Prompt Engineering (结构化提示词设计), RAG 检索增强生成, LangChain 基础, Agent 架构理解 (ReAct/Function Calling)",
+  "工具 & 方法论": "Claude Code 深度使用, MCP 协议, SRS 间隔复习系统设计, Obsidian 知识管理, Streamlit, 系统设计基础 (分布式/高并发/缓存策略)"
+}

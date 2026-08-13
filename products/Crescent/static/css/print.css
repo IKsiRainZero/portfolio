@@ -1,0 +1,35 @@
+/* ============================================================
+   Print styles — for resume and knowledge base printing
+   ============================================================ */
+@media print {
+  @page { size: A4; margin: 12mm; }
+
+  body {
+    background: #fff !important;
+    font-size: 11px;
+    line-height: 1.45;
+    overflow: visible !important;
+    height: auto !important;
+  }
+
+  .app { display: block !important; height: auto !important; }
+
+  .sidebar, .topbar, .tutor-panel, .modal-overlay,
+  #offlineBanner, #settingsMsg, .no-print { display: none !important; }
+
+  .main { max-width: 100% !important; }
+  .content { padding: 0 !important; overflow: visible !important; }
+
+  .card {
+    box-shadow: none !important;
+    border: 1px solid #ddd !important;
+    break-inside: avoid;
+  }
+
+  .stat-card {
+    box-shadow: none !important;
+    border: 1px solid #ddd !important;
+  }
+
+  a { color: var(--text) !important; text-decoration: none !important; }
+}

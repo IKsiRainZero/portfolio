@@ -1,0 +1,501 @@
+{% extends "base.html" %}
+{% block title %}印象{% endblock %}
+{% block body_class %}page-impressions{% endblock %}
+{% block head %}
+<style>
+/* ── Body override to match wall ── */
+body.page-impressions { background: #f5f0e8; }
+
+/* ── Fixed wall background (corkboard / warm wall texture) ── */
+.page-impressions { position: relative; }
+.page-impressions::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background:
+    radial-gradient(ellipse at 15% 40%, rgba(210,188,155,0.20) 0%, transparent 55%),
+    radial-gradient(ellipse at 78% 22%, rgba(200,178,148,0.15) 0%, transparent 50%),
+    radial-gradient(ellipse at 45% 75%, rgba(218,198,168,0.14) 0%, transparent 50%),
+    radial-gradient(ellipse at 60% 55%, rgba(225,205,175,0.10) 0%, transparent 40%),
+    linear-gradient(172deg, #f8f4ed 0%, #f0e8d8 48%, #f5efe4 100%);
+}
+
+/* ── Content sits above fixed background ── */
+.impressions-wrap { position: relative; z-index: 1; max-width: 680px; margin: 0 auto; }
+
+/* ═══════════════════════════════════════════
+   Refresh bar
+   ═══════════════════════════════════════════ */
+.refresh-bar {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 20px;
+}
+.refresh-bar .btn {
+  font-size: 11px;
+  background: rgba(255,255,255,0.45);
+  border: 1px solid #d4c9b5;
+  color: #8c7b65;
+  border-radius: 20px;
+  padding: 3px 14px;
+  cursor: pointer;
+  transition: all 0.2s var(--ease, ease);
+  font-family: inherit;
+}
+.refresh-bar .btn:hover {
+  background: rgba(255,255,255,0.75);
+  border-color: #b8a080;
+  color: #5c4a32;
+}
+
+/* ═══════════════════════════════════════════
+   Stat label cards — handwritten notes pinned to the wall
+   ═══════════════════════════════════════════ */
+.impressions-stats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+  margin-bottom: 28px;
+}
+@media (max-width: 600px) {
+  .impressions-stats { grid-template-columns: repeat(2, 1fr); }
+}
+
+.stat-label-card {
+  background: #fdfaf5;
+  border: 1px solid #e5dcc8;
+  border-radius: 3px;
+  padding: 14px 8px 10px;
+  text-align: center;
+  box-shadow: 1px 2px 6px rgba(0,0,0,0.07);
+  position: relative;
+  transform: rotate(-0.35deg);
+  transition: transform 0.2s var(--ease, ease), box-shadow 0.2s var(--ease, ease);
+}
+.stat-label-card:nth-child(2) { transform: rotate(0.3deg); }
+.stat-label-card:nth-child(3) { transform: rotate(0.45deg); }
+.stat-label-card:nth-child(4) { transform: rotate(-0.25deg); }
+.stat-label-card:hover {
+  transform: rotate(0deg) translateY(-1px);
+  box-shadow: 2px 3px 10px rgba(0,0,0,0.1);
+}
+/* Pin dot at top center — like a pushpin */
+.stat-label-card::before {
+  content: '';
+  position: absolute;
+  top: 5px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 7px; height: 7px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 40% 35%, #d4c0a0, #a08060);
+  box-shadow: 0 1px 2px rgba(0,0,0,0.2);
+}
+.stat-label-card .stat-value {
+  font-size: 24px;
+  font-weight: 700;
+  color: #5c4a32;
+  font-family: Georgia, "Times New Roman", serif;
+  line-height: 1.2;
+}
+.stat-label-card .stat-label {
+  font-size: 10px;
+  color: #9b8c7a;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin-top: 3px;
+  font-weight: 500;
+}
+
+/* Server offline card — muted */
+.stat-label-card.server-offline {
+  grid-column: 1 / -1;
+  opacity: 0.5;
+  transform: rotate(0deg);
+}
+.stat-label-card.server-offline .stat-value {
+  font-size: 14px;
+  color: #b8a090;
+}
+
+/* ═══════════════════════════════════════════
+   Impression — developing Polaroid photo
+   ═══════════════════════════════════════════ */
+.impression-snapshot {
+  background: #fffef9;
+  border: none;
+  border-radius: 3px;
+  padding: 20px 24px 50px 24px;
+  margin: 0 auto 28px;
+  max-width: 520px;
+  box-shadow:
+    3px 4px 14px rgba(0,0,0,0.09),
+    0 1px 3px rgba(0,0,0,0.04);
+  transform: rotate(-0.45deg);
+  transition:
+    opacity 1.8s ease,
+    filter 1.8s ease,
+    transform 0.3s var(--ease, ease),
+    box-shadow 0.3s var(--ease, ease);
+  position: relative;
+}
+.impression-snapshot:hover {
+  transform: rotate(0deg);
+  box-shadow: 4px 5px 18px rgba(0,0,0,0.12);
+}
+/* Developing state — sepia + low opacity, like a photo still emerging */
+.impression-snapshot.developing {
+  opacity: 0.22;
+  filter: sepia(0.65) brightness(1.3);
+}
+/* Bottom label — handwritten caption on the Polaroid's wide bottom margin */
+.impression-snapshot::after {
+  content: '印象快照';
+  position: absolute;
+  bottom: 16px;
+  left: 0; right: 0;
+  text-align: center;
+  font-size: 11px;
+  color: #c4b498;
+  font-style: italic;
+  letter-spacing: 0.05em;
+  font-family: Georgia, "Times New Roman", serif;
+}
+.impression-snapshot .snap-label {
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  color: #b8a080;
+  margin-bottom: 8px;
+  font-weight: 500;
+}
+.impression-snapshot .snap-text {
+  font-size: 14px;
+  line-height: 1.75;
+  color: #4a3f32;
+}
+
+/* ═══════════════════════════════════════════
+   Timeline — film strip with sprocket dots
+   ═══════════════════════════════════════════ */
+.timeline {
+  background: #f5f1e8;
+  border-top: 3px dotted #d8cdb4;
+  border-bottom: 3px dotted #d8cdb4;
+  padding: 16px 20px 12px;
+  margin-bottom: 28px;
+  border-radius: 3px;
+  box-shadow: 1px 2px 8px rgba(0,0,0,0.05);
+}
+.timeline h3 {
+  font-size: 14px;
+  font-weight: 600;
+  margin: 0 0 12px 0;
+  color: #5c4a32;
+  font-family: Georgia, "Times New Roman", serif;
+  font-style: italic;
+  letter-spacing: 0.02em;
+}
+.timeline-entry {
+  display: flex;
+  gap: 10px;
+  padding: 7px 0;
+  border-bottom: 1px dashed #e5dcc8;
+  font-size: 12px;
+  align-items: baseline;
+}
+.timeline-entry:last-child { border-bottom: none; }
+.timeline-entry .tl-time {
+  color: #9b8c7a;
+  white-space: nowrap;
+  min-width: 52px;
+  font-size: 10px;
+  font-family: Georgia, "Times New Roman", serif;
+}
+.timeline-entry .tl-type {
+  padding: 1px 8px;
+  border-radius: 10px;
+  font-size: 10px;
+  font-weight: 500;
+  white-space: nowrap;
+}
+/* Warm earth-tone type badges */
+.tl-type.mcq           { background: #e3d5c0; color: #6b4c2a; }
+.tl-type.code,
+.tl-type.coding        { background: #d5cbb8; color: #4a3828; }
+.tl-type.flashcards    { background: #efe0c8; color: #7a5a30; }
+.tl-type.interview,
+.tl-type.mock_interview{ background: #e8d4c8; color: #7a4030; }
+.tl-type.feynman       { background: #d8e0c8; color: #4a5a30; }
+.tl-type.short         { background: #e0d8c8; color: #5a4a30; }
+.timeline-entry .tl-desc {
+  color: #6b5c4a;
+  flex: 1;
+}
+
+/* ═══════════════════════════════════════════
+   Notes — paper scraps pinned at angles
+   ═══════════════════════════════════════════ */
+.notes-section { margin-bottom: 28px; }
+.notes-section h3 {
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: 14px;
+  color: #5c4a32;
+  font-family: Georgia, "Times New Roman", serif;
+  font-style: italic;
+  letter-spacing: 0.02em;
+}
+.reflection-card {
+  background: #fdfaf3;
+  border: 1px solid #e5dcc8;
+  border-radius: 3px;
+  padding: 14px 18px;
+  margin-bottom: 10px;
+  box-shadow:
+    1px 2px 5px rgba(0,0,0,0.07),
+    0 1px 0 #f5efe0;
+  transform: rotate(-0.6deg);
+  position: relative;
+  transition: transform 0.2s var(--ease, ease), box-shadow 0.2s var(--ease, ease);
+}
+/* Alternating rotation — like scraps casually pinned */
+.reflection-card:nth-child(even) { transform: rotate(0.55deg); }
+.reflection-card:nth-child(3n)   { transform: rotate(-0.3deg); }
+.reflection-card:nth-child(4n)   { transform: rotate(0.25deg); }
+.reflection-card:hover {
+  transform: rotate(0deg) translateY(-2px);
+  box-shadow: 2px 4px 10px rgba(0,0,0,0.1);
+  z-index: 1;
+}
+.reflection-card .rf-date {
+  font-size: 10px;
+  color: #b8a080;
+  margin-bottom: 5px;
+  font-family: Georgia, "Times New Roman", serif;
+  font-style: italic;
+}
+.reflection-card .rf-body {
+  font-size: 13px;
+  line-height: 1.65;
+  color: #5c4a32;
+}
+
+/* ═══════════════════════════════════════════
+   Empty state — gentle, warm
+   ═══════════════════════════════════════════ */
+.timeline .empty-state,
+.notes-section .empty-state {
+  text-align: center;
+  padding: 28px 20px;
+  font-size: 12px;
+}
+.timeline .empty-state p,
+.notes-section .empty-state p {
+  color: #b8a890;
+  font-size: 12px;
+}
+.timeline .empty-state a,
+.notes-section .empty-state a {
+  color: #8b6f50;
+}
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="page-impressions">
+<div class="impressions-wrap">
+  <div class="refresh-bar">
+    <button class="btn btn-sm btn-ghost" onclick="Impressions.refreshImpression()" style="font-size:11px">刷新印象</button>
+  </div>
+
+  <!-- Stats — handwritten labels pinned to the wall -->
+  <div class="impressions-stats" id="impStats">
+    <div class="stat-label-card"><div class="stat-value">-</div><div class="stat-label">总练习</div></div>
+    <div class="stat-label-card"><div class="stat-value">-</div><div class="stat-label">连续天数</div></div>
+    <div class="stat-label-card"><div class="stat-value">-</div><div class="stat-label">薄弱领域</div></div>
+    <div class="stat-label-card"><div class="stat-value">-</div><div class="stat-label">笔记数</div></div>
+  </div>
+
+  <!-- AI Impression — Polaroid photo -->
+  <div class="impression-snapshot" id="impSnapshot">
+    <div class="snap-label">对你的印象</div>
+    <div class="snap-text" id="impSnapshotText">加载中...</div>
+  </div>
+
+  <!-- Activity Timeline — film strip -->
+  <div class="timeline">
+    <h3>学习痕迹</h3>
+    <div id="impTimeline">
+      <div class="empty-state"><p>暂无活动记录。去<a href="/trainer">训练器</a>刷几道题吧。</p></div>
+    </div>
+  </div>
+
+  <!-- Notes — paper scraps -->
+  <div class="notes-section">
+    <h3>自我记录</h3>
+    <div id="impNotes">
+      <div class="empty-state"><p>还没有笔记。在<a href="/">同桌</a>聊天时记录的笔记会出现在这里。</p></div>
+    </div>
+  </div>
+</div>
+
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+var Impressions = {
+  init: function() {
+    this.loadStats();
+    this.loadImpression();
+    this.loadTimeline();
+    this.loadNotes();
+  },
+
+  loadStats: function() {
+    var self = this;
+    Promise.all([
+      fetch('/api/dashboard').then(function(r) { return r.json(); }).catch(function() { return null; }),
+      fetch('/api/impressions/stats').then(function(r) { return r.json(); }).catch(function() { return null; })
+    ]).then(function(results) {
+      var data = results[0];
+      var imp = results[1];
+      var notes = [];
+      try { notes = JSON.parse(localStorage.getItem('desk_notes') || '[]'); } catch(e) {}
+      var html = '';
+      if (data && data.total_exercises !== undefined) {
+        html +=
+          '<div class="stat-label-card"><div class="stat-value">' + (data.total_exercises || 0) + '</div><div class="stat-label">总练习</div></div>' +
+          '<div class="stat-label-card"><div class="stat-value">' + (data.streak_days || 0) + '</div><div class="stat-label">连续天数</div></div>' +
+          '<div class="stat-label-card"><div class="stat-value">' + ((data.weak_areas || []).length) + '</div><div class="stat-label">薄弱领域</div></div>' +
+          '<div class="stat-label-card"><div class="stat-value">' + notes.length + '</div><div class="stat-label">笔记数</div></div>';
+      }
+      if (imp) {
+        html +=
+          '<div class="stat-label-card"><div class="stat-value">' + (imp.today ? imp.today.page_views : '-') + '</div><div class="stat-label">今日页面访问</div></div>' +
+          '<div class="stat-label-card"><div class="stat-value">' + (imp.today ? imp.today.agent_messages : '-') + '</div><div class="stat-label">今日AI对话</div></div>' +
+          '<div class="stat-label-card"><div class="stat-value">' + (imp.today ? imp.today.feature_uses : '-') + '</div><div class="stat-label">今日功能使用</div></div>' +
+          '<div class="stat-label-card"><div class="stat-value">' + (imp.total_events || '-') + '</div><div class="stat-label">行为记录总数</div></div>';
+      }
+      document.getElementById('impStats').innerHTML = html;
+    }).catch(function() {
+      document.getElementById('impStats').innerHTML =
+        '<div class="stat-label-card server-offline"><div class="stat-value">-</div><div class="stat-label">服务器离线</div></div>';
+    });
+  },
+
+  loadImpression: function() {
+    var cached = null;
+    try { cached = JSON.parse(localStorage.getItem('impression_snapshot') || 'null'); } catch(e) {}
+    if (cached && cached.text) {
+      document.getElementById('impSnapshotText').textContent = cached.text;
+    } else {
+      document.getElementById('impSnapshotText').textContent = '使用各个功能一段时间后，我会在这里写下对你的学习印象。去训练器刷几道题，跟同桌聊聊，让系统更了解你。';
+    }
+  },
+
+  refreshImpression: function() {
+    var el = document.getElementById('impSnapshotText');
+    var snapshot = document.querySelector('.impression-snapshot');
+    el.textContent = '正在生成印象...';
+    if (snapshot) snapshot.classList.add('developing');
+    var self = this;
+    fetch('/api/dashboard')
+      .then(function(r) { return r.json(); })
+      .then(function(data) {
+        var prompt = '你是一个学习伙伴。请根据以下学习数据，写一段 100-150 字的「印象」——你对这个学习者的观察和个性化评价。\n\n' +
+          '总练习: ' + (data.total_exercises || 0) + ' 题\n' +
+          '连续学习: ' + (data.streak_days || 0) + ' 天\n' +
+          '薄弱领域: ' + ((data.weak_areas || []).map(function(w) { return w.topic; }).join('、') || '暂无') + '\n' +
+          '最近活动: ' + ((data.recent || []).slice(0, 3).map(function(e) { return e.type + ': ' + (e.topic || ''); }).join('；') || '暂无') + '\n\n' +
+          '要求:\n1. 用中文，像朋友观察朋友一样，真诚但不矫情\n' +
+          '2. 指出可见的进步或习惯，也可以给出温和的建议\n' +
+          '3. 如果数据很少，就说"还在互相认识的阶段"\n' +
+          '4. 直接输出文本，不要加前缀标题';
+        return fetch(App.serverUrl + '/api/agent/chat', {
+          method: 'POST', headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ message: prompt, session_id: 'impression', persona: 'deskmate' })
+        });
+      })
+      .then(function(r) { return r.json(); })
+      .then(function(data) {
+        var text = (data.reply || '').trim();
+        if (text) {
+          el.textContent = text;
+          localStorage.setItem('impression_snapshot', JSON.stringify({ text: text, time: Date.now() }));
+        } else {
+          el.textContent = '印象生成失败，请稍后再试。';
+        }
+        if (snapshot) snapshot.classList.remove('developing');
+      })
+      .catch(function() {
+        el.textContent = '请先配置 API Key 并确保服务器在线。';
+        if (snapshot) snapshot.classList.remove('developing');
+      });
+  },
+
+  loadTimeline: function() {
+    var self = this;
+    fetch('/api/dashboard')
+      .then(function(r) { return r.json(); })
+      .then(function(data) {
+        var events = data.recent || [];
+        if (!events.length) {
+          document.getElementById('impTimeline').innerHTML =
+            '<div class="empty-state"><p>暂无活动记录。去<a href="/trainer">训练器</a>刷几道题吧。</p></div>';
+          return;
+        }
+        var typeNames = { mcq: '选择题', coding: '编程实战', code: '编程实战', flashcards: '闪卡', interview: '模拟面试', mock_interview: '模拟面试', feynman: '费曼检查', short: '简答题' };
+        document.getElementById('impTimeline').innerHTML = events.map(function(e) {
+          var time = e.timestamp ? new Date(e.timestamp).toLocaleString('zh-CN', { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' }) : '';
+          var etype = e.type || '';
+          return '<div class="timeline-entry">' +
+            '<span class="tl-time">' + App.escapeHtml(time) + '</span>' +
+            '<span class="tl-type ' + App.escapeHtml(etype) + '">' + App.escapeHtml(typeNames[etype] || etype) + '</span>' +
+            '<span class="tl-desc">' + App.escapeHtml(e.topic || e.label || '') + (e.correct ? ' ✓' : e.correct === false ? ' ✗' : '') + '</span>' +
+          '</div>';
+        }).join('');
+
+        // Also add interview history
+        try {
+          var ivHistory = JSON.parse(localStorage.getItem('interview_history') || '[]');
+          if (ivHistory.length > 0) {
+            var ivHtml = ivHistory.slice(0, 3).map(function(h) {
+              return '<div class="timeline-entry">' +
+                '<span class="tl-time">' + App.escapeHtml(h.date || '') + '</span>' +
+                '<span class="tl-type interview">模拟面试</span>' +
+                '<span class="tl-desc">' + App.escapeHtml(h.domains || '综合') + ' — 得分 ' + (h.score || '-') + '/10</span>' +
+              '</div>';
+            }).join('');
+            document.getElementById('impTimeline').innerHTML += ivHtml;
+          }
+        } catch(e) {}
+      })
+      .catch(function() {
+        document.getElementById('impTimeline').innerHTML =
+          '<div class="empty-state"><p>服务器离线</p></div>';
+      });
+  },
+
+  loadNotes: function() {
+    try {
+      var notes = JSON.parse(localStorage.getItem('desk_notes') || '[]');
+      if (!notes.length) return;
+      notes.reverse();
+      document.getElementById('impNotes').innerHTML = notes.slice(0, 10).map(function(n) {
+        var time = n.time ? new Date(n.time).toLocaleString('zh-CN', { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' }) : '';
+        return '<div class="reflection-card">' +
+          '<div class="rf-date">' + App.escapeHtml(time) + '</div>' +
+          '<div class="rf-body">' + App.escapeHtml(n.text).replace(/\n/g, '<br>') + '</div>' +
+        '</div>';
+      }).join('');
+    } catch(e) {}
+  }
+};
+
+App.ready(function() { Impressions.init(); });
+</script>
+{% endblock %}

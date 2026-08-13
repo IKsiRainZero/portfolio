@@ -1,0 +1,89 @@
+.block {
+  padding: 0;
+}
+
+.header {
+  display: flex; align-items: center; gap: var(--cr-space-sm);
+  margin-bottom: var(--cr-space-lg);
+}
+.title {
+  font-size: 22px; font-weight: 600; color: var(--cr-text1);
+  letter-spacing: -0.02em;
+}
+.badge {
+  font-size: 9px; font-weight: 600; padding: 2px 8px;
+  border-radius: var(--cr-radius-sm);
+  background: var(--cr-green-soft); color: var(--cr-green);
+  letter-spacing: 0.04em; text-transform: uppercase;
+}
+.badgePending { background: var(--cr-accent-soft); color: var(--cr-accent); }
+.badgeEmpty    { background: transparent; color: var(--cr-text3); border: 1px solid var(--cr-border); }
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: var(--cr-space-md);
+}
+
+.card {
+  background: var(--cr-surface1);
+  border: 1px solid var(--cr-border);
+  border-radius: var(--cr-radius-lg);
+  padding: var(--cr-space-lg);
+  transition: background var(--cr-dur-fast) var(--cr-ease);
+}
+.card:hover {
+  background: var(--cr-surface2);
+}
+
+.cardTop {
+  display: flex; align-items: flex-start; justify-content: space-between;
+  gap: var(--cr-space-sm); margin-bottom: var(--cr-space-sm);
+}
+.dirName {
+  font-size: 16px; font-weight: 600; color: var(--cr-text1);
+}
+.score {
+  font-family: var(--cr-mono); font-size: 12px; font-weight: 600;
+  padding: 2px 8px; border-radius: var(--cr-radius-sm);
+  white-space: nowrap; flex-shrink: 0;
+}
+.scoreHigh { background: var(--cr-green-soft); color: var(--cr-green); }
+.scoreMid  { background: var(--cr-accent-soft); color: var(--cr-accent); }
+.scoreLow  { background: rgba(0,0,0,0.03); color: var(--cr-text3); }
+
+.reason {
+  font-size: 13px; line-height: 1.7; color: var(--cr-text2);
+  margin-bottom: var(--cr-space-md);
+}
+
+.lists {
+  display: flex; gap: var(--cr-space-md);
+  margin-bottom: var(--cr-space-sm);
+}
+.listCol {
+  flex: 1; min-width: 0;
+  display: flex; flex-direction: column; gap: 4px;
+}
+.listLabel {
+  font-size: 9px; font-weight: 600; color: var(--cr-text3);
+  text-transform: uppercase; letter-spacing: 0.06em;
+  margin-bottom: 2px;
+}
+.skillTag {
+  font-size: 11px; padding: 3px 8px; border-radius: var(--cr-radius-sm);
+}
+.overlap { background: var(--cr-green-soft); color: var(--cr-green); }
+.gap     { background: var(--cr-red-soft); color: var(--cr-red); }
+
+.outlook {
+  font-size: 10px; font-weight: 500;
+  padding: 2px 8px; border-radius: var(--cr-radius-sm);
+}
+.outlook_growing  { background: var(--cr-green-soft); color: var(--cr-green); }
+.outlook_stable   { background: rgba(0,0,0,0.03); color: var(--cr-text3); }
+.outlook_declining { background: var(--cr-red-soft); color: var(--cr-red); }
+
+.empty {
+  font-size: 13px; color: var(--cr-text3); font-style: italic;
+}

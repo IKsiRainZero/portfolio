@@ -1,0 +1,617 @@
+{
+  "summary": {
+    "config": "bm25-only",
+    "config_label": "纯BM25检索",
+    "k": 3,
+    "hit_rate@3": 0.7333,
+    "mrr": 0.7167,
+    "avg_relevant@3": 1.73,
+    "avg_latency_ms": 37352.7,
+    "hit_count": 22,
+    "total_queries": 30,
+    "timestamp": "2026-06-06T19:33:36.635162"
+  },
+  "details": [
+    {
+      "id": 1,
+      "question": "什么是 Self-Evolution？在 AI Agent 中如何实现？",
+      "domain": "AI Agent",
+      "hit": true,
+      "hit_rank": 2,
+      "rr": 0.5,
+      "relevant_found": 1,
+      "top5_sources": [
+        "2602.04811v2.md",
+        "2602.04811v2.md",
+        "2604.25850v4.md"
+      ],
+      "top5_similarities": [
+        0.7238,
+        0.6883,
+        0.654
+      ],
+      "elapsed_ms": 377066
+    },
+    {
+      "id": 2,
+      "question": "什么是 Skill Learning？Meta-Skill 和普通 Skill 有什么区别？",
+      "domain": "AI Agent",
+      "hit": true,
+      "hit_rank": 1,
+      "rr": 1.0,
+      "relevant_found": 3,
+      "top5_sources": [
+        "2605.10500.md",
+        "2605.10500.md",
+        "2605.10500.md"
+      ],
+      "top5_similarities": [
+        0.6612,
+        0.6491,
+        0.6152
+      ],
+      "elapsed_ms": 22642
+    },
+    {
+      "id": 3,
+      "question": "多 Agent 系统中 Self-Play 机制如何工作？",
+      "domain": "Multi-Agent",
+      "hit": true,
+      "hit_rank": 1,
+      "rr": 1.0,
+      "relevant_found": 3,
+      "top5_sources": [
+        "2604.14054v2.md",
+        "2604.27660v2.md",
+        "2604.14054v2.md"
+      ],
+      "top5_similarities": [
+        0.6601,
+        0.6527,
+        0.6521
+      ],
+      "elapsed_ms": 18287
+    },
+    {
+      "id": 4,
+      "question": "什么是 Harness Engineering？它在 Agent 系统中起什么作用？",
+      "domain": "AI Agent",
+      "hit": true,
+      "hit_rank": 1,
+      "rr": 1.0,
+      "relevant_found": 2,
+      "top5_sources": [
+        "2604.25850v4.md",
+        "agent-development.json",
+        "2604.25850v4.md"
+      ],
+      "top5_similarities": [
+        0.6656,
+        0.6643,
+        0.6609
+      ],
+      "elapsed_ms": 26095
+    },
+    {
+      "id": 5,
+      "question": "SE-Bench 是什么？它如何评估 Self-Evolution 能力？",
+      "domain": "AI Benchmark",
+      "hit": true,
+      "hit_rank": 1,
+      "rr": 1.0,
+      "relevant_found": 3,
+      "top5_sources": [
+        "2602.04811v2.md",
+        "2602.04811v2.md",
+        "2602.04811v2.md"
+      ],
+      "top5_similarities": [
+        0.7208,
+        0.7166,
+        0.7142
+      ],
+      "elapsed_ms": 25240
+    },
+    {
+      "id": 6,
+      "question": "什么是 Hyperagents？它们与传统 Agent 有什么不同？",
+      "domain": "AI Agent",
+      "hit": false,
+      "hit_rank": null,
+      "rr": 0.0,
+      "relevant_found": 0,
+      "top5_sources": [
+        "2603.19461v1.md",
+        "2603.19461v1.md",
+        "2603.19461v1.md"
+      ],
+      "top5_similarities": [
+        0.7138,
+        0.6555,
+        0.6396
+      ],
+      "elapsed_ms": 38432
+    },
+    {
+      "id": 7,
+      "question": "从经验中学习的 Training Language Agents 方法是什么？",
+      "domain": "AI Agent",
+      "hit": true,
+      "hit_rank": 1,
+      "rr": 1.0,
+      "relevant_found": 2,
+      "top5_sources": [
+        "2605.20477v1.md",
+        "2605.20477v1.md",
+        "2605.10500.md"
+      ],
+      "top5_similarities": [
+        0.6927,
+        0.682,
+        0.6572
+      ],
+      "elapsed_ms": 19726
+    },
+    {
+      "id": 8,
+      "question": "SkillOS 系统中如何实现 Skill Curation？",
+      "domain": "AI Agent",
+      "hit": true,
+      "hit_rank": 1,
+      "rr": 1.0,
+      "relevant_found": 3,
+      "top5_sources": [
+        "2605.06614v1.md",
+        "2605.06614v1.md",
+        "2605.06614v1.md"
+      ],
+      "top5_similarities": [
+        0.7405,
+        0.7395,
+        0.7246
+      ],
+      "elapsed_ms": 17528
+    },
+    {
+      "id": 9,
+      "question": "什么是 Continual Harness？在线自适应如何工作？",
+      "domain": "AI Agent",
+      "hit": true,
+      "hit_rank": 1,
+      "rr": 1.0,
+      "relevant_found": 3,
+      "top5_sources": [
+        "2605.09998v1.md",
+        "2605.09998v1.md",
+        "2605.09998v1.md"
+      ],
+      "top5_similarities": [
+        0.7082,
+        0.7075,
+        0.6855
+      ],
+      "elapsed_ms": 21138
+    },
+    {
+      "id": 10,
+      "question": "EmbodiSkill 如何实现具身 Agent 的技能感知反思？",
+      "domain": "Embodied AI",
+      "hit": false,
+      "hit_rank": null,
+      "rr": 0.0,
+      "relevant_found": 0,
+      "top5_sources": [
+        "imported.json",
+        "imported.json",
+        "闪卡手册.md"
+      ],
+      "top5_similarities": [
+        0.7596,
+        0.7142,
+        0.686
+      ],
+      "elapsed_ms": 39154
+    },
+    {
+      "id": 11,
+      "question": "MUSE-Autoskill 如何在 Agent 中管理 Memory 和 Skill？",
+      "domain": "AI Agent",
+      "hit": true,
+      "hit_rank": 1,
+      "rr": 1.0,
+      "relevant_found": 3,
+      "top5_sources": [
+        "2605.27366v1.md",
+        "2605.27366v1.md",
+        "2605.27366v1.md"
+      ],
+      "top5_similarities": [
+        0.7453,
+        0.7207,
+        0.7179
+      ],
+      "elapsed_ms": 13659
+    },
+    {
+      "id": 12,
+      "question": "Python 中的列表推导式是什么？如何使用？",
+      "domain": "Python基础",
+      "hit": true,
+      "hit_rank": 1,
+      "rr": 1.0,
+      "relevant_found": 3,
+      "top5_sources": [
+        "闪卡手册.md",
+        "Python基础.md",
+        "python-basics.json"
+      ],
+      "top5_similarities": [
+        0.7402,
+        0.7305,
+        0.6147
+      ],
+      "elapsed_ms": 14542
+    },
+    {
+      "id": 13,
+      "question": "什么是深度学习中的反向传播算法？",
+      "domain": "AI大模型",
+      "hit": true,
+      "hit_rank": 1,
+      "rr": 1.0,
+      "relevant_found": 1,
+      "top5_sources": [
+        "ai-curriculum.json",
+        "ai-curriculum.json",
+        "2604.14054v2.md"
+      ],
+      "top5_similarities": [
+        0.594,
+        0.5602,
+        0.5167
+      ],
+      "elapsed_ms": 18903
+    },
+    {
+      "id": 14,
+      "question": "数据库事务的 ACID 特性是什么？",
+      "domain": "数据库",
+      "hit": true,
+      "hit_rank": 1,
+      "rr": 1.0,
+      "relevant_found": 2,
+      "top5_sources": [
+        "数据库.md",
+        "闪卡手册.md",
+        "闪卡手册.md"
+      ],
+      "top5_similarities": [
+        0.6236,
+        0.6214,
+        0.5554
+      ],
+      "elapsed_ms": 19611
+    },
+    {
+      "id": 15,
+      "question": "系统设计中如何处理高并发场景？",
+      "domain": "系统设计",
+      "hit": true,
+      "hit_rank": 1,
+      "rr": 1.0,
+      "relevant_found": 1,
+      "top5_sources": [
+        "闪卡手册.md",
+        "2603.02218v2.md",
+        "闪卡手册.md"
+      ],
+      "top5_similarities": [
+        0.6865,
+        0.5834,
+        0.5763
+      ],
+      "elapsed_ms": 23545
+    },
+    {
+      "id": 16,
+      "question": "Self-Evolution 和 Self-Improvement 有什么区别？",
+      "domain": "AI Agent",
+      "hit": false,
+      "hit_rank": null,
+      "rr": 0.0,
+      "relevant_found": 0,
+      "top5_sources": [
+        "2602.04811v2.md",
+        "2602.04811v2.md",
+        "2603.02218v2.md"
+      ],
+      "top5_similarities": [
+        0.6459,
+        0.6398,
+        0.61
+      ],
+      "elapsed_ms": 25636
+    },
+    {
+      "id": 17,
+      "question": "From Context to Skills 论文中提出的技能学习框架是什么？",
+      "domain": "AI Agent",
+      "hit": true,
+      "hit_rank": 1,
+      "rr": 1.0,
+      "relevant_found": 2,
+      "top5_sources": [
+        "2604.27660v2.md",
+        "2604.27660v2.md",
+        "2605.20477v1.md"
+      ],
+      "top5_similarities": [
+        0.6748,
+        0.6625,
+        0.6532
+      ],
+      "elapsed_ms": 29340
+    },
+    {
+      "id": 18,
+      "question": "软件项目的版本控制最佳实践有哪些？",
+      "domain": "项目开发",
+      "hit": false,
+      "hit_rank": null,
+      "rr": 0.0,
+      "relevant_found": 0,
+      "top5_sources": [
+        "agent-development.json",
+        "2604.25850v4.md",
+        "2603.19461v1.md"
+      ],
+      "top5_similarities": [
+        0.5413,
+        0.5358,
+        0.5326
+      ],
+      "elapsed_ms": 31283
+    },
+    {
+      "id": 19,
+      "question": "什么是 Transformer 中的自注意力机制？",
+      "domain": "AI大模型",
+      "hit": true,
+      "hit_rank": 1,
+      "rr": 1.0,
+      "relevant_found": 2,
+      "top5_sources": [
+        "AI大模型.md",
+        "闪卡手册.md",
+        "2603.19461v1.md"
+      ],
+      "top5_similarities": [
+        0.624,
+        0.5281,
+        0.5056
+      ],
+      "elapsed_ms": 32409
+    },
+    {
+      "id": 20,
+      "question": "RESTful API 设计原则有哪些？",
+      "domain": "框架工具",
+      "hit": false,
+      "hit_rank": null,
+      "rr": 0.0,
+      "relevant_found": 0,
+      "top5_sources": [
+        "agent-development.json",
+        "2602.04811v2.md",
+        "闪卡手册.md"
+      ],
+      "top5_similarities": [
+        0.6146,
+        0.579,
+        0.5533
+      ],
+      "elapsed_ms": 34976
+    },
+    {
+      "id": 21,
+      "question": "什么是检索增强生成 (RAG)？它的核心组件是什么？",
+      "domain": "AI大模型",
+      "hit": true,
+      "hit_rank": 1,
+      "rr": 1.0,
+      "relevant_found": 3,
+      "top5_sources": [
+        "AI大模型.md",
+        "闪卡手册.md",
+        "agent-development.json"
+      ],
+      "top5_similarities": [
+        0.7312,
+        0.6814,
+        0.6716
+      ],
+      "elapsed_ms": 29566
+    },
+    {
+      "id": 22,
+      "question": "C++ 中指针和引用的区别是什么？",
+      "domain": "C++基础",
+      "hit": true,
+      "hit_rank": 1,
+      "rr": 1.0,
+      "relevant_found": 3,
+      "top5_sources": [
+        "C++基础.md",
+        "闪卡手册.md",
+        "闪卡手册.md"
+      ],
+      "top5_similarities": [
+        0.7735,
+        0.7677,
+        0.6628
+      ],
+      "elapsed_ms": 29977
+    },
+    {
+      "id": 23,
+      "question": "机器学习中过拟合如何检测和防止？",
+      "domain": "AI大模型",
+      "hit": true,
+      "hit_rank": 1,
+      "rr": 1.0,
+      "relevant_found": 2,
+      "top5_sources": [
+        "finance-basics.json",
+        "量化陷阱.md",
+        "imported.json"
+      ],
+      "top5_similarities": [
+        0.703,
+        0.7026,
+        0.5919
+      ],
+      "elapsed_ms": 33474
+    },
+    {
+      "id": 24,
+      "question": "什么是 Agentic Harness Engineering？它的核心原则是什么？",
+      "domain": "AI Agent",
+      "hit": true,
+      "hit_rank": 1,
+      "rr": 1.0,
+      "relevant_found": 2,
+      "top5_sources": [
+        "2604.25850v4.md",
+        "agent-development.json",
+        "2604.25850v4.md"
+      ],
+      "top5_similarities": [
+        0.6605,
+        0.6451,
+        0.6294
+      ],
+      "elapsed_ms": 32031
+    },
+    {
+      "id": 25,
+      "question": "Self-Play Only Evolves When 这篇论文的核心发现是什么？",
+      "domain": "AI Agent",
+      "hit": true,
+      "hit_rank": 1,
+      "rr": 1.0,
+      "relevant_found": 2,
+      "top5_sources": [
+        "2603.02218v2.md",
+        "2603.02218v2.md",
+        "2604.14054v2.md"
+      ],
+      "top5_similarities": [
+        0.6972,
+        0.6605,
+        0.6348
+      ],
+      "elapsed_ms": 27265
+    },
+    {
+      "id": 26,
+      "question": "Java 中的面向对象编程四大特性是什么？",
+      "domain": "Java基础",
+      "hit": false,
+      "hit_rank": null,
+      "rr": 0.0,
+      "relevant_found": 0,
+      "top5_sources": [
+        "2604.25850v4.md",
+        "2605.06614v1.md",
+        "闪卡手册.md"
+      ],
+      "top5_similarities": [
+        0.529,
+        0.5204,
+        0.5141
+      ],
+      "elapsed_ms": 20307
+    },
+    {
+      "id": 27,
+      "question": "LLM 的 Tokenization 过程是什么？BPE 如何工作？",
+      "domain": "AI大模型",
+      "hit": false,
+      "hit_rank": null,
+      "rr": 0.0,
+      "relevant_found": 0,
+      "top5_sources": [
+        "2605.27366v1.md",
+        "2602.04811v2.md",
+        "2605.20477v1.md"
+      ],
+      "top5_similarities": [
+        0.5699,
+        0.552,
+        0.5392
+      ],
+      "elapsed_ms": 26551
+    },
+    {
+      "id": 28,
+      "question": "什么是 Self-Synthetic Pipeline？它在 Self-Play 中起什么作用？",
+      "domain": "AI Agent",
+      "hit": true,
+      "hit_rank": 1,
+      "rr": 1.0,
+      "relevant_found": 3,
+      "top5_sources": [
+        "2603.02218v2.md",
+        "2603.02218v2.md",
+        "2603.02218v2.md"
+      ],
+      "top5_similarities": [
+        0.6966,
+        0.6663,
+        0.6427
+      ],
+      "elapsed_ms": 22826
+    },
+    {
+      "id": 29,
+      "question": "前端开发中 CSS Flexbox 和 Grid 布局有什么区别？",
+      "domain": "项目开发",
+      "hit": false,
+      "hit_rank": null,
+      "rr": 0.0,
+      "relevant_found": 0,
+      "top5_sources": [
+        "闪卡手册.md",
+        "系统设计.md",
+        "框架工具.md"
+      ],
+      "top5_similarities": [
+        0.498,
+        0.4949,
+        0.4837
+      ],
+      "elapsed_ms": 20594
+    },
+    {
+      "id": 30,
+      "question": "SkillEvolver 如何将 Skill Learning 视为 Meta-Skill？",
+      "domain": "AI Agent",
+      "hit": true,
+      "hit_rank": 1,
+      "rr": 1.0,
+      "relevant_found": 3,
+      "top5_sources": [
+        "2605.10500.md",
+        "2605.10500.md",
+        "2605.10500.md"
+      ],
+      "top5_similarities": [
+        0.7533,
+        0.7432,
+        0.7241
+      ],
+      "elapsed_ms": 28779
+    }
+  ],
+  "config_name": "bm25-only"
+}

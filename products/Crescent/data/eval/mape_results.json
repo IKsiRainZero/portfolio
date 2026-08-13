@@ -1,0 +1,403 @@
+{
+  "metric": "MAPE",
+  "description": "Agent难度预测 vs 人工标注(1→0.33, 2→0.67, 3→1.0)",
+  "sample_size": 49,
+  "mape_pct": 46.1,
+  "within_20pct_accuracy": "3/49 (6.1%)",
+  "within_50pct_accuracy": "26/49 (53.1%)",
+  "mean_absolute_error": 0.296,
+  "details": [
+    {
+      "id": 1,
+      "topic": "Python基础",
+      "difficulty": 1,
+      "actual_score": 0.33,
+      "predicted": 0.2,
+      "ape_pct": 39.4
+    },
+    {
+      "id": 2,
+      "topic": "Python基础",
+      "difficulty": 1,
+      "actual_score": 0.33,
+      "predicted": 0.4,
+      "ape_pct": 21.2
+    },
+    {
+      "id": 3,
+      "topic": "Python基础",
+      "difficulty": 1,
+      "actual_score": 0.33,
+      "predicted": 0.3,
+      "ape_pct": 9.1
+    },
+    {
+      "id": 4,
+      "topic": "Python基础",
+      "difficulty": 2,
+      "actual_score": 0.67,
+      "predicted": 0.4,
+      "ape_pct": 40.3
+    },
+    {
+      "id": 5,
+      "topic": "Python基础",
+      "difficulty": 2,
+      "actual_score": 0.67,
+      "predicted": 0.5,
+      "ape_pct": 25.4
+    },
+    {
+      "id": 6,
+      "topic": "数据结构",
+      "difficulty": 1,
+      "actual_score": 0.33,
+      "predicted": 0.2,
+      "ape_pct": 39.4
+    },
+    {
+      "id": 7,
+      "topic": "数据结构",
+      "difficulty": 1,
+      "actual_score": 0.33,
+      "predicted": 0.2,
+      "ape_pct": 39.4
+    },
+    {
+      "id": 8,
+      "topic": "数据结构",
+      "difficulty": 2,
+      "actual_score": 0.67,
+      "predicted": 0.4,
+      "ape_pct": 40.3
+    },
+    {
+      "id": 9,
+      "topic": "数据结构",
+      "difficulty": 2,
+      "actual_score": 0.67,
+      "predicted": 0.3,
+      "ape_pct": 55.2
+    },
+    {
+      "id": 10,
+      "topic": "pandas",
+      "difficulty": 2,
+      "actual_score": 0.67,
+      "predicted": 0.2,
+      "ape_pct": 70.1
+    },
+    {
+      "id": 11,
+      "topic": "pandas",
+      "difficulty": 2,
+      "actual_score": 0.67,
+      "predicted": 0.2,
+      "ape_pct": 70.1
+    },
+    {
+      "id": 12,
+      "topic": "pandas",
+      "difficulty": 2,
+      "actual_score": 0.67,
+      "predicted": 0.3,
+      "ape_pct": 55.2
+    },
+    {
+      "id": 13,
+      "topic": "pandas",
+      "difficulty": 3,
+      "actual_score": 1.0,
+      "predicted": 0.3,
+      "ape_pct": 70.0
+    },
+    {
+      "id": 14,
+      "topic": "pandas",
+      "difficulty": 2,
+      "actual_score": 0.67,
+      "predicted": 0.2,
+      "ape_pct": 70.1
+    },
+    {
+      "id": 15,
+      "topic": "pandas",
+      "difficulty": 3,
+      "actual_score": 1.0,
+      "predicted": 0.3,
+      "ape_pct": 70.0
+    },
+    {
+      "id": 16,
+      "topic": "numpy",
+      "difficulty": 2,
+      "actual_score": 0.67,
+      "predicted": 0.2,
+      "ape_pct": 70.1
+    },
+    {
+      "id": 17,
+      "topic": "numpy",
+      "difficulty": 2,
+      "actual_score": 0.67,
+      "predicted": 0.2,
+      "ape_pct": 70.1
+    },
+    {
+      "id": 18,
+      "topic": "numpy",
+      "difficulty": 3,
+      "actual_score": 1.0,
+      "predicted": 0.5,
+      "ape_pct": 50.0
+    },
+    {
+      "id": 19,
+      "topic": "数据库",
+      "difficulty": 2,
+      "actual_score": 0.67,
+      "predicted": 0.3,
+      "ape_pct": 55.2
+    },
+    {
+      "id": 20,
+      "topic": "数据库",
+      "difficulty": 2,
+      "actual_score": 0.67,
+      "predicted": 0.3,
+      "ape_pct": 55.2
+    },
+    {
+      "id": 21,
+      "topic": "边缘检测基础",
+      "difficulty": 1,
+      "actual_score": 0.33,
+      "predicted": 0.2,
+      "ape_pct": 39.4
+    },
+    {
+      "id": 22,
+      "topic": "边缘检测基础",
+      "difficulty": 1,
+      "actual_score": 0.33,
+      "predicted": 0.3,
+      "ape_pct": 9.1
+    },
+    {
+      "id": 23,
+      "topic": "边缘检测基础",
+      "difficulty": 2,
+      "actual_score": 0.67,
+      "predicted": 0.4,
+      "ape_pct": 40.3
+    },
+    {
+      "id": 24,
+      "topic": "Sobel算子",
+      "difficulty": 1,
+      "actual_score": 0.33,
+      "predicted": 0.4,
+      "ape_pct": 21.2
+    },
+    {
+      "id": 25,
+      "topic": "Sobel算子",
+      "difficulty": 2,
+      "actual_score": 0.67,
+      "predicted": 0.4,
+      "ape_pct": 40.3
+    },
+    {
+      "id": 26,
+      "topic": "Sobel算子",
+      "difficulty": 2,
+      "actual_score": 0.67,
+      "predicted": 0.3,
+      "ape_pct": 55.2
+    },
+    {
+      "id": 27,
+      "topic": "Sobel算子",
+      "difficulty": 2,
+      "actual_score": 0.67,
+      "predicted": 0.3,
+      "ape_pct": 55.2
+    },
+    {
+      "id": 28,
+      "topic": "Sobel算子",
+      "difficulty": 2,
+      "actual_score": 0.67,
+      "predicted": 0.4,
+      "ape_pct": 40.3
+    },
+    {
+      "id": 29,
+      "topic": "Canny算法",
+      "difficulty": 1,
+      "actual_score": 0.33,
+      "predicted": 0.3,
+      "ape_pct": 9.1
+    },
+    {
+      "id": 30,
+      "topic": "Canny算法",
+      "difficulty": 2,
+      "actual_score": 0.67,
+      "predicted": 0.3,
+      "ape_pct": 55.2
+    },
+    {
+      "id": 31,
+      "topic": "Canny算法",
+      "difficulty": 2,
+      "actual_score": 0.67,
+      "predicted": 0.4,
+      "ape_pct": 40.3
+    },
+    {
+      "id": 32,
+      "topic": "Canny算法",
+      "difficulty": 2,
+      "actual_score": 0.67,
+      "predicted": 0.3,
+      "ape_pct": 55.2
+    },
+    {
+      "id": 33,
+      "topic": "Canny算法",
+      "difficulty": 3,
+      "actual_score": 1.0,
+      "predicted": 0.4,
+      "ape_pct": 60.0
+    },
+    {
+      "id": 34,
+      "topic": "Canny算法",
+      "difficulty": 3,
+      "actual_score": 1.0,
+      "predicted": 0.3,
+      "ape_pct": 70.0
+    },
+    {
+      "id": 35,
+      "topic": "Canny算法",
+      "difficulty": 2,
+      "actual_score": 0.67,
+      "predicted": 0.3,
+      "ape_pct": 55.2
+    },
+    {
+      "id": 36,
+      "topic": "EmbodiSkill",
+      "difficulty": 2,
+      "actual_score": 0.67,
+      "predicted": 0.5,
+      "ape_pct": 25.4
+    },
+    {
+      "id": 37,
+      "topic": "技能自我进化",
+      "difficulty": 2,
+      "actual_score": 0.67,
+      "predicted": 0.4,
+      "ape_pct": 40.3
+    },
+    {
+      "id": 38,
+      "topic": "SkillEvolver核心概念",
+      "difficulty": 1,
+      "actual_score": 0.33,
+      "predicted": 0.5,
+      "ape_pct": 51.5
+    },
+    {
+      "id": 39,
+      "topic": "新鲜智能体过拟合审计",
+      "difficulty": 2,
+      "actual_score": 0.67,
+      "predicted": 0.5,
+      "ape_pct": 25.4
+    },
+    {
+      "id": 40,
+      "topic": "EmbodiSkill 核心概念",
+      "difficulty": 2,
+      "actual_score": 0.67,
+      "predicted": 0.5,
+      "ape_pct": 25.4
+    },
+    {
+      "id": 41,
+      "topic": "技能自我进化挑战",
+      "difficulty": 2,
+      "actual_score": 0.67,
+      "predicted": 0.4,
+      "ape_pct": 40.3
+    },
+    {
+      "id": 42,
+      "topic": "列表推导式",
+      "difficulty": 1,
+      "actual_score": 0.33,
+      "predicted": 0.2,
+      "ape_pct": 39.4
+    },
+    {
+      "id": 43,
+      "topic": "列表推导式",
+      "difficulty": 2,
+      "actual_score": 0.67,
+      "predicted": 0.2,
+      "ape_pct": 70.1
+    },
+    {
+      "id": 44,
+      "topic": "列表推导式",
+      "difficulty": 1,
+      "actual_score": 0.33,
+      "predicted": 0.2,
+      "ape_pct": 39.4
+    },
+    {
+      "id": 45,
+      "topic": "列表推导式",
+      "difficulty": 2,
+      "actual_score": 0.67,
+      "predicted": 0.3,
+      "ape_pct": 55.2
+    },
+    {
+      "id": 46,
+      "topic": "EmbodiSkill 核心机制",
+      "difficulty": 2,
+      "actual_score": 0.67,
+      "predicted": 0.5,
+      "ape_pct": 25.4
+    },
+    {
+      "id": 47,
+      "topic": "EmbodiSkill 性能",
+      "difficulty": 1,
+      "actual_score": 0.33,
+      "predicted": 0.6,
+      "ape_pct": 81.8
+    },
+    {
+      "id": 48,
+      "topic": "SkillEvolver核心概念",
+      "difficulty": 1,
+      "actual_score": 0.33,
+      "predicted": 0.5,
+      "ape_pct": 51.5
+    },
+    {
+      "id": 49,
+      "topic": "SkillEvolver优化机制",
+      "difficulty": 2,
+      "actual_score": 0.67,
+      "predicted": 0.5,
+      "ape_pct": 25.4
+    }
+  ]
+}

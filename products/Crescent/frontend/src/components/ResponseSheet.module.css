@@ -1,0 +1,41 @@
+.sheet {
+  z-index: 9990;
+}
+
+.handle {
+  display: flex; align-items: center; gap: 8px;
+  padding: 10px 16px; cursor: grab;
+  border-bottom: 1px solid var(--cr-border);
+  background: var(--cr-surface2);
+  user-select: none;
+}
+.handle:active { cursor: grabbing; }
+.handleDot {
+  width: 28px; height: 3px; border-radius: 2px;
+  background: var(--cr-border-hv);
+  flex-shrink: 0;
+}
+
+.badge {
+  font-size: 10px; font-weight: 500; padding: 2px 8px;
+  border-radius: var(--cr-radius-sm);
+}
+.badgeSystem { background: rgba(0,0,0,0.03); color: var(--cr-text3); }
+.badgeGuide  { background: var(--cr-green-soft); color: var(--cr-green); }
+
+.body {
+  padding: 16px; max-height: 260px; overflow-y: auto;
+  font-size: 13px; line-height: 1.7; color: var(--cr-text1);
+  background: var(--cr-surface1);
+}
+.body p { margin: 0; }
+.body p + p { margin-top: 6px; }
+
+.closeBtn {
+  display: block; width: 100%; padding: 8px;
+  border: none; border-top: 1px solid var(--cr-border);
+  background: transparent; color: var(--cr-text3);
+  font-size: 11px; font-family: inherit; cursor: pointer;
+  transition: color var(--cr-dur-fast) var(--cr-ease);
+}
+.closeBtn:hover { color: var(--cr-text2); background: var(--cr-surface2); }

@@ -1,0 +1,176 @@
+{
+  "meta": {
+    "domain": "python-basics",
+    "display_name": "Python 基础",
+    "description": "Python 编程语言核心概念，面向量化金融场景",
+    "version": 1
+  },
+  "sections": [
+    {
+      "id": "data-structures",
+      "title": "数据结构",
+      "items": [
+        {
+          "id": "ds-1",
+          "type": "qa",
+          "question": "list 和 tuple 的核心区别？什么场景必须用 tuple？",
+          "answer": "list 可变（可增删改），tuple 不可变。\n\ntuple 可以做 dict 的 key（因为可哈希），list 不能。\n\n量化场景：portfolio = {('000001.XSHE', '2024-01-15'): 1000} 用 tuple 做复合键。",
+          "tags": ["list", "tuple", "immutable"],
+          "difficulty": 1
+        },
+        {
+          "id": "ds-2",
+          "type": "qa",
+          "question": "dict 和 set 各自适合什么场景？",
+          "answer": "dict: O(1) 键值查询。用股票代码查持仓：position['000001.XSHE']\n\nset: O(1) 去重+成员检测。用 set union 合并多日持仓，自动去重。\n\n两者底层都是哈希表，不能存可变对象。",
+          "tags": ["dict", "set", "hash"],
+          "difficulty": 1
+        },
+        {
+          "id": "ds-3",
+          "type": "qa",
+          "question": "聚宽策略的 g 对象是什么？为什么用它？",
+          "answer": "g 是聚宽提供的全局命名空间对象。\n\n在 initialize() 里定义 g.security = '000300.XSHG'，可以在所有定时函数中访问。\n\n好处：不需要 global 关键字，跨函数共享参数。比全局变量更清晰、更安全。",
+          "tags": ["joinquant", "g", "global"],
+          "difficulty": 2
+        },
+        {
+          "id": "ds-4",
+          "type": "table",
+          "title": "数据结构速查",
+          "headers": ["类型", "可变", "有序", "可哈希", "量化用途"],
+          "rows": [
+            ["list", "是", "是", "否", "g.choice() 返回股票列表"],
+            ["tuple", "否", "是", "是", "复合键、函数返回多值"],
+            ["dict", "是", "是(3.7+)", "否", "持仓映射、参数配置"],
+            ["set", "是", "否", "否", "去重、快速成员检测"]
+          ],
+          "tags": ["reference"]
+        }
+      ]
+    },
+    {
+      "id": "pandas",
+      "title": "Pandas 数据处理",
+      "items": [
+        {
+          "id": "pd-1",
+          "type": "qa",
+          "question": "DataFrame 和 Series 的区别？",
+          "answer": "Series = 一列数据 + 索引（类似 Excel 的一列）\nDataFrame = 多列数据 + 行索引（类似 Excel 的一张表）\n\nget_fundamentals() 返回 DataFrame，选一列变成 Series。\n\n类比：Series 是一维数组加标签，DataFrame 是二维表格。",
+          "tags": ["dataframe", "series", "basics"],
+          "difficulty": 1
+        },
+        {
+          "id": "pd-2",
+          "type": "qa",
+          "question": "df['close'].pct_change() 计算的是什么？",
+          "answer": "计算百分比变化 = (当前值 - 前值) / 前值\n\n等价于: df['close'] / df['close'].shift(1) - 1\n\n用途：从价格序列快速算出日收益率序列。你策略里算股票涨跌幅就是这个。",
+          "tags": ["pct_change", "returns"],
+          "difficulty": 2
+        },
+        {
+          "id": "pd-3",
+          "type": "qa",
+          "question": "停牌日价格缺失，应该怎么填充？为什么？",
+          "answer": "用 ffill（前向填充）最合理。\n\nfillna(method='ffill') — 用最近的有效值填充。\n\n原因：停牌期间价格不变，ffill 保持最近交易日价格。\n\n千万不要 bfill（后向填充）—— 会用未来数据，回测结果会虚高（未来信息泄露）。\n\n也別 fillna(0) —— 会算出 -100% 收益率。",
+          "tags": ["missing-data", "ffill", "backtest"],
+          "difficulty": 3
+        },
+        {
+          "id": "pd-4",
+          "type": "qa",
+          "question": "df.groupby('industry')['pe'].mean() 做了什么？",
+          "answer": "按行业分组，计算每个行业的平均 PE。\n\n步骤：\n1. groupby('industry') — 按行业列拆分成多个组\n2. ['pe'] — 选 PE 列\n3. mean() — 每组算均值\n\n你的策略里用 groupby('code')['high_limit'].count() 统计每只股票涨停次数。",
+          "tags": ["groupby", "aggregation"],
+          "difficulty": 2
+        },
+        {
+          "id": "pd-5",
+          "type": "qa",
+          "question": "pd.merge(df1, df2, on='code', how='left') 中 how='left' 是什么含义？",
+          "answer": "left join = 以左表为基准，右表匹配上的就加进来，匹配不上的填 NaN。\n\n左表所有行保留，右表只保留匹配的行。\n\n量化典型场景：股票列表（左）left join 财务数据（右），所有股票都在，没财务数据的留空后续处理。\n\n其他 how 值：'inner'（交集）、'right'（右表为主）、'outer'（并集）。",
+          "tags": ["merge", "join", "left-join"],
+          "difficulty": 3
+        }
+      ]
+    },
+    {
+      "id": "numpy",
+      "title": "NumPy 数值计算",
+      "items": [
+        {
+          "id": "np-1",
+          "type": "qa",
+          "question": "量化中为什么用 numpy 而不是纯 Python 循环？",
+          "answer": "numpy 底层用 C 实现，向量化操作比 Python for 循环快 10-100 倍。\n\n回测 N 年 × N 只股票的数据，用循环会非常慢。\n\n你策略里 np.dot(cov, weights) 就是向量化计算组合方差，一行代码替代多层循环。",
+          "tags": ["vectorization", "performance"],
+          "difficulty": 1
+        },
+        {
+          "id": "np-2",
+          "type": "qa",
+          "question": "np.log() 在量化金融中有什么特殊用途？",
+          "answer": "两个核心用途：\n\n1. 消除极端值影响 — 金融数据常有极端值，取对数压缩尺度\n\n2. 乘法变加法 — log(1+r1) + log(1+r2) = log(累积收益)\n   多期对数收益率直接加总就是累计对数收益\n\n你策略里温度计计算涉及多个指标，取对数后再合成更稳定。",
+          "tags": ["log", "returns", "normalization"],
+          "difficulty": 2
+        },
+        {
+          "id": "np-3",
+          "type": "code",
+          "title": "组合方差计算",
+          "code": "import numpy as np\n\n# w: 权重向量, cov: 协方差矩阵\nvariance = np.dot(w.T, np.dot(cov * 252, w))\n# *252 把日协方差年化",
+          "language": "python",
+          "explanation": "w^T × Σ × w 是组合方差的矩阵形式。你的 portfolio_variance() 函数就是这个逻辑。",
+          "tags": ["portfolio", "variance", "dot-product"]
+        }
+      ]
+    },
+    {
+      "id": "python-other",
+      "title": "其他 Python 要点",
+      "items": [
+        {
+          "id": "py-1",
+          "type": "qa",
+          "question": "x=[1,2,3]; y=x; y.append(4); print(x) 输出什么？为什么？",
+          "answer": "输出 [1,2,3,4]\n\ny = x 是引用赋值，y 和 x 指向同一个 list 对象。\n\n想要独立拷贝用 x.copy() 或 x[:]（浅拷贝）。\n\n嵌套对象需要 copy.deepcopy()。",
+          "tags": ["reference", "mutability", "copy"],
+          "difficulty": 1
+        },
+        {
+          "id": "py-2",
+          "type": "qa",
+          "question": "try/except 中，except 后程序一定不会崩溃吗？",
+          "answer": "不一定。except 只捕获 try 块中匹配的异常类型。\n\n以下情况仍会崩溃：\n1. except 块自身代码出错\n2. 异常类型不匹配（except ValueError 但抛了 TypeError）\n3. except 外面的代码出错\n\n你策略里每笔交易包在 try 里，单只出错不影响全局——这是正确的防御性写法。",
+          "tags": ["exception", "try-except", "robustness"],
+          "difficulty": 2
+        },
+        {
+          "id": "py-3",
+          "type": "qa",
+          "question": "lambda 函数是什么？量化中怎么用？",
+          "answer": "lambda 是匿名函数，语法：lambda 参数: 表达式\n\n例：lambda x, y: x + y 等于 def f(x,y): return x+y\n\n量化用途：\n- 排序: sorted(stocks, key=lambda s: s['market_cap'])\n- 优化约束: lambda w: sum(w) - 1（权重之和 = 1）\n- 过滤: filter(lambda s: not s.startswith('68'), stocks)\n\n简短操作用 lambda，复杂逻辑用 def。",
+          "tags": ["lambda", "anonymous-function"],
+          "difficulty": 2
+        },
+        {
+          "id": "py-4",
+          "type": "qa",
+          "question": "列表推导式 [s for s in stocks if not s.startswith('68')] 做什么？",
+          "answer": "过滤出不以 '68' 开头的股票（排除科创板）。\n\n等价于：\nresult = []\nfor s in stocks:\n    if not s.startswith('68'):\n        result.append(s)\n\n你策略里 filter_kcb_stock 函数就是过滤科创板(688)和创业板(3)的。",
+          "tags": ["list-comprehension", "filter"],
+          "difficulty": 1
+        },
+        {
+          "id": "py-5",
+          "type": "qa",
+          "question": "参数化查询 vs 字符串拼接，防 SQL 注入的原理？",
+          "answer": "参数化查询: cursor.execute(\"SELECT * FROM stocks WHERE code=%s\", (code,))\n\n值单独传，数据库驱动自动转义——永远不可能被当成 SQL 执行。\n\n字符串拼接: f\"SELECT * FROM stocks WHERE code='{code}'\"\n\n如果 code = \"' OR '1'='1\"，就变成 SELECT * FROM stocks WHERE code='' OR '1'='1'\n——返回全部数据，严重安全漏洞。\n\n你的策略用 values 单独传参数，是正确的安全写法。",
+          "tags": ["sql-injection", "security", "parameterized-query"],
+          "difficulty": 2
+        }
+      ]
+    }
+  ]
+}

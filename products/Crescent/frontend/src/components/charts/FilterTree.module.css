@@ -1,0 +1,37 @@
+.wrap { border: 1px solid var(--cr-border); border-radius: 8px; overflow: hidden; }
+
+.title {
+  margin: 0; padding: 8px 14px;
+  font-size: 12px; font-family: var(--cr-mono); color: var(--cr-text2);
+  background: var(--cr-surface2); border-bottom: 1px solid var(--cr-border);
+}
+
+.svg { width: 100%; height: auto; display: block; padding: 8px 0; }
+
+.rootNode { fill: var(--cr-surface2); stroke: var(--cr-accent); stroke-width: 1.5; }
+.rootText { font-size: 11px; fill: var(--cr-text1); font-family: var(--cr-mono); font-weight: 600; }
+
+.line { stroke: var(--cr-border-hv); stroke-width: 1.5; fill: none; stroke-linecap: round; }
+.lineElim { stroke: var(--cr-text3); stroke-width: 1; fill: none; stroke-linecap: round; stroke-dasharray: 4 3; }
+
+.condLabel { font-size: 10px; fill: var(--cr-text2); font-family: var(--cr-mono); font-weight: 500; }
+
+.passNode {
+  fill: var(--cr-surface2); stroke: var(--cr-border-hv); stroke-width: 1;
+  cursor: pointer; transition: stroke 0.15s, fill 0.15s;
+}
+.passNode:hover { stroke: var(--cr-accent); fill: rgba(212,140,64,0.06); }
+
+.nodeActive { stroke: var(--cr-accent); fill: rgba(212,140,64,0.08); }
+
+.passText { font-size: 11px; fill: var(--cr-accent); font-family: var(--cr-mono); font-weight: 600; pointer-events: none; }
+
+.elimNode { fill: var(--cr-surface2); stroke: var(--cr-text3); stroke-width: 1; }
+.elimText { font-size: 11px; fill: var(--cr-text3); font-family: var(--cr-mono); font-weight: 500; pointer-events: none; }
+
+.resultNode { fill: var(--cr-surface2); stroke: var(--cr-accent); stroke-width: 1.5; }
+.resultText { font-size: 11px; fill: var(--cr-accent); font-family: var(--cr-mono); font-weight: 700; pointer-events: none; }
+
+.detailPanel { overflow: hidden; border-top: 1px solid var(--cr-border); font-size: 11px; font-family: var(--cr-mono); color: var(--cr-text2); padding: 10px 14px; line-height: 1.6; }
+
+.detailLabel { color: var(--cr-text2); font-weight: 600; }
