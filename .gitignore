@@ -1,0 +1,33 @@
+# Python
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.venv/
+venv/
+build/
+dist/
+# Node
+node_modules/
+# Env & secrets
+.env
+.env.*
+!.env.example
+*.secret
+*apikey*.txt
+*.key
+*.pem
+# Data
+*.db
+*.sqlite3
+instance/
+uploads/
+data/user_data/
+# IDE / tools
+.obsidian/
+.codex/
+.claudian/
+.vscode/
+.idea/
+# Experiments
+graphify-out/
+DSH-EXPLORATION-*.md
