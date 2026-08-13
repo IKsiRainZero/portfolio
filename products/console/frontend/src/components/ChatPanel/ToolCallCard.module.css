@@ -1,0 +1,9 @@
+.card { padding: 10px 14px; border-radius: 8px; font-size: 13px; margin-bottom: 4px; }
+.card.running { background: #eff6ff; border: 1px solid #bfdbfe; }
+.card.done { background: #f0fdf4; border: 1px solid #bbf7d0; }
+.card.error { background: #fef2f2; border: 1px solid #fecaca; }
+.header { display: flex; align-items: center; gap: 8px; }
+.icon { font-weight: 600; }
+.name { font-family: monospace; font-size: 12px; }
+.progress { font-size: 12px; color: #3b82f6; }
+.result { margin-top: 6px; font-size: 11px; color: #666; white-space: pre-wrap; word-break: break-all; }

@@ -1,0 +1,4 @@
+.container { display: flex; height: calc(100vh - 57px); overflow: hidden; }
+.left, .right { overflow-y: auto; }
+.divider { width: 4px; cursor: col-resize; background: #e8e8e8; flex-shrink: 0; }
+.divider:hover { background: #007aff; }

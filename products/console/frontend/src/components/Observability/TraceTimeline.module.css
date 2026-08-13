@@ -1,0 +1,11 @@
+.title { font-size: 13px; color: #888; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 8px; }
+.loading, .empty { padding: 16px; color: #888; font-size: 14px; }
+.row { display: flex; align-items: center; gap: 10px; padding: 8px 12px; border-bottom: 1px solid #f0f0f0; cursor: pointer; font-size: 13px; }
+.row:hover { background: #fafafa; }
+.status { font-weight: 600; }
+.status.ok { color: #22c55e; }
+.status.error { color: #ef4444; }
+.op { color: #555; min-width: 100px; }
+.target { color: #333; font-weight: 500; flex: 1; }
+.time { color: #999; font-family: monospace; }
+.dur { color: #bbb; font-family: monospace; min-width: 60px; text-align: right; }

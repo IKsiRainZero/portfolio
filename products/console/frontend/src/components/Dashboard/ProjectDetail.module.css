@@ -1,0 +1,14 @@
+.overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.3); display: flex; justify-content: center; align-items: center; z-index: 100; }
+.panel { background: #fff; border-radius: 12px; width: 560px; max-height: 80vh; overflow-y: auto; }
+.header { display: flex; justify-content: space-between; align-items: center; padding: 16px 24px; border-bottom: 1px solid #e8e8e8; }
+.header h2 { margin: 0; font-size: 18px; }
+.header button { background: none; border: none; font-size: 24px; cursor: pointer; color: #888; }
+.body { padding: 16px 24px; }
+.section { margin-bottom: 20px; }
+.section h3 { font-size: 13px; color: #888; margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.5px; }
+.line { font-size: 14px; padding: 4px 0; color: #444; }
+.type { font-size: 11px; color: #999; background: #f0f0f0; padding: 1px 6px; border-radius: 3px; margin-right: 6px; }
+.risk { font-size: 14px; padding: 4px 0; color: #e67e22; }
+.src { font-size: 11px; color: #bbb; margin-left: 6px; }
+.file { display: inline-block; margin: 2px 4px; padding: 2px 8px; background: #f5f5f5; border-radius: 4px; font-size: 12px; }
+.empty { color: #bbb; font-size: 14px; font-style: italic; }
