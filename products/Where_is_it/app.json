@@ -1,0 +1,20 @@
+{
+  "pages": [
+    "pages/onboarding/onboarding",
+    "pages/home/home",
+    "pages/timeline/timeline"
+  ],
+  "window": {
+    "navigationBarTitleText": "Where is it",
+    "navigationBarBackgroundColor": "#ffffff",
+    "navigationBarTextStyle": "black",
+    "backgroundColor": "#f5f5f5"
+  },
+  "permission": {
+    "scope.userLocation": { "desc": "需要获取位置来识别你当前所在的场景" },
+    "scope.record": { "desc": "需要麦克风权限来语音记录物品位置" }
+  },
+  "requiredPrivateInfos": ["getLocation"],
+  "style": "v2",
+  "sitemapLocation": "sitemap.json"
+}

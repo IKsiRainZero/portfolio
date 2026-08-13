@@ -1,0 +1,27 @@
+[build-system]
+requires = ["setuptools>=75", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "may-i-help-u"
+version = "0.1.0"
+description = "可复用问题解决器官系统 — decompose, analyze, gather, solve"
+requires-python = ">=3.12"
+dependencies = [
+    "openai>=1.0",
+    "pydantic>=2.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8",
+]
+full = [
+    "chromadb>=0.5",
+    "sentence-transformers>=3.0",
+    "scrapling>=0.1",
+    "bilibili-api-python>=16",
+]
+
+[tool.setuptools.packages.find]
+include = ["mayihelpu*"]

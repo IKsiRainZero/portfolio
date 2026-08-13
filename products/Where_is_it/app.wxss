@@ -1,0 +1,23 @@
+/* 全局 CSS 变量 — 中老年友好：大字号、高对比度 */
+page {
+  --color-bg: #f5f5f5;
+  --color-surface: #ffffff;
+  --color-text: #1a1a1a;
+  --color-text-secondary: #666666;
+  --color-primary: #2563eb;
+  --color-primary-light: #dbeafe;
+  --color-danger: #dc2626;
+  --color-divider: #e5e5e5;
+  --font-size-title: 36rpx;
+  --font-size-body: 32rpx;
+  --font-size-caption: 26rpx;
+  --font-size-large: 44rpx;
+  --radius: 16rpx;
+  --shadow: 0 2rpx 12rpx rgba(0,0,0,0.08);
+
+  background-color: var(--color-bg);
+  font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Helvetica Neue", sans-serif;
+  font-size: var(--font-size-body);
+  color: var(--color-text);
+  line-height: 1.6;
+}

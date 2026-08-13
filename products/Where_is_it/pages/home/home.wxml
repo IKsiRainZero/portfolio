@@ -1,0 +1,62 @@
+<view class="home">
+  <!-- 场景标签栏 -->
+  <scroll-view class="scene-bar" scroll-x>
+    <view
+      class="scene-tag {{currentScene.id === item.id ? 'active' : ''}}"
+      wx:for="{{scenes}}"
+      wx:key="id"
+      data-id="{{item.id}}"
+      bindtap="onSwitchScene"
+    >{{item.icon}} {{item.name}}</view>
+  </scroll-view>
+
+  <!-- 物品卡片列表 -->
+  <view class="item-list">
+    <view class="item-card" wx:for="{{items}}" wx:key="id">
+      <view class="item-main">
+        <text class="item-icon">{{item.icon}}</text>
+        <view class="item-info">
+          <text class="item-name">{{item.name}}</text>
+          <text class="item-location">📍 {{item.current_location}}</text>
+          <text class="item-time">🕐 {{item._time ? '更新于 ' + item._time : '未记录'}}</text>
+        </view>
+      </view>
+      <view class="item-actions">
+        <button class="btn-sm btn-update" data-item="{{item}}" bindtap="onUpdateLocation">更新</button>
+        <button class="btn-sm btn-timeline" data-item="{{item}}" bindtap="onViewTimeline">轨迹</button>
+      </view>
+    </view>
+
+    <view class="empty" wx:if="{{items.length === 0}}">
+      <text class="empty-text">还没有物品，按下语音按钮开始记录吧</text>
+    </view>
+  </view>
+
+  <!-- 输入区域（语音/文字切换） -->
+  <view class="input-area" wx:if="{{showInput}}">
+    <view class="input-row">
+      <input
+        class="text-input"
+        value="{{inputText}}"
+        placeholder="{{inputPlaceholder}}"
+        bindinput="onInputChange"
+        focus="{{true}}"
+        confirm-type="done"
+        bindconfirm="onTextSubmit"
+      />
+      <button class="btn-send" bindtap="onTextSubmit">发送</button>
+      <button class="btn-cancel" bindtap="onHideInput">取消</button>
+    </view>
+  </view>
+
+  <view class="input-area" wx:else>
+    <view class="voice-bar">
+      <button
+        class="voice-btn {{recording ? 'recording' : ''}}"
+        bindtouchstart="onVoiceStart"
+        bindtouchend="onVoiceEnd"
+      >🎤 按住说话</button>
+      <button class="keyboard-btn" bindtap="onShowInput">⌨</button>
+    </view>
+  </view>
+</view>

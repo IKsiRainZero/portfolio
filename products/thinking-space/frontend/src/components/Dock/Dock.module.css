@@ -1,0 +1,77 @@
+.dockArea {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 80px;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  z-index: 100;
+}
+
+.dock {
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(20px);
+  border-radius: 20px 20px 0 0;
+  padding: 12px 24px 20px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  box-shadow: 0 -2px 20px rgba(0, 0, 0, 0.08);
+}
+
+.form {
+  flex: 1;
+}
+
+.input {
+  border: none;
+  background: #f5f5f7;
+  border-radius: 12px;
+  padding: 10px 16px;
+  font-size: 16px;
+  width: 400px;
+  outline: none;
+  color: #1d1d1f;
+}
+
+.input:focus {
+  background: #ebebed;
+}
+
+.input::placeholder {
+  color: #86868b;
+}
+
+.divider {
+  width: 1px;
+  height: 24px;
+  background: #e0e0e0;
+}
+
+.action {
+  width: 36px;
+  height: 36px;
+  border: none;
+  background: #f5f5f7;
+  border-radius: 50%;
+  font-size: 20px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #1d1d1f;
+}
+
+.action:hover {
+  background: #e0e0e0;
+}
+
+.handle {
+  width: 40px;
+  height: 4px;
+  background: #d1d1d6;
+  border-radius: 2px;
+  margin-bottom: 8px;
+}

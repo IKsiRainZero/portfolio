@@ -1,0 +1,66 @@
+<view class="onboarding">
+  <!-- Step 0: 选择常忘物品 -->
+  <view class="step" wx:if="{{step === 0}}">
+    <text class="step-title">你最容易忘带什么？</text>
+    <text class="step-sub">可多选</text>
+    <view class="option-grid">
+      <view
+        class="option-chip {{selectedItems.indexOf(item) > -1 ? 'active' : ''}}"
+        wx:for="{{commonItems}}"
+        wx:key="*this"
+        data-name="{{item}}"
+        bindtap="onToggleItem"
+      >{{item}}</view>
+    </view>
+    <button class="btn-primary" bindtap="onNext">下一步</button>
+  </view>
+
+  <!-- Step 1: 常见遗忘场景 -->
+  <view class="step" wx:if="{{step === 1}}">
+    <text class="step-title">什么场景最容易忘东西？</text>
+    <text class="step-sub">可多选</text>
+    <view class="option-list">
+      <view
+        class="option-row {{selectedScenarios.indexOf(item) > -1 ? 'active' : ''}}"
+        wx:for="{{scenarioOptions}}"
+        wx:key="*this"
+        data-name="{{item}}"
+        bindtap="onToggleScenario"
+      >{{item}}</view>
+    </view>
+    <button class="btn-primary" bindtap="onNext">下一步</button>
+  </view>
+
+  <!-- Step 2: 作息类型 -->
+  <view class="step" wx:if="{{step === 2}}">
+    <text class="step-title">你的日常作息？</text>
+    <view class="option-list">
+      <view
+        class="option-row {{scheduleType === item.value ? 'active' : ''}}"
+        wx:for="{{scheduleOptions}}"
+        wx:key="value"
+        data-value="{{item.value}}"
+        bindtap="onSelectSchedule"
+      >{{item.label}}</view>
+    </view>
+    <button class="btn-primary" bindtap="onNext" disabled="{{!scheduleType}}">下一步</button>
+  </view>
+
+  <!-- Step 3: 提醒频率 -->
+  <view class="step" wx:if="{{step === 3}}">
+    <text class="step-title">提醒频率偏好？</text>
+    <text class="step-sub">后续可随时调整</text>
+    <view class="option-list">
+      <view
+        class="option-row {{reminderLevel === item.value ? 'active' : ''}}"
+        wx:for="{{reminderOptions}}"
+        wx:key="value"
+        data-value="{{item.value}}"
+        bindtap="onSelectReminder"
+      >
+        <text class="option-label">{{item.label}}</text>
+      </view>
+    </view>
+    <button class="btn-primary" bindtap="onFinish" disabled="{{!reminderLevel}}">开始使用</button>
+  </view>
+</view>

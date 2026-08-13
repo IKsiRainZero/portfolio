@@ -1,0 +1,29 @@
+<view class="timeline" wx:if="{{item}}">
+  <view class="header">
+    <text class="header-icon">{{item.icon}}</text>
+    <view class="header-info">
+      <text class="header-name">{{item.name}}</text>
+      <text class="header-now">📍 当前位置: {{item.current_location}}</text>
+    </view>
+  </view>
+
+  <view class="history-list">
+    <text class="section-title">变更记录</text>
+
+    <view class="timeline-item" wx:for="{{history}}" wx:key="id">
+      <view class="dot"></view>
+      <view class="timeline-content">
+        <text class="timeline-location">→ {{item.location}}</text>
+        <view class="timeline-meta">
+          <text class="timeline-time">{{item._time}}</text>
+          <text class="timeline-scene">{{item.scene}}</text>
+          <text class="timeline-source">{{item.source === 'voice' ? '🎤语音' : item.source === 'reminder' ? '🔔提醒' : '⌨手动'}}</text>
+        </view>
+      </view>
+    </view>
+
+    <view class="empty" wx:if="{{history.length === 0}}">
+      <text>暂无记录</text>
+    </view>
+  </view>
+</view>

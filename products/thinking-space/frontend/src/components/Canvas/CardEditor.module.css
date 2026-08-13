@@ -1,0 +1,14 @@
+.editor {
+  position: absolute; z-index: 20; width: 260px; background: #fff;
+  border-radius: 12px; box-shadow: 0 8px 30px rgba(0,0,0,0.2); padding: 14px;
+  display: flex; flex-direction: column; gap: 8px;
+}
+.editor input, .editor textarea, .editor select {
+  border: 1px solid #d2d2d7; border-radius: 8px; padding: 6px 8px; font-size: 13px; font-family: inherit;
+}
+.tags { display: flex; flex-wrap: wrap; gap: 6px; }
+.tag { font-size: 12px; padding: 3px 8px; border-radius: 12px; border: 1px solid #d2d2d7; cursor: pointer; }
+.tagOn { background: #0a84ff; color: #fff; border-color: #0a84ff; }
+.row { display: flex; gap: 8px; align-items: center; }
+.actions { display: flex; justify-content: space-between; margin-top: 4px; }
+.del { color: #ff3b30; background: none; border: none; cursor: pointer; font-size: 13px; }

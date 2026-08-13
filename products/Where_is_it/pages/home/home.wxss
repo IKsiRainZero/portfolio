@@ -1,0 +1,199 @@
+.home {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  padding-bottom: 160rpx;
+}
+
+/* 场景标签栏 */
+.scene-bar {
+  white-space: nowrap;
+  padding: 20rpx 24rpx;
+  background: var(--color-surface);
+  border-bottom: 1rpx solid var(--color-divider);
+}
+
+.scene-tag {
+  display: inline-block;
+  padding: 12rpx 28rpx;
+  margin-right: 16rpx;
+  border-radius: 40rpx;
+  background: var(--color-bg);
+  font-size: var(--font-size-body);
+  transition: all 0.2s;
+}
+
+.scene-tag.active {
+  background: var(--color-primary);
+  color: #ffffff;
+}
+
+/* 物品卡片 */
+.item-list {
+  flex: 1;
+  padding: 24rpx;
+  overflow-y: auto;
+}
+
+.item-card {
+  background: var(--color-surface);
+  border-radius: var(--radius);
+  padding: 28rpx;
+  margin-bottom: 20rpx;
+  box-shadow: var(--shadow);
+}
+
+.item-main {
+  display: flex;
+  align-items: flex-start;
+  gap: 20rpx;
+  margin-bottom: 20rpx;
+}
+
+.item-icon {
+  font-size: 56rpx;
+  line-height: 1;
+}
+
+.item-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 6rpx;
+}
+
+.item-name {
+  font-size: var(--font-size-title);
+  font-weight: 600;
+}
+
+.item-location {
+  font-size: var(--font-size-body);
+  color: var(--color-text-secondary);
+}
+
+.item-time {
+  font-size: var(--font-size-caption);
+  color: #999;
+}
+
+.item-actions {
+  display: flex;
+  gap: 16rpx;
+}
+
+.btn-sm {
+  flex: 1;
+  height: 64rpx;
+  line-height: 64rpx;
+  font-size: var(--font-size-caption);
+  border-radius: 12rpx;
+  border: none;
+  text-align: center;
+}
+
+.btn-update {
+  background: var(--color-primary);
+  color: #ffffff;
+}
+
+.btn-timeline {
+  background: var(--color-bg);
+  color: var(--color-text-secondary);
+  border: 1rpx solid var(--color-divider);
+}
+
+/* 输入区域 */
+.input-area {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: var(--color-surface);
+  padding: 20rpx 24rpx;
+  padding-bottom: calc(20rpx + env(safe-area-inset-bottom));
+  border-top: 1rpx solid var(--color-divider);
+}
+
+.input-row {
+  display: flex;
+  gap: 16rpx;
+  align-items: center;
+}
+
+.text-input {
+  flex: 1;
+  height: 80rpx;
+  padding: 0 24rpx;
+  background: var(--color-bg);
+  border-radius: var(--radius);
+  font-size: var(--font-size-body);
+}
+
+.btn-send {
+  height: 80rpx;
+  padding: 0 32rpx;
+  background: var(--color-primary);
+  color: #ffffff;
+  border-radius: var(--radius);
+  font-size: var(--font-size-body);
+  border: none;
+  line-height: 80rpx;
+}
+
+.btn-cancel {
+  height: 80rpx;
+  padding: 0 24rpx;
+  background: var(--color-bg);
+  color: var(--color-text-secondary);
+  border-radius: var(--radius);
+  font-size: var(--font-size-caption);
+  border: none;
+  line-height: 80rpx;
+}
+
+.voice-bar {
+  display: flex;
+  gap: 16rpx;
+  align-items: center;
+}
+
+.voice-btn {
+  flex: 1;
+  height: 96rpx;
+  line-height: 96rpx;
+  background: var(--color-primary);
+  color: #ffffff;
+  border-radius: 48rpx;
+  font-size: var(--font-size-title);
+  border: none;
+  text-align: center;
+}
+
+.voice-btn.recording {
+  background: var(--color-danger);
+}
+
+.keyboard-btn {
+  width: 80rpx;
+  height: 80rpx;
+  line-height: 80rpx;
+  background: var(--color-bg);
+  border-radius: 40rpx;
+  font-size: var(--font-size-title);
+  border: 1rpx solid var(--color-divider);
+  text-align: center;
+  padding: 0;
+}
+
+.empty {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 400rpx;
+}
+
+.empty-text {
+  color: var(--color-text-secondary);
+  font-size: var(--font-size-body);
+}

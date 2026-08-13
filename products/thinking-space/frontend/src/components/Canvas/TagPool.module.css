@@ -1,0 +1,8 @@
+.pool {
+  position: fixed; top: 16px; right: 16px; z-index: 10; width: 160px;
+  background: rgba(255,255,255,0.9); backdrop-filter: blur(8px);
+  border-radius: 12px; box-shadow: 0 4px 16px rgba(0,0,0,0.1); padding: 10px; font-size: 13px;
+}
+.item { display: flex; justify-content: space-between; padding: 3px 4px; border-radius: 6px; }
+.empty { color: #ff3b30; }
+.count { color: #86868b; }

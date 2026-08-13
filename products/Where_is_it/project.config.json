@@ -1,0 +1,14 @@
+{
+  "description": "Where_is_it - 前瞻记忆辅助",
+  "packOptions": { "ignore": [".context/**"] },
+  "setting": {
+    "urlCheck": true,
+    "es6": true,
+    "enhance": true,
+    "postcss": true,
+    "minified": true
+  },
+  "appid": "your-appid-here",
+  "projectname": "Where_is_it",
+  "libVersion": "3.3.4"
+}

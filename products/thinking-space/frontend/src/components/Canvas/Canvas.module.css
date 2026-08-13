@@ -1,0 +1,6 @@
+.container {
+  position: fixed; inset: 0; overflow: hidden; background: #f5f5f7;
+  user-select: none; touch-action: none;
+}
+.surface { position: absolute; top: 0; left: 0; transform-origin: 0 0; will-change: transform; }
+.loading { display: flex; align-items: center; justify-content: center; height: 100vh; color: #86868b; }
